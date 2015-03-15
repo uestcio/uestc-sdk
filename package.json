@@ -1,10 +1,10 @@
 {
   "name": "uestc",
   "version": "0.1.0",
-  "description": "The common api of the EAMS system and some other parts for UESTC.",
+  "description": "The integrated NodeJS api of the EAMS system and some other parts for UESTC websites.",
   "main": "index.js",
   "scripts": {
-    "test": ""
+    "test": "mocha"
   },
   "repository": {
     "type": "git",

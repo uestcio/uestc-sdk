@@ -44,9 +44,9 @@ $ npm install uestc
 
 ## Docs / 文档
 
-  * 官方文档 [GitHub Wiki](https://github.com/trotyl/UESTC-Npm/wiki)
-  * 项目源代码 [GitHub Repo](https://github.com/trotyl/UESTC-Npm)
-  * Npm 包 [Npm Package Site](https://www.npmjs.com/package/uestc)
+  * 官方文档： [GitHub Wiki](https://github.com/trotyl/UESTC-Npm/wiki)
+  * 项目源代码： [GitHub Repo](https://github.com/trotyl/UESTC-Npm)
+  * Npm 包： [Npm Package Site](https://www.npmjs.com/package/uestc)
 
 ## Quick Start / 快速入门
 
