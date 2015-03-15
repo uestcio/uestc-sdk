@@ -8,15 +8,8 @@ describe('Application ', function() {
         app = uestc();
         carrier = {
             'log': {},
-            'get': function (url, data) {
-                this.log = {
-                    'method': 'GET',
-                    'url': url,
-                    'data': data
-                }
-            },
             'post': function (url, data) {
-                this.log = {
+                carrier.log = {
                     'method': 'POST',
                     'url': url,
                     'data': data

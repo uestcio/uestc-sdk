@@ -1,6 +1,6 @@
 {
   "name": "uestc",
-  "version": "0.0.8",
+  "version": "0.1.0",
   "description": "The common api of the EAMS system and some other parts for UESTC.",
   "main": "index.js",
   "scripts": {
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/trotyl/UESTC-Npm",
   "dependencies": {
+    "promise": "^6.1.0"
   },
   "devDependencies": {
     "mocha": "^2.2.1"
