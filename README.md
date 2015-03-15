@@ -88,6 +88,6 @@ $ npm test
 [downloads-image]: https://img.shields.io/npm/dm/uestc.svg
 [downloads-url]: https://npmjs.org/package/uestc
 [travis-image]: https://img.shields.io/travis/trotyl/uestc-npm/master.svg?label=linux
-[travis-url]: https://travis-ci.org/trotyl/uestc
-[coveralls-image]: https://img.shields.io/coveralls/trotyl/uestc-npm/master.svg
+[travis-url]: https://travis-ci.org/trotyl/uestc-npm
+[coveralls-image]: https://img.shields.io/coveralls/trotyl/uestc/master.svg
 [coveralls-url]: https://coveralls.io/r/trotyl/uestc?branch=master
