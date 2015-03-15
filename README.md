@@ -4,6 +4,8 @@
 
   简洁、可靠且功能强大的 [UESTC](http://portal.uestc.edu.cn) 集成 API 工具。
 
+  （项目目前还在开发中，所有功能尚未完成）
+
   [![NPM Version][npm-image]][npm-url]
   [![NPM Downloads][downloads-image]][downloads-url]
   [![Build][travis-image]][travis-url]

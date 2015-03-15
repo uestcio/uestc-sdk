@@ -1,6 +1,6 @@
 {
   "name": "uestc",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "The common api of the EAMS system and some other parts for UESTC.",
   "main": "index.js",
   "scripts": {
