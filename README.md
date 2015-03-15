@@ -15,11 +15,25 @@
 var app = require('uestc')();
 var user = app.login('2012019050031', '12345678');
 
-user.getLessons(3, 2, function (err, lessons) {
-  for(var lesson in lessons) {
-    console.log('课程: ' + lesson.name + ' 成绩: ' + lesson.score);
+app.searchForUser('章萌芊', function (err, users) {
+  console.log('全电子科大叫章萌芊的共有' + users.length + '人，分别是：');
+  for(var i in users) {
+    user = users[i];
+    console.log('身份：' + user.metier + '，学院：' + user.department + '，学号：' + user.number);
+  }
+}
+
+user.getCourses(3, 2, function (err, courses) {
+  console.log('上学期的成绩如下：');
+  for(var i in courses) {
+    var course = courses[i];
+    console.log('课程: ' + course.name + '，成绩: ' + course.score + '，学分: ' + course.credit);
   }
 })
+
+user.subscribe(Event.types.eCardConsume, function (consumption) {
+  console.log('饭卡于' + consumption.time + '在' + consumption.place + '消费了' + consumption.cost + '元');
+}
 
 user.logout();
 ```
