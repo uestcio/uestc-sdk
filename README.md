@@ -1,6 +1,6 @@
 <!-- ![UESTC Logo]() -->
 
-# UESTC
+# UESTC SDK
 
   简洁、可靠且功能强大的 [UESTC](http://portal.uestc.edu.cn) 集成 API 工具。
 
