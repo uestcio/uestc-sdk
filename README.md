@@ -12,8 +12,8 @@
   [![Test Coverage][coveralls-image]][coveralls-url]
 
 ```js
-var uestc = require('uestc')
-var user = uestc.login('2012019050031', '12345678');
+var app = require('uestc')();
+var user = app.login('2012019050031', '12345678');
 
 user.getLessons(3, 2, function (err, lessons) {
   for(var lesson in lessons) {
