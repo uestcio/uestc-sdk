@@ -31,7 +31,7 @@ user.getCourses(3, 2, function (err, courses) {
   }
 });
 
-user.subscribe(Event.types.eCardConsume, function (consumption) {
+user.subscribe(Event.userTypes.eCardConsumption, function (consumption) {
   console.log('饭卡于' + consumption.time + '在' + consumption.place + '消费了' + consumption.cost + '元');
 });
 
