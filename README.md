@@ -15,11 +15,11 @@
 var app = require('uestc')();
 var user = app.login('2012019050031', '12345678');
 
-app.searchForUser('章萌芊', function (err, users) {
-  console.log('全电子科大叫章萌芊的共有' + users.length + '人，分别是：');
-  for(var i in users) {
-    user = users[i];
-    console.log('身份：' + user.metier + '，学院：' + user.department + '，学号：' + user.number);
+app.searchForPerson('章萌芊', function (err, people) {
+  console.log('全电子科大叫章萌芊的共有' + people.length + '人，分别是：');
+  for(var i in people) {
+    person = people[i];
+    console.log('身份：' + person.metier + '，学院：' + person.department + '，学号：' + person.number);
   }
 });
 
