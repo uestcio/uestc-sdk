@@ -26,7 +26,7 @@ describe('Application ', function() {
         app._carrier_ = carrier;
     });
 
-    describe('#Login()', function() {
+    describe('#login()', function() {
         it('should request for the login url', function() {
             app.login('2012019050031', '12345678');
             assert.equal('POST', carrier.log.method);
