@@ -26,8 +26,22 @@ user.logout();
 
 ## Installation / 安装
 
+通过 Npm 安装：
+
 ```bash
 $ npm install uestc
+```
+
+安装并将项目添加到依赖库中：
+
+```bash
+$ npm install uestc --save
+```
+
+安装并将项目添加到开发依赖库中：
+
+```bash
+$ npm install uestc --dev
 ```
 
 ## Features / 特性
