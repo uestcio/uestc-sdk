@@ -30,6 +30,14 @@ describe('Carrier ', function() {
         });
     });
 
+    describe('#singleton()', function() {
+        it('should get the only Carrier instance', function() {
+            var carrier0 = Carrier.singleton();
+            var carrier1 = Carrier.singleton();
+            assert.equal(carrier0, carrier1);
+        });
+    });
+
     describe('#post()', function() {
         var url, data;
 
