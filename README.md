@@ -21,7 +21,7 @@ app.searchForUser('章萌芊', function (err, users) {
     user = users[i];
     console.log('身份：' + user.metier + '，学院：' + user.department + '，学号：' + user.number);
   }
-}
+});
 
 user.getCourses(3, 2, function (err, courses) {
   console.log('上学期的成绩如下：');
@@ -29,11 +29,11 @@ user.getCourses(3, 2, function (err, courses) {
     var course = courses[i];
     console.log('课程: ' + course.name + '，成绩: ' + course.score + '，学分: ' + course.credit);
   }
-})
+});
 
 user.subscribe(Event.types.eCardConsume, function (consumption) {
   console.log('饭卡于' + consumption.time + '在' + consumption.place + '消费了' + consumption.cost + '元');
-}
+});
 
 user.logout();
 ```
