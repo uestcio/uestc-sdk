@@ -9,14 +9,14 @@ describe('Application ', function() {
         carrier = {
             'log': {},
             'get': function (url, data) {
-                self.log = {
+                this.log = {
                     'method': 'GET',
                     'url': url,
                     'data': data
                 }
             },
             'post': function (url, data) {
-                self.log = {
+                this.log = {
                     'method': 'POST',
                     'url': url,
                     'data': data
@@ -28,7 +28,6 @@ describe('Application ', function() {
 
     describe('#Login()', function() {
         it('should request for the login url', function() {
-            console.log(carrier);
             app.login('2012019050031', '12345678');
             assert.equal('POST', carrier.log.method);
             assert.equal('https://uis.uestc.edu.cn/amserver/UI/Login', carrier.log.url);
