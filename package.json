@@ -1,10 +1,10 @@
 {
   "name": "uestc-eams",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "The common api of the EAMS system for UESTC.",
   "main": "index.js",
   "scripts": {
-    "test": "npm test"
+    "test": ""
   },
   "repository": {
     "type": "git",
@@ -14,7 +14,7 @@
     "uestc",
     "eams"
   ],
-  "author": "Trotyl Yu",
+  "author": "Trotyl Yu <trotyl@qq.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/trotyl/UESTC-EAMS/issues"
