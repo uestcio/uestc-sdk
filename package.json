@@ -4,7 +4,7 @@
   "description": "The integrated NodeJS api of the EAMS system and some other parts for UESTC websites.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha --timeout 20000"
   },
   "repository": {
     "type": "git",
