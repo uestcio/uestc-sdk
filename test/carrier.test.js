@@ -8,13 +8,25 @@ describe('Carrier ', function() {
         carrier = Carrier.singleton();
     });
 
-    describe('#getMeta()', function() {
+    describe('#getUrlMeta()', function() {
         it('should get the correct host and path', function() {
             var url = 'https://uis.uestc.edu.cn/amserver/UI/Login';
-            var meta = Carrier.getMeta(url);
+            var meta = Carrier.getUrlMeta(url);
             assert.equal('https', meta.protocol);
             assert.equal('uis.uestc.edu.cn', meta.host);
             assert.equal('/amserver/UI/Login', meta.path)
+        });
+    });
+
+    describe('#getPostOptions()', function() {
+        it('should get the correct header for post', function() {
+            var host = 'trotyl.cc';
+            var path = '/list';
+            var contents = '';
+            var options = Carrier.getPostOptions(host, path, contents);
+            assert.equal(host, options.hostname);
+            assert.equal(path, options.path);
+            assert.equal(0, options.headers['Content-Length'])
         });
     });
 
