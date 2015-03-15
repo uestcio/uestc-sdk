@@ -1,15 +1,15 @@
 var assert = require('assert');
-var Carrier = require('../lib/carrier');
+var Carrier = require('../src/carrier');
 
-describe('Carrier ', function() {
+describe('Carrier ', function () {
     var carrier;
 
     beforeEach(function () {
         carrier = Carrier.singleton();
     });
 
-    describe('#getUrlMeta()', function() {
-        it('should get the correct host and path', function() {
+    describe('#getUrlMeta()', function () {
+        it('should get the correct host and path', function () {
             var url = 'https://uis.uestc.edu.cn/amserver/UI/Login';
             var meta = Carrier.getUrlMeta(url);
             assert.equal('https', meta.protocol);
@@ -18,8 +18,8 @@ describe('Carrier ', function() {
         });
     });
 
-    describe('#getPostOptions()', function() {
-        it('should get the correct header for post', function() {
+    describe('#getPostOptions()', function () {
+        it('should get the correct header for post', function () {
             var host = 'trotyl.cc';
             var path = '/list';
             var contents = '';
@@ -30,15 +30,15 @@ describe('Carrier ', function() {
         });
     });
 
-    describe('#singleton()', function() {
-        it('should get the only Carrier instance', function() {
+    describe('#singleton()', function () {
+        it('should get the only Carrier instance', function () {
             var carrier0 = Carrier.singleton();
             var carrier1 = Carrier.singleton();
             assert.equal(carrier0, carrier1);
         });
     });
 
-    describe('#post()', function() {
+    describe('#post()', function () {
         var url, data;
 
         beforeEach(function () {
@@ -54,7 +54,7 @@ describe('Carrier ', function() {
             };
         });
 
-        it('should send the post request and login success', function(done) {
+        it('should send the post request and login success', function (done) {
             data['IDToken2'] = '811073';
             carrier.post(url, data, false, function (err, meta) {
                 assert.equal(302, meta.status);
@@ -62,7 +62,7 @@ describe('Carrier ', function() {
             });
         });
 
-        it('should send the post request and login fail', function(done) {
+        it('should send the post request and login fail', function (done) {
             data['IDToken2'] = '811074';
             carrier.post(url, data, false, function (err, meta) {
                 assert.equal(200, meta.status);

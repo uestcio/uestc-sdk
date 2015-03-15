@@ -1,7 +1,7 @@
 var assert = require('assert');
-var uestc = require('../lib/uestc');
+var uestc = require('../src/uestc');
 
-describe('Application ', function() {
+describe('Application ', function () {
     var app, carrier;
 
     beforeEach(function () {
@@ -19,8 +19,8 @@ describe('Application ', function() {
         app._carrier_ = carrier;
     });
 
-    describe('#login()', function() {
-        it('should request for the login url', function() {
+    describe('#login()', function () {
+        it('should request for the login url', function () {
             app.login('2012019050031', '12345678');
             assert.equal('POST', carrier.log.method);
             assert.equal('https://uis.uestc.edu.cn/amserver/UI/Login', carrier.log.url);

@@ -31,7 +31,7 @@ User.status = {
 User.prototype.login = function (util, method, callback) {
     var self = this;
     method(util.url, util.data, util.wait, function (err, meta) {
-        if(err){
+        if (err) {
             self.status = User.status.loginFail;
         }
         else {

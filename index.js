@@ -1,1 +1,1 @@
-module.exports = require('./lib/uestc');
+module.exports = require('./src/uestc');

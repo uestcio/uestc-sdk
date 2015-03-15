@@ -1,7 +1,7 @@
 var assert = require('assert');
-var User = require('../lib/user');
+var User = require('../src/user');
 
-describe('User ', function() {
+describe('User ', function () {
     var user, util, carrier;
 
     beforeEach(function () {
@@ -23,8 +23,8 @@ describe('User ', function() {
         };
     });
 
-    describe('#login()', function() {
-        it('should call the right method and pass params', function() {
+    describe('#login()', function () {
+        it('should call the right method and pass params', function () {
             user.login(util, carrier.post, null);
             assert.equal('POST', carrier.log.method);
             assert.equal(util.url, carrier.log.url);
@@ -32,8 +32,8 @@ describe('User ', function() {
         });
     });
 
-    describe('#setCookies()', function() {
-        it('should set the cookie right', function() {
+    describe('#setCookies()', function () {
+        it('should set the cookie right', function () {
             user.setCookies([1, 2]);
             assert.equal(2, user.cookies.length);
             assert.equal(1, user.cookies[0]);
