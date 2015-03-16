@@ -1,6 +1,6 @@
 {
   "name": "uestc",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "The integrated NodeJS api of the EAMS system and some other parts for UESTC websites.",
   "main": "index.js",
   "scripts": {
@@ -25,6 +25,7 @@
     "promise": "^6.1.0"
   },
   "devDependencies": {
+    "coveralls": "^2.11.2",
     "mocha": "^2.2.1"
   }
 }
