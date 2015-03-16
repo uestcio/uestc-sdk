@@ -116,5 +116,5 @@ $ npm test
 [downloads-url]: https://npmjs.org/package/uestc
 [travis-image]: https://img.shields.io/travis/trotyl/UESTC-SDK-Npm.svg
 [travis-url]: https://travis-ci.org/trotyl/UESTC-SDK-Npm
-[coveralls-image]: https://img.shields.io/coveralls/trotyl/uestc/master.svg
-[coveralls-url]: https://coveralls.io/r/trotyl/uestc?branch=master
+[coveralls-image]: https://coveralls.io/repos/trotyl/UESTC-SDK-Npm/badge.svg
+[coveralls-url]: https://coveralls.io/r/trotyl/UESTC-SDK-Npm
