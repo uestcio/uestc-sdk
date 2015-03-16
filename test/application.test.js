@@ -19,9 +19,9 @@ describe('Application ', function () {
         app._carrier_ = carrier;
     });
 
-    describe('#login()', function () {
+    describe('#identify()', function () {
         it('should request for the login url', function () {
-            app.login('2012019050031', '12345678');
+            app.identify('2012019050031', '12345678');
             assert.equal('POST', carrier.log.method);
             assert.equal('https://uis.uestc.edu.cn/amserver/UI/Login', carrier.log.url);
             assert.equal('2012019050031', carrier.log.data['IDToken1']);

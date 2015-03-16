@@ -18,7 +18,7 @@ module.exports = Application;
 
 // 实例方法
 
-Application.prototype.login = function (number, password) {
+Application.prototype.identify = function (number, password) {
     var util = UrlUtil.getLoginUtil(number, password);
 
     var user = new User(number, password);
