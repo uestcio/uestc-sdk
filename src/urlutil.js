@@ -15,7 +15,6 @@ module.exports = UrlUtil;
 // 静态方法
 
 UrlUtil.getApplicationSearchPersonMeta = function (user, term, limit) {
-    limit = limit || 10;
     return {
         url: 'http://portal.uestc.edu.cn/pnull.portal?action=fetchUsers&.ia=false&.f=f20889&.pmn=view&.pen=personnelGroupmanager',
         data: {

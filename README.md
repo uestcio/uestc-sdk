@@ -15,7 +15,7 @@
 var app = require('uestc')();
 var user = app.login('2012019050031', '12345678');
 
-app.searchForPerson('章萌芊', function (err, people) {
+app.searchForPerson('章萌芊').then(function (people) {
   console.log('全电子科大叫章萌芊的共有' + people.length + '人，分别是：');
   for(var i in people) {
     person = people[i];
@@ -23,7 +23,7 @@ app.searchForPerson('章萌芊', function (err, people) {
   }
 });
 
-user.getCourses(3, 2, function (err, courses) {
+user.getCourses(3, 2).then(function (courses) {
   console.log('上学期的成绩如下：');
   for(var i in courses) {
     var course = courses[i];
@@ -31,11 +31,9 @@ user.getCourses(3, 2, function (err, courses) {
   }
 });
 
-user.subscribe(Event.userTypes.eCardConsumption, function (consumption) {
+user.on(Event.userTypes.eCardConsumption).then(function (consumption) {
   console.log('饭卡于' + consumption.time + '在' + consumption.place + '消费了' + consumption.cost + '元');
 });
-
-user.logout();
 ```
 
 ## Installation / 安装
@@ -115,7 +113,7 @@ $ npm test
 [npm-url]: https://npmjs.org/package/uestc
 [downloads-image]: https://img.shields.io/npm/dm/uestc.svg
 [downloads-url]: https://npmjs.org/package/uestc
-[travis-image]: https://img.shields.io/travis/trotyl/UESTC-Npm.svg
-[travis-url]: https://travis-ci.org/trotyl/uestc-npm
+[travis-image]: https://img.shields.io/travis/trotyl/UESTC-SDK-Npm.svg
+[travis-url]: https://travis-ci.org/trotyl/UESTC-SDK-Npm
 [coveralls-image]: https://img.shields.io/coveralls/trotyl/uestc/master.svg
 [coveralls-url]: https://coveralls.io/r/trotyl/uestc?branch=master
