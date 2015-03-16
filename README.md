@@ -115,9 +115,9 @@ $ npm test
 [npm-url]: https://npmjs.org/package/uestc
 [downloads-image]: https://img.shields.io/npm/dm/uestc.svg
 [downloads-url]: https://npmjs.org/package/uestc
-[appveyor-image]: https://img.shields.io/appveyor/ci/trotyl/UESTC-SDK-Npm.svg?label=windows
+[appveyor-image]: https://img.shields.io/appveyor/ci/trotyl/UESTC-SDK-Npm/master.svg?label=windows
 [appveyor-url]: https://ci.appveyor.com/project/trotyl/UESTC-SDK-Npm
-[travis-image]: https://img.shields.io/travis/trotyl/UESTC-SDK-Npm.svg?label=linux
+[travis-image]: https://img.shields.io/travis/trotyl/UESTC-SDK-Npm/master.svg?label=linux
 [travis-url]: https://travis-ci.org/trotyl/UESTC-SDK-Npm
 [coveralls-image]: https://img.shields.io/coveralls/trotyl/UESTC-SDK-Npm.svg
 [coveralls-url]: https://coveralls.io/r/trotyl/UESTC-SDK-Npm

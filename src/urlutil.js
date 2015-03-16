@@ -36,7 +36,7 @@ UrlUtil.getUserLoginMeta = function (number, password) {
             'IDToken2': password,
             'IDButton': 'Submit',
             'goto': 'aHR0cDovL3BvcnRhbC51ZXN0Yy5lZHUuY24vbG9naW4ucG9ydGFs',
-            'encoded': true,
+            'encoded': 'true',
             'gx_charset': 'UTF-8'
         },
         wait: false
