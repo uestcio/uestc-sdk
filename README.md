@@ -106,7 +106,7 @@ $ npm test
 
 [贡献者清单](https://github.com/trotyl/uestc/graphs/contributors)
 
-## License
+## License / 许可协议
 
   [MIT](LICENSE)
 
