@@ -8,7 +8,8 @@
 
   [![NPM Version][npm-image]][npm-url]
   [![NPM Downloads][downloads-image]][downloads-url]
-  [![Build][travis-image]][travis-url]
+  [![Linux Build][travis-image]][travis-url]
+  [![Windows Build][appveyor-image]][appveyor-url]
   [![Test Coverage][coveralls-image]][coveralls-url]
 
 ```js
@@ -112,9 +113,11 @@ $ npm test
 
 [npm-image]: https://img.shields.io/npm/v/uestc.svg
 [npm-url]: https://npmjs.org/package/uestc
-[downloads-image]: https://img.shields.io/npm/dm/uestc.svg
+[downloads-image]: https://img.shields.io/npm/dm/uestc.svg?label=linux
 [downloads-url]: https://npmjs.org/package/uestc
+[appveyor-image]: https://img.shields.io/appveyor/ci/trotyl/UESTC-SDK-Npm.svg?label=windows
+[appveyor-url]: https://ci.appveyor.com/project/trotyl/UESTC-SDK-Npm
 [travis-image]: https://img.shields.io/travis/trotyl/UESTC-SDK-Npm.svg
 [travis-url]: https://travis-ci.org/trotyl/UESTC-SDK-Npm
-[coveralls-image]: https://coveralls.io/repos/trotyl/UESTC-SDK-Npm/badge.svg
+[coveralls-image]: https://img.shields.io/coveralls/trotyl/UESTC-SDK-Npm.svg
 [coveralls-url]: https://coveralls.io/r/trotyl/UESTC-SDK-Npm
