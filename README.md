@@ -77,7 +77,7 @@ $ npm install uestc --dev
 
 ## Quick Start / 快速入门
 
-  （待整理）
+  由于整个项目的接口较为简单，可直接参考 [__官方文档__](https://github.com/trotyl/UESTC-Npm/wiki) 。
 
 ## Philosophy / 设计理念
 
@@ -89,7 +89,7 @@ $ npm install uestc --dev
 
 ## Examples / 示例
 
-  （待整理）
+  由于整个项目的接口较为简单，可直接参考 [__官方文档__](https://github.com/trotyl/UESTC-Npm/wiki) 。
 
 ## Tests / 测试
 
