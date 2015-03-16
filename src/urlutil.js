@@ -14,7 +14,7 @@ module.exports = UrlUtil;
 
 // 静态方法
 
-UrlUtil.getLoginUtil = function (number, password) {
+UrlUtil.getUserLoginMeta = function (number, password) {
     return {
         url: 'https://uis.uestc.edu.cn/amserver/UI/Login',
         data: {

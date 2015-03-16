@@ -1,4 +1,5 @@
 var assert = require('assert');
+var Promise = require('promise');
 var User = require('../src/user');
 
 describe('User ', function () {
@@ -18,17 +19,19 @@ describe('User ', function () {
                     'method': 'POST',
                     'url': url,
                     'data': data
-                }
+                };
+                return Promise.resolve(null);
             }
         };
     });
 
-    describe('#login()', function () {
+    describe('#login()', function (done) {
         it('should call the right method and pass params', function () {
-            user.login(util, carrier.post, null);
-            assert.equal('POST', carrier.log.method);
-            assert.equal(util.url, carrier.log.url);
-            assert.equal(util.data, carrier.log.data);
+            user.login(util, carrier.post).then(function () {
+                    assert.equal('POST', carrier.log.method);
+                    assert.equal(util.url, carrier.log.url);
+                    assert.equal(util.data, carrier.log.data);
+                }).then(done);
         });
     });
 

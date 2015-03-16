@@ -1,5 +1,6 @@
 // 外部依赖
 
+var Promise = require('promise');
 
 // 构造方法
 
@@ -28,17 +29,20 @@ User.status = {
 
 // 实例方法
 
-User.prototype.login = function (meta, method, callback) {
+User.prototype.login = function (meta, method) {
     var self = this;
-    method(meta.url, meta.data, meta.wait, function (err, meta) {
-        if (err) {
-            self.status = User.status.loginFail;
+    return method(meta.url, meta.data, meta.wait).then(function (meta) {
+        if(meta.status == 302) {
+            self.status = User.status.loginSuccess;
+            self.setCookies(meta.headers['set-cookie']);
+            return meta;
         }
         else {
-            self.status = User.status.loginSuccess;
-            self.setCookies(meta.headers['set-cookie'])
+            throw {};
         }
-        callback && callback(!err);
+    }, function (err) {
+        self.status = User.status.loginFail;
+        throw err;
     });
 };
 

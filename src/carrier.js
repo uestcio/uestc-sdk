@@ -3,6 +3,7 @@
 var http = require('http');
 var https = require('https');
 var querystring = require('querystring');
+var Promise = require('promise');
 
 
 // 构造方法
@@ -63,7 +64,7 @@ Carrier.singleton = function () {
 
 // 实例方法
 
-Carrier.prototype.post = function (url, data, wait, callback) {
+Carrier.prototype.post = function (url, data, wait) {
     var contents = querystring.stringify(data);
     var meta = Carrier.getUrlMeta(url);
     var options = Carrier.getPostOptions(meta.host, meta.path, contents);
@@ -71,30 +72,32 @@ Carrier.prototype.post = function (url, data, wait, callback) {
         'http': http,
         'https': https
     };
-    var req = protocolMap[meta.protocol].request(options, function (res) {
-        res.setEncoding('utf8');
-        if (!wait) {
-            callback(null, {
-                status: res.statusCode,
-                headers: res.headers
-            });
-        }
-        else {
-            res.on('data', function (data) {
-                callback(null, {
+    return new Promise(function (fulfill, reject) {
+        var req = protocolMap[meta.protocol].request(options, function (res) {
+            res.setEncoding('utf8');
+            if (!wait) {
+                fulfill({
                     status: res.statusCode,
-                    headers: res.headers,
-                    data: data
+                    headers: res.headers
                 });
-            });
-        }
-    });
+            }
+            else {
+                res.on('data', function (data) {
+                    fulfill({
+                        status: res.statusCode,
+                        headers: res.headers,
+                        data: data
+                    });
+                });
+            }
+        });
 
-    req.on('error', function (error) {
-        callback(error);
-    });
+        req.on('error', function (error) {
+            reject(error);
+        });
 
-    req.write(contents);
-    req.end();
+        req.write(contents);
+        req.end();
+    })
 };
 

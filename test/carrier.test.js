@@ -56,7 +56,7 @@ describe('Carrier ', function () {
 
         it('should send the post request and login success', function (done) {
             data['IDToken2'] = '811073';
-            carrier.post(url, data, false, function (err, meta) {
+            carrier.post(url, data, false).then(function (meta) {
                 assert.equal(302, meta.status);
                 done();
             });
@@ -64,7 +64,7 @@ describe('Carrier ', function () {
 
         it('should send the post request and login fail', function (done) {
             data['IDToken2'] = '811074';
-            carrier.post(url, data, false, function (err, meta) {
+            carrier.post(url, data, false).then(function (meta) {
                 assert.equal(200, meta.status);
                 done();
             });
