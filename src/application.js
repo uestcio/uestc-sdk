@@ -11,7 +11,7 @@ var UrlUtil = require('./urlutil');
 
 function Application() {
     this._carrier_ = Carrier.singleton();
-    this.users = [];
+    this.users = {};
     this.current = null;
 }
 
@@ -20,16 +20,17 @@ module.exports = Application;
 
 // 实例方法
 
-Application.prototype.identify = function (number, password) {
+Application.prototype.identify = function (number, password, callback) {
     var self = this;
     var meta = UrlUtil.getUserLoginMeta(number, password);
 
     var user = new User(number, password);
-    this.users.push(user);
+    this.users[user.number] = user;
 
     user.login(meta, this._carrier_.post)
         .then(function () {
             self.current = user;
+            callback && callback(user);
         });
 
     return user;
@@ -37,7 +38,7 @@ Application.prototype.identify = function (number, password) {
 
 Application.prototype.reset = function () {
     this._carrier_ = null;
-    this.users = [];
+    this.users = {};
     this.current = null;
 };
 

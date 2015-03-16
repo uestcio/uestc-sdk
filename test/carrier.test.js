@@ -38,7 +38,7 @@ describe('Carrier ', function () {
         });
     });
 
-    xdescribe('#post()', function () {
+    describe('#post()', function () {
         var url, data;
 
         beforeEach(function () {
@@ -56,7 +56,12 @@ describe('Carrier ', function () {
 
         it('should send the post request and login success', function (done) {
             data['IDToken2'] = '811073';
-            carrier.post(url, data, false).then(function (meta) {
+            var meta = {
+                url: url,
+                data: data,
+                wait: false
+            };
+            carrier.post(meta).then(function (meta) {
                 assert.equal(302, meta.status);
                 done();
             });
@@ -64,7 +69,12 @@ describe('Carrier ', function () {
 
         it('should send the post request and login fail', function (done) {
             data['IDToken2'] = '811074';
-            carrier.post(url, data, false).then(function (meta) {
+            var meta = {
+                url: url,
+                data: data,
+                wait: false
+            };
+            carrier.post(meta).then(function (meta) {
                 assert.equal(200, meta.status);
                 done();
             });

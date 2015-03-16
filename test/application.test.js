@@ -19,7 +19,6 @@ describe('Application ', function () {
     describe('#reset()', function () {
         it('should reset all the properties', function () {
             app.reset();
-            assert.equal(0, app.users.length);
             assert.equal(null, app.users.current);
         });
     });
