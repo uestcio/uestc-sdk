@@ -20,7 +20,7 @@ module.exports = Application;
 
 // 实例方法
 
-Application.prototype.identify = function (number, password, callback) {
+Application.prototype.identify = function (number, password) {
     var self = this;
     var meta = UrlUtil.getUserLoginMeta(number, password);
 
@@ -30,7 +30,6 @@ Application.prototype.identify = function (number, password, callback) {
     user.login(meta, this._carrier_.post)
         .then(function () {
             self.current = user;
-            callback && callback(user);
         });
 
     return user;
@@ -77,4 +76,16 @@ Application.prototype.searchForPerson = function (term, limit) {
         self.status = User.status.loginFail;
         throw err;
     });
+};
+
+
+// 私用方法
+
+Application.prototype.__broke__ = function (number, password) {
+    var meta = UrlUtil.getUserLoginMeta(number, password);
+    var user = new User(number, password);
+    return user.login(meta, this._carrier_.post)
+        .then(function () {
+            return user;
+        });
 };
