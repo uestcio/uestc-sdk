@@ -38,7 +38,7 @@ describe('Carrier ', function () {
         });
     });
 
-    describe('#post()', function () {
+    xdescribe('#post()', function () {
         var url, data;
 
         beforeEach(function () {

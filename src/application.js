@@ -32,11 +32,29 @@ Application.prototype.identify = function (number, password) {
             self.current = user;
         });
 
-    return Promise.resolve(user);
+    return user;
 };
 
 Application.prototype.reset = function () {
     this._carrier_ = null;
     this.users = [];
     this.current = null;
+};
+
+Application.prototype.searchForPerson = function (term) {
+    var meta = UrlUtil.getApplicationSearchPersonMeta(term);
+
+    return this._carrier_.post(meta).then(function (meta) {
+        if(meta.status == 302) {
+            self.status = User.status.loginSuccess;
+            self.setCookies(meta.headers['set-cookie']);
+            return meta;
+        }
+        else {
+            throw {};
+        }
+    }, function (err) {
+        self.status = User.status.loginFail;
+        throw err;
+    });
 };

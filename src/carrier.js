@@ -64,9 +64,9 @@ Carrier.singleton = function () {
 
 // 实例方法
 
-Carrier.prototype.post = function (url, data, wait) {
-    var contents = querystring.stringify(data);
-    var meta = Carrier.getUrlMeta(url);
+Carrier.prototype.post = function (postMeta) {
+    var contents = querystring.stringify(postMeta.data);
+    var meta = Carrier.getUrlMeta(postMeta.url);
     var options = Carrier.getPostOptions(meta.host, meta.path, contents);
     var protocolMap = {
         'http': http,
@@ -75,7 +75,7 @@ Carrier.prototype.post = function (url, data, wait) {
     return new Promise(function (fulfill, reject) {
         var req = protocolMap[meta.protocol].request(options, function (res) {
             res.setEncoding('utf8');
-            if (!wait) {
+            if (!postMeta.wait) {
                 fulfill({
                     status: res.statusCode,
                     headers: res.headers

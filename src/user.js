@@ -31,7 +31,7 @@ User.status = {
 
 User.prototype.login = function (meta, method) {
     var self = this;
-    return method(meta.url, meta.data, meta.wait).then(function (meta) {
+    return method(meta).then(function (meta) {
         if(meta.status == 302) {
             self.status = User.status.loginSuccess;
             self.setCookies(meta.headers['set-cookie']);

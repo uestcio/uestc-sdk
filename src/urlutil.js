@@ -14,6 +14,20 @@ module.exports = UrlUtil;
 
 // 静态方法
 
+UrlUtil.getApplicationSearchPersonMeta = function (user, term, limit) {
+    limit = limit || 10;
+    return {
+        url: 'http://portal.uestc.edu.cn/pnull.portal?action=fetchUsers&.ia=false&.f=f20889&.pmn=view&.pen=personnelGroupmanager',
+        data: {
+            'start': 0,
+            'limit': limit,
+            'oper_type' : 'normal_user'
+        },
+        wait: true,
+        cookies: user.cookies
+    };
+};
+
 UrlUtil.getUserLoginMeta = function (number, password) {
     return {
         url: 'https://uis.uestc.edu.cn/amserver/UI/Login',
@@ -29,3 +43,5 @@ UrlUtil.getUserLoginMeta = function (number, password) {
         wait: false
     };
 };
+
+
