@@ -12,7 +12,8 @@
   [![Test Coverage][coveralls-image]][coveralls-url]
 
 ```js
-var app = require('uestc')();
+var sdk = require('uestc');
+var app = sdk();
 var user = app.login('2012019050031', '12345678');
 
 app.searchForPerson('章萌芊').then(function (people) {
