@@ -19,12 +19,12 @@ module.exports = Application;
 // 实例方法
 
 Application.prototype.identify = function (number, password) {
-    var util = UrlUtil.getLoginUtil(number, password);
+    var meta = UrlUtil.getLoginUtil(number, password);
 
     var user = new User(number, password);
     this.users.push(user);
     this.current = user;
-    user.login(util, this._carrier_.post, null);
+    user.login(meta, this._carrier_.post, null);
 
     return user;
 };

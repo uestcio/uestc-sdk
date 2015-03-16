@@ -28,9 +28,9 @@ User.status = {
 
 // 实例方法
 
-User.prototype.login = function (util, method, callback) {
+User.prototype.login = function (meta, method, callback) {
     var self = this;
-    method(util.url, util.data, util.wait, function (err, meta) {
+    method(meta.url, meta.data, meta.wait, function (err, meta) {
         if (err) {
             self.status = User.status.loginFail;
         }
