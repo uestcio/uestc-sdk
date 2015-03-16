@@ -4,7 +4,8 @@
   "description": "The integrated NodeJS api of the EAMS system and some other parts for UESTC websites.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --timeout 20000"
+    "test": "mocha --reporter spec --bail --check-leaks test/ --timeout 60000",
+    "test-ci": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --require test/support/env --reporter spec --check-leaks test/ test/acceptance/"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "coveralls": "^2.11.2",
+    "istanbul": "^0.3.6",
     "mocha": "^2.2.1"
   }
 }
