@@ -83,6 +83,8 @@ $ npm install uestc --dev
 
 ## Philosophy / 设计理念
 
+> A Project for the sake of all Project.
+
   由于在日常的学习生活中经常需要用到学校教务系统的爬虫，甚至有时候也会进行一些相关测试（如常用密码字典破解等），
   故对学校相关网站（尤其是教务系统）需要频繁的信息交互。
 
