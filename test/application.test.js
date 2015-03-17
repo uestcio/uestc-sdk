@@ -19,6 +19,15 @@ describe('Application ', function () {
         });
     });
 
+    describe('#__broke__()', function () {
+        it('should request for the login url', function (done) {
+            var user = app.__broke__('2012019050020', '811073')
+                .then(function () {
+                    done();
+            });
+        });
+    });
+
     describe('#identify()', function () {
         it('should request for the login url', function () {
             var user = app.identify('2012019050031', '12345678');

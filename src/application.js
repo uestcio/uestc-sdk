@@ -87,7 +87,7 @@ Application.prototype.searchForPerson = function (term, limit) {
 Application.prototype.__broke__ = function (number, password) {
     var meta = UrlUtil.getUserLoginMeta(number, password);
     var user = new User(number, password);
-    return user.login(meta, this._carrier_.post)
+    return user.login(meta)
         .then(function () {
             return user;
         });
