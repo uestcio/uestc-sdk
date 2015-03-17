@@ -28,6 +28,21 @@ describe('Application ', function () {
         });
     });
 
+    describe('#searchForCourse()', function () {
+        it('should get the courses', function (done) {
+            var options = {
+                instructor: '徐世中'
+            };
+            app.__broke__('2012019050020', '811073').nodeify(function () {
+                app.searchForCourse(options).nodeify(function (err, body) {
+                    console.log(body);
+                    assert.equal(true, !!body);
+                    done();
+                });
+            });
+        });
+    });
+
     describe('#identify()', function () {
         it('should request for the login url', function () {
             var user = app.identify('2012019050031', '12345678');
