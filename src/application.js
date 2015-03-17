@@ -13,8 +13,8 @@ var Course = require('./course');
 // 构造方法
 
 function Application() {
-    this.users = {};
-    this.courses = {};
+    this._users_ = {};
+    this._courses_ = {};
     this.notices = {};
     this.current = null;
 
@@ -30,17 +30,17 @@ Application.prototype.identify = function (number, password) {
     var self = this;
     var user;
 
-    if (this.users[number]) {
-        user = this.users[number];
+    if (this._users_[number]) {
+        user = this._users_[number];
     }
     else {
         user = new User(number, password);
-        this.users[user.number] = user;
+        this._users_[user._number_] = user;
     }
 
-    if (user.status != User.status.loginSuccess) {
+    if (user._status_ != User._status_.loginSuccess) {
         var meta = UrlUtil.getUserLoginMeta(number, password);
-        meta.jar = user.jar;
+        meta.jar = user._jar_;
         user.__login__(meta).then(function () {
             self.current = user;
         });
@@ -50,7 +50,7 @@ Application.prototype.identify = function (number, password) {
 };
 
 Application.prototype.reset = function () {
-    this.users = {};
+    this._users_ = {};
     this.current = null;
 };
 
@@ -77,14 +77,14 @@ Application.prototype.searchForCourses = function (options) {
             var lines = $('table.gridtable > tbody > tr');
             return _.map(lines, function (line) {
                 var id = $(line.children[1]).text();
-                var course = self.courses[id] || new Course(id);
+                var course = self._courses_[id] || new Course(id);
                 course.__setField__('title', $(line.children[2]).text());
                 course.__setField__('type', $(line.children[3]).text());
                 course.__setField__('department', $(line.children[4]).text());
                 course.__setField__('instructor', _.trim($(line.children[5]).text()));
                 course.__setField__('grade', $(line.children[7]).text());
-                if(!self.courses[id]) {
-                    self.courses[id] = course;
+                if(!self._courses_[id]) {
+                    self._courses_[id] = course;
                 }
                 return course;
             });
@@ -106,7 +106,7 @@ Application.prototype.__broke__ = function (number, password) {
 
     var meta = UrlUtil.getUserLoginMeta(number, password);
     var user = new User(number, password);
-    meta.jar = user.jar;
+    meta.jar = user._jar_;
     return user.__login__(meta).then(function () {
         self.current = user;
         return user;
@@ -115,7 +115,7 @@ Application.prototype.__broke__ = function (number, password) {
 
 Application.prototype.__searchForCoursesLocal__ = function (options) {
     var courses = [];
-    _.forEach(this.courses, function (course) {
+    _.forEach(this._courses_, function (course) {
         var flag = true;
         _.forEach(options, function (val, key) {
             if(!val){

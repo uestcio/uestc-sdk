@@ -17,7 +17,7 @@ module.exports = UrlUtil;
 UrlUtil.getApplicationSearchCoursePrepareMeta = function (user) {
     return {
         url: 'http://eams.uestc.edu.cn/eams/publicSearch.action',
-        jar: user.jar
+        jar: user._jar_
     }
 };
 
@@ -29,7 +29,7 @@ UrlUtil.getApplicationSearchCourseMeta = function (user, options) {
             'teacher.name': options.instructor || '',
             'limitGroup.grade': options.grade || ''
         },
-        jar: user.jar
+        jar: user._jar_
     }
 };
 

@@ -12,8 +12,8 @@ describe('Application ', function () {
 
     describe('#.ctor()', function () {
         it('should create the right object', function () {
-            assert.equal(0, _.keys(app.users).length);
-            assert.equal(0, _.keys(app.courses).length);
+            assert.equal(0, _.keys(app._users_).length);
+            assert.equal(0, _.keys(app._courses_).length);
             assert.equal(0, _.keys(app.notices).length);
             assert.equal(null, app.current);
             assert.equal(false, !app._request_);
@@ -24,17 +24,27 @@ describe('Application ', function () {
         it('should be able to login', function (done) {
             app.__broke__('2012019050020', '811073')
                 .then(function (user) {
-                    assert.equal('2012019050020', user.number);
+                    assert.equal('2012019050020', user._number_);
                     done();
-            });
+                });
+        });
+    });
+
+    xdescribe('#__searchForCoursesLocal__()', function () {
+        it('should be able to get local meets options', function (done) {
+            app.__searchForCoursesLocal__()
+                .then(function (user) {
+                    assert.equal('2012019050020', user._number_);
+                    done();
+                });
         });
     });
 
     describe('#identify()', function () {
         it('should generate the right user', function () {
             var user = app.identify('2012019050031', '12345678');
-            assert.equal('2012019050031', user.number);
-            assert.equal(user, app.users[user.number]);
+            assert.equal('2012019050031', user._number_);
+            assert.equal(user, app._users_[user._number_]);
         });
 
         it('should keep the same user', function () {
@@ -61,7 +71,7 @@ describe('Application ', function () {
     describe('#reset()', function () {
         it('should reset all the properties', function () {
             app.reset();
-            assert.equal(null, app.users.current);
+            assert.equal(null, app._users_.current);
         });
     });
 });

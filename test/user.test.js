@@ -6,7 +6,7 @@ describe('User ', function () {
     var user, util;
 
     beforeEach(function () {
-        user = new User('number', 'password');
+        user = new User('_number_', '_password_');
         util = {
             url: 'someUrl',
             data: {0: 1},
@@ -16,10 +16,10 @@ describe('User ', function () {
 
     describe('#.ctor()', function () {
         it('should create the right object', function () {
-            assert.equal('number', user.number);
-            assert.equal('password', user.password);
-            assert.equal(User.status.idle, user.status);
-            assert.equal(1, _.keys(user.jar).length);
+            assert.equal('_number_', user._number_);
+            assert.equal('_password_', user._password_);
+            assert.equal(User._status_.idle, user._status_);
+            assert.equal(1, _.keys(user._jar_).length);
         });
     });
 
@@ -43,7 +43,7 @@ describe('User ', function () {
             data['IDToken2'] = '811073';
             var meta = {
                 url: url,
-                jar: user.jar,
+                jar: user._jar_,
                 data: data
             };
             user.__login__(meta).nodeify(function (err, httpResponse) {
@@ -56,7 +56,7 @@ describe('User ', function () {
             data['IDToken2'] = '811074';
             var meta = {
                 url: url,
-                jar: user.jar,
+                jar: user._jar_,
                 data: data
             };
             user.__login__(meta).nodeify(function (err, httpResponse) {
