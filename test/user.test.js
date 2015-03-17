@@ -24,7 +24,7 @@ describe('User ', function () {
         });
     });
 
-    describe('#login()', function () {
+    describe('#__login__()', function () {
         var url, data;
 
         beforeEach(function () {
@@ -47,7 +47,7 @@ describe('User ', function () {
                 jar: user.jar,
                 data: data
             };
-            user.login(meta).nodeify(function (err, httpResponse) {
+            user.__login__(meta).nodeify(function (err, httpResponse) {
                 assert.equal(302, httpResponse.statusCode);
                 done();
             });
@@ -60,7 +60,7 @@ describe('User ', function () {
                 jar: user.jar,
                 data: data
             };
-            user.login(meta).nodeify(function (err, httpResponse) {
+            user.__login__(meta).nodeify(function (err, httpResponse) {
                 assert.equal(true, !!err);
                 done();
             });

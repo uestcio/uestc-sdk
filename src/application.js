@@ -83,6 +83,9 @@ Application.prototype.searchForCourses = function (options) {
                 course.__setField__('department', $(line.children[4]).text());
                 course.__setField__('instructor', _.trim($(line.children[5]).text()));
                 course.__setField__('grade', $(line.children[7]).text());
+                if(!self.courses[id]) {
+                    self.courses[id] = course;
+                }
                 return course;
             });
         });
