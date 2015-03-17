@@ -1,6 +1,7 @@
 // 外部依赖
 
 var jsdom = require('jsdom');
+var Promise = require('promise');
 
 
 // 构造函数
@@ -16,12 +17,16 @@ module.exports = Parser;
 
 // 静态方法
 
-Parser.get$ = function (html, callback) {
+Parser.get$ = function (html) {
     var env = jsdom.env;
 
-    env(html, function (errors, window) {
-        console.log(errors);
-        var $ = require('jquery')(window);
-        callback($);
-    });
+    return new Promise(function (fullfill, reject) {
+        env(html, function (errors, window) {
+            if(errors) {
+                reject(errors);
+            }
+            var $ = require('jquery')(window);
+            fullfill($);
+        });
+    })
 };

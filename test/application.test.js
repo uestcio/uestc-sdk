@@ -34,9 +34,8 @@ describe('Application ', function () {
                 instructor: '徐世中'
             };
             app.__broke__('2012019050020', '811073').nodeify(function () {
-                app.searchForCourse(options).nodeify(function (err, body) {
-                    console.log(body);
-                    assert.equal(true, !!body);
+                app.searchForCourse(options).nodeify(function (err, courses) {
+                    assert.equal('徐世中', courses[0].instructor);
                     done();
                 });
             });
