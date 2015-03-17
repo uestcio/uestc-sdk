@@ -1,5 +1,6 @@
 var assert = require('assert');
 var Promise = require('promise');
+var _ = require('lodash');
 var User = require('../src/user');
 
 describe('User ', function () {
@@ -12,6 +13,15 @@ describe('User ', function () {
             data: {0: 1},
             wait: false
         };
+    });
+
+    describe('#.ctor()', function () {
+        it('should create the right object', function () {
+            assert.equal('number', user.number);
+            assert.equal('password', user.password);
+            assert.equal(User.status.idle, user.status);
+            assert.equal(1, _.keys(user.jar).length);
+        });
     });
 
     describe('#login()', function () {

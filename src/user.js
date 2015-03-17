@@ -48,3 +48,8 @@ User.prototype.login = function (meta) {
     });
 };
 
+User.prototype.getCourses = function (grade, semester) {
+    var self = this;
+
+};
+

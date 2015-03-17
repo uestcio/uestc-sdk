@@ -14,6 +14,8 @@ var Course = require('./course');
 
 function Application() {
     this.users = {};
+    this.courses = {};
+    this.notices = {};
     this.current = null;
 
     this._request_ = request;
@@ -46,7 +48,7 @@ Application.prototype.reset = function () {
     this.current = null;
 };
 
-Application.prototype.searchForCourse = function (options) {
+Application.prototype.searchForCourses = function (options) {
     var getMeta = UrlUtil.getApplicationSearchCoursePrepareMeta(this.current);
     var postMeta = UrlUtil.getApplicationSearchCourseMeta(this.current, options);
     return new Promise(function (fulfill, reject) {
@@ -73,12 +75,10 @@ Application.prototype.searchForCourse = function (options) {
     });
 };
 
-Application.prototype.searchForPerson = function (term, limit) {
-    limit = limit || 10;
-    var meta = UrlUtil.getApplicationSearchPersonMeta(this.current, term, limit);
-
-
-};
+//Application.prototype.searchForPeople = function (term, limit) {
+//    limit = limit || 10;
+//    var meta = UrlUtil.getApplicationSearchPersonMeta(this.current, term, limit);
+//};
 
 
 // 私用方法

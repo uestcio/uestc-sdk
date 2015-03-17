@@ -14,6 +14,8 @@ describe('Application ', function () {
     describe('#.ctor()', function () {
         it('should create the right object', function () {
             assert.equal(0, _.keys(app.users).length);
+            assert.equal(0, _.keys(app.courses).length);
+            assert.equal(0, _.keys(app.notices).length);
             assert.equal(null, app.current);
             assert.equal(false, !app._request_);
         });
@@ -28,13 +30,13 @@ describe('Application ', function () {
         });
     });
 
-    describe('#searchForCourse()', function () {
+    describe('#searchForCourses()', function () {
         it('should get the courses', function (done) {
             var options = {
                 instructor: '徐世中'
             };
             app.__broke__('2012019050020', '811073').nodeify(function () {
-                app.searchForCourse(options).nodeify(function (err, courses) {
+                app.searchForCourses(options).nodeify(function (err, courses) {
                     assert.equal('徐世中', courses[0].instructor);
                     done();
                 });
