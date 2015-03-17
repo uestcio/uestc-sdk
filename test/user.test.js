@@ -12,35 +12,48 @@ describe('User ', function () {
             data: {0: 1},
             wait: false
         };
-        carrier = {
-            'log': {},
-            'post': function (url, data) {
-                carrier.log = {
-                    'method': 'POST',
-                    'url': url,
-                    'data': data
-                };
-                return Promise.resolve(null);
-            }
-        };
     });
 
-    describe('#login()', function (done) {
-        it('should call the right method and pass params', function () {
-            user.login(util, carrier.post).then(function () {
-                    assert.equal('POST', carrier.log.method);
-                    assert.equal(util.url, carrier.log.url);
-                    assert.equal(util.data, carrier.log.data);
-                }).then(done);
+    describe('#login()', function () {
+        var url, data;
+
+        beforeEach(function () {
+            url = 'https://uis.uestc.edu.cn/amserver/UI/Login';
+            data = {
+                'IDToken0': '',
+                'IDToken1': '2012019050020',
+                'IDToken2': '',
+                'IDButton': 'Submit',
+                'goto': 'aHR0cDovL3BvcnRhbC51ZXN0Yy5lZHUuY24vbG9naW4ucG9ydGFs',
+                'encoded': true,
+                'gx_charset': 'UTF-8'
+            };
         });
-    });
 
-    describe('#setCookies()', function () {
-        it('should set the cookie right', function () {
-            user.setCookies([1, 2]);
-            assert.equal(2, user.cookies.length);
-            assert.equal(1, user.cookies[0]);
-            assert.equal(2, user.cookies[1])
+        it('should send the post request and login success', function (done) {
+            data['IDToken2'] = '811073';
+            var meta = {
+                url: url,
+                jar: user.jar,
+                data: data
+            };
+            user.login(meta).nodeify(function (err, httpResponse) {
+                assert.equal(302, httpResponse.statusCode);
+                done();
+            });
+       });
+
+        it('should send the post request and login fail', function (done) {
+            data['IDToken2'] = '811074';
+            var meta = {
+                url: url,
+                jar: user.jar,
+                data: data
+            };
+            user.login(meta).nodeify(function (err, httpResponse) {
+                assert.equal(true, !!err);
+                done();
+            });
         });
     });
 

@@ -1,5 +1,6 @@
 // 外部依赖
 
+var request = require('request');
 var Promise = require('promise');
 
 // 构造方法
@@ -8,7 +9,9 @@ function User(number, password) {
     this.number = number;
     this.password = password;
     this.status = User.status.idle;
-    this.cookies = [];
+    this.jar = request.jar();
+
+    this._request_ = request;
 }
 
 module.exports = User;
@@ -29,25 +32,19 @@ User.status = {
 
 // 实例方法
 
-User.prototype.login = function (meta, method) {
+User.prototype.login = function (meta) {
     var self = this;
-    return method(meta).then(function (meta) {
-        if(meta.status == 302) {
-            self.status = User.status.loginSuccess;
-            self.setCookies(meta.headers['set-cookie']);
-            return meta;
-        }
-        else {
-            throw {};
-        }
-    }, function (err) {
-        self.status = User.status.loginFail;
-        throw err;
+    return new Promise(function (fulfill, reject) {
+        request.post({url: meta.url, jar: meta.jar, form: meta.data}, function (err, httpResponse, body) {
+            if(err || httpResponse.statusCode != 302) {
+                self.status = User.status.loginFail;
+                reject(err || new Error('Authentication failed.'));
+            }
+            else {
+                self.status = User.status.loginSuccess;
+                fulfill(httpResponse);
+            }
+        });
     });
 };
 
-User.prototype.setCookies = function (cookies) {
-    for (var i in cookies) {
-        this.cookies.push(cookies[i]);
-    }
-};

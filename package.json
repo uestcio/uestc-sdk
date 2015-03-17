@@ -22,8 +22,10 @@
   },
   "homepage": "https://github.com/trotyl/UESTC-Npm",
   "dependencies": {
+    "async": "^0.9.0",
     "later": "^1.1.6",
-    "promise": "^6.1.0"
+    "promise": "^6.1.0",
+    "request": "^2.53.0"
   },
   "devDependencies": {
     "coveralls": "^2.11.2",

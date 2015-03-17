@@ -1,8 +1,8 @@
 // 外部依赖
 
 var Promise = require('promise');
+var request = require('request');
 
-var Carrier = require('./carrier');
 var User = require('./user');
 var UrlUtil = require('./urlutil');
 
@@ -10,9 +10,10 @@ var UrlUtil = require('./urlutil');
 // 构造方法
 
 function Application() {
-    this._carrier_ = Carrier.singleton();
     this.users = {};
     this.current = null;
+
+    this._request_ = request;
 }
 
 module.exports = Application;
@@ -25,9 +26,11 @@ Application.prototype.identify = function (number, password) {
     var meta = UrlUtil.getUserLoginMeta(number, password);
 
     var user = new User(number, password);
+    meta.jar = user.jar;
+
     this.users[user.number] = user;
 
-    user.login(meta, this._carrier_.post)
+    user.login(meta)
         .then(function () {
             self.current = user;
         });
