@@ -1,9 +1,9 @@
 var assert = require('assert');
 var uestc = require('../src/uestc');
-var application = require('../src/application');
+var Application = require('../src/application');
 
 describe('Uestc ', function () {
-    var app, carrier;
+    var app;
 
     beforeEach(function () {
         app = uestc();
@@ -11,7 +11,7 @@ describe('Uestc ', function () {
 
     describe('#self()', function () {
         it('should return a instance of Application', function () {
-            assert.equal(true, app instanceof application);
+            assert.equal(true, app instanceof Application);
         });
     });
 });

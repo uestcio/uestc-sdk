@@ -88,6 +88,8 @@ Application.prototype.searchForCourses = function (options) {
                 }
                 return course;
             });
+        }).then(null, function (err) {
+            return self.__searchForCoursesLocal__(options);
         });
 };
 
@@ -109,4 +111,23 @@ Application.prototype.__broke__ = function (number, password) {
         self.current = user;
         return user;
     });
+};
+
+Application.prototype.__searchForCoursesLocal__ = function (options) {
+    var courses = [];
+    _.forEach(this.courses, function (course) {
+        var flag = true;
+        _.forEach(options, function (val, key) {
+            if(!val){
+                return;
+            }
+            if(course[key].indexOf(val) < 0) {
+                flag = false;
+            }
+        });
+        if(flag) {
+            courses.push(course);
+        }
+    });
+    return Promise.resolve(courses);
 };

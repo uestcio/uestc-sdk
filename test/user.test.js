@@ -3,7 +3,7 @@ var _ = require('lodash');
 var User = require('../src/user');
 
 describe('User ', function () {
-    var user, util, carrier;
+    var user, util;
 
     beforeEach(function () {
         user = new User('number', 'password');

@@ -21,9 +21,10 @@ describe('Application ', function () {
     });
 
     describe('#__broke__()', function () {
-        it('should request for the login url', function (done) {
-            var user = app.__broke__('2012019050020', '811073')
-                .then(function () {
+        it('should be able to login', function (done) {
+            app.__broke__('2012019050020', '811073')
+                .then(function (user) {
+                    assert.equal('2012019050020', user.number);
                     done();
             });
         });

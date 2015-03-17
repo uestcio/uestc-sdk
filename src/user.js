@@ -37,7 +37,7 @@ User.status = {
 // 实例方法
 
 User.prototype.getCourses = function (grade, semester) {
-    var self = this;
+
 
 };
 
