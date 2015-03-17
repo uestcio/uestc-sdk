@@ -1,18 +1,12 @@
 // 外部依赖
 
-
+var _ = require('lodash');
 
 
 // 构造函数
 
-function Course() {
-    this.title = '';
-    this.code = '';
-    this.id = '';
-    this.credit = -1;
-    this.hours = -1;
-    this.semester = -1;
-    this.type = Course.types.all;
+function Course(id) {
+    this.id = id;
 }
 
 module.exports = Course;
@@ -37,3 +31,11 @@ Course.types = {
 
 // 实例方法
 
+
+// 非公开方法
+
+Course.prototype.__setField__ = function (field, val) {
+    if(val != null && val != undefined && val != '') {
+        this[field] = val;
+    }
+};
