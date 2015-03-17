@@ -26,9 +26,9 @@ module.exports = Application;
 
 // 实例方法
 
-Application.prototype.identify = function (number, password) {
+Application.prototype.identify = function (number, password, wait) {
     var self = this;
-    var user;
+    var user, promise;
 
     if (this._users_[number]) {
         user = this._users_[number];
@@ -41,12 +41,13 @@ Application.prototype.identify = function (number, password) {
     if (user._status_ != User._status_.loginSuccess) {
         var meta = UrlUtil.getUserLoginMeta(number, password);
         meta.jar = user._jar_;
-        user.__login__(meta).then(function () {
+        promise = user.__login__(meta).then(function () {
             self.current = user;
+            return user;
         });
     }
 
-    return user;
+    return wait? promise: user;
 };
 
 Application.prototype.reset = function () {

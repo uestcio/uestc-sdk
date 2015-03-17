@@ -65,6 +65,13 @@ describe('Application ', function () {
             assert.equal(user, app._users_[user._number_]);
         });
 
+        it('should generate the right user when wait', function (done) {
+            var user = app.identify('2012019050020', '811073', true).nodeify(function (err, backUser) {
+                assert.equal('2012019050020', backUser._number_);
+                done();
+            });
+        });
+
         it('should keep the same user', function () {
             var user1 = app.identify('2012019050031', '12345678');
             var user2 = app.identify('2012019050031', '12345678');
