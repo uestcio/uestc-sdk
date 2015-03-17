@@ -1,11 +1,11 @@
 {
   "name": "uestc",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "The integrated NodeJS api of the EAMS system and some other parts for UESTC websites.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --reporter spec --bail --check-leaks test/ --timeout 120000",
-    "test-ci": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- --timeout 120000 -R spec"
+    "test": "mocha --reporter spec --bail --check-leaks test/ --timeout 180000",
+    "test-ci": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- --timeout 180000 -R spec"
   },
   "repository": {
     "type": "git",

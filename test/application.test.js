@@ -1,5 +1,7 @@
 var assert = require('assert');
 var _ = require('lodash');
+
+var Course = require('../src/course');
 var uestc = require('../src/uestc');
 
 
@@ -30,11 +32,27 @@ describe('Application ', function () {
         });
     });
 
-    xdescribe('#__searchForCoursesLocal__()', function () {
+    describe('#__searchForCoursesLocal__()', function () {
+        var course0, course1, course2;
+
+        beforeEach(function () {
+            course0 = new Course('A');
+            course0.title = 'AA';
+            course0.instructor = 'AAA';
+            course1 = new Course('B');
+            course1.title = 'BB';
+            course1.instructor = 'BBB';
+            course2 = new Course('C');
+            course2.title = 'CC';
+            course2.instructor = 'CCC';
+            app._courses_ = {'A': course0, 'B': course1, 'C': course2};
+        });
+
         it('should be able to get local meets options', function (done) {
-            app.__searchForCoursesLocal__()
-                .then(function (user) {
-                    assert.equal('2012019050020', user._number_);
+            app.__searchForCoursesLocal__({title: 'B', instructor: 'B'})
+                .nodeify(function (err, courses) {
+                    assert.equal(1, courses.length);
+                    assert.equal(course1, courses[0]);
                     done();
                 });
         });
