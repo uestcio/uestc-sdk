@@ -1,5 +1,4 @@
 var assert = require('assert');
-var Promise = require('promise');
 var _ = require('lodash');
 var User = require('../src/user');
 

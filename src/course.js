@@ -1,7 +1,5 @@
 // 外部依赖
 
-var _ = require('lodash');
-
 
 // 构造函数
 

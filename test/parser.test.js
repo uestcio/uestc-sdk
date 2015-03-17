@@ -1,5 +1,4 @@
 var assert = require('assert');
-var Promise = require('promise');
 var Parser = require('../src/parser');
 
 describe('Parser ', function () {
