@@ -7,7 +7,7 @@ describe('UrlUtil ', function () {
     beforeEach(function () {
     });
 
-    describe('#getUserLoginMeta()', function (done) {
+    describe('#getUserLoginMeta()', function () {
         it('should generate the right meta', function () {
             var meta = UrlUtil.getUserLoginMeta('1', '2');
             assert.equal('https://uis.uestc.edu.cn/amserver/UI/Login', meta.url);
