@@ -36,6 +36,12 @@ describe('Application ', function () {
             assert.equal('2012019050031', user.number);
             assert.equal(user, app.users[user.number]);
         });
+
+        it('should keep the same user', function () {
+            var user1 = app.identify('2012019050031', '12345678');
+            var user2 = app.identify('2012019050031', '12345678');
+            assert.equal(user1, user2);
+        })
     });
 
     describe('#searchForCourses()', function () {

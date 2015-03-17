@@ -41,7 +41,7 @@ Application.prototype.identify = function (number, password) {
     if (user.status != User.status.loginSuccess) {
         var meta = UrlUtil.getUserLoginMeta(number, password);
         meta.jar = user.jar;
-        user.login(meta).then(function () {
+        user.__login__(meta).then(function () {
             self.current = user;
         });
     }
@@ -55,6 +55,7 @@ Application.prototype.reset = function () {
 };
 
 Application.prototype.searchForCourses = function (options) {
+    var self = this;
     var getMeta = UrlUtil.getApplicationSearchCoursePrepareMeta(this.current);
     var postMeta = UrlUtil.getApplicationSearchCourseMeta(this.current, options);
     return new Promise(function (fulfill, reject) {
@@ -75,15 +76,13 @@ Application.prototype.searchForCourses = function (options) {
     }).then(Parser.get$).then(function ($) {
             var lines = $('table.gridtable > tbody > tr');
             return _.map(lines, function (line) {
-                var course = new Course();
-                course.id = $(line.children[1]).text();
-                course.title = $(line.children[2]).text();
-                //course.type = Course.parseType($(line.children[3]).text());
-                course.type = $(line.children[3]).text();
-                //course.department = Course.parseDepartment($(line.children[4]).text());
-                course.department = $(line.children[4]).text();
-                course.instructor = _.trim($(line.children[5]).text());
-                course.grade = $(line.children[7]).text();
+                var id = $(line.children[1]).text();
+                var course = self.courses[id] || new Course(id);
+                course.__setField__('title', $(line.children[2]).text());
+                course.__setField__('type', $(line.children[3]).text());
+                course.__setField__('department', $(line.children[4]).text());
+                course.__setField__('instructor', _.trim($(line.children[5]).text()));
+                course.__setField__('grade', $(line.children[7]).text());
                 return course;
             });
         });
@@ -103,7 +102,7 @@ Application.prototype.__broke__ = function (number, password) {
     var meta = UrlUtil.getUserLoginMeta(number, password);
     var user = new User(number, password);
     meta.jar = user.jar;
-    return user.login(meta).then(function () {
+    return user.__login__(meta).then(function () {
         self.current = user;
         return user;
     });
