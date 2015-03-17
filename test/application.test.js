@@ -1,12 +1,22 @@
 var assert = require('assert');
 var Promise = require('promise');
+var _ = require('lodash');
 var uestc = require('../src/uestc');
+
 
 describe('Application ', function () {
     var app;
 
     beforeEach(function () {
         app = uestc();
+    });
+
+    describe('#.ctor()', function () {
+        it('should create the right object', function () {
+            assert.equal(0, _.keys(app.users).length);
+            assert.equal(null, app.current);
+            assert.equal(false, !app._request_);
+        });
     });
 
     describe('#identify()', function () {
