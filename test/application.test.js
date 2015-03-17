@@ -30,6 +30,14 @@ describe('Application ', function () {
         });
     });
 
+    describe('#identify()', function () {
+        it('should generate the right user', function () {
+            var user = app.identify('2012019050031', '12345678');
+            assert.equal('2012019050031', user.number);
+            assert.equal(user, app.users[user.number]);
+        });
+    });
+
     describe('#searchForCourses()', function () {
         it('should get the courses', function (done) {
             var options = {
@@ -41,13 +49,6 @@ describe('Application ', function () {
                     done();
                 });
             });
-        });
-    });
-
-    describe('#identify()', function () {
-        it('should request for the login url', function () {
-            var user = app.identify('2012019050031', '12345678');
-            assert.equal('2012019050031', user.number);
         });
     });
 
