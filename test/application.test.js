@@ -17,8 +17,8 @@ describe('Application ', function () {
         it('should create the right object', function () {
             assert.equal(0, _.keys(app._users_).length);
             assert.equal(0, _.keys(app._courses_).length);
-            assert.equal(0, _.keys(app.notices).length);
-            assert.equal(null, app.current);
+            assert.equal(0, _.keys(app._notices_).length);
+            assert.equal(null, app._current_);
             assert.equal(false, !app._carrier_);
         });
     });
@@ -150,7 +150,7 @@ describe('Application ', function () {
     describe('#reset()', function () {
         it('should reset all the properties', function () {
             app.reset();
-            assert.equal(null, app._users_.current);
+            assert.equal(null, app._users_._current_);
         });
     });
 });
