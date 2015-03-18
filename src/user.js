@@ -87,7 +87,35 @@ User.prototype.__getAllCourses__ = function () {
 };
 
 User.prototype.__getAllScores__ = function () {
-
+    var self = this;
+    var meta= UrlUtil.getUserAllScoresMeta(self);
+    return self.__ensureLogin__().then(function () {
+        return Carrier.get(meta).then(function (res) {
+            return Parser.get$(res.body);
+        }).then(function ($) {
+            var lines = $('div.grid > table.gridtable > tbody > tr');
+            return _.map(lines, function (line) {
+                var id = $(line.children[2]).text();
+                var course = self._courses_[id] || new Course(id);
+                course.__setField__('code', $(line.children[1]).text());
+                course.__setField__('title', $(line.children[3]).text());
+                course.__setField__('type', $(line.children[4]).text());
+                course.__setField__('credit', +$(line.children[5]).text());
+                if (!self._courses_[id]) {
+                    self._courses_[id] = course;
+                }
+                var enrollment = course.enrollment || new Enrollment(course, self);
+                enrollment.__setField__('semester', $(line.children[0]).text());
+                enrollment.__setField__('generalScore', _.trim($(line.children[6]).text()));
+                enrollment.__setField__('finallScore', _.trim($(line.children[8]).text()));
+                enrollment.__setField__('gpa', _.trim($(line.children[9]).text()));
+                if (!course.enrollment) {
+                    course.enrollment = enrollment;
+                }
+                return course;
+            });
+        });
+    });
 };
 
 User.prototype.__getDetailOffline__ = function () {
@@ -96,7 +124,7 @@ User.prototype.__getDetailOffline__ = function () {
         return Promise.resolve(self._detail_);
     }
     else {
-        return Promise.reject(new Error(''))
+        return Promise.reject(new Error('There is nothing if detail'))
     }
 };
 
@@ -154,6 +182,7 @@ User.prototype.__getSemesterScores__ = function (semester) {
             return _.map(lines, function (line) {
                 var id = $(line.children[2]).text();
                 var course = self._courses_[id] || new Course(id);
+                course.__setField__('code', $(line.children[1]).text());
                 course.__setField__('title', $(line.children[3]).text());
                 course.__setField__('type', $(line.children[4]).text());
                 course.__setField__('credit', +$(line.children[5]).text());

@@ -71,6 +71,7 @@ describe('User ', function () {
     describe('#__getSemesterScores__()', function () {
         it('should get the semester scores', function (done) {
             user.__getSemesterScores__(43).nodeify(function (err, courses) {
+                console.log(courses);
                 assert.equal(12, courses.length);
                 done();
             });

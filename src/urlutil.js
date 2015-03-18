@@ -66,6 +66,13 @@ UrlUtil.getEnsureLoginMeta = function (user) {
     }
 };
 
+UrlUtil.getUserAllScoresMeta = function (user) {
+    return {
+        url: 'http://eams.uestc.edu.cn/eams/teach/grade/course/person!historyCourseGrade.action?projectType=MAJOR',
+        jar: user._jar_
+    }
+};
+
 UrlUtil.getUserDetailMeta = function (user) {
     return {
         url: 'http://eams.uestc.edu.cn/eams/stdDetail.action',
