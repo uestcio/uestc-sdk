@@ -73,6 +73,18 @@ describe('Application ', function () {
         });
     });
 
+    describe('#__searchForPeopleOnline__()', function () {
+        it('should get the people', function (done) {
+            var term = '徐世中';
+            app.__broke__('2012019050020', '811073').nodeify(function () {
+                app.searchForPeople(term, 10).nodeify(function (err, people) {
+                    assert.equal('徐世中', people[0].name);
+                    done();
+                });
+            });
+        });
+    });
+
     describe('#identify()', function () {
         it('should generate the right user', function () {
             var user = app.identify('2012019050031', '12345678');
@@ -95,6 +107,59 @@ describe('Application ', function () {
     });
 
     describe('#searchForCourses()', function () {
+        beforeEach(function () {
+            app._testRes_ = {
+                online: false,
+                local: false
+            };
+        });
+
+        it('should get the courses online when could connect', function (done) {
+            app.__searchForCoursesOnline__ = function () {
+                app._testRes_.online = true;
+                return Promise.resolve([]);
+            };
+
+            app.__searchForCoursesOffline__ = function () {
+                app._testRes_.local = true;
+                return Promise.resolve([]);
+            };
+
+            var options = {
+                instructor: '徐世中'
+            };
+
+            app.searchForCourses(options).nodeify(function (err, courses) {
+                assert.equal(true, app._testRes_.online);
+                assert.equal(false, app._testRes_.local);
+                done();
+            });
+        });
+
+        it('should get the courses local when could not connect', function (done) {
+            app.__searchForCoursesOnline__ = function () {
+                app._testRes_.online = true;
+                return Promise.reject(new Error(''));
+            };
+
+            app.__searchForCoursesOffline__ = function () {
+                app._testRes_.local = true;
+                return Promise.resolve([]);
+            };
+
+            var options = {
+                instructor: '徐世中'
+            };
+
+            app.searchForCourses(options).nodeify(function (err, courses) {
+                assert.equal(true, app._testRes_.online);
+                assert.equal(true, app._testRes_.local);
+                done();
+            });
+        });
+    });
+
+    xdescribe('#searchForPeople()', function () {
         beforeEach(function () {
             app._testRes_ = {
                 online: false,

@@ -33,14 +33,22 @@ UrlUtil.getAppSearchCoursesMeta = function (user, options) {
     }
 };
 
+UrlUtil.getAppSearchPeoplePreMeta = function (user) {
+    return {
+        url: 'http://portal.uestc.edu.cn/pnull.portal?action=globalGroupsTree&.ia=false&.pmn=view&.pen=personnelGroupmanager&groupId&identity=undefined&authorize=undefined',
+        jar: user._jar_
+    }
+};
+
 UrlUtil.getAppSearchPeopleMeta = function (user, term, limit) {
     return {
-        url: 'http://portal.uestc.edu.cn/pnull.portal?action=fetchUsers&.ia=false&.f=f20889&.pmn=view&.pen=personnelGroupmanager',
+        url: 'http://portal.uestc.edu.cn/pnull.portal?action=fetchUsers&.ia=false&.pmn=view&.pen=personnelGroupmanager',
         form: {
-            'start': 0,
             'limit': limit,
-            'oper_type': 'normal_user'
-        }
+            'oper_type': 'normal_user',
+            'term': term
+        },
+        jar: user._jar_
     };
 };
 

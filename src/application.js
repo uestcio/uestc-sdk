@@ -153,7 +153,7 @@ Application.prototype.__searchForPeopleOffline__ = function (term, limit) {
     return Promise.resolve(people);
 };
 
-Application.prototype.__searchForPeopleOnline__ = function (options) {
+Application.prototype.__searchForPeopleOnline__ = function (term, limit) {
     var self = this;
     var preMeta = UrlUtil.getAppSearchPeoplePreMeta(this._current_);
     var meta = UrlUtil.getAppSearchPeopleMeta(this._current_, term, limit);
