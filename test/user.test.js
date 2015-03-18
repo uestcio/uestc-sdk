@@ -1,25 +1,44 @@
 var assert = require('assert');
 var _ = require('lodash');
 var User = require('../src/user');
+var UrlUtil = require('../src/urlutil');
 
 describe('User ', function () {
-    var user, util;
+    var user;
 
     beforeEach(function () {
-        user = new User('_number_', '_password_');
-        util = {
-            url: 'someUrl',
-            form: {0: 1},
-            wait: false
-        };
+        user = new User('2012019050020', '811073');
     });
 
     describe('#.ctor()', function () {
         it('should create the right object', function () {
-            assert.equal('_number_', user._number_);
-            assert.equal('_password_', user._password_);
+            assert.equal('2012019050020', user._number_);
+            assert.equal('811073', user._password_);
             assert.equal(User._status_.idle, user._status_);
             assert.equal(1, _.keys(user._jar_).length);
+        });
+    });
+
+    describe('#__ensureLogin__()', function () {
+
+        beforeEach(function () {
+            user.__reset__();
+        });
+
+        it('should send ensure login when idle', function (done) {
+            user.__ensureLogin__(UrlUtil.getEnsureLoginMeta(user)).nodeify(function () {
+                assert.equal(User._status_.loginSuccess, user._status_);
+                done();
+            })
+        });
+
+        it('should send ensure login when login success', function (done) {
+            user.__login__(UrlUtil.getUserLoginMeta('2012019050020', '811073')).nodeify(function () {
+                user.__ensureLogin__(UrlUtil.getEnsureLoginMeta(user)).nodeify(function () {
+                    assert.equal(User._status_.loginSuccess, user._status_);
+                    done();
+                })
+            })
         });
     });
 
@@ -65,5 +84,4 @@ describe('User ', function () {
             });
         });
     });
-
 });

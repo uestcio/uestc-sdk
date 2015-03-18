@@ -44,6 +44,13 @@ UrlUtil.getApplicationSearchPersonMeta = function (user, term, limit) {
     };
 };
 
+UrlUtil.getEnsureLoginMeta = function (user) {
+    return {
+        url: 'http://portal.uestc.edu.cn/login.portal',
+        jar: user._jar_
+    }
+};
+
 UrlUtil.getUserLoginMeta = function (number, password) {
     return {
         url: 'https://uis.uestc.edu.cn/amserver/UI/Login',
