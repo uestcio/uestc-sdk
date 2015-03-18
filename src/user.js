@@ -5,6 +5,7 @@ var Promise = require('promise');
 
 var Carrier = require('./carrier');
 var Course = require('./course');
+var Enrollment = require('./enrollment');
 var Parser = require('./parser');
 var UrlUtil = require('./urlutil');
 var StdDetail = require('./stddetail');
@@ -144,6 +145,7 @@ User.prototype.__getSemesterCourse__ = function (semester) {
 
 User.prototype.__getSemesterScores__ = function (semester) {
     var self = this;
+    var meta = UrlUtil.getUserSemesterScoresMeta(self, semester);
     return self.__ensureLogin__().then(function () {
         return Carrier.get(meta).then(function (res) {
             return Parser.get$(res.body);
@@ -154,14 +156,12 @@ User.prototype.__getSemesterScores__ = function (semester) {
                 var course = self._courses_[id] || new Course(id);
                 course.__setField__('title', $(line.children[3]).text());
                 course.__setField__('type', $(line.children[4]).text());
-                course.__setField__('credit', $(line.children[5]).text());
-                course.__setField__('department', $(line.children[4]).text());
-                course.__setField__('instructor', _.trim($(line.children[5]).text()));
+                course.__setField__('credit', +$(line.children[5]).text());
                 course.__setField__('grade', $(line.children[7]).text());
                 if (!self._courses_[id]) {
                     self._courses_[id] = course;
                 }
-                var enrollment = course.enrollment || new Enrollment(course, user);
+                var enrollment = course.enrollment || new Enrollment(course, self);
                 enrollment.__setField__('semester', $(line.children[0]).text());
                 enrollment.__setField__('generalScore', _.trim($(line.children[6]).text()));
                 enrollment.__setField__('finallScore', _.trim($(line.children[8]).text()));

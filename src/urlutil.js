@@ -88,4 +88,9 @@ UrlUtil.getUserLoginMeta = function (number, password) {
     };
 };
 
-
+UrlUtil.getUserSemesterScoresMeta = function (user, semester) {
+    return {
+        url: 'http://eams.uestc.edu.cn/eams/teach/grade/course/person!search.action?semesterId=' + semester,
+        jar: user._jar_
+    }
+};

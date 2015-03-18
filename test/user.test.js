@@ -68,6 +68,15 @@ describe('User ', function () {
         });
     });
 
+    describe('#__getSemesterScores__()', function () {
+        it('should get the semester scores', function (done) {
+            user.__getSemesterScores__(43).nodeify(function (err, courses) {
+                assert.equal(12, courses.length);
+                done();
+            });
+        });
+    });
+
     describe('#__login__()', function () {
         var url, form;
 
