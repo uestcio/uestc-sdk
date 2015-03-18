@@ -3,11 +3,11 @@
 
 // 构造函数
 
-function Person(id) {
+function StdDetail(id) {
     this.id = id;
 }
 
-module.exports = Person;
+module.exports = StdDetail;
 
 
 // 静态字段
@@ -21,8 +21,8 @@ module.exports = Person;
 
 // 非公开方法
 
-Person.prototype.__setField__ = function (field, val) {
-    if(val == null && val == undefined && val == '') {
+StdDetail.prototype.__setField__ = function (field, val) {
+    if(val == null || val == undefined || val == '') {
         return;
     }
     if(field == 'id') {

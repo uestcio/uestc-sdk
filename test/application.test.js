@@ -4,6 +4,7 @@ var _ = require('lodash');
 
 var Course = require('../src/course');
 var Person = require('../src/person');
+var User = require('../src/User');
 var uestc = require('../src/uestc');
 
 
@@ -105,7 +106,7 @@ describe('Application ', function () {
         it('should get the people', function (done) {
             var term = '徐世中';
             app.__broke__('2012019050020', '811073').nodeify(function () {
-                app.searchForPeople(term, 10).nodeify(function (err, people) {
+                app.__searchForPeopleOnline__(term, 10).nodeify(function (err, people) {
                     assert.equal('徐世中', people[0].name);
                     done();
                 });
@@ -121,8 +122,10 @@ describe('Application ', function () {
         });
 
         it('should generate the right user when wait', function (done) {
-            var user = app.identify('2012019050020', '811073', true).nodeify(function (err, backUser) {
+            app.identify('2012019050020', '811073', true).nodeify(function (err, backUser) {
                 assert.equal('2012019050020', backUser._number_);
+                assert.equal(User._status_.loginSuccess, backUser._status_);
+                assert.equal(true, !!backUser._jar_._jar);
                 done();
             });
         });

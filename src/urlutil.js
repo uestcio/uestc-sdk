@@ -52,9 +52,23 @@ UrlUtil.getAppSearchPeopleMeta = function (user, term, limit) {
     };
 };
 
+UrlUtil.getEamsMeta = function (user) {
+    return {
+        url: 'http://eams.uestc.edu.cn/eams/home.action',
+        jar: user._jar_
+    }
+};
+
 UrlUtil.getEnsureLoginMeta = function (user) {
     return {
         url: 'http://portal.uestc.edu.cn/login.portal',
+        jar: user._jar_
+    }
+};
+
+UrlUtil.getUserDetailMeta = function (user) {
+    return {
+        url: 'http://eams.uestc.edu.cn/eams/stdDetail.action',
         jar: user._jar_
     }
 };

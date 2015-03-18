@@ -30,3 +30,9 @@ Parser.get$ = function (html) {
         });
     })
 };
+
+Parser.getSemester = function (grade, semester, user) {
+    if(grade < 10) {
+        grade += user.getGrade() - 1;
+    }
+};

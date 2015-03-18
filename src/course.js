@@ -33,7 +33,11 @@ Course.types = {
 // 非公开方法
 
 Course.prototype.__setField__ = function (field, val) {
-    if(val != null && val != undefined && val != '') {
-        this[field] = val;
+    if(val == null || val == undefined || val == '') {
+        return;
     }
+    if(field == 'id') {
+        return;
+    }
+    this[field] = val;
 };

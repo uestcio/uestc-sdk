@@ -2,6 +2,7 @@ var assert = require('assert');
 var _ = require('lodash');
 var User = require('../src/user');
 var UrlUtil = require('../src/urlutil');
+var StdDetail = require('../src/stddetail');
 
 describe('User ', function () {
     var user;
@@ -39,6 +40,31 @@ describe('User ', function () {
                     done();
                 })
             })
+        });
+    });
+
+    describe('#__getDetailOffline__()', function () {
+        var detail;
+
+        beforeEach(function () {
+            detail = new StdDetail('2012019050020');
+            user._detail_ = detail;
+        });
+
+        it('should be able to get local meets options', function (done) {
+            user.__getDetailOffline__().nodeify(function (err, detail) {
+                assert.equal('2012019050020', detail.id);
+                done();
+            });
+        });
+    });
+
+    describe('#__getDetailOnline__()', function () {
+        it('should get the detail', function (done) {
+            user.__getDetailOnline__().nodeify(function (err, detail) {
+                assert.equal('刘建翔', detail.name);
+                done();
+            });
         });
     });
 

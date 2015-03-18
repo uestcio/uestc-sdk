@@ -7,6 +7,7 @@ var Carrier = require('./carrier');
 var Course = require('./course');
 var Parser = require('./parser');
 var UrlUtil = require('./urlutil');
+var StdDetail = require('./stddetail');
 
 // 构造方法
 
@@ -15,8 +16,8 @@ function User(number, password) {
     this._password_ = password;
     this._status_ = User._status_.idle;
     this._jar_ = Carrier.jar();
-
     this._courses_ = {};
+    this._detail_ = null;
     this._carrier_ = Carrier;
 }
 
@@ -40,12 +41,24 @@ User._status_ = {
 User.prototype.getCourses = function (grade, semester) {
     var self = this;
     var semesterId = Parser.getSemester(grade, semester);
-    if(semesterId == 0) {
-        return self.__getAllCourse__().then(self.__getAllScores__);
+    if (semesterId == 0) {
+        return self.__getAllCourses__().then(
+            function () {
+                return self.__getAllScores__();
+            });
     }
     else {
-        return self.__getSemesterCourse__().then(self.__getSemesterScores__);
+        return self.__getSemesterCourse__(semesterId).then(function () {
+            return self.__getSemesterScores__(semesterId);
+        });
     }
+};
+
+User.prototype.getDetail = function () {
+    var self = this;
+    return self.__getDetailOnline__().then(null, function (err) {
+        return self.__getDetailOffline__();
+    });
 };
 
 
@@ -62,11 +75,74 @@ User.prototype.__ensureLogin__ = function () {
             return res;
         }
     }).then(null, function (err) {
-        return self.__login__(UrlUtil.getUserLoginMeta(self._number_, self._password_));
+        var meta = UrlUtil.getUserLoginMeta(self._number_, self._password_);
+        meta.jar = self._jar_;
+        return self.__login__(meta);
     });
 };
 
-User.prototype.__getSemesterScores__ = function (meta) {
+User.prototype.__getAllCourses__ = function () {
+
+};
+
+User.prototype.__getAllScores__ = function () {
+
+};
+
+User.prototype.__getDetailOffline__ = function () {
+    var self = this;
+    if(self._detail_) {
+        return Promise.resolve(self._detail_);
+    }
+    else {
+        return Promise.reject(new Error(''))
+    }
+};
+
+User.prototype.__getDetailOnline__ = function () {
+    var self = this;
+    var meta = UrlUtil.getUserDetailMeta(self);
+    return self.__ensureLogin__().then(function () {
+        return Carrier.get(meta).then(function (res) {
+            return Parser.get$(res.body);
+        }).then(function ($) {
+            var lines = $('#studentInfoTb > tbody > tr');
+            var id = $(lines[1].children[1]).text();
+            var detail = self._detail_ || new StdDetail(id);
+            detail.__setField__('name', $(lines[1].children[3]).text());
+            detail.__setField__('eName', $(lines[2].children[1]).text());
+            detail.__setField__('sex', $(lines[2].children[3]).text());
+            detail.__setField__('grade', $(lines[3].children[1]).text());
+            detail.__setField__('eduLenth', $(lines[3].children[3]).text());
+            detail.__setField__('project', $(lines[4].children[1]).text());
+            detail.__setField__('qualification', $(lines[4].children[3]).text());
+            detail.__setField__('type', $(lines[5].children[1]).text());
+            detail.__setField__('school', $(lines[5].children[3]).text());
+            detail.__setField__('major', $(lines[6].children[1]).text());
+            detail.__setField__('direction', $(lines[6].children[3]).text());
+            detail.__setField__('fromDate', $(lines[8].children[1]).text());
+            detail.__setField__('toDate', $(lines[8].children[3]).text());
+            detail.__setField__('adminSchl', $(lines[9].children[1]).text());
+            detail.__setField__('stuForm', $(lines[9].children[3]).text());
+            detail.__setField__('EduForm', $(lines[10].children[1]).text());
+            detail.__setField__('status', $(lines[10].children[3]).text());
+            detail.__setField__('inEdu', $(lines[11].children[1]).text());
+            detail.__setField__('inSchl', $(lines[11].children[3]).text());
+            detail.__setField__('adminClass', $(lines[12].children[1]).text());
+            detail.__setField__('campus', $(lines[12].children[3]).text());
+            if (!self._detail_) {
+                self._detail_ = detail;
+            }
+            return detail;
+        });
+    });
+};
+
+User.prototype.__getSemesterCourse__ = function (semester) {
+
+};
+
+User.prototype.__getSemesterScores__ = function (semester) {
     var self = this;
     return self.__ensureLogin__().then(function () {
         return Carrier.get(meta).then(function (res) {
@@ -109,7 +185,7 @@ User.prototype.__login__ = function (meta) {
         }
         else {
             self._status_ = User._status_.loginSuccess;
-            return res;
+            return self;
         }
     });
 };
