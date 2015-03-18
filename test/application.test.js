@@ -18,7 +18,7 @@ describe('Application ', function () {
             assert.equal(0, _.keys(app._courses_).length);
             assert.equal(0, _.keys(app.notices).length);
             assert.equal(null, app.current);
-            assert.equal(false, !app._request_);
+            assert.equal(false, !app._carrier_);
         });
     });
 

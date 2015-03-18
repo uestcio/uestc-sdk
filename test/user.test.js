@@ -9,7 +9,7 @@ describe('User ', function () {
         user = new User('_number_', '_password_');
         util = {
             url: 'someUrl',
-            data: {0: 1},
+            form: {0: 1},
             wait: false
         };
     });
@@ -24,11 +24,11 @@ describe('User ', function () {
     });
 
     describe('#__login__()', function () {
-        var url, data;
+        var url, form;
 
         beforeEach(function () {
             url = 'https://uis.uestc.edu.cn/amserver/UI/Login';
-            data = {
+            form = {
                 'IDToken0': '',
                 'IDToken1': '2012019050020',
                 'IDToken2': '',
@@ -40,26 +40,26 @@ describe('User ', function () {
         });
 
         it('should send the post request and login success', function (done) {
-            data['IDToken2'] = '811073';
+            form['IDToken2'] = '811073';
             var meta = {
                 url: url,
                 jar: user._jar_,
-                data: data
+                form: form
             };
-            user.__login__(meta).nodeify(function (err, httpResponse) {
-                assert.equal(302, httpResponse.statusCode);
+            user.__login__(meta).nodeify(function (err, res) {
+                assert.equal(302, res.httpResponse.statusCode);
                 done();
             });
        });
 
         it('should send the post request and login fail', function (done) {
-            data['IDToken2'] = '811074';
+            form['IDToken2'] = '811074';
             var meta = {
                 url: url,
                 jar: user._jar_,
-                data: data
+                form: form
             };
-            user.__login__(meta).nodeify(function (err, httpResponse) {
+            user.__login__(meta).nodeify(function (err, res) {
                 assert.equal(true, !!err);
                 done();
             });

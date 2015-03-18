@@ -24,7 +24,7 @@ UrlUtil.getApplicationSearchCoursePrepareMeta = function (user) {
 UrlUtil.getApplicationSearchCourseMeta = function (user, options) {
     return {
         url: 'http://eams.uestc.edu.cn/eams/publicSearch!search.action',
-        data: {
+        form: {
             'lesson.course.name': options.name || '',
             'teacher.name': options.instructor || '',
             'limitGroup.grade': options.grade || ''
@@ -36,7 +36,7 @@ UrlUtil.getApplicationSearchCourseMeta = function (user, options) {
 UrlUtil.getApplicationSearchPersonMeta = function (user, term, limit) {
     return {
         url: 'http://portal.uestc.edu.cn/pnull.portal?action=fetchUsers&.ia=false&.f=f20889&.pmn=view&.pen=personnelGroupmanager',
-        data: {
+        form: {
             'start': 0,
             'limit': limit,
             'oper_type': 'normal_user'
@@ -47,7 +47,7 @@ UrlUtil.getApplicationSearchPersonMeta = function (user, term, limit) {
 UrlUtil.getUserLoginMeta = function (number, password) {
     return {
         url: 'https://uis.uestc.edu.cn/amserver/UI/Login',
-        data: {
+        form: {
             'IDToken0': '',
             'IDToken1': number,
             'IDToken2': password,

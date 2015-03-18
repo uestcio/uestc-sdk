@@ -1,9 +1,9 @@
 // 外部依赖
 
 var Promise = require('promise');
-var request = require('request');
 var _ = require('lodash');
 
+var Carrier = require('./carrier');
 var User = require('./user');
 var UrlUtil = require('./urlutil');
 var Parser = require('./parser');
@@ -18,7 +18,7 @@ function Application() {
     this.notices = {};
     this.current = null;
 
-    this._request_ = request;
+    this._carrier_ = Carrier;
 }
 
 module.exports = Application;
@@ -47,7 +47,7 @@ Application.prototype.identify = function (number, password, wait) {
         });
     }
 
-    return wait? promise: user;
+    return wait ? promise : user;
 };
 
 Application.prototype.reset = function () {
@@ -59,22 +59,10 @@ Application.prototype.searchForCourses = function (options) {
     var self = this;
     var getMeta = UrlUtil.getApplicationSearchCoursePrepareMeta(this.current);
     var postMeta = UrlUtil.getApplicationSearchCourseMeta(this.current, options);
-    return new Promise(function (fulfill, reject) {
-        request.get({url: getMeta.url, jar: getMeta.jar}, function (err, httpResponse, body) {
-            request.post({
-                url: postMeta.url,
-                jar: postMeta.jar,
-                form: postMeta.data
-            }, function (err, httpResponse, body) {
-                if (err) {
-                    reject(err);
-                }
-                else {
-                    fulfill(body);
-                }
-            });
-        });
-    }).then(Parser.get$).then(function ($) {
+    return Carrier.get(getMeta).then(function (getRes) {
+        return Carrier.post(postMeta).then(function (postRes) {
+            return Parser.get$(postRes.body);
+        }).then(function ($) {
             var lines = $('table.gridtable > tbody > tr');
             return _.map(lines, function (line) {
                 var id = $(line.children[1]).text();
@@ -84,7 +72,7 @@ Application.prototype.searchForCourses = function (options) {
                 course.__setField__('department', $(line.children[4]).text());
                 course.__setField__('instructor', _.trim($(line.children[5]).text()));
                 course.__setField__('grade', $(line.children[7]).text());
-                if(!self._courses_[id]) {
+                if (!self._courses_[id]) {
                     self._courses_[id] = course;
                 }
                 return course;
@@ -92,6 +80,7 @@ Application.prototype.searchForCourses = function (options) {
         }).then(null, function (err) {
             return self.__searchForCoursesLocal__(options);
         });
+    });
 };
 
 //Application.prototype.searchForPeople = function (term, limit) {
@@ -119,14 +108,14 @@ Application.prototype.__searchForCoursesLocal__ = function (options) {
     _.forEach(this._courses_, function (course) {
         var flag = true;
         _.forEach(options, function (val, key) {
-            if(!val){
+            if (!val) {
                 return;
             }
-            if(course[key].indexOf(val) < 0) {
+            if (course[key].indexOf(val) < 0) {
                 flag = false;
             }
         });
-        if(flag) {
+        if (flag) {
             courses.push(course);
         }
     });
