@@ -4,7 +4,7 @@ var _ = require('lodash');
 
 var Course = require('../src/course');
 var Person = require('../src/person');
-var User = require('../src/User');
+var User = require('../src/user');
 var uestc = require('../src/uestc');
 
 

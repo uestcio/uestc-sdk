@@ -22,7 +22,7 @@ app.searchForPeople('章萌芊').then(function (people) {
   console.log('全电子科大叫章萌芊的共有' + people.length + '人，分别是：');
   for(var i in people) {
     person = people[i];
-    console.log('身份：' + person.metier + '，学院：' + person.department + '，学号：' + person.number);
+    console.log('身份：' + person.metier + '，学院：' + person.deptName + '，学号：' + person.id);
   }
 });
 
@@ -64,6 +64,7 @@ $ npm install uestc --save-dev
   * 用户模拟登陆
   * 学校的课程信息条件查询
   * 用户课程成绩信息获取
+  * 用户学籍信息获取
   * 学校的人员的信息查询
   * 用户考试信息获取（待实现）
   * 教务处公告获取（待实现）
