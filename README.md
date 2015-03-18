@@ -2,7 +2,7 @@
 
 # UESTC SDK
 
-  简洁、可靠且功能强大的 [UESTC](http://portal.uestc.edu.cn) 集成 API 工具。
+  简洁、可靠且功能强大的 [UESTC](http://portal.uestc.edu.cn) 集成 SDK 平台。
 
   （项目目前还在开发中，部分功能尚未完成）
 
