@@ -15,4 +15,21 @@ describe('Parser ', function () {
         });
     });
 
+    describe('#getSemester()', function () {
+        it('should be able to get semesterId', function () {
+            var id0 = Parser.getSemester(2012, 1, {
+                getGrade: function () {
+                    return 2012;
+                }
+            });
+            var id1 = Parser.getSemester(1, 1, {
+                getGrade: function () {
+                    return 2012;
+                }
+            });
+            assert.equal(13, id0);
+            assert.equal(13, id1);
+        });
+    });
+
 });
