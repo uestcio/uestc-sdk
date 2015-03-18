@@ -4,7 +4,7 @@
 
   简洁、可靠且功能强大的 [UESTC](http://portal.uestc.edu.cn) 集成 API 工具。
 
-  （项目目前还在开发中，所有功能尚未完成）
+  （项目目前还在开发中，部分功能尚未完成）
 
   [![NPM Version][npm-image]][npm-url]
   [![NPM Downloads][downloads-image]][downloads-url]
@@ -61,13 +61,14 @@ $ npm install uestc --save-dev
 ## Features / 特性
 
   * 用户模拟登陆
-  * 支持学校的开课信息查询
+  * 学校的课程信息条件查询
   * 课程成绩信息获取及订阅通知
   * 考试信息获取及订阅通知（待实现）
   * 教务处公告获取及订阅通知（待实现）
   * 课程表信息获取（待实现）
   * 数据信息缓存，支持离线访问
   * 学校的人员的信息查询（待实现）
+  * 根据配置自动完成统一评教（待实现）
   * 一卡通消费信息查询及订阅通知（待实现）
   * 选课系统退补选时自动实时抢课（待实现）
 
@@ -105,11 +106,20 @@ $ npm install uestc --save-dev
 
 ## Tests / 测试
 
-  如果需要运行测试，首先需要安装相应的依赖项，然后运行 `npm test`：
+  如果需要运行测试，首先需要安装相应的依赖项，然后运行测试命令：
+
+  单元测试：
 
 ```bash
 $ npm install
 $ npm test
+```
+
+  代码覆盖率测试：
+
+```bash
+$ npm install
+$ npm run test-ci
 ```
 
 ## People / 开发人员
