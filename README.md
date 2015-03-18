@@ -7,6 +7,7 @@
   （项目目前还在开发中，部分功能尚未完成）
 
   [![NPM Version][npm-image]][npm-url]
+  [![Node Version][node-version]][npm-url]
   [![NPM Downloads][downloads-image]][downloads-url]
   [![Linux Build][travis-image]][travis-url]
   [![Windows Build][appveyor-image]][appveyor-url]
@@ -134,6 +135,7 @@ $ npm run test-ci
 
 [npm-image]: https://img.shields.io/npm/v/uestc.svg
 [npm-url]: https://npmjs.org/package/uestc
+[node-version]: https://img.shields.io/node/v/uestc.svg
 [downloads-image]: https://img.shields.io/npm/dm/uestc.svg
 [downloads-url]: https://npmjs.org/package/uestc
 [appveyor-image]: https://img.shields.io/appveyor/ci/trotyl/UESTC-SDK-Npm/master.svg?label=windows
