@@ -13,9 +13,9 @@ describe('UrlUtil ', function () {
         });
     });
 
-    describe('#getApplicationSearchPersonMeta()', function () {
+    describe('#getAppSearchPeopleMeta()', function () {
         it('should generate the meta', function () {
-            var meta = UrlUtil.getApplicationSearchPersonMeta({jar: 1}, '2', 3);
+            var meta = UrlUtil.getAppSearchPeopleMeta({jar: 1}, '2', 3);
             assert.equal(true, !!meta);
         });
     });

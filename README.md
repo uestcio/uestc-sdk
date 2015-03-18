@@ -17,7 +17,7 @@ var sdk = require('uestc');
 var app = sdk();
 var user = app.login('2012019050031', '12345678');
 
-app.searchForPerson('章萌芊').then(function (people) {
+app.searchForPeople('章萌芊').then(function (people) {
   console.log('全电子科大叫章萌芊的共有' + people.length + '人，分别是：');
   for(var i in people) {
     person = people[i];

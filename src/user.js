@@ -38,8 +38,14 @@ User._status_ = {
 // 实例方法
 
 User.prototype.getCourses = function (grade, semester) {
-
-
+    var self = this;
+    var semesterId = Parser.getSemester(grade, semester);
+    if(semesterId == 0) {
+        return self.__getAllCourse__().then(self.__getAllScores__);
+    }
+    else {
+        return self.__getSemesterCourse__().then(self.__getSemesterScores__);
+    }
 };
 
 

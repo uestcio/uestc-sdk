@@ -58,14 +58,18 @@ Application.prototype.reset = function () {
 Application.prototype.searchForCourses = function (options) {
     var self = this;
     return self.__searchForCoursesOnline__(options).then(null, function (err) {
-        return self.__searchForCoursesLocal__(options);
+        return self.__searchForCoursesOffline__(options);
     });
 };
 
-//Application.prototype.searchForPeople = function (term, limit) {
-//    limit = limit || 10;
-//    var meta = UrlUtil.getApplicationSearchPersonMeta(this.current, term, limit);
-//};
+Application.prototype.searchForPeople = function (term, limit) {
+    if(!limit || limit <= 0) {
+        limit = 10;
+    }
+    return self.__searchForPeopleOnline__(term, limit).then(null, function (err) {
+        return self.__searchForPeopleOffline__(term, limit);
+    });
+};
 
 
 // 私用方法
@@ -82,7 +86,7 @@ Application.prototype.__broke__ = function (number, password) {
     });
 };
 
-Application.prototype.__searchForCoursesLocal__ = function (options) {
+Application.prototype.__searchForCoursesOffline__ = function (options) {
     var courses = [];
     _.forEach(this._courses_, function (course) {
         var flag = true;
@@ -103,8 +107,8 @@ Application.prototype.__searchForCoursesLocal__ = function (options) {
 
 Application.prototype.__searchForCoursesOnline__ = function (options) {
     var self = this;
-    var getMeta = UrlUtil.getApplicationSearchCoursePrepareMeta(this.current);
-    var postMeta = UrlUtil.getApplicationSearchCourseMeta(this.current, options);
+    var getMeta = UrlUtil.getAppSearchCoursesPreMeta(this.current);
+    var postMeta = UrlUtil.getAppSearchCoursesMeta(this.current, options);
     return self.current.__ensureLogin__().then(function () {
         return Carrier.get(getMeta).then(function (getRes) {
             return Carrier.post(postMeta).then(function (postRes) {

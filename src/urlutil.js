@@ -14,14 +14,14 @@ module.exports = UrlUtil;
 
 // 静态方法
 
-UrlUtil.getApplicationSearchCoursePrepareMeta = function (user) {
+UrlUtil.getAppSearchCoursesPreMeta = function (user) {
     return {
         url: 'http://eams.uestc.edu.cn/eams/publicSearch.action',
         jar: user._jar_
     }
 };
 
-UrlUtil.getApplicationSearchCourseMeta = function (user, options) {
+UrlUtil.getAppSearchCoursesMeta = function (user, options) {
     return {
         url: 'http://eams.uestc.edu.cn/eams/publicSearch!search.action',
         form: {
@@ -33,7 +33,7 @@ UrlUtil.getApplicationSearchCourseMeta = function (user, options) {
     }
 };
 
-UrlUtil.getApplicationSearchPersonMeta = function (user, term, limit) {
+UrlUtil.getAppSearchPeopleMeta = function (user, term, limit) {
     return {
         url: 'http://portal.uestc.edu.cn/pnull.portal?action=fetchUsers&.ia=false&.f=f20889&.pmn=view&.pen=personnelGroupmanager',
         form: {

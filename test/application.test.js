@@ -33,7 +33,7 @@ describe('Application ', function () {
         });
     });
 
-    describe('#__searchForCoursesLocal__()', function () {
+    describe('#__searchForCoursesOffline__()', function () {
         var course0, course1, course2;
 
         beforeEach(function () {
@@ -50,7 +50,7 @@ describe('Application ', function () {
         });
 
         it('should be able to get local meets options', function (done) {
-            app.__searchForCoursesLocal__({title: 'B', instructor: 'B'})
+            app.__searchForCoursesOffline__({title: 'B', instructor: 'B'})
                 .nodeify(function (err, courses) {
                     assert.equal(1, courses.length);
                     assert.equal(course1, courses[0]);
@@ -108,7 +108,7 @@ describe('Application ', function () {
                 return Promise.resolve([]);
             };
 
-            app.__searchForCoursesLocal__ = function () {
+            app.__searchForCoursesOffline__ = function () {
                 app._testRes_.local = true;
                 return Promise.resolve([]);
             };
@@ -130,7 +130,7 @@ describe('Application ', function () {
                 return Promise.reject(new Error(''));
             };
 
-            app.__searchForCoursesLocal__ = function () {
+            app.__searchForCoursesOffline__ = function () {
                 app._testRes_.local = true;
                 return Promise.resolve([]);
             };
