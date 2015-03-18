@@ -43,6 +43,15 @@ describe('User ', function () {
         });
     });
 
+    describe('#__getAllScores__()', function () {
+        it('should get the all scores', function (done) {
+            user.__getAllScores__().nodeify(function (err, courses) {
+                assert.equal(52, courses.length);
+                done();
+            });
+        });
+    });
+
     describe('#__getDetailOffline__()', function () {
         var detail;
 
@@ -71,7 +80,6 @@ describe('User ', function () {
     describe('#__getSemesterScores__()', function () {
         it('should get the semester scores', function (done) {
             user.__getSemesterScores__(43).nodeify(function (err, courses) {
-                console.log(courses);
                 assert.equal(12, courses.length);
                 done();
             });
