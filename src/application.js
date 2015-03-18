@@ -92,7 +92,7 @@ Application.prototype.__searchForCoursesOffline__ = function (options) {
     _.forEach(this._courses_, function (course) {
         var flag = true;
         _.forEach(options, function (val, key) {
-            if (!val) {
+            if (!val || _.startsWith(key, '_')) {
                 return;
             }
             if (course[key].indexOf(val) < 0) {
@@ -142,7 +142,7 @@ Application.prototype.__searchForPeopleOffline__ = function (term, limit) {
             if (!val) {
                 return;
             }
-            if (people.length <= limit && val.indexOf(term) >= 0) {
+            if (people.length <= limit && !_.startsWith(key, '_') && val.indexOf(term) >= 0) {
                 flag = true;
             }
         });

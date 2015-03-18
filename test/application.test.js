@@ -3,6 +3,7 @@ var Promise = require('promise');
 var _ = require('lodash');
 
 var Course = require('../src/course');
+var Person = require('../src/person');
 var uestc = require('../src/uestc');
 
 
@@ -50,12 +51,11 @@ describe('Application ', function () {
         });
 
         it('should be able to get local meets options', function (done) {
-            app.__searchForCoursesOffline__({title: 'B', instructor: 'B'})
-                .nodeify(function (err, courses) {
-                    assert.equal(1, courses.length);
-                    assert.equal(course1, courses[0]);
-                    done();
-                });
+            app.__searchForCoursesOffline__({title: 'B', instructor: 'B'}).nodeify(function (err, courses) {
+                assert.equal(1, courses.length);
+                assert.equal(course1, courses[0]);
+                done();
+            });
         });
     });
 
@@ -69,6 +69,34 @@ describe('Application ', function () {
                     assert.equal('徐世中', courses[0].instructor);
                     done();
                 });
+            });
+        });
+    });
+
+    describe('#__searchForPeopleOffline__()', function () {
+        var person0, person1, person2, person3;
+
+        beforeEach(function () {
+            person0 = new Person('A');
+            person0.name = 'AA';
+            person0.deptName = 'AAA';
+            person1 = new Person('B');
+            person1.title = 'BA';
+            person1.deptName = 'BBB';
+            person2 = new Person('C');
+            person2.title = 'CC';
+            person2.deptName = 'CCA';
+            person3 = new Person('D');
+            person3.title = 'DD';
+            person3.deptName = 'DDD';
+            app._people_ = {'A': person0, 'B': person1, 'C': person2, 'D': person3};
+        });
+
+        it('should be able to get local meets options', function (done) {
+            app.__searchForPeopleOffline__('A', 10).nodeify(function (err, people) {
+                assert.equal(3, people.length);
+                assert.equal(null, _.findWhere(people, {id: 'D'}));
+                done();
             });
         });
     });
@@ -159,7 +187,7 @@ describe('Application ', function () {
         });
     });
 
-    xdescribe('#searchForPeople()', function () {
+    describe('#searchForPeople()', function () {
         beforeEach(function () {
             app._testRes_ = {
                 online: false,
@@ -167,44 +195,40 @@ describe('Application ', function () {
             };
         });
 
-        it('should get the courses online when could connect', function (done) {
-            app.__searchForCoursesOnline__ = function () {
+        it('should get the people online when could connect', function (done) {
+            app.__searchForPeopleOnline__ = function () {
                 app._testRes_.online = true;
                 return Promise.resolve([]);
             };
 
-            app.__searchForCoursesOffline__ = function () {
+            app.__searchForPeopleOffline__ = function () {
                 app._testRes_.local = true;
                 return Promise.resolve([]);
             };
 
-            var options = {
-                instructor: '徐世中'
-            };
+            var term = '徐世中';
 
-            app.searchForCourses(options).nodeify(function (err, courses) {
+            app.searchForPeople(term, 10).nodeify(function (err, people) {
                 assert.equal(true, app._testRes_.online);
                 assert.equal(false, app._testRes_.local);
                 done();
             });
         });
 
-        it('should get the courses local when could not connect', function (done) {
-            app.__searchForCoursesOnline__ = function () {
+        it('should get the people local when could not connect', function (done) {
+            app.__searchForPeopleOnline__ = function () {
                 app._testRes_.online = true;
                 return Promise.reject(new Error(''));
             };
 
-            app.__searchForCoursesOffline__ = function () {
+            app.__searchForPeopleOffline__ = function () {
                 app._testRes_.local = true;
                 return Promise.resolve([]);
             };
 
-            var options = {
-                instructor: '徐世中'
-            };
+            var term = '徐世中';
 
-            app.searchForCourses(options).nodeify(function (err, courses) {
+            app.searchForPeople(term, 10).nodeify(function (err, people) {
                 assert.equal(true, app._testRes_.online);
                 assert.equal(true, app._testRes_.local);
                 done();

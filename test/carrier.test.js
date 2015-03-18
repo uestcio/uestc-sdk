@@ -5,7 +5,7 @@ var Carrier = require('../src/carrier');
 
 describe('Carrier ', function () {
 
-    xdescribe('#get()', function () {
+    describe('#get()', function () {
         it('should call the promise#get()', function () {
         });
     });
@@ -16,7 +16,7 @@ describe('Carrier ', function () {
         });
     });
 
-    xdescribe('#post()', function () {
+    describe('#post()', function () {
         it('should call the promise#post()', function () {
         });
     });
