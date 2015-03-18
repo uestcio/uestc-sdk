@@ -47,7 +47,7 @@ describe('User ', function () {
                 form: form
             };
             user.__login__(meta).nodeify(function (err, res) {
-                assert.equal(302, res.httpResponse.statusCode);
+                assert.equal(false, !!err);
                 done();
             });
        });
