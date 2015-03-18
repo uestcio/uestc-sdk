@@ -45,8 +45,9 @@ User.prototype.getCourses = function (grade, semester) {
 
 // 非公开方法
 
-User.prototype.__ensureLogin__ = function (meta) {
+User.prototype.__ensureLogin__ = function () {
     var self = this;
+    var meta = UrlUtil.getEnsureLoginMeta(self);
     return Carrier.get(meta).then(function (res) {
         if (res.httpResponse.statusCode !== 302) {
             throw new Error('Authentication failed.');
@@ -61,7 +62,7 @@ User.prototype.__ensureLogin__ = function (meta) {
 
 User.prototype.__getSemesterScores__ = function (meta) {
     var self = this;
-    return self.__ensureLogin__(UrlUtil.getEnsureLoginMeta(self)).then(function () {
+    return self.__ensureLogin__().then(function () {
         return Carrier.get(meta).then(function (res) {
             return Parser.get$(res.body);
         }).then(function ($) {

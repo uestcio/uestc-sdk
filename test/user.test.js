@@ -26,7 +26,7 @@ describe('User ', function () {
         });
 
         it('should send ensure login when idle', function (done) {
-            user.__ensureLogin__(UrlUtil.getEnsureLoginMeta(user)).nodeify(function () {
+            user.__ensureLogin__().nodeify(function () {
                 assert.equal(User._status_.loginSuccess, user._status_);
                 done();
             })
@@ -34,7 +34,7 @@ describe('User ', function () {
 
         it('should send ensure login when login success', function (done) {
             user.__login__(UrlUtil.getUserLoginMeta('2012019050020', '811073')).nodeify(function () {
-                user.__ensureLogin__(UrlUtil.getEnsureLoginMeta(user)).nodeify(function () {
+                user.__ensureLogin__().nodeify(function () {
                     assert.equal(User._status_.loginSuccess, user._status_);
                     done();
                 })

@@ -105,23 +105,25 @@ Application.prototype.__searchForCoursesOnline__ = function (options) {
     var self = this;
     var getMeta = UrlUtil.getApplicationSearchCoursePrepareMeta(this.current);
     var postMeta = UrlUtil.getApplicationSearchCourseMeta(this.current, options);
-    return Carrier.get(getMeta).then(function (getRes) {
-        return Carrier.post(postMeta).then(function (postRes) {
-            return Parser.get$(postRes.body);
-        }).then(function ($) {
-            var lines = $('table.gridtable > tbody > tr');
-            return _.map(lines, function (line) {
-                var id = $(line.children[1]).text();
-                var course = self._courses_[id] || new Course(id);
-                course.__setField__('title', $(line.children[2]).text());
-                course.__setField__('type', $(line.children[3]).text());
-                course.__setField__('department', $(line.children[4]).text());
-                course.__setField__('instructor', _.trim($(line.children[5]).text()));
-                course.__setField__('grade', $(line.children[7]).text());
-                if (!self._courses_[id]) {
-                    self._courses_[id] = course;
-                }
-                return course;
+    return self.current.__ensureLogin__().then(function () {
+        return Carrier.get(getMeta).then(function (getRes) {
+            return Carrier.post(postMeta).then(function (postRes) {
+                return Parser.get$(postRes.body);
+            }).then(function ($) {
+                var lines = $('table.gridtable > tbody > tr');
+                return _.map(lines, function (line) {
+                    var id = $(line.children[1]).text();
+                    var course = self._courses_[id] || new Course(id);
+                    course.__setField__('title', $(line.children[2]).text());
+                    course.__setField__('type', $(line.children[3]).text());
+                    course.__setField__('department', $(line.children[4]).text());
+                    course.__setField__('instructor', _.trim($(line.children[5]).text()));
+                    course.__setField__('grade', $(line.children[7]).text());
+                    if (!self._courses_[id]) {
+                        self._courses_[id] = course;
+                    }
+                    return course;
+                });
             });
         });
     });
