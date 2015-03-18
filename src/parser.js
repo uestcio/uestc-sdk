@@ -47,3 +47,7 @@ Parser.getSemester = function (grade, semester, user) {
     };
     return map[grade][semester];
 };
+
+Parser.getTable = function (table) {
+
+};

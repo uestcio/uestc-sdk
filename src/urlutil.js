@@ -95,6 +95,28 @@ UrlUtil.getUserLoginMeta = function (number, password) {
     };
 };
 
+UrlUtil.getUserSemesterCoursesMeta = function (user, semester, ids) {
+    return {
+        url: 'http://eams.uestc.edu.cn/eams/courseTableForStd!courseTable.action',
+        form: {
+            'ignoreHead': 1,
+            'setting.kind': 'std',
+            'startWeek': 1,
+            'project.id': 1,
+            'semester.id': semester,
+            'ids': ids
+        },
+        jar: user._jar_
+    }
+};
+
+UrlUtil.getUserSemesterCoursesPreMeta = function (user) {
+    return {
+        url: 'http://eams.uestc.edu.cn/eams/courseTableForStd.action',
+        jar: user._jar_
+    }
+};
+
 UrlUtil.getUserSemesterScoresMeta = function (user, semester) {
     return {
         url: 'http://eams.uestc.edu.cn/eams/teach/grade/course/person!search.action?semesterId=' + semester,

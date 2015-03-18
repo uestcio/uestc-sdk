@@ -168,7 +168,40 @@ User.prototype.__getDetailOnline__ = function () {
 };
 
 User.prototype.__getSemesterCourse__ = function (semester) {
-
+    var self = this;
+    var getMeta = UrlUtil.getUserSemesterCoursesPreMeta(this._current_);
+    var postMeta;
+    return self._current_.__ensureLogin__().then(function () {
+        return Carrier.get(getMeta).then(function (getRes) {
+            var raw = getRes.body.match(/bg\.form\.addInput\(form,"ids","\d+"\);/);
+            var ids = raw.match(/\d+/);
+            postMeta = UrlUtil.getUserSemesterCoursesMeta(self._current_, semester, ids);
+            return Carrier.post(postMeta).then(function (postRes) {
+                var raws = postRes.body.match(/var table0[\S\s]*?table0\.marshalTable/);
+                raws = raws.replace('table0.marshalTable', '');
+                var courses = [];
+                var CourseTable = function (year, semester) {
+                    this.year = year;
+                    this.semester = semester;
+                    this.activities = [];
+                    _.times(12, function (n) {
+                        this.activities[n] = [];
+                    },this);
+                };
+                var TaskActivity = function (uk1, instructor, uk2, titleAndId, uk3, place, weeks) {
+                    this.uk1 = uk1;
+                    this.instructor = instructor;
+                    this.uk2 = uk2;
+                    this.titleAndId = titleAndId;
+                    this.uk3 = uk3;
+                    this.place = place;
+                    this.weeks = weeks;
+                };
+                eval(raws);
+                return Parser.getTable(CourseTable);
+            });
+        });
+    });
 };
 
 User.prototype.__getSemesterScores__ = function (semester) {
