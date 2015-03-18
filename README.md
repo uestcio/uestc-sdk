@@ -97,11 +97,16 @@ $ npm install uestc --save-dev
   但大都功能单一，且都为独立项目不利于重复利用。
 
   从而构想出将学校网站所有功能抽离成独立 SDK 的理念，对外提供友好的 API ，将其与项目的业务逻辑相分离，从而高效化项目开发过程，
-  也能够让项目本身更利于维护。
+  专心于业务逻辑本身，也能够让项目更利于维护和扩展。
 
   初版 SDK 仅进行了 NodeJS 版本的开发，后续根据需求及现实情况可能继续开发 Ruby、Python、Java、C# 版本，
   仍然会按照现有的文档设计接口（其他语言可能大多采用同步函数接口，JS 版采用异步函数接口主要基于语言本身的原因），
   如果有意愿共同开发其他语言版本的可以联系作者。
+
+  项目会随着官方接口的变更而（不一定及时的）更新，如果遇到了不正常运行的情况可以在 Issue 中提出或直接请求 Pull Request ，
+  如果有任何功能或其他方面的意见或建议也欢迎提出。
+
+  如果有对项目本身的实现，或项目架构以及测试方法感兴趣的同学，也欢迎联系。
 
 ## Examples / 示例
 
@@ -129,7 +134,7 @@ $ npm run test-ci
 
 本项目目前由 [Trotyl Yu](https://github.com/trotyl) 独立开发。
 
-[贡献者清单](https://github.com/trotyl/uestc/graphs/contributors)
+[贡献者清单](https://github.com/trotyl/uestc-sdk-npm/graphs/contributors)
 
 ## License / 许可协议
 
