@@ -76,7 +76,7 @@ describe('User ', function () {
     describe('#__getAllCourses__()', function () {
 
         beforeEach(function () {
-            user.__getSemesterCourse__ = function () {
+            user.__getSemesterCourses__ = function () {
                 var id = 0;
                 return Promise.resolve([{id: (id++).toString()}]);
             };
@@ -139,6 +139,47 @@ describe('User ', function () {
         it('should get the detail', function (done) {
             user.__getDetailOnline__().nodeify(function (err, detail) {
                 assert.equal('刘建翔', detail.name);
+                done();
+            });
+        });
+    });
+
+    describe('#__getSemesterCourses__()', function () {
+
+        beforeEach(function () {
+            user._testRes_ = {
+                online: false,
+                offline: false
+            };
+
+            user.__getSemesterCoursesOnline__ = function () {
+                user._testRes_.online = true;
+                return Promise.resolve([]);
+            };
+
+            user.__getSemesterCoursesOffline__ = function () {
+                user._testRes_.offline = true;
+                return Promise.resolve([]);
+            };
+        });
+
+        it('should get the semester courses if online', function (done) {
+            user.__getSemesterCourses__(43).nodeify(function (err, courses) {
+                assert.equal(true, user._testRes_.online);
+                assert.equal(false, user._testRes_.offline);
+                done();
+            });
+        });
+
+        it('should get the semester courses if offline', function (done) {
+            user.__getSemesterCoursesOnline__ = function () {
+                user._testRes_.online = true;
+                return Promise.reject(new Error(''));
+            };
+
+            user.__getSemesterCourses__(43).nodeify(function (err, courses) {
+                assert.equal(true, user._testRes_.online);
+                assert.equal(true, user._testRes_.offline);
                 done();
             });
         });
@@ -210,7 +251,7 @@ describe('User ', function () {
                 return Promise.resolve([]);
             };
 
-            user.__getSemesterCourse__ = function () {
+            user.__getSemesterCourses__ = function () {
                 user._testRes_.semCourses = true;
                 return Promise.resolve([]);
             };

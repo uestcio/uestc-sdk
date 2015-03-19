@@ -48,7 +48,7 @@ User.prototype.getCourses = function (grade, semester) {
     }
     else {
         var semesterId = Encoder.getSemester(grade, semester);
-        return self.__getSemesterCourse__(semesterId);
+        return self.__getSemesterCourses__(semesterId);
     }
 };
 
@@ -119,8 +119,7 @@ User.prototype.__ensureLogin__ = function () {
 User.prototype.__getAllCourses__ = function () {
     var self = this;
     var semesters = Encoder.getAllSemesters(self);
-    console.log(semesters);
-    return Promise.all(semesters.map(self.__getSemesterCourse__)).then(null, self.__getAllCoursesOffline__);
+    return Promise.all(semesters.map(self.__getSemesterCourses__)).then(null, self.__getAllCoursesOffline__);
 };
 
 User.prototype.__getAllCoursesOffline__ = function () {
@@ -163,16 +162,16 @@ User.prototype.__getDetailOnline__ = function () {
     });
 };
 
-User.prototype.__getSemesterCourse__ = function (semester) {
+User.prototype.__getSemesterCourses__ = function (semester) {
     var self = this;
-    return self.__getSemesterCourseOnline__(semester).then(null, function () {
+    return self.__getSemesterCoursesOnline__(semester).then(null, function () {
         return self.__getSemesterCoursesOffline__(semester);
     });
 };
 
-User.prototype.__getSemesterCourseOnline__ = function (semester) {
+User.prototype.__getSemesterCoursesOnline__ = function (semester) {
     var self = this;
-    var getMeta = UrlUtil.getUserSemesterCoursesPreMeta(this._current_);
+    var getMeta = UrlUtil.getUserSemesterCoursesPreMeta(self);
     var postMeta;
     return self._current_.__ensureLogin__().then(function () {
         return Carrier.get(getMeta).then(function (getRes) {
