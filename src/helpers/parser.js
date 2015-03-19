@@ -6,6 +6,7 @@ var Promise = require('promise');
 
 var Course = require('../structure/course');
 var Score = require('../structure/score');
+var StdDetail = require('../structure/stddetail');
 
 
 // 构造函数
@@ -69,5 +70,35 @@ Parser.getUserAllScores = function (html) {
             course.score = score;
             return course;
         });
+    });
+};
+
+Parser.getUserDetail = function (html) {
+    return Parser.get$(html).then(function ($) {
+        var lines = $('#studentInfoTb > tbody > tr');
+        var id = $(lines[1].children[1]).text();
+        var detail = new StdDetail(id);
+        detail.__setField__('name', $(lines[1].children[3]).text());
+        detail.__setField__('eName', $(lines[2].children[1]).text());
+        detail.__setField__('sex', $(lines[2].children[3]).text());
+        detail.__setField__('grade', $(lines[3].children[1]).text());
+        detail.__setField__('eduLenth', $(lines[3].children[3]).text());
+        detail.__setField__('project', $(lines[4].children[1]).text());
+        detail.__setField__('qualification', $(lines[4].children[3]).text());
+        detail.__setField__('type', $(lines[5].children[1]).text());
+        detail.__setField__('school', $(lines[5].children[3]).text());
+        detail.__setField__('major', $(lines[6].children[1]).text());
+        detail.__setField__('direction', $(lines[6].children[3]).text());
+        detail.__setField__('fromDate', $(lines[8].children[1]).text());
+        detail.__setField__('toDate', $(lines[8].children[3]).text());
+        detail.__setField__('adminSchl', $(lines[9].children[1]).text());
+        detail.__setField__('stuForm', $(lines[9].children[3]).text());
+        detail.__setField__('EduForm', $(lines[10].children[1]).text());
+        detail.__setField__('status', $(lines[10].children[3]).text());
+        detail.__setField__('inEdu', $(lines[11].children[1]).text());
+        detail.__setField__('inSchl', $(lines[11].children[3]).text());
+        detail.__setField__('adminClass', $(lines[12].children[1]).text());
+        detail.__setField__('campus', $(lines[12].children[3]).text());
+        return detail;
     });
 };

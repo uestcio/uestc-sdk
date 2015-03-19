@@ -112,6 +112,7 @@ describe('User ', function () {
     describe('#__getDetailOnline__()', function () {
         it('should get the detail', function (done) {
             user.__getDetailOnline__().nodeify(function (err, detail) {
+                console.log(detail);
                 assert.equal('刘建翔', detail.name);
                 done();
             });
