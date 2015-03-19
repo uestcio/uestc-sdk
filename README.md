@@ -54,13 +54,13 @@ Install via Npm / 通过 Npm 安装 ：
 $ npm install uestc
 ```
 
-Install and save to dependency / 安装并将项目添加到依赖库中：
+Install \& save to dependency / 安装并将项目添加到依赖库中：
 
 ```bash
 $ npm install uestc --save
 ```
 
-Install and save to devDependency / 安装并将项目添加到开发依赖库中：
+Install \& save to devDependency / 安装并将项目添加到开发依赖库中：
 
 ```bash
 $ npm install uestc --save-dev
@@ -97,7 +97,7 @@ $ npm install uestc --save-dev
 > A Project for the sake of all Project.
 
   由于在日常的学习生活中有大量的项目（比如通信学院的 P2P）等都需要用到学校的一些网站（尤其是教务系统），
-  甚至有时候也会进行一些相关测试（如常用密码字典破解等）。
+  以及一些平台也往往需要验证用户的电子科技大学学生身份等。
 
   而绝大多数人都是直接开始从零造车子，目前还没有见到任何组织或个人有造轮子的计划，效率及其低下。
   虽然也有部分同学开源的一些相关项目（如教务系统爬虫等，可以在 GitHub 中搜索 `uestc` ），
@@ -120,7 +120,6 @@ $ npm install uestc --save-dev
   * 作为第三方登陆支持库，以验证电子科大学生身份。
   * 作为微信服务器支持库，可以快速查询相关信息并实现推送。
   * 作为移动端服务器支持库，可以快速打造掌上校园等校园客户端。
-  * 作为破解器，暴力破解用户学号密码（不推荐）。
   * 作为参考代码，了解学校各个接口的相关细节信息（项目开源，可随意使用）。
   * 作为参考代码，学习 NodeJS 项目的开发（水平有限，还怕误导）。
 
