@@ -61,6 +61,9 @@ User.prototype.getDetail = function () {
 
 User.prototype.getGrade = function () {
     var self = this;
+    if(!self._detail_) {
+        self._detail_ = new StdDetail(self._number_);
+    }
     if(!self._detail_.grade) {
         self._detail_.grade = +(self._number_.substr(0, 4));
     }

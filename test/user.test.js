@@ -198,41 +198,6 @@ describe('User ', function () {
         });
     });
 
-    describe('#getScores()', function () {
-        beforeEach(function () {
-            user._testRes_ = {
-                allScores: false,
-                semScores: false
-            };
-
-            user.__getAllScores__ = function () {
-                user._testRes_.allScores = true;
-                return Promise.resolve([]);
-            };
-
-            user.__getSemesterScores__ = function () {
-                user._testRes_.semScores = true;
-                return Promise.resolve([]);
-            };
-        });
-
-        it('should get the all scores and scores if semester is 0', function (done) {
-            user.getScores(0).nodeify(function (err, scores) {
-                assert.equal(true, user._testRes_.allScores);
-                assert.equal(false, user._testRes_.semScores);
-                done();
-            });
-        });
-
-        it('should get the semester scores if semester is not 0', function (done) {
-            user.getScores(2012, 1).nodeify(function (err, scores) {
-                assert.equal(false, user._testRes_.allScores);
-                assert.equal(true, user._testRes_.semScores);
-                done();
-            });
-        });
-    });
-
     describe('#getDetail()', function () {
         beforeEach(function () {
             user._testRes_ = {
@@ -277,4 +242,48 @@ describe('User ', function () {
             });
         });
     });
+
+    describe('#getGrade()', function () {
+
+        it('should get the right grade', function () {
+            var grade = user.getGrade();
+            assert.equal(2012, grade);
+        });
+    });
+
+    describe('#getScores()', function () {
+        beforeEach(function () {
+            user._testRes_ = {
+                allScores: false,
+                semScores: false
+            };
+
+            user.__getAllScores__ = function () {
+                user._testRes_.allScores = true;
+                return Promise.resolve([]);
+            };
+
+            user.__getSemesterScores__ = function () {
+                user._testRes_.semScores = true;
+                return Promise.resolve([]);
+            };
+        });
+
+        it('should get the all scores and scores if semester is 0', function (done) {
+            user.getScores(0).nodeify(function (err, scores) {
+                assert.equal(true, user._testRes_.allScores);
+                assert.equal(false, user._testRes_.semScores);
+                done();
+            });
+        });
+
+        it('should get the semester scores if semester is not 0', function (done) {
+            user.getScores(2012, 1).nodeify(function (err, scores) {
+                assert.equal(false, user._testRes_.allScores);
+                assert.equal(true, user._testRes_.semScores);
+                done();
+            });
+        });
+    });
+
 });
