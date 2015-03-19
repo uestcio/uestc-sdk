@@ -67,6 +67,21 @@ User.prototype.getDetail = function () {
 
 // 非公开方法
 
+User.prototype.__cacheCourses__ = function (courses) {
+    var self = this;
+    for (var i in courses) {
+        var id = courses[i].id;
+        if (self._courses_[id]) {
+            self._courses_[id].__merge__(courses[i]);
+            courses[i] = self._courses_[id];
+        }
+        else {
+            self._courses_[id] = courses[i];
+        }
+    }
+    return courses;
+};
+
 User.prototype.__ensureLogin__ = function () {
     var self = this;
     var meta = UrlUtil.getEnsureLoginMeta(self);
@@ -93,30 +108,8 @@ User.prototype.__getAllScores__ = function () {
     var meta= UrlUtil.getUserAllScoresMeta(self);
     return self.__ensureLogin__().then(function () {
         return Carrier.get(meta).then(function (res) {
-            return Parser.get$(res.body);
-        }).then(function ($) {
-            var lines = $('div.grid > table.gridtable > tbody > tr');
-            return _.map(lines, function (line) {
-                var id = $(line.children[2]).text();
-                var course = self._courses_[id] || new Course(id);
-                course.__setField__('code', $(line.children[1]).text());
-                course.__setField__('title', $(line.children[3]).text());
-                course.__setField__('type', $(line.children[4]).text());
-                course.__setField__('credit', +$(line.children[5]).text());
-                if (!self._courses_[id]) {
-                    self._courses_[id] = course;
-                }
-                var enrollment = course.enrollment || new Enrollment(course, self);
-                enrollment.__setField__('semester', $(line.children[0]).text());
-                enrollment.__setField__('generalScore', _.trim($(line.children[6]).text()));
-                enrollment.__setField__('finallScore', _.trim($(line.children[8]).text()));
-                enrollment.__setField__('gpa', _.trim($(line.children[9]).text()));
-                if (!course.enrollment) {
-                    course.enrollment = enrollment;
-                }
-                return course;
-            });
-        });
+            return Parser.Parser.getUserAllScores(res.body);
+        }).then(self.__cacheCourses__);
     });
 };
 
