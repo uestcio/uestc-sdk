@@ -3,9 +3,8 @@
 
 // 构造函数
 
-function Score(course, user) {
+function Score(course) {
     this.course = course;
-    this.user = user;
 }
 
 module.exports = Score;

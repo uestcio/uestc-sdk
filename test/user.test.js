@@ -33,23 +33,20 @@ describe('User ', function () {
             }
         });
 
-        it('should be able to cache', function (done) {
+        it('should be able to cache', function () {
             courses = user.__cacheCourses__(courses);
             assert.equal(2, _.keys(user._courses_).length);
-            done();
         });
 
-        it('should return the new courses', function (done) {
-            courses = user.__cacheCourses__(courses);
-            assert.equal(2, courses.length);
-            done();
+        it('should return the new courses', function () {
+            var newCourses = user.__cacheCourses__(courses);
+            assert.equal(2, newCourses.length);
         });
 
-        it('should merge if get the same id', function (done) {
+        it('should merge if get the same id', function () {
             user.__cacheCourses__(courses);
             user.__cacheCourses__([{id: '1'}]);
             assert.equal(true, user._courses_['1'].merged);
-            done();
         });
     });
 
@@ -112,7 +109,6 @@ describe('User ', function () {
     describe('#__getDetailOnline__()', function () {
         it('should get the detail', function (done) {
             user.__getDetailOnline__().nodeify(function (err, detail) {
-                console.log(detail);
                 assert.equal('刘建翔', detail.name);
                 done();
             });
@@ -120,6 +116,13 @@ describe('User ', function () {
     });
 
     describe('#__getSemesterScores__()', function () {
+
+        beforeEach(function () {
+            user.__cacheCourses__ = function (courses) {
+                return courses;
+            }
+        });
+
         it('should get the semester scores', function (done) {
             user.__getSemesterScores__(43).nodeify(function (err, courses) {
                 err && console.log(err);

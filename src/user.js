@@ -211,30 +211,11 @@ User.prototype.__getSemesterScores__ = function (semester) {
     var meta = UrlUtil.getUserSemesterScoresMeta(self, semester);
     return self.__ensureLogin__().then(function () {
         return Carrier.get(meta).then(function (res) {
-            return Parser.get$(res.body);
-        }).then(function ($) {
-            var lines = $('table.gridtable > tbody > tr');
-            return _.map(lines, function (line) {
-                var id = $(line.children[2]).text();
-                var course = self._courses_[id] || new Course(id);
-                course.__setField__('code', $(line.children[1]).text());
-                course.__setField__('title', $(line.children[3]).text());
-                course.__setField__('type', $(line.children[4]).text());
-                course.__setField__('credit', +$(line.children[5]).text());
-                course.__setField__('grade', $(line.children[7]).text());
-                if (!self._courses_[id]) {
-                    self._courses_[id] = course;
-                }
-                var enrollment = course.enrollment || new Enrollment(course, self);
-                enrollment.__setField__('semester', $(line.children[0]).text());
-                enrollment.__setField__('generalScore', _.trim($(line.children[6]).text()));
-                enrollment.__setField__('finallScore', _.trim($(line.children[8]).text()));
-                enrollment.__setField__('gpa', _.trim($(line.children[9]).text()));
-                if (!course.enrollment) {
-                    course.enrollment = enrollment;
-                }
-                return course;
-            });
+            return Parser.getUserSemesterScores(res.body);
+        });
+    }).then(self.__cacheCourses__).then(function (courses) {
+        return courses.map(function (course) {
+            return course.score;
         });
     });
 };
