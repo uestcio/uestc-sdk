@@ -5,14 +5,14 @@ var _ = require('lodash');
 var Course = require('../src/course');
 var Person = require('../src/person');
 var User = require('../src/user');
-var uestc = require('../src/uestc');
+var Application = require('../src/application');
 
 
 describe('Application ', function () {
     var app;
 
     beforeEach(function () {
-        app = uestc();
+        app = new Application();
     });
 
     describe('#.ctor()', function () {

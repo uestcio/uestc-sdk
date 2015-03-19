@@ -22,7 +22,7 @@
 
 ```js
 var sdk = require('uestc');
-var app = sdk();
+var app = sdk.single();
 var user = app.login('2012019050031', '12345678');
 
 app.searchForPeople('章萌芊').then(function (people) {
