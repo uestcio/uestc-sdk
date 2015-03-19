@@ -1,7 +1,7 @@
 var assert = require('assert');
 var request = require('request');
 var _ = require('lodash');
-var Carrier = require('../src/carrier');
+var Carrier = require('../../src/helpers/carrier');
 
 describe('Carrier ', function () {
 

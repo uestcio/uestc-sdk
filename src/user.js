@@ -3,12 +3,12 @@
 var _ = require('lodash');
 var Promise = require('promise');
 
-var Carrier = require('./carrier');
+var Carrier = require('./helpers/carrier');
 var Course = require('./course');
 var Enrollment = require('./enrollment');
-var Parser = require('./parser');
-var Encoder = require('./encoder');
-var Peeler = require('./peeler');
+var Parser = require('./helpers/parser');
+var Encoder = require('./helpers/encoder');
+var Peeler = require('./helpers/peeler');
 var UrlUtil = require('./urlutil');
 var StdDetail = require('./stddetail');
 

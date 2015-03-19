@@ -1,5 +1,5 @@
 var assert = require('assert');
-var Encoder = require('../src/encoder');
+var Encoder = require('../../src/helpers/encoder');
 
 describe('Encoder ', function () {
 

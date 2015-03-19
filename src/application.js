@@ -3,10 +3,10 @@
 var Promise = require('promise');
 var _ = require('lodash');
 
-var Carrier = require('./carrier');
+var Carrier = require('./helpers/carrier');
 var User = require('./user');
 var UrlUtil = require('./urlutil');
-var Parser = require('./parser');
+var Parser = require('./helpers/parser');
 var Course = require('./course');
 
 

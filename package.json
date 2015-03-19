@@ -7,8 +7,8 @@
     "node": ">=0.12"
   },
   "scripts": {
-    "test": "mocha --reporter spec --bail --check-leaks test/ --timeout 300000",
-    "test-ci": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- --timeout 300000 -R spec"
+    "test": "mocha --reporter spec --bail --check-leaks test/ --timeout 300000 --recursive",
+    "test-ci": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- --timeout 300000 --recursive -R spec"
   },
   "repository": {
     "type": "git",
