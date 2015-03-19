@@ -73,10 +73,28 @@ describe('User ', function () {
         });
     });
 
+    describe('#__getAllCourses__()', function () {
+
+        beforeEach(function () {
+            user.__getSemesterCourse__ = function () {
+                var id = 0;
+                return Promise.resolve([{id: (id++).toString()}]);
+            };
+        });
+
+        it('should get the all courses when online', function (done) {
+            user.__getAllCourses__().nodeify(function (err, courses) {
+                err && console.log(err);
+                assert.equal(8, courses.length);
+                done();
+            });
+        });
+    });
+
     describe('#__getAllScores__()', function () {
 
         it('should get the all scores', function (done) {
-            user.__getAllScores__([]).nodeify(function (err, courses) {
+            user.__getAllScores__().nodeify(function (err, courses) {
                 err && console.log(err);
                 assert.equal(52, courses.length);
                 done();
@@ -147,7 +165,7 @@ describe('User ', function () {
                 assert.equal(false, !!err);
                 done();
             });
-       });
+        });
 
         it('should send the post request and login fail', function (done) {
             form['IDToken2'] = '811074';

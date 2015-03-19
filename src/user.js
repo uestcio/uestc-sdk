@@ -119,12 +119,13 @@ User.prototype.__ensureLogin__ = function () {
 User.prototype.__getAllCourses__ = function () {
     var self = this;
     var semesters = Encoder.getAllSemesters(self);
+    console.log(semesters);
     return Promise.all(semesters.map(self.__getSemesterCourse__)).then(null, self.__getAllCoursesOffline__);
 };
 
 User.prototype.__getAllCoursesOffline__ = function () {
     var self = this;
-    return _.values(self._courses_);
+    return Promise.resolve(_.values(self._courses_));
 };
 
 User.prototype.__getAllScores__ = function () {

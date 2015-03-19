@@ -42,7 +42,7 @@ Encoder.getSemester = function (grade, semester, user) {
 
 Encoder.getAllSemesters = function (user) {
     var semesters = [];
-    _.chain().range(user.getGrade(), moment().year() + 1).forEach(function (year) {
+    _.range(user.getGrade(), moment().year() + 1).forEach(function (year) {
         semesters.push(Encoder.getSemester(year, 1, user));
         semesters.push(Encoder.getSemester(year, 2, user));
     });
