@@ -170,20 +170,54 @@ describe('User ', function () {
         });
     });
 
-    xdescribe('#getCourses()', function () {
+    describe('#getCourses()', function () {
         beforeEach(function () {
             user._testRes_ = {
-                online: false,
-                local: false
+                allCourses: false,
+                allScores: false,
+                semCourses: false,
+                semScores: false
+            };
+
+            user.__getAllCourses__ = function () {
+                user._testRes_.allCourses = true;
+                return Promise.resolve([]);
+            };
+
+            user.__getAllScores__ = function () {
+                user._testRes_.allScores = true;
+                return Promise.resolve([]);
+            };
+
+            user.__getSemesterCourse__ = function () {
+                user._testRes_.semCourses = true;
+                return Promise.resolve([]);
+            };
+
+            user.__getSemesterScores__ = function () {
+                user._testRes_.semScores = true;
+                return Promise.resolve([]);
             };
         });
 
-        it('should get the courses online when could connect', function (done) {
-
+        it('should get the all courses and scores if semester is 0', function (done) {
+            user.getCourses(0).nodeify(function (err, courses) {
+                assert.equal(true, user._testRes_.allCourses);
+                assert.equal(true, user._testRes_.allScores);
+                assert.equal(false, user._testRes_.semCourses);
+                assert.equal(false, user._testRes_.semScores);
+                done();
+            });
         });
 
-        it('should get the courses local when could not connect', function (done) {
-
+        it('should get the semester courses if semester is not 0', function (done) {
+            user.getCourses(2012, 1).nodeify(function (err, courses) {
+                assert.equal(false, user._testRes_.allCourses);
+                assert.equal(false, user._testRes_.allScores);
+                assert.equal(true, user._testRes_.semCourses);
+                assert.equal(true, user._testRes_.semScores);
+                done();
+            });
         });
     });
 

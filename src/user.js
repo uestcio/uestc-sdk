@@ -43,11 +43,11 @@ User._status_ = {
 
 User.prototype.getCourses = function (grade, semester) {
     var self = this;
-    var semesterId = Encoder.getSemester(grade, semester);
-    if (semesterId == 0) {
+    if (grade == 0) {
         return self.__getAllCourses__().then(self.__getAllScores__);
     }
     else {
+        var semesterId = Encoder.getSemester(grade, semester);
         return self.__getSemesterCourse__(semesterId).then(function (courses) {
             return self.__getSemesterScores__(semesterId, courses);
         });
