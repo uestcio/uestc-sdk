@@ -108,7 +108,7 @@ User.prototype.__getAllScores__ = function () {
     var meta= UrlUtil.getUserAllScoresMeta(self);
     return self.__ensureLogin__().then(function () {
         return Carrier.get(meta).then(function (res) {
-            return Parser.Parser.getUserAllScores(res.body);
+            return Parser.getUserAllScores(res.body);
         }).then(self.__cacheCourses__);
     });
 };

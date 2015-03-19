@@ -61,7 +61,7 @@ Parser.getUserAllScores = function (html) {
             course.__setField__('title', $(line.children[3]).text());
             course.__setField__('type', $(line.children[4]).text());
             course.__setField__('credit', +$(line.children[5]).text());
-            var score = new Score(course, self);
+            var score = new Score(course);
             score.__setField__('semester', $(line.children[0]).text());
             score.__setField__('generalScore', _.trim($(line.children[6]).text()));
             score.__setField__('finallScore', _.trim($(line.children[8]).text()));

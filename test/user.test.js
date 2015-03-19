@@ -45,8 +45,16 @@ describe('User ', function () {
     });
 
     describe('#__getAllScores__()', function () {
+
+        beforeEach(function () {
+            user.__cacheCourses__ = function (courses) {
+                return courses;
+            }
+        });
+
         it('should get the all scores', function (done) {
             user.__getAllScores__().nodeify(function (err, courses) {
+                err && console.log(err);
                 assert.equal(52, courses.length);
                 done();
             });
