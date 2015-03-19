@@ -1,5 +1,6 @@
 var assert = require('assert');
 var _ = require('lodash');
+var Promise = require('promise');
 var User = require('../src/user');
 var UrlUtil = require('../src/helpers/urlutil');
 var StdDetail = require('../src/structure/stddetail');
@@ -124,6 +125,51 @@ describe('User ', function () {
             };
             user.__login__(meta).nodeify(function (err, res) {
                 assert.equal(true, !!err);
+                done();
+            });
+        });
+    });
+
+    describe('#getDetail()', function () {
+        beforeEach(function () {
+            user._testRes_ = {
+                online: false,
+                local: false
+            };
+        });
+
+        it('should get the courses online when could connect', function (done) {
+            user.__getDetailOnline__ = function () {
+                user._testRes_.online = true;
+                return Promise.resolve([]);
+            };
+
+            user.__getDetailOffline__ = function () {
+                user._testRes_.local = true;
+                return Promise.resolve([]);
+            };
+
+            user.getDetail().nodeify(function (err, detail) {
+                assert.equal(true, user._testRes_.online);
+                assert.equal(false, user._testRes_.local);
+                done();
+            });
+        });
+
+        it('should get the courses local when could not connect', function (done) {
+            user.__getDetailOnline__ = function () {
+                user._testRes_.online = true;
+                return Promise.reject(new Error(''));
+            };
+
+            user.__getDetailOffline__ = function () {
+                user._testRes_.local = true;
+                return Promise.resolve([]);
+            };
+
+            user.getDetail().nodeify(function (err, detail) {
+                assert.equal(true, user._testRes_.online);
+                assert.equal(true, user._testRes_.local);
                 done();
             });
         });
