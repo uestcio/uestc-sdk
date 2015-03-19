@@ -5,7 +5,7 @@ var Promise = require('promise');
 
 var Carrier = require('./helpers/carrier');
 var Course = require('./structure/course');
-var Enrollment = require('./structure/enrollment');
+var Enrollment = require('./structure/score');
 var Parser = require('./helpers/parser');
 var Encoder = require('./helpers/encoder');
 var Peeler = require('./helpers/peeler');

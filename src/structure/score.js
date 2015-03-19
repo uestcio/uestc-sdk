@@ -3,12 +3,12 @@
 
 // 构造函数
 
-function Enrollment(course, user) {
+function Score(course, user) {
     this.course = course;
     this.user = user;
 }
 
-module.exports = Enrollment;
+module.exports = Score;
 
 
 // 静态字段
@@ -22,7 +22,7 @@ module.exports = Enrollment;
 
 // 非公开方法
 
-Enrollment.prototype.__setField__ = function (field, val) {
+Score.prototype.__setField__ = function (field, val) {
     if(val == null || val == undefined || val == '') {
         return;
     }
