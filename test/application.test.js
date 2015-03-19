@@ -61,6 +61,13 @@ describe('Application ', function () {
     });
 
     describe('#__searchForCoursesOnline__()', function () {
+
+        beforeEach(function () {
+            app.__cacheCourses__ = function (courses) {
+                return courses;
+            }
+        });
+
         it('should get the courses', function (done) {
             var options = {
                 instructor: '徐世中'

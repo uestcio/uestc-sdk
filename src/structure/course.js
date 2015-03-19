@@ -32,6 +32,10 @@ Course.types = {
 
 // 非公开方法
 
+Course.prototype.__merge__ = function (course) {
+
+};
+
 Course.prototype.__setField__ = function (field, val) {
     if(val == null || val == undefined || val == '') {
         return;

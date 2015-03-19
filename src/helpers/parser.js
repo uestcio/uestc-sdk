@@ -1,7 +1,10 @@
 // 外部依赖
 
+var _ = require('lodash');
 var jsdom = require('jsdom');
 var Promise = require('promise');
+
+var Course = require('../structure/course');
 
 
 // 构造函数
@@ -31,6 +34,16 @@ Parser.get$ = function (html) {
     })
 };
 
-Parser.getTable = function (table) {
-
+Parser.getAppCourses = function ($) {
+    var lines = $('table.gridtable > tbody > tr');
+    return _.map(lines, function (line) {
+        var id = $(line.children[1]).text();
+        var course = new Course(id);
+        course.__setField__('title', $(line.children[2]).text());
+        course.__setField__('type', $(line.children[3]).text());
+        course.__setField__('department', $(line.children[4]).text());
+        course.__setField__('instructor', _.trim($(line.children[5]).text()));
+        course.__setField__('grade', $(line.children[7]).text());
+        return course;
+    });
 };

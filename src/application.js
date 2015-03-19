@@ -87,6 +87,21 @@ Application.prototype.__broke__ = function (number, password) {
     });
 };
 
+Application.prototype.__cacheCourses__ = function (courses) {
+    var self = this;
+    for (var i in courses) {
+        var id = courses[i].id;
+        if(self._courses_[id]) {
+            self._courses_[id].__merge__(courses[i]);
+            courses[i] = self._courses_[id];
+        }
+        else {
+            self._courses_[id] = courses[i];
+        }
+    }
+    return courses;
+};
+
 Application.prototype.__searchForCoursesOffline__ = function (options) {
     var courses = [];
     _.forEach(this._courses_, function (course) {
@@ -114,22 +129,7 @@ Application.prototype.__searchForCoursesOnline__ = function (options) {
         return Carrier.get(getMeta).then(function (getRes) {
             return Carrier.post(postMeta).then(function (postRes) {
                 return Parser.get$(postRes.body);
-            }).then(function ($) {
-                var lines = $('table.gridtable > tbody > tr');
-                return _.map(lines, function (line) {
-                    var id = $(line.children[1]).text();
-                    var course = self._courses_[id] || new Course(id);
-                    course.__setField__('title', $(line.children[2]).text());
-                    course.__setField__('type', $(line.children[3]).text());
-                    course.__setField__('department', $(line.children[4]).text());
-                    course.__setField__('instructor', _.trim($(line.children[5]).text()));
-                    course.__setField__('grade', $(line.children[7]).text());
-                    if (!self._courses_[id]) {
-                        self._courses_[id] = course;
-                    }
-                    return course;
-                });
-            });
+            }).then(Parser.getAppCourses).then(self.__cacheCourses__);
         });
     });
 };
