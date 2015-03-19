@@ -5,9 +5,9 @@ var _ = require('lodash');
 
 var Carrier = require('./helpers/carrier');
 var User = require('./user');
-var UrlUtil = require('./urlutil');
+var UrlUtil = require('./helpers/urlutil');
 var Parser = require('./helpers/parser');
-var Course = require('./course');
+var Course = require('./structure/course');
 
 
 // 构造方法

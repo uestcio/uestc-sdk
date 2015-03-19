@@ -1,5 +1,5 @@
 var assert = require('assert');
-var UrlUtil = require('../src/urlutil');
+var UrlUtil = require('../../src/helpers/urlutil');
 
 describe('UrlUtil ', function () {
 

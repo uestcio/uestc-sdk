@@ -1,8 +1,8 @@
 var assert = require('assert');
 var _ = require('lodash');
 var User = require('../src/user');
-var UrlUtil = require('../src/urlutil');
-var StdDetail = require('../src/stddetail');
+var UrlUtil = require('../src/helpers/urlutil');
+var StdDetail = require('../src/structure/stddetail');
 
 describe('User ', function () {
     var user;

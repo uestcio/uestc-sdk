@@ -2,8 +2,8 @@ var assert = require('assert');
 var Promise = require('promise');
 var _ = require('lodash');
 
-var Course = require('../src/course');
-var Person = require('../src/person');
+var Course = require('../src/structure/course');
+var Person = require('../src/structure/person');
 var User = require('../src/user');
 var Application = require('../src/application');
 

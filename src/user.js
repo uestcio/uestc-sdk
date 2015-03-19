@@ -4,13 +4,13 @@ var _ = require('lodash');
 var Promise = require('promise');
 
 var Carrier = require('./helpers/carrier');
-var Course = require('./course');
-var Enrollment = require('./enrollment');
+var Course = require('./structure/course');
+var Enrollment = require('./structure/enrollment');
 var Parser = require('./helpers/parser');
 var Encoder = require('./helpers/encoder');
 var Peeler = require('./helpers/peeler');
-var UrlUtil = require('./urlutil');
-var StdDetail = require('./stddetail');
+var UrlUtil = require('./helpers/urlutil');
+var StdDetail = require('./structure/stddetail');
 
 // 构造方法
 
