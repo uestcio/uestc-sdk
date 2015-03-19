@@ -27,11 +27,42 @@ describe('Application ', function () {
 
     describe('#__broke__()', function () {
         it('should be able to login', function (done) {
-            app.__broke__('2012019050020', '811073')
-                .then(function (user) {
-                    assert.equal('2012019050020', user._number_);
-                    done();
-                });
+            app.__broke__('2012019050020', '811073').nodeify(function (err, user) {
+                assert.equal('2012019050020', user._number_);
+                done();
+            });
+        });
+    });
+
+    describe('#__cacheCourses__()', function () {
+        var courses;
+
+        beforeEach(function () {
+            courses = [];
+            courses[0] = {id: '1', merged: false};
+            courses[1] = {id: '2', merged: false};
+            courses[0].__merge__ = courses[1].__merge__ = function (course) {
+                this.merged = true;
+            }
+        });
+
+        it('should be able to cache', function (done) {
+            courses = app.__cacheCourses__(courses);
+            assert.equal(2, _.keys(app._courses_).length);
+            done();
+        });
+
+        it('should return the new courses', function (done) {
+            courses = app.__cacheCourses__(courses);
+            assert.equal(2, courses.length);
+            done();
+        });
+
+        it('should merge if get the same id', function (done) {
+            app.__cacheCourses__(courses);
+            app.__cacheCourses__([{id: '1'}]);
+            assert.equal(true, app._courses_['1'].merged);
+            done();
         });
     });
 
