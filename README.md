@@ -1,8 +1,14 @@
 <!-- ![UESTC Logo]() -->
 
-# UESTC SDK
+# UESTC SDK / 电子科技大学开发工具包
+
+  A concise, reliable and powerful SDK platform for UESTC.
 
   简洁、可靠且功能强大的 [UESTC](http://portal.uestc.edu.cn) 集成 SDK 平台。
+
+
+> The project id still under developing, some of the features has not been achieved yet,
+> And the documentation is under revising. Please do NOT use this package now except for research purpose.
 
 > 项目目前还在开发中，部分功能尚未完成，文档也没有最终确定，除了研究目的外，请勿直接使用！
 > 预计项目的第一版发行版为 1.0 版，有需求的同学可以 Watch 本项目。
@@ -42,19 +48,19 @@ user.on('consumption', function (err, consumption) {
 
 ## Installation / 安装
 
-通过 Npm 安装：
+Install via Npm / 通过 Npm 安装 ：
 
 ```bash
 $ npm install uestc
 ```
 
-安装并将项目添加到依赖库中：
+Install and save to dependency / 安装并将项目添加到依赖库中：
 
 ```bash
 $ npm install uestc --save
 ```
 
-安装并将项目添加到开发依赖库中：
+Install and save to devDependency / 安装并将项目添加到开发依赖库中：
 
 ```bash
 $ npm install uestc --save-dev
@@ -78,9 +84,9 @@ $ npm install uestc --save-dev
 
 ## Docs / 文档
 
-  * 官方文档： [GitHub Wiki](https://github.com/trotyl/UESTC-Npm/wiki)
-  * 项目源代码： [GitHub Repo](https://github.com/trotyl/UESTC-Npm)
-  * Npm 包： [Npm Package Site](https://www.npmjs.com/package/uestc)
+  * Documentation / 官方文档： [GitHub Wiki](https://github.com/trotyl/UESTC-Npm/wiki)
+  * Source Code / 源代码： [GitHub Repo](https://github.com/trotyl/UESTC-Npm)
+  * Npm Package / Npm 包： [Npm Package Site](https://www.npmjs.com/package/uestc)
 
 ## Quick Start / 快速入门
 
@@ -126,21 +132,21 @@ $ npm install uestc --save-dev
 
   如果需要运行测试，首先需要安装相应的依赖项，然后运行测试命令：
 
-  单元测试：
+  Unit tests / 单元测试：
 
 ```bash
 $ npm install
 $ npm test
 ```
 
-  代码覆盖率测试：
+  Coverage / 代码覆盖率测试：
 
 ```bash
 $ npm install
 $ npm run test-ci
 ```
 
-## People / 开发人员
+## Developer / 开发人员
 
 本项目目前由 [Trotyl Yu](https://github.com/trotyl) 独立开发。
 
