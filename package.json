@@ -1,6 +1,6 @@
 {
   "name": "uestc",
-  "version": "0.2.1",
+  "version": "0.2.3",
   "description": "The integrated NodeJS api of the EAMS system and some other parts for UESTC websites.",
   "main": "index.js",
   "engines": {
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/trotyl/UESTC-Npm.git"
+    "url": "https://github.com/trotyl/UESTC-SDK-Npm.git"
   },
   "keywords": [
     "uestc",
@@ -21,9 +21,9 @@
   "author": "Trotyl Yu <trotyl@qq.com> (http://trotyl.me)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/trotyl/UESTC-Npm/issues"
+    "url": "https://github.com/trotyl/UESTC-SDK-Npm/issues"
   },
-  "homepage": "https://github.com/trotyl/UESTC-Npm",
+  "homepage": "https://github.com/trotyl/UESTC-SDK-Npm",
   "dependencies": {
     "async": "^0.9.0",
     "jquery": "^2.1.3",
