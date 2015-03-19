@@ -84,13 +84,13 @@ $ npm install uestc --save-dev
 
 ## Docs / 文档
 
-  * Documentation / 官方文档： [GitHub Wiki](https://github.com/trotyl/UESTC-Npm/wiki)
-  * Source Code / 源代码： [GitHub Repo](https://github.com/trotyl/UESTC-Npm)
+  * Documentation / 官方文档： [GitHub Wiki](https://github.com/trotyl/UESTC-sdk-Npm/wiki)
+  * Source Code / 源代码： [GitHub Repo](https://github.com/trotyl/UESTC-sdk-Npm)
   * Npm Package / Npm 包： [Npm Package Site](https://www.npmjs.com/package/uestc)
 
 ## Quick Start / 快速入门
 
-  由于整个项目的接口较为简单，可直接参考 [__官方文档__](https://github.com/trotyl/UESTC-Npm/wiki) 。
+  由于整个项目的接口较为简单，可直接参考 [__官方文档__](https://github.com/trotyl/UESTC-sdk-Npm/wiki) 。
 
 ## Philosophy / 设计理念
 
@@ -125,7 +125,7 @@ $ npm install uestc --save-dev
 
 ## Examples / 示例
 
-  由于整个项目的接口较为简单，可直接参考 [__官方文档__](https://github.com/trotyl/UESTC-Npm/wiki) 。
+  由于整个项目的接口较为简单，可直接参考 [__官方文档__](https://github.com/trotyl/UESTC-sdk-Npm/wiki) 。
 
 ## Tests / 测试
 
