@@ -64,7 +64,7 @@ Application.prototype.searchForCourses = function (options) {
 
 Application.prototype.searchForPeople = function (term, limit) {
     var self = this;
-    if(!limit || limit <= 0) {
+    if (!limit || limit <= 0) {
         limit = 10;
     }
     return self.__searchForPeopleOnline__(term, limit).then(null, function (err) {
@@ -91,7 +91,7 @@ Application.prototype.__cacheCourses__ = function (courses) {
     var self = this;
     for (var i in courses) {
         var id = courses[i].id;
-        if(self._courses_[id]) {
+        if (self._courses_[id]) {
             self._courses_[id].__merge__(courses[i]);
             courses[i] = self._courses_[id];
         }
@@ -128,8 +128,8 @@ Application.prototype.__searchForCoursesOnline__ = function (options) {
     return self._current_.__ensureLogin__().then(function () {
         return Carrier.get(getMeta).then(function (getRes) {
             return Carrier.post(postMeta).then(function (postRes) {
-                return Parser.get$(postRes.body);
-            }).then(Parser.getAppCourses).then(self.__cacheCourses__);
+                return Parser.getAppCourses(postRes.body);
+            }).then(self.__cacheCourses__);
         });
     });
 };
@@ -139,10 +139,7 @@ Application.prototype.__searchForPeopleOffline__ = function (term, limit) {
     _.forEach(this._people_, function (person) {
         var flag = false;
         _.forEach(person, function (val, key) {
-            if (!val) {
-                return;
-            }
-            if (people.length <= limit && !_.startsWith(key, '_') && val.indexOf(term) >= 0) {
+            if (val && people.length <= limit && !_.startsWith(key, '_') && val.indexOf(term) >= 0) {
                 flag = true;
             }
         });

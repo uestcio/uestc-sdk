@@ -34,16 +34,18 @@ Parser.get$ = function (html) {
     })
 };
 
-Parser.getAppCourses = function ($) {
-    var lines = $('table.gridtable > tbody > tr');
-    return _.map(lines, function (line) {
-        var id = $(line.children[1]).text();
-        var course = new Course(id);
-        course.__setField__('title', $(line.children[2]).text());
-        course.__setField__('type', $(line.children[3]).text());
-        course.__setField__('department', $(line.children[4]).text());
-        course.__setField__('instructor', _.trim($(line.children[5]).text()));
-        course.__setField__('grade', $(line.children[7]).text());
-        return course;
+Parser.getAppCourses = function (html) {
+    return Parser.get$(html).then(function ($) {
+        var lines = $('table.gridtable > tbody > tr');
+        return _.map(lines, function (line) {
+            var id = $(line.children[1]).text();
+            var course = new Course(id);
+            course.__setField__('title', $(line.children[2]).text());
+            course.__setField__('type', $(line.children[3]).text());
+            course.__setField__('department', $(line.children[4]).text());
+            course.__setField__('instructor', _.trim($(line.children[5]).text()));
+            course.__setField__('grade', $(line.children[7]).text());
+            return course;
+        });
     });
 };
