@@ -130,7 +130,9 @@ User.prototype.__getAllScores__ = function () {
     return self.__ensureLogin__().then(function () {
         return Carrier.get(meta).then(function (res) {
             return Parser.getUserAllScores(res.body);
-        }).then(self.__cacheCourses__);
+        }).then(function (courses) {
+            return self.__cacheCourses__(courses);
+        });
     });
 };
 
@@ -213,7 +215,9 @@ User.prototype.__getSemesterScores__ = function (semester) {
         return Carrier.get(meta).then(function (res) {
             return Parser.getUserSemesterScores(res.body);
         });
-    }).then(self.__cacheCourses__).then(function (courses) {
+    }).then(function (courses) {
+        return self.__cacheCourses__(courses);
+    }).then(function (courses) {
         return courses.map(function (course) {
             return course.score;
         });

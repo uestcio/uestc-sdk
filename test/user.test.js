@@ -75,12 +75,6 @@ describe('User ', function () {
 
     describe('#__getAllScores__()', function () {
 
-        beforeEach(function () {
-            user.__cacheCourses__ = function (courses) {
-                return courses;
-            }
-        });
-
         it('should get the all scores', function (done) {
             user.__getAllScores__([]).nodeify(function (err, courses) {
                 err && console.log(err);
@@ -116,12 +110,6 @@ describe('User ', function () {
     });
 
     describe('#__getSemesterScores__()', function () {
-
-        beforeEach(function () {
-            user.__cacheCourses__ = function (courses) {
-                return courses;
-            }
-        });
 
         it('should get the semester scores', function (done) {
             user.__getSemesterScores__(43).nodeify(function (err, courses) {
