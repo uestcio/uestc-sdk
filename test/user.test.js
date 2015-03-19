@@ -121,6 +121,7 @@ describe('User ', function () {
     describe('#__getSemesterScores__()', function () {
         it('should get the semester scores', function (done) {
             user.__getSemesterScores__(43).nodeify(function (err, courses) {
+                err && console.log(err);
                 assert.equal(12, courses.length);
                 done();
             });
@@ -174,9 +175,7 @@ describe('User ', function () {
         beforeEach(function () {
             user._testRes_ = {
                 allCourses: false,
-                allScores: false,
-                semCourses: false,
-                semScores: false
+                semCourses: false
             };
 
             user.__getAllCourses__ = function () {
@@ -184,13 +183,38 @@ describe('User ', function () {
                 return Promise.resolve([]);
             };
 
-            user.__getAllScores__ = function () {
-                user._testRes_.allScores = true;
-                return Promise.resolve([]);
-            };
-
             user.__getSemesterCourse__ = function () {
                 user._testRes_.semCourses = true;
+                return Promise.resolve([]);
+            };
+        });
+
+        it('should get the all courses and scores if semester is 0', function (done) {
+            user.getCourses(0).nodeify(function (err, courses) {
+                assert.equal(true, user._testRes_.allCourses);
+                assert.equal(false, user._testRes_.semCourses);
+                done();
+            });
+        });
+
+        it('should get the semester courses if semester is not 0', function (done) {
+            user.getCourses(2012, 1).nodeify(function (err, courses) {
+                assert.equal(false, user._testRes_.allCourses);
+                assert.equal(true, user._testRes_.semCourses);
+                done();
+            });
+        });
+    });
+
+    describe('#getScores()', function () {
+        beforeEach(function () {
+            user._testRes_ = {
+                allScores: false,
+                semScores: false
+            };
+
+            user.__getAllScores__ = function () {
+                user._testRes_.allScores = true;
                 return Promise.resolve([]);
             };
 
@@ -200,21 +224,17 @@ describe('User ', function () {
             };
         });
 
-        it('should get the all courses and scores if semester is 0', function (done) {
-            user.getCourses(0).nodeify(function (err, courses) {
-                assert.equal(true, user._testRes_.allCourses);
+        it('should get the all scores and scores if semester is 0', function (done) {
+            user.getScores(0).nodeify(function (err, scores) {
                 assert.equal(true, user._testRes_.allScores);
-                assert.equal(false, user._testRes_.semCourses);
                 assert.equal(false, user._testRes_.semScores);
                 done();
             });
         });
 
-        it('should get the semester courses if semester is not 0', function (done) {
-            user.getCourses(2012, 1).nodeify(function (err, courses) {
-                assert.equal(false, user._testRes_.allCourses);
+        it('should get the semester scores if semester is not 0', function (done) {
+            user.getScores(2012, 1).nodeify(function (err, scores) {
                 assert.equal(false, user._testRes_.allScores);
-                assert.equal(true, user._testRes_.semCourses);
                 assert.equal(true, user._testRes_.semScores);
                 done();
             });

@@ -44,13 +44,11 @@ User._status_ = {
 User.prototype.getCourses = function (grade, semester) {
     var self = this;
     if (grade == 0) {
-        return self.__getAllCourses__().then(self.__getAllScores__);
+        return self.__getAllCourses__();
     }
     else {
         var semesterId = Encoder.getSemester(grade, semester);
-        return self.__getSemesterCourse__(semesterId).then(function (courses) {
-            return self.__getSemesterScores__(semesterId, courses);
-        });
+        return self.__getSemesterCourse__(semesterId);
     }
 };
 
@@ -67,6 +65,17 @@ User.prototype.getGrade = function () {
         self._detail_.grade = +(self._number_.substr(0, 4));
     }
     return self._detail_.grade;
+};
+
+User.prototype.getScores = function (grade, semester) {
+    var self = this;
+    if (grade == 0) {
+        return self.__getAllScores__();
+    }
+    else {
+        var semesterId = Encoder.getSemester(grade, semester);
+        return self.__getSemesterScores__(semesterId);
+    }
 };
 
 
@@ -115,14 +124,12 @@ User.prototype.__getAllCoursesOffline__ = function () {
     return _.values(self._courses_);
 };
 
-User.prototype.__getAllScores__ = function (courses) {
+User.prototype.__getAllScores__ = function () {
     var self = this;
     var meta= UrlUtil.getUserAllScoresMeta(self);
     return self.__ensureLogin__().then(function () {
         return Carrier.get(meta).then(function (res) {
             return Parser.getUserAllScores(res.body);
-        }).then(function (coursesWithScore) {
-            return Course.merge(courses, coursesWithScore);
         }).then(self.__cacheCourses__);
     });
 };
@@ -179,8 +186,8 @@ User.prototype.__getDetailOnline__ = function () {
 User.prototype.__getSemesterCourse__ = function (semester) {
     var self = this;
     return self.__getSemesterCourseOnline__(semester).then(null, function () {
-        self.__getSemesterCoursesOffline__(semester);
-    })
+        return self.__getSemesterCoursesOffline__(semester);
+    });
 };
 
 User.prototype.__getSemesterCourseOnline__ = function (semester) {
@@ -217,7 +224,7 @@ User.prototype.__getSemesterCourseOnline__ = function (semester) {
                 return Peeler.getTable(CourseTable);
             });
         });
-    });
+    }).then(self.__cacheCourses__);
 };
 
 User.prototype.__getSemesterCoursesOffline__ = function (semester) {
