@@ -91,6 +91,23 @@ describe('User ', function () {
         });
     });
 
+    describe('#__getAllCoursesOffline__()', function () {
+
+        beforeEach(function () {
+            user._courses_ = {
+                '1': {id: '1'},
+                '2': {id: '2'}
+            }
+        });
+
+        it('should be able to get local courses', function (done) {
+            user.__getAllCoursesOffline__().nodeify(function (err, courses) {
+                assert.equal(2, courses.length);
+                done();
+            });
+        });
+    });
+
     describe('#__getAllScores__()', function () {
 
         it('should get the all scores', function (done) {

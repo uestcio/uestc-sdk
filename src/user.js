@@ -20,7 +20,7 @@ function User(number, password) {
     this._status_ = User._status_.idle;
     this._jar_ = Carrier.jar();
     this._courses_ = {};
-    this._detail_ = null;
+    this._detail_ = new StdDetail(number);
     this._carrier_ = Carrier;
 }
 
