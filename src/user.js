@@ -32,7 +32,7 @@ module.exports = User;
 User._status_ = {
     idle: 0,
     loginSuccess: 1,
-    loginFail: 2,
+    loginFail: 2
 };
 
 
@@ -45,14 +45,11 @@ User.prototype.getCourses = function (grade, semester) {
     var self = this;
     var semesterId = Encoder.getSemester(grade, semester);
     if (semesterId == 0) {
-        return self.__getAllCourses__().then(
-            function () {
-                return self.__getAllScores__();
-            });
+        return self.__getAllCourses__().then(self.__getAllScores__);
     }
     else {
-        return self.__getSemesterCourse__(semesterId).then(function () {
-            return self.__getSemesterScores__(semesterId);
+        return self.__getSemesterCourse__(semesterId).then(function (courses) {
+            return self.__getSemesterScores__(semesterId, courses);
         });
     }
 };
@@ -62,6 +59,14 @@ User.prototype.getDetail = function () {
     return self.__getDetailOnline__().then(null, function (err) {
         return self.__getDetailOffline__();
     });
+};
+
+User.prototype.getGrade = function () {
+    var self = this;
+    if(!self._detail_.grade) {
+        self._detail_.grade = +(self._number_.substr(0, 4));
+    }
+    return self._detail_.grade;
 };
 
 
@@ -100,15 +105,24 @@ User.prototype.__ensureLogin__ = function () {
 };
 
 User.prototype.__getAllCourses__ = function () {
-
+    var self = this;
+    var semesters = Encoder.getAllSemesters(self);
+    return Promise.all(semesters.map(self.__getSemesterCourse__)).then(null, self.__getAllCoursesOffline__);
 };
 
-User.prototype.__getAllScores__ = function () {
+User.prototype.__getAllCoursesOffline__ = function () {
+    var self = this;
+    return _.values(self._courses_);
+};
+
+User.prototype.__getAllScores__ = function (courses) {
     var self = this;
     var meta= UrlUtil.getUserAllScoresMeta(self);
     return self.__ensureLogin__().then(function () {
         return Carrier.get(meta).then(function (res) {
             return Parser.getUserAllScores(res.body);
+        }).then(function (coursesWithScore) {
+            return Course.merge(courses, coursesWithScore);
         }).then(self.__cacheCourses__);
     });
 };
@@ -164,6 +178,13 @@ User.prototype.__getDetailOnline__ = function () {
 
 User.prototype.__getSemesterCourse__ = function (semester) {
     var self = this;
+    return self.__getSemesterCourseOnline__(semester).then(null, function () {
+        self.__getSemesterCoursesOffline__(semester);
+    })
+};
+
+User.prototype.__getSemesterCourseOnline__ = function (semester) {
+    var self = this;
     var getMeta = UrlUtil.getUserSemesterCoursesPreMeta(this._current_);
     var postMeta;
     return self._current_.__ensureLogin__().then(function () {
@@ -197,6 +218,11 @@ User.prototype.__getSemesterCourse__ = function (semester) {
             });
         });
     });
+};
+
+User.prototype.__getSemesterCoursesOffline__ = function (semester) {
+    var self = this;
+    return _.chian(self._courses_).values().where({_semester_: semester}).value();
 };
 
 User.prototype.__getSemesterScores__ = function (semester) {

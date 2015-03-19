@@ -85,7 +85,7 @@ describe('User ', function () {
         });
 
         it('should get the all scores', function (done) {
-            user.__getAllScores__().nodeify(function (err, courses) {
+            user.__getAllScores__([]).nodeify(function (err, courses) {
                 err && console.log(err);
                 assert.equal(52, courses.length);
                 done();
@@ -170,7 +170,7 @@ describe('User ', function () {
         });
     });
 
-    describe('#getDetail()', function () {
+    xdescribe('#getCourses()', function () {
         beforeEach(function () {
             user._testRes_ = {
                 online: false,
@@ -179,6 +179,23 @@ describe('User ', function () {
         });
 
         it('should get the courses online when could connect', function (done) {
+
+        });
+
+        it('should get the courses local when could not connect', function (done) {
+
+        });
+    });
+
+    describe('#getDetail()', function () {
+        beforeEach(function () {
+            user._testRes_ = {
+                online: false,
+                local: false
+            };
+        });
+
+        it('should get the detail online when could connect', function (done) {
             user.__getDetailOnline__ = function () {
                 user._testRes_.online = true;
                 return Promise.resolve([]);
@@ -196,7 +213,7 @@ describe('User ', function () {
             });
         });
 
-        it('should get the courses local when could not connect', function (done) {
+        it('should get the detail local when could not connect', function (done) {
             user.__getDetailOnline__ = function () {
                 user._testRes_.online = true;
                 return Promise.reject(new Error(''));

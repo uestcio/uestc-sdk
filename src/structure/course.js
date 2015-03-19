@@ -1,5 +1,7 @@
 // 外部依赖
 
+var _ = require('lodash');
+
 
 // 构造函数
 
@@ -26,6 +28,22 @@ Course.types = {
 
 // 静态方法
 
+Course.merge = function (courses0, courses1) {
+    var res = {};
+    _.forEach(courses0, function (course) {
+        res[course.id] = course;
+    });
+    _.forEach(courses1, function (course) {
+        if(!res[course.id]) {
+            res[course.id] = course;
+        }
+        else {
+            res[course.id].merge(course)
+        }
+    });
+    return _.values(res);
+};
+
 
 // 实例方法
 
@@ -33,14 +51,15 @@ Course.types = {
 // 非公开方法
 
 Course.prototype.__merge__ = function (course) {
-
+    var self = this;
+    _.forEach(course, function (val, field) {
+        self.__setField__(field, val);
+    });
+    return self;
 };
 
 Course.prototype.__setField__ = function (field, val) {
-    if(val == null || val == undefined || val == '') {
-        return;
-    }
-    if(field == 'id') {
+    if(val == null || val == undefined || val == '' || _.isFunction(val) || field == 'id') {
         return;
     }
     this[field] = val;

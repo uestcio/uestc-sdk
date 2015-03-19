@@ -1,5 +1,7 @@
 // 外部依赖
 
+var _ = require('lodash');
+var moment = require('moment');
 var Promise = require('promise');
 
 
@@ -28,8 +30,22 @@ Encoder.getSemester = function (grade, semester, user) {
         2012: {1: 13, 2: 14},
         2013: {1: 1, 2: 2},
         2014: {1: 43, 2: 63},
-        2015: {1: 84}
+        2015: {1: 84, 2: 0},
+        2016: {1: 0, 2: 0},
+        2017: {1: 0, 2: 0},
+        2018: {1: 0, 2: 0},
+        2019: {1: 0, 2: 0},
+        2020: {1: 0, 2: 0}
     };
     return map[grade][semester];
+};
+
+Encoder.getAllSemesters = function (user) {
+    var semesters = [];
+    _.chain().range(user.getGrade(), moment().year() + 1).forEach(function (year) {
+        semesters.push(Encoder.getSemester(year, 1, user));
+        semesters.push(Encoder.getSemester(year, 2, user));
+    });
+    return semesters;
 };
 
