@@ -7,6 +7,8 @@ var Carrier = require('./carrier');
 var Course = require('./course');
 var Enrollment = require('./enrollment');
 var Parser = require('./parser');
+var Encoder = require('./encoder');
+var Peeler = require('./peeler');
 var UrlUtil = require('./urlutil');
 var StdDetail = require('./stddetail');
 
@@ -41,7 +43,7 @@ User._status_ = {
 
 User.prototype.getCourses = function (grade, semester) {
     var self = this;
-    var semesterId = Parser.getSemester(grade, semester);
+    var semesterId = Encoder.getSemester(grade, semester);
     if (semesterId == 0) {
         return self.__getAllCourses__().then(
             function () {
@@ -198,7 +200,7 @@ User.prototype.__getSemesterCourse__ = function (semester) {
                     this.weeks = weeks;
                 };
                 eval(raws);
-                return Parser.getTable(CourseTable);
+                return Peeler.getTable(CourseTable);
             });
         });
     });
