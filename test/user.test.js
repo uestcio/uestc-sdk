@@ -185,6 +185,23 @@ describe('User ', function () {
         });
     });
 
+    describe('#__getSemesterCoursesOffline__()', function () {
+
+        beforeEach(function () {
+            user._courses_ = {
+                '1': {id: '1', _semester_: 43},
+                '2': {id: '2', _semester_: 84}
+            };
+        });
+
+        it('should be able to get local courses', function (done) {
+            user.__getSemesterCoursesOffline__(43).nodeify(function (err, courses) {
+                assert.equal(1, courses.length);
+                done();
+            });
+        });
+    });
+
     describe('#__getSemesterScores__()', function () {
 
         it('should get the semester scores', function (done) {

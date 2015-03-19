@@ -169,6 +169,11 @@ User.prototype.__getSemesterCourses__ = function (semester) {
     });
 };
 
+User.prototype.__getSemesterCoursesOffline__ = function (semester) {
+    var self = this;
+    return Promise.resolve(_.chain(self._courses_).values().where({_semester_: semester}).value());
+};
+
 User.prototype.__getSemesterCoursesOnline__ = function (semester) {
     var self = this;
     var getMeta = UrlUtil.getUserSemesterCoursesPreMeta(self);
@@ -204,11 +209,6 @@ User.prototype.__getSemesterCoursesOnline__ = function (semester) {
             });
         });
     }).then(self.__cacheCourses__);
-};
-
-User.prototype.__getSemesterCoursesOffline__ = function (semester) {
-    var self = this;
-    return _.chian(self._courses_).values().where({_semester_: semester}).value();
 };
 
 User.prototype.__getSemesterScores__ = function (semester) {
