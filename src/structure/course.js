@@ -51,10 +51,6 @@ Course.merge = function (courses0, courses1) {
 
 // 非公开方法
 
-Course.prototype.__addDuration__ = function (day, index) {
-    
-};
-
 Course.prototype.__merge__ = function (course) {
     var self = this;
     _.forEach(course, function (val, field) {

@@ -18,7 +18,7 @@ UrlUtil.getAppSearchCoursesPreMeta = function (user) {
     return {
         url: 'http://eams.uestc.edu.cn/eams/publicSearch.action',
         jar: user._jar_
-    }
+    };
 };
 
 UrlUtil.getAppSearchCoursesMeta = function (user, options) {
@@ -30,14 +30,14 @@ UrlUtil.getAppSearchCoursesMeta = function (user, options) {
             'limitGroup.grade': options.grade || ''
         },
         jar: user._jar_
-    }
+    };
 };
 
 UrlUtil.getAppSearchPeoplePreMeta = function (user) {
     return {
         url: 'http://portal.uestc.edu.cn/pnull.portal?action=globalGroupsTree&.ia=false&.pmn=view&.pen=personnelGroupmanager&groupId&identity=undefined&authorize=undefined',
         jar: user._jar_
-    }
+    };
 };
 
 UrlUtil.getAppSearchPeopleMeta = function (user, term, limit) {
@@ -52,32 +52,32 @@ UrlUtil.getAppSearchPeopleMeta = function (user, term, limit) {
     };
 };
 
-UrlUtil.getEamsMeta = function (user) {
-    return {
-        url: 'http://eams.uestc.edu.cn/eams/home.action',
-        jar: user._jar_
-    }
-};
-
 UrlUtil.getEnsureLoginMeta = function (user) {
     return {
         url: 'http://portal.uestc.edu.cn/login.portal',
         jar: user._jar_
-    }
+    };
 };
 
 UrlUtil.getUserAllScoresMeta = function (user) {
     return {
         url: 'http://eams.uestc.edu.cn/eams/teach/grade/course/person!historyCourseGrade.action?projectType=MAJOR',
         jar: user._jar_
-    }
+    };
 };
 
 UrlUtil.getUserDetailMeta = function (user) {
     return {
         url: 'http://eams.uestc.edu.cn/eams/stdDetail.action',
         jar: user._jar_
-    }
+    };
+};
+
+UrlUtil.getUserSemesterExamsMeta = function (user, semester) {
+    return {
+        url: 'http://eams.uestc.edu.cn/eams/stdExamTable!examTable.action?semester.id=' + semester + '&examType.id=1',
+        jar: user._jar_
+    };
 };
 
 UrlUtil.getUserLoginMeta = function (number, password) {
@@ -107,19 +107,19 @@ UrlUtil.getUserSemesterCoursesMeta = function (user, semester, ids) {
             'ids': ids
         },
         jar: user._jar_
-    }
+    };
 };
 
 UrlUtil.getUserSemesterCoursesPreMeta = function (user) {
     return {
         url: 'http://eams.uestc.edu.cn/eams/courseTableForStd.action',
         jar: user._jar_
-    }
+    };
 };
 
 UrlUtil.getUserSemesterScoresMeta = function (user, semester) {
     return {
         url: 'http://eams.uestc.edu.cn/eams/teach/grade/course/person!search.action?semesterId=' + semester,
         jar: user._jar_
-    }
+    };
 };
