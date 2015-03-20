@@ -498,7 +498,7 @@ describe('Parser ', function () {
             <td>TCP/IP协议</td>\
             <td>专业选修课</td>		<td>3</td>\
             <td style="">					73\
-            </td><td style="">--\
+            </td><td style="">73\
             </td><td style="">			73\
             </td><td>			2.8\
             </td>\
@@ -516,11 +516,40 @@ describe('Parser ', function () {
             </table>';
         });
 
-        it('should be able to get course from html', function (done) {
+        it('should be able to get scores from html when not all', function (done) {
             Parser.getUserSemesterScores(html).nodeify(function (err, courses) {
                 err && console.log(err);
+                var course0 = courses[0];
                 assert.equal(4, courses.length);
-                assert.equal(60, courses[0].score.final);
+
+                assert.equal('F0101220.01', course0.id);
+                assert.equal('F0101220', course0.code);
+                assert.equal('信息论基础(重修)', course0.title);
+                assert.equal('学科基础课', course0.type);
+                assert.equal(2, course0.credit);
+
+                assert.equal(2014, course0.semester[0]);
+                assert.equal(2015, course0.semester[1]);
+                assert.equal(1, course0.semester[2]);
+
+                assert.equal(60, course0.score.overall);
+                assert.equal(-1, course0.score.resit);
+                assert.equal(60, course0.score.final);
+                assert.equal(1.5, course0.score.gpa);
+
+                done();
+            })
+        });
+
+        it('should be able to get scores from html when all', function (done) {
+            Parser.getUserSemesterScores(html).nodeify(function (err, courses) {
+                err && console.log(err);
+                var course2 = courses[2];
+
+                assert.equal(73, course2.score.overall);
+                assert.equal(73, course2.score.resit);
+                assert.equal(73, course2.score.final);
+                assert.equal(2.8, course2.score.gpa);
                 done();
             })
         });
