@@ -8,6 +8,7 @@ var User = require('./user');
 var UrlUtil = require('./helpers/urlutil');
 var Parser = require('./helpers/parser');
 var Course = require('./structure/course');
+var Fixture = require('./helpers/fixture');
 
 
 // 构造方法
@@ -22,6 +23,11 @@ function Application() {
 }
 
 module.exports = Application;
+
+
+// 静态字段
+
+Application.fixture = Fixture;
 
 
 // 实例方法

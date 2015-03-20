@@ -2,8 +2,10 @@
 
 var _ = require('lodash');
 
+var Application = require('../application');
 var Duration = require('./duration');
 var Exam = require('./exam');
+var Fixture = require('../helpers/fixture');
 var Score = require('./score');
 
 // 构造函数
@@ -11,6 +13,7 @@ var Score = require('./score');
 function Course(id) {
     this.id = id;
     this.durations = [];
+    this.semester = [0, 0, 0];
 }
 
 module.exports = Course;
@@ -18,17 +21,6 @@ module.exports = Course;
 
 // 静态字段
 
-Course.types = {
-    all: 0,
-    publicDisciplinary: 1,
-    basicDisciplinary: 2,
-    basicDisciplinaryElective: 3,
-    practicalEducation: 4,
-    majorDisciplinary: 5,
-    majorElective: 6,
-    innovationCredit: 7,
-    qualityElective: 8
-};
 
 // 静态方法
 
@@ -63,7 +55,7 @@ Course.prototype.__merge__ = function (course) {
 };
 
 Course.prototype.__setField__ = function (field, val) {
-    if (val == null || val == undefined || val != val || val == '' || _.isFunction(val)) {
+    if (val === null || val === undefined || val != val || val === '' || _.isFunction(val)) {
         return;
     }
     switch (field) {
@@ -72,6 +64,9 @@ Course.prototype.__setField__ = function (field, val) {
         case 'title':
         case 'code':
         case 'instructor':
+        case 'instructorTitle':
+        case 'examType':
+        case 'campus':
             this[field] = val;
             break;
         case 'credit':
@@ -79,9 +74,25 @@ Course.prototype.__setField__ = function (field, val) {
             this[field] = +val;
             break;
         case 'type':
+            if (_.some(Fixture.courseTypes, function (value) {
+                    return val == value;
+                })) {
+                this[field] = val;
+            }
+            break;
+        case 'department':
+            if (_.some(Fixture.departments, function (value) {
+                    return val == value;
+                })) {
+                this[field] = val;
+            }
             break;
         case 'durations':
-            this[field] = Duration.merge(this.durations, val);
+            this[field] = val;
+            break;
+        case 'grade':
+            this['semester'][0] = +val;
+            this['semester'][1] = val > 0? val + 1 : 0;
             break;
         case 'score':
             if (val instanceof Score) {
@@ -96,5 +107,8 @@ Course.prototype.__setField__ = function (field, val) {
         default :
             break;
     }
-
+    //console.log(1, field);
+    //console.log(2, val);
+    //console.log(3, this[field]);
+    //console.log('');
 };

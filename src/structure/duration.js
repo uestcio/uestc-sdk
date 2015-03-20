@@ -8,7 +8,7 @@ var _ = require('lodash');
 function Duration(weeks, day, indexes, place) {
     this.weeks = weeks;
     this.day = day;
-    this.indexex = indexes;
+    this.indexes = indexes;
     this.place = place;
 }
 

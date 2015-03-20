@@ -4,6 +4,7 @@ var _ = require('lodash');
 var moment = require('moment');
 var Promise = require('promise');
 
+var Duration = require('../structure/duration');
 
 // 构造函数
 
@@ -49,10 +50,98 @@ Encoder.getAllSemesters = function (user) {
     return semesters;
 };
 
+Encoder.parseDayofWeek = function (dayStr) {
+    var res;
+    switch (dayStr){
+        case '星期一':
+        case '周一':
+        case '一':
+            res = 1;
+            break;
+        case '星期二':
+        case '周二':
+        case '二':
+            res = 2;
+            break;
+        case '星期三':
+        case '周三':
+        case '三':
+            res = 3;
+            break;
+        case '星期四':
+        case '周四':
+        case '四':
+            res = 4;
+            break;
+        case '星期五':
+        case '周五':
+        case '五':
+            res = 5;
+            break;
+        case '星期六':
+        case '周六':
+        case '六':
+            res = 6;
+            break;
+        case '星期日':
+        case '星期天':
+        case '周日':
+        case '日':
+            res = 7;
+            break;
+        default :
+            res = 0;
+            break;
+    }
+    return res;
+};
+
+Encoder.parseDurations = function (durationsStr, placesStr) {
+    var dStrs = _.words(durationsStr, /[^\n\r\]]+/g);
+    var pStrs = _.words(placesStr, /[^<br>]+/g);
+    return dStrs.map(function (dStr, n) {
+        var place = _.trim(pStrs[n]) || '';
+        var res = _.words(dStr, /[\S]+/g);
+        var parity = _.startsWith(place, '单')? 1: (_.startsWith(place, '双')? 2: 4);
+        if(parity !== 4) {
+            place = _.words(place, /\S+/g)[1];
+        }
+        var day = Encoder.parseDayofWeek(res[0]);
+        var indexes = Encoder.parseIndexes(res[1]);
+        var weeks = Encoder.parseWeeks(res[2], parity);
+        return new Duration(weeks, day, indexes, place);
+    })
+};
+
+Encoder.parseIndexes = function (indexesStr) {
+    var raws = _.words(indexesStr, /\d+/g);
+    var res = '';
+    _.times(12, function (n) {
+        res += (n + 1 >= raws[0] && n + 1 <= raws[1]? '1': '0');
+    });
+    return res;
+};
+
 Encoder.parseSemester = function (semesterStr) {
     var year0 = +_.words(semesterStr)[0];
     var year1 = +_.words(semesterStr)[1];
     var semester = +_.words(semesterStr)[2];
     return [year0, year1, semester];
+};
+
+Encoder.parseWeeks = function (weeksStr, parity) {
+    var raws = _.words(weeksStr, /\d+/g);
+    var res = '';
+    _.times(24, function (n) {
+        var tmp;
+        if((parity === 1 && n % 2 === 1) || (parity === 2 && n % 2 === 0)) {
+            tmp = '0';
+        }
+        else {
+            tmp = (n + 1 >= raws[0] && n + 1 <= raws[1]? '1': '0');
+        }
+        res += tmp;
+    });
+    return res;
 };
 

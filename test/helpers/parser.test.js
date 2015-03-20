@@ -50,8 +50,29 @@ describe('Parser ', function () {
 
         it('should be able to get course from html', function (done) {
             Parser.getAppCourses(html).nodeify(function (err, courses) {
+                err && console.log(err);
+                var course0 = courses[0];
                 assert.equal(4, courses.length);
-                assert.equal('0010270.01', courses[0].id);
+                assert.equal('0010270.01', course0.id);
+                assert.equal('数学分析（含常微分方程）II', course0.title);
+                assert.equal('公共基础课', course0.type);
+                assert.equal('英才实验学院', course0.department);
+                assert.equal('肖义彬', course0.instructor);
+                assert.equal('副教授', course0.instructorTitle);
+                assert.equal(0, course0.semester[0]);
+                assert.equal(0, course0.semester[1]);
+                assert.equal(0, course0.semester[2]);
+                assert.equal('000001111111111100000000', course0.durations[0].weeks);
+                assert.equal('000000110000', course0.durations[0].indexes);
+                assert.equal('B305', course0.durations[0].place);
+                assert.equal(2, course0.durations[0].day);
+                assert.equal('清水河校区', course0.campus);
+
+                var course1 = courses[1];
+                assert.equal('001010101010101010000000', course1.durations[2].weeks);
+                assert.equal('001100000000', course1.durations[2].indexes);
+                assert.equal('A307', course1.durations[2].place);
+                assert.equal(5, course1.durations[2].day);
                 done();
             })
         });
