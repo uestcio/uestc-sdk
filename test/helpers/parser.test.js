@@ -110,4 +110,104 @@ describe('Parser ', function () {
             })
         });
     });
+
+    describe('#getUserDetail()', function () {
+        var html;
+
+        beforeEach(function () {
+            html = '<table style="width:95%" align="center" class="infoTable" id="studentInfoTb">\
+            <tbody><tr>\
+            <td colspan="5" style="font-weight:bold;text-align:center" class="darkColumn">学籍信息</td>\
+            </tr>\
+            <tr>\
+            <td width="25%" class="title" style="width:18%">学号：</td>\
+            <td width="25%">2012019050020</td>\
+            <td width="25%" class="title" style="width:18%">姓名：</td>\
+            <td>刘建翔</td>\
+            <td width="11%" rowspan="5" id="photoImg">\
+            <img width="80px" height="110px" src="/eams/avatar/my.action" alt="刘建翔" title="刘建翔">\
+            </td>\
+            </tr>\
+            <tr>\
+            <td class="title" style="width:18%">英文名：</td>\
+            <td>Liu JianXiang</td>\
+            <td class="title" style="width:18%">性别：</td>\
+            <td>男</td>\
+            </tr>\
+            <tr>\
+            <td class="title" style="width:18%">所在年级：</td>\
+            <td>2012</td>\
+            <td class="title" style="width:18%">学制：</td>\
+            <td>4</td>\
+            </tr>\
+            <tr>\
+            <td class="title" style="width:18%">项目：</td>\
+            <td>本科</td>\
+            <td class="title" style="width:18%">学历层次：</td>\
+            <td>本科</td>\
+            </tr>\
+            <tr>\
+            <td class="title" style="width:18%">学生类别：</td>\
+            <td>普通本科生</td>\
+            <td class="title" style="width:18%">院系：</td>\
+            <td>通信与信息工程学院</td>\
+            </tr>\
+            <tr>\
+            <td class="title" style="width:18%">专业：</td>\
+            <td>通信工程</td>\
+            <td class="title" style="width:18%">专业方向：</td>\
+            <td></td>\
+            </tr>\
+            <tr>\
+            </tr>\
+            <tr>\
+            <td class="title" style="width:18%">入校时间：</td>\
+            <td>2012-09-01</td>\
+            <td class="title" style="width:18%">应毕业时间：</td>\
+            <td>2016-07-01</td>\
+            </tr>\
+            <tr>\
+            <td class="title" style="width:18%">行政管理院系：</td>\
+            <td>通信与信息工程学院</td>\
+            <td class="title" style="width:18%">学习形式：</td>\
+            <td>普通全日制</td>\
+            </tr>\
+            <tr>\
+            <td class="title" style="width:18%">教育形式：</td>\
+            <td></td>\
+            <td class="title" style="width:18%">学籍状态：</td>\
+            <td>在籍在校</td>\
+            </tr>\
+            <tr>\
+            <td class="title" style="width:18%">是否在籍：</td>\
+            <td>是</td>\
+            <td class="title" style="width:18%">是否在校：</td>\
+            <td>是</td>\
+            </tr>\
+            <tr>\
+            <td class="title" style="width:18%">行政班级：</td>\
+            <td>2012010306</td>\
+            <td class="title" style="width:18%">所属校区：</td>\
+            <td>清水河校区</td>\
+            </tr>\
+                <!--zhangli_begain-->\
+            <!--\
+            <tr>\
+            <td class="title" style="width:18%">备注：</td>\
+            <td colspan="3"></td>\
+            </tr>\
+            -->\
+                <!--zhangli_end-->\
+            </tbody></table>';
+        });
+
+        it('should be able to get course from html', function (done) {
+            Parser.getUserDetail(html).nodeify(function (err, detail) {
+                err && console.log(err);
+                assert.equal('刘建翔', detail.name);
+                assert.equal('男', detail.sex);
+                done();
+            })
+        });
+    });
 });
