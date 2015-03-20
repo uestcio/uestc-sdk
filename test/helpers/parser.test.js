@@ -210,4 +210,81 @@ describe('Parser ', function () {
             })
         });
     });
+
+    describe('#getUserSemesterCourses()', function () {
+        var html;
+
+        beforeEach(function () {
+            html = '<div id="contentDiv" class="ajax_container">\
+            <pre>课表格式说明：教师姓名 课程名称(序号) (第n周-第m周,教室)</pre>\
+            <table width="100%" id="manualArrangeCourseTable" align="center" class="gridtable" style="text-align:center">\
+            <thead>\
+            <tr></tr>\
+            </thead>\
+            <tbody><tr></tr>\
+            </tbody></table>\
+            <form id="roomExportForm" name="roomExportForm" action="/eams/courseTableForStd!roomExport.action" method="post" target="blank">\
+            <input type="hidden" name="courseTableHTML" value="">\
+            </form>\
+            <table id="grid12042826911" class="gridtable">\
+            <thead class="gridhead">\
+            <tr>\
+            <th width="10%">序号</th>\
+            <th width="15%">课程代码</th>\
+            <th width="15%">课程名称</th>\
+            <th width="10%">学分</th>\
+            <th width="10%">课程序号</th>\
+            <th width="15%">教师</th>\
+            <th width="15%">备注</th>\
+            </tr>\
+            </thead>\
+            <tbody id="grid12042826911_data"><tr class="griddata-even   ">		<td>1</td>\
+            <td>B1600360</td><td>毛泽东思想和中国特色社会主义理论体系概论</td><td>6</td><td>		<a href="/eams/courseTableForStd!taskTable.action?lesson.id=180055" onclick="return bg.Go(this,null)" title="点击显示单个教学任务具体安排">B1600360.31</a>\
+            </td><td>董良</td><td>\
+            <br>\
+            </td></tr><tr class="griddata-odd   ">		<td>2</td>\
+            <td>E0100650</td><td>微处理器系统结构与嵌入式系统设计</td><td>5</td><td>		<a href="/eams/courseTableForStd!taskTable.action?lesson.id=181098" onclick="return bg.Go(this,null)" title="点击显示单个教学任务具体安排">E0100650.17</a>\
+            </td><td>吴献钢</td><td>\
+            <br>\
+            <br>\
+            </td></tr><tr class="griddata-even  ">		<td>3</td>\
+            <td>E0100940</td><td>计算机通信网</td><td>4</td><td>		<a href="/eams/courseTableForStd!taskTable.action?lesson.id=220354" onclick="return bg.Go(this,null)" title="点击显示单个教学任务具体安排">E0100940.01</a>\
+            </td><td></td><td>\
+            </td></tr><tr class="griddata-odd  ">		<td>4</td>\
+            <td>E0101040</td><td>数字信号处理</td><td>4</td><td>		<a href="/eams/courseTableForStd!taskTable.action?lesson.id=181684" onclick="return bg.Go(this,null)" title="点击显示单个教学任务具体安排">E0101040.03</a>\
+            </td><td>林静然</td><td>\
+            <br>\
+            </td></tr></tbody>\
+            </table>\
+            </div>\
+            <br>\
+            </div>';
+        });
+
+        it('should be able to get course from html', function (done) {
+            Parser.getUserSemesterCourses(html).nodeify(function (err, courses) {
+                err && console.log(err);
+                assert.equal(4, courses.length);
+                assert.equal('B1600360.31', courses[0].id);
+                done();
+            })
+        });
+    });
+
+    xdescribe('#getUserSemesterScores()', function () {
+        var html;
+
+        beforeEach(function () {
+            html = '';
+        });
+
+        it('should be able to get course from html', function (done) {
+            Parser.getUserSemesterScores(html).nodeify(function (err, courses) {
+                err && console.log(err);
+                assert.equal(4, courses.length);
+                assert.equal(67, courses[0].score.final);
+                done();
+            })
+        });
+    });
 });
