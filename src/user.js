@@ -201,6 +201,7 @@ User.prototype.__getSemesterCoursesOnline__ = function (semester) {
                     return courses;
                 }).then(function () {
                     return Peeler.getUserSemesterCourses(postRes.body);
+                    // Todo Add Semeter Info to Courses
                 });
             });
         });

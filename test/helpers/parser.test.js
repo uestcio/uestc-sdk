@@ -413,8 +413,19 @@ describe('Parser ', function () {
         it('should be able to get course from html', function (done) {
             Parser.getUserSemesterExams(html).nodeify(function (err, courses) {
                 err && console.log(err);
+                var course = courses[0];
                 assert.equal(4, courses.length);
-                assert.equal('A302', courses[0].exam.place);
+
+                assert.equal('B1600360.31', course.id);
+                assert.equal('毛泽东思想和中国特色社会主义理论体系概论', course.title);
+
+                assert.equal(true, _.isEqual(new Date('2015-01-14'), course.exam.date));
+                assert.equal(true, _.isEqual(new Date('2015-01-14 14:30'), course.exam.from));
+                assert.equal(true, _.isEqual(new Date('2015-01-14 16:30'), course.exam.to));
+                assert.equal('第20周 星期三(2015-01-14) 14:30-16:30', course.exam.description);
+                assert.equal('A302', course.exam.place);
+                assert.equal('399', course.exam.seat);
+                assert.equal('正常', course.exam.status);
                 done();
             })
         });

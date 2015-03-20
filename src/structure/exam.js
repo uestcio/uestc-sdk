@@ -24,8 +24,23 @@ module.exports = Exam;
 // 非公开方法
 
 Exam.prototype.__setField__ = function (field, val) {
-    if(val == null || val == undefined || val == '' || _.isFunction(val) || field == 'id') {
+    var self = this;
+    if (val === null || val === undefined || val != val || val === '' || _.isFunction(val)) {
         return;
     }
-    this[field] = val;
+    switch (field) {
+        case 'date':
+        case 'from':
+        case 'to':
+        case 'description':
+        case 'place':
+        case 'status':
+            self[field] = val;
+            break;
+        case 'seat':
+            self[field] = +val;
+            break;
+        default :
+            break;
+    }
 };
