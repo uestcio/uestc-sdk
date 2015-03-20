@@ -165,4 +165,30 @@ describe('Encoder ', function () {
         });
     });
 
+    describe('#parseWeeks()', function () {
+
+        it('should be able to parse indexes when all week', function () {
+            var res0 = Encoder.parseWeeks('1-17');
+            var res1 = Encoder.parseWeeks('3-18');
+            assert.equal('111111111111111110000000', res0);
+            assert.equal('001111111111111111000000', res1);
+        });
+
+        it('should be able to parse indexes when all week with []', function () {
+            var res0 = Encoder.parseWeeks('[1-17');
+            var res1 = Encoder.parseWeeks('3-18]');
+            var res2 = Encoder.parseWeeks('[1-13]');
+            assert.equal('111111111111111110000000', res0);
+            assert.equal('001111111111111111000000', res1);
+            assert.equal('111111111111100000000000', res2);
+        });
+
+        it('should be able to parse indexes when half week', function () {
+            var res0 = Encoder.parseWeeks('1-17', 1);
+            var res1 = Encoder.parseWeeks('2-18', 2);
+            assert.equal('101010101010101010000000', res0);
+            assert.equal('010101010101010101000000', res1);
+        });
+    });
+
 });
