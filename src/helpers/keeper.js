@@ -1,5 +1,9 @@
 // 外部依赖
 
+var _ = require('lodash');
+var async = require('async');
+var later = require('later');
+
 
 // 构造函数
 
@@ -11,7 +15,33 @@ module.exports = Keeper;
 
 // 静态字段
 
+Keeper.queue = Keeper.queue || {};
+
+Keeper.now = Keeper.now || null;
+
 
 // 静态方法
 
+Keeper.addTask = function (flag, task) {
+    Keeper.queue[flag] = task;
+};
 
+Keeper.removeTask = function (flag) {
+    delete Keeper.queue[flag];
+};
+
+Keeper.start = function () {
+    var mission = function () {
+        async.series(Keeper.queue, function (err, results) {
+            console.log(err);
+            console.log(results);
+        });
+    };
+
+    if (Keeper.now) {
+        Keeper.now.clear();
+    }
+
+    var sched = later.parse.recur().every(1).minute();
+    Keeper.now = later.setInterval(mission, sched);
+};

@@ -42,14 +42,12 @@ Application.prototype.identify = function (number, password, wait) {
         this._users_[user._number_] = user;
     }
 
-    if (user._status_ != User.status.loginSuccess) {
-        var meta = UrlUtil.getUserLoginMeta(number, password);
-        meta.jar = user._jar_;
-        promise = user.__login__(meta).then(function () {
-            self._current_ = user;
-            return user;
-        });
-    }
+    var meta = UrlUtil.getUserLoginMeta(number, password);
+    meta.jar = user._jar_;
+    promise = user.__login__(meta).then(function () {
+        self._current_ = user;
+        return user;
+    });
 
     return wait ? promise : user;
 };
