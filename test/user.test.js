@@ -202,6 +202,17 @@ describe('User ', function () {
         });
     });
 
+    describe('#__getSemesterCoursesOnline__()', function () {
+        it('should get the semester courses online', function (done) {
+            user.__getSemesterCoursesOnline__(43).nodeify(function (err, courses) {
+                err && console.log(err);
+                assert.equal(12, courses.length);
+                assert.equal(3, _.findWhere(courses, {id: 'E0100650.17'}).durations.length);
+                done();
+            });
+        });
+    });
+
     describe('#__getSemesterScores__()', function () {
 
         it('should get the semester scores', function (done) {

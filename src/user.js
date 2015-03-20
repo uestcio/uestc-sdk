@@ -5,7 +5,8 @@ var Promise = require('promise');
 
 var Carrier = require('./helpers/carrier');
 var Course = require('./structure/course');
-var Enrollment = require('./structure/score');
+var Duration = require('./structure/duration');
+var Score = require('./structure/score');
 var Parser = require('./helpers/parser');
 var Encoder = require('./helpers/encoder');
 var Peeler = require('./helpers/peeler');
@@ -61,10 +62,10 @@ User.prototype.getDetail = function () {
 
 User.prototype.getGrade = function () {
     var self = this;
-    if(!self._detail_) {
+    if (!self._detail_) {
         self._detail_ = new StdDetail(self._number_);
     }
-    if(!self._detail_.grade) {
+    if (!self._detail_.grade) {
         self._detail_.grade = +(self._number_.substr(0, 4));
     }
     return self._detail_.grade;
@@ -129,7 +130,7 @@ User.prototype.__getAllCoursesOffline__ = function () {
 
 User.prototype.__getAllScores__ = function () {
     var self = this;
-    var meta= UrlUtil.getUserAllScoresMeta(self);
+    var meta = UrlUtil.getUserAllScoresMeta(self);
     return self.__ensureLogin__().then(function () {
         return Carrier.get(meta).then(function (res) {
             return Parser.getUserAllScores(res.body);
@@ -141,7 +142,7 @@ User.prototype.__getAllScores__ = function () {
 
 User.prototype.__getDetailOffline__ = function () {
     var self = this;
-    if(self._detail_) {
+    if (self._detail_) {
         return Promise.resolve(self._detail_);
     }
     else {
@@ -177,38 +178,55 @@ User.prototype.__getSemesterCoursesOffline__ = function (semester) {
 User.prototype.__getSemesterCoursesOnline__ = function (semester) {
     var self = this;
     var getMeta = UrlUtil.getUserSemesterCoursesPreMeta(self);
-    var postMeta;
-    return self._current_.__ensureLogin__().then(function () {
+    var postMeta, courses;
+    return self.__ensureLogin__().then(function () {
         return Carrier.get(getMeta).then(function (getRes) {
-            var raw = getRes.body.match(/bg\.form\.addInput\(form,"ids","\d+"\);/);
-            var ids = raw.match(/\d+/);
-            postMeta = UrlUtil.getUserSemesterCoursesMeta(self._current_, semester, ids);
+            var raw = getRes.body.match(/bg\.form\.addInput\(form,"ids","\d+"\);/)[0];
+            var ids = raw.match(/\d+/)[0];
+            postMeta = UrlUtil.getUserSemesterCoursesMeta(self, semester, ids);
             return Carrier.post(postMeta).then(function (postRes) {
-                var raws = postRes.body.match(/var table0[\S\s]*?table0\.marshalTable/);
-                raws = raws.replace('table0.marshalTable', '');
-                var courses = [];
-                var CourseTable = function (year, semester) {
-                    this.year = year;
-                    this.semester = semester;
-                    this.activities = [];
-                    _.times(12, function (n) {
-                        this.activities[n] = [];
-                    },this);
-                };
-                var TaskActivity = function (uk1, instructor, uk2, titleAndId, uk3, place, weeks) {
-                    this.uk1 = uk1;
-                    this.instructor = instructor;
-                    this.uk2 = uk2;
-                    this.titleAndId = titleAndId;
-                    this.uk3 = uk3;
-                    this.place = place;
-                    this.weeks = weeks;
-                };
-                eval(raws);
-                return Peeler.getTable(CourseTable);
+                return Parser.getUserSemesterCourses(postRes.body).then(function (coursesRes) {
+                    courses = coursesRes;
+                    return courses;
+                }).then(function () {
+                    var raws = postRes.body.match(/var table0[\S\s]*?table0\.marshalTable/)[0];
+                    raws = raws.replace('table0.marshalTable', '');
+                    var CourseTable = function (year, semester) {
+                        this.year = year;
+                        this.semester = semester;
+                        this.activities = [];
+                        _.times(12 * 7, function (n) {
+                            this.activities[n] = [];
+                        }, this);
+                    };
+                    var TaskActivity = function (uk1, instructor, uk2, titleAndId, uk3, place, weeks) {
+                        this.uk1 = uk1;
+                        this.instructor = instructor;
+                        this.uk2 = uk2;
+                        this.titleAndId = titleAndId;
+                        this.uk3 = uk3;
+                        this.place = place;
+                        this.weeks = weeks;
+                    };
+                    eval(raws);
+                    return Peeler.getTable(table0);
+                });
             });
         });
-    }).then(self.__cacheCourses__);
+    }).then(function (timeTable) {
+        courses.forEach(function (course) {
+            course.durations = _.map(timeTable[course.id] || [], function (time) {
+                var indexes = '';
+                _.times(24, function (n) {
+                    indexes += ((n >= time.index && n < time.index + time.span)? '1': '0');
+                });
+                return new Duration(time.weeks, time.day, indexes, time.place);
+            });
+        });
+        return courses;
+    }).then(function (coursesWithTime) {
+        return self.__cacheCourses__(coursesWithTime);
+    });
 };
 
 User.prototype.__getSemesterScores__ = function (semester) {

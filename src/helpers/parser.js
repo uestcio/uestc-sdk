@@ -103,6 +103,22 @@ Parser.getUserDetail = function (html) {
     });
 };
 
+Parser.getUserSemesterCourses = function (html) {
+    return Parser.get$(html).then(function ($) {
+        var table = $('table.gridtable')[1];
+        var lines = $(table).find('tbody > tr');
+        return _.map(lines, function (line) {
+            var id = _.trim($(line.children[4]).text());
+            var course = new Course(id);
+            course.__setField__('code', $(line.children[1]).text());
+            course.__setField__('title', $(line.children[2]).text());
+            course.__setField__('credit', +$(line.children[3]).text());
+            course.__setField__('instructor', $(line.children[5]).text());
+            return course;
+        });
+    });
+};
+
 Parser.getUserSemesterScores = function (html) {
     return Parser.get$(html).then(function ($) {
         var lines = $('table.gridtable > tbody > tr');

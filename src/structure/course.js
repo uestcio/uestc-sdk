@@ -7,6 +7,7 @@ var _ = require('lodash');
 
 function Course(id) {
     this.id = id;
+    this.durations = [];
 }
 
 module.exports = Course;
@@ -49,6 +50,10 @@ Course.merge = function (courses0, courses1) {
 
 
 // 非公开方法
+
+Course.prototype.__addDuration__ = function (day, index) {
+    
+};
 
 Course.prototype.__merge__ = function (course) {
     var self = this;
