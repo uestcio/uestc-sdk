@@ -122,9 +122,7 @@ User.prototype.__ensureLogin__ = function () {
             return res;
         }
     }).then(null, function (err) {
-        var meta = UrlUtil.getUserLoginMeta(self._number_, self._password_);
-        meta.jar = self._jar_;
-        return self.__login__(meta);
+        return self.__login__();
     });
 };
 
@@ -254,8 +252,10 @@ User.prototype.__getSemesterScores__ = function (semester) {
 };
 
 
-User.prototype.__login__ = function (meta) {
+User.prototype.__login__ = function () {
     var self = this;
+    var meta = UrlUtil.getUserLoginMeta(self._number_, self._password_);
+    meta.jar = self._jar_;
     return Carrier.post(meta).then(function (res) {
         if (res.httpResponse.statusCode !== 302) {
             self._status_ = User.status.loginFail;

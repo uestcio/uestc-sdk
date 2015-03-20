@@ -64,7 +64,7 @@ describe('User ', function () {
         });
 
         it('should send ensure login when login success', function (done) {
-            user.__login__(UrlUtil.getUserLoginMeta('2012019050020', '811073')).nodeify(function () {
+            user.__login__().nodeify(function () {
                 user.__ensureLogin__().nodeify(function () {
                     assert.equal(User.status.loginSuccess, user._status_);
                     done();
@@ -238,42 +238,17 @@ describe('User ', function () {
     });
 
     describe('#__login__()', function () {
-        var url, form;
-
-        beforeEach(function () {
-            url = 'https://uis.uestc.edu.cn/amserver/UI/Login';
-            form = {
-                'IDToken0': '',
-                'IDToken1': '2012019050020',
-                'IDToken2': '',
-                'IDButton': 'Submit',
-                'goto': 'aHR0cDovL3BvcnRhbC51ZXN0Yy5lZHUuY24vbG9naW4ucG9ydGFs',
-                'encoded': true,
-                'gx_charset': 'UTF-8'
-            };
-        });
 
         it('should send the post request and login success', function (done) {
-            form['IDToken2'] = '811073';
-            var meta = {
-                url: url,
-                jar: user._jar_,
-                form: form
-            };
-            user.__login__(meta).nodeify(function (err, res) {
+            user.__login__().nodeify(function (err, res) {
                 assert.equal(false, !!err);
                 done();
             });
         });
 
         it('should send the post request and login fail', function (done) {
-            form['IDToken2'] = '811074';
-            var meta = {
-                url: url,
-                jar: user._jar_,
-                form: form
-            };
-            user.__login__(meta).nodeify(function (err, res) {
+            user._password_ = '811074';
+            user.__login__().nodeify(function (err, res) {
                 assert.equal(true, !!err);
                 done();
             });

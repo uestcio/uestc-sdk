@@ -21,6 +21,9 @@ Sdk.single = function () {
     if(!Sdk._singleton_) {
         Sdk._singleton_ = new Application();
     }
+    if(arguments.length != 0) {
+        Application.begin();
+    }
     return Sdk._singleton_;
 };
 

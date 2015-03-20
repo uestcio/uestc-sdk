@@ -6,9 +6,11 @@ var _ = require('lodash');
 var Carrier = require('./helpers/carrier');
 var User = require('./user');
 var UrlUtil = require('./helpers/urlutil');
+var MissionUtil = require('./helpers/missionutil');
 var Parser = require('./helpers/parser');
 var Course = require('./structure/course');
 var Fixture = require('./helpers/fixture');
+var Keeper = require('./helpers/keeper');
 
 
 // 构造方法
@@ -28,6 +30,18 @@ module.exports = Application;
 // 静态字段
 
 
+// 静态方法
+
+Application.begin = function () {
+    Keeper.addTask(0, MissionUtil.getUserLoginMission(Application.single()));
+    Keeper.addTask(1, MissionUtil.getUserDetailMission(Application.single()));
+    Keeper.addTask(2, MissionUtil.getUserCoursesMission(Application.single()));
+    Keeper.addTask(3, MissionUtil.getUserScoresMission(Application.single()));
+    Keeper.addTask(4, MissionUtil.getUserExamsMission(Application.single()));
+    Keeper.start();
+};
+
+
 // 实例方法
 
 Application.prototype.identify = function (number, password, wait) {
@@ -42,9 +56,7 @@ Application.prototype.identify = function (number, password, wait) {
         this._users_[user._number_] = user;
     }
 
-    var meta = UrlUtil.getUserLoginMeta(number, password);
-    meta.jar = user._jar_;
-    promise = user.__login__(meta).then(function () {
+    promise = user.__login__().then(function () {
         self._current_ = user;
         return user;
     });
@@ -79,11 +91,8 @@ Application.prototype.searchForPeople = function (term, limit) {
 
 Application.prototype.__broke__ = function (number, password) {
     var self = this;
-
-    var meta = UrlUtil.getUserLoginMeta(number, password);
     var user = new User(number, password);
-    meta.jar = user._jar_;
-    return user.__login__(meta).then(function () {
+    return user.__login__().then(function () {
         self._current_ = user;
         return user;
     });
