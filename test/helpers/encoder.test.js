@@ -143,6 +143,18 @@ describe('Encoder ', function () {
         });
     });
 
+    describe('#parseIndexes()', function () {
+
+        it('should be able to parse indexes', function () {
+            var res0 = Encoder.parseIndexes('1-2');
+            var res1 = Encoder.parseIndexes('5-6');
+            var res2 = Encoder.parseIndexes('9-11');
+            assert.equal('110000000000', res0);
+            assert.equal('000011000000', res1);
+            assert.equal('000000001110', res2);
+        });
+    });
+
     describe('#parseSemester()', function () {
 
         it('should be able to parse grade and semester', function () {
