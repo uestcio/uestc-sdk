@@ -3,6 +3,7 @@ var Promise = require('promise');
 var _ = require('lodash');
 
 var Course = require('../src/structure/course');
+console.log(1, Course);
 var Person = require('../src/structure/person');
 var User = require('../src/user');
 var Application = require('../src/application');
@@ -104,7 +105,8 @@ describe('Application ', function () {
                 instructor: '徐世中'
             };
             app.__broke__('2012019050020', '811073').nodeify(function () {
-                app.searchForCourses(options).nodeify(function (err, courses) {
+                app.__searchForCoursesOnline__(options).nodeify(function (err, courses) {
+                    err && console.log(err);
                     assert.equal('徐世中', courses[0].instructor);
                     done();
                 });

@@ -6,9 +6,11 @@ var Promise = require('promise');
 
 var Encoder = require('../helpers/encoder');
 
-var Course = require('../structure/course');
 var Exam = require('../structure/exam');
 var Score = require('../structure/score');
+console.log(2, Course);
+var Course = require('../structure/course');
+console.log(3, Course);
 var StdDetail = require('../structure/stddetail');
 
 
@@ -53,6 +55,7 @@ Parser.getAppCourses = function (html) {
             course.__setField__('durations',
                 Encoder.parseDurations($(line.children[8]).text(), $(line.children[9]).html()));
             course.__setField__('campus', $(line.children[11]).text());
+            //console.log(course);
             return course;
         });
     });

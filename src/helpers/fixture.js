@@ -12,7 +12,7 @@ module.exports = Fixture;
 
 // 静态字段
 
-Fixture.courseTypes = Fixture.prototype.courseType = {
+Fixture.courseTypes = {
     all: '',
     publicDisciplinary: '公共基础课',
     basicDisciplinary: '学科基础课',
@@ -24,7 +24,7 @@ Fixture.courseTypes = Fixture.prototype.courseType = {
     qualityElective: '素质教育选修课'
 };
 
-Fixture.departments = Fixture.prototype.departments = {
+Fixture.departments = {
     scie: '通信与信息工程学院',
     ncl: '通信抗干扰技术国家级重点实验室',
     ee: '电子工程学院',

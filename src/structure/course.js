@@ -2,7 +2,6 @@
 
 var _ = require('lodash');
 
-var Application = require('../application');
 var Duration = require('./duration');
 var Exam = require('./exam');
 var Fixture = require('../helpers/fixture');
@@ -34,7 +33,7 @@ Course.merge = function (courses0, courses1) {
             res[course.id] = course;
         }
         else {
-            res[course.id].merge(course)
+            res[course.id].__merge__(course)
         }
     });
     return _.values(res);
@@ -55,6 +54,7 @@ Course.prototype.__merge__ = function (course) {
 };
 
 Course.prototype.__setField__ = function (field, val) {
+    var self = this;
     if (val === null || val === undefined || val != val || val === '' || _.isFunction(val)) {
         return;
     }
@@ -65,31 +65,31 @@ Course.prototype.__setField__ = function (field, val) {
         case 'code':
         case 'instructor':
         case 'campus':
-            this[field] = val;
+            self[field] = val;
             break;
         case 'credit':
-            this[field] = +val;
+            self[field] = +val;
             break;
         case 'type':
             if (_.some(Fixture.courseTypes, function (value) {
                     return val == value;
                 })) {
-                this[field] = val;
+                self[field] = val;
             }
             break;
         case 'department':
             if (_.some(Fixture.departments, function (value) {
                     return val == value;
                 })) {
-                this[field] = val;
+                self[field] = val;
             }
             break;
         case 'durations':
-            this[field] = val;
+            self[field] = val;
             break;
         case 'grade':
-            this['semester'][0] = +val;
-            this['semester'][1] = val > 0? val + 1 : 0;
+            self['semester'][0] = +val;
+            self['semester'][1] = val > 0? val + 1 : 0;
             break;
         case 'score':
             if (val instanceof Score) {
@@ -98,7 +98,7 @@ Course.prototype.__setField__ = function (field, val) {
             break;
         case 'exam':
             if (val instanceof Exam) {
-                this[field] = val;
+                self[field] = val;
             }
             break;
         default :
