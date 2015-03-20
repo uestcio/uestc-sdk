@@ -162,7 +162,7 @@ describe('Application ', function () {
         it('should generate the right user when wait', function (done) {
             app.identify('2012019050020', '811073', true).nodeify(function (err, backUser) {
                 assert.equal('2012019050020', backUser._number_);
-                assert.equal(User._status_.loginSuccess, backUser._status_);
+                assert.equal(User.status.loginSuccess, backUser._status_);
                 assert.equal(true, !!backUser._jar_._jar);
                 done();
             });

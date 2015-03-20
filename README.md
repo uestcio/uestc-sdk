@@ -11,7 +11,7 @@
 > And the documentation is under revising. Please do NOT use this package now except for research purpose.
 
 > 项目目前还在开发中，部分功能尚未完成，文档也没有最终确定，除了研究目的外，请勿直接使用！
-> 预计项目的第一版发行版为 1.0 版，有需求的同学可以 Watch 本项目。
+> 预计项目的第一版发行版为 1.0.0 版，有需求的同学可以 Watch 本项目。
 
   [![NPM Version][npm-image]][npm-url]
   [![Node Version][node-version]][npm-url]
@@ -70,12 +70,12 @@ $ npm install uestc --save-dev
 
   * 用户登陆认证
   * 学校的课程信息条件查询
-  * 用户课程成绩信息获取
-  * 用户学籍信息获取
   * 学校的人员信息关键字查询
+  * 用户学籍信息获取
+  * 用户课程成绩信息获取
+  * 用户课程表信息获取
   * 用户考试信息获取（待实现）
   * 教务处公告获取（待实现）
-  * 用户课程表信息获取
   * 数据缓存，支持离线访问
   * 教务系统自动评教（待实现）
   * 一卡通消费信息查询（待实现）

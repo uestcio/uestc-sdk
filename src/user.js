@@ -18,7 +18,7 @@ var StdDetail = require('./structure/stddetail');
 function User(number, password) {
     this._number_ = number;
     this._password_ = password;
-    this._status_ = User._status_.idle;
+    this._status_ = User.status.idle;
     this._jar_ = Carrier.jar();
     this._courses_ = {};
     this._detail_ = new StdDetail(number);
@@ -30,7 +30,7 @@ module.exports = User;
 
 // 静态字段
 
-User._status_ = {
+User.status = {
     idle: 0,
     loginSuccess: 1,
     loginFail: 2
@@ -230,20 +230,20 @@ User.prototype.__login__ = function (meta) {
     var self = this;
     return Carrier.post(meta).then(function (res) {
         if (res.httpResponse.statusCode !== 302) {
-            self._status_ = User._status_.loginFail;
+            self._status_ = User.status.loginFail;
             throw new Error('Authentication failed.');
         }
         else {
-            self._status_ = User._status_.loginSuccess;
+            self._status_ = User.status.loginSuccess;
             return self;
         }
     });
 };
 
 User.prototype.__reset__ = function () {
-    this._status_ = User._status_.idle;
+    this._status_ = User.status.idle;
     this._jar_ = Carrier.jar();
-
     this._courses_ = {};
+    this._detail_ = new StdDetail(this._number_);
     this._carrier_ = Carrier;
 };

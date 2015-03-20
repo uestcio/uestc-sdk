@@ -16,7 +16,7 @@ describe('User ', function () {
         it('should create the right object', function () {
             assert.equal('2012019050020', user._number_);
             assert.equal('811073', user._password_);
-            assert.equal(User._status_.idle, user._status_);
+            assert.equal(User.status.idle, user._status_);
             assert.equal(1, _.keys(user._jar_).length);
         });
     });
@@ -58,7 +58,7 @@ describe('User ', function () {
 
         it('should send ensure login when idle', function (done) {
             user.__ensureLogin__().nodeify(function () {
-                assert.equal(User._status_.loginSuccess, user._status_);
+                assert.equal(User.status.loginSuccess, user._status_);
                 done();
             })
         });
@@ -66,7 +66,7 @@ describe('User ', function () {
         it('should send ensure login when login success', function (done) {
             user.__login__(UrlUtil.getUserLoginMeta('2012019050020', '811073')).nodeify(function () {
                 user.__ensureLogin__().nodeify(function () {
-                    assert.equal(User._status_.loginSuccess, user._status_);
+                    assert.equal(User.status.loginSuccess, user._status_);
                     done();
                 })
             })
@@ -264,6 +264,18 @@ describe('User ', function () {
                 assert.equal(true, !!err);
                 done();
             });
+        });
+    });
+
+    describe('#__reset__()', function () {
+        it('should be idle after reset', function () {
+            user.__reset__();
+            assert.equal(User.status.idle, user._status_);
+        });
+
+        it('should not change number and password', function () {
+            user.__reset__();
+            assert.equal('2012019050020', user._number_);
         });
     });
 

@@ -1,7 +1,7 @@
 {
   "name": "uestc",
-  "version": "0.2.8",
-  "description": "The integrated NodeJS api of the EAMS system and some other parts for UESTC websites.",
+  "version": "0.3.0",
+  "description": "A concise, reliable and powerful SDK platform for UESTC.",
   "main": "index.js",
   "engines": {
     "node": ">=0.12"
