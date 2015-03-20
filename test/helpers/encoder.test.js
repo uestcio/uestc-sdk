@@ -69,6 +69,78 @@ describe('Encoder ', function () {
             assert.equal('000000110000', durations1[0].indexes);
             assert.equal('2楼教师休息室', durations1[0].place);
         });
+
+        it('should be able to parse the durations when empty', function () {
+            var durations0 = Encoder.parseDurations('', '');
+            assert.equal(0, durations0.length);
+        });
+
+        it('should be able to parse the durations when only time', function () {
+            var durations0 = Encoder.parseDurations('星期三 1-4 [6-13]', '');
+            assert.equal(1, durations0.length);
+            assert.equal('000001111111100000000000', durations0[0].weeks);
+            assert.equal(3, durations0[0].day);
+            assert.equal('111100000000', durations0[0].indexes);
+            assert.equal('', durations0[0].place);
+        });
+
+        it('should be able to parse the durations when single and with parity', function () {
+            var durations0 = Encoder.parseDurations('星期四 9-10 [1-17]', '单  科研2号楼437');
+            assert.equal(1, durations0.length);
+            assert.equal('101010101010101010000000', durations0[0].weeks);
+            assert.equal(4, durations0[0].day);
+            assert.equal('000000001100', durations0[0].indexes);
+            assert.equal('科研2号楼437', durations0[0].place);
+
+            var durations1 = Encoder.parseDurations('星期二 9-10 [2-18]', '双 科研2号楼425');
+            assert.equal(1, durations1.length);
+            assert.equal('010101010101010101000000', durations1[0].weeks);
+            assert.equal(2, durations1[0].day);
+            assert.equal('000000001100', durations1[0].indexes);
+            assert.equal('科研2号楼425', durations1[0].place);
+        });
+
+        it('should be able to parse the durations when single and with <br>', function () {
+            var durations0 = Encoder.parseDurations('星期三 9-11 [1-17]', '  A108 <br>');
+            assert.equal(1, durations0.length);
+            assert.equal('111111111111111110000000', durations0[0].weeks);
+            assert.equal(3, durations0[0].day);
+            assert.equal('000000001110', durations0[0].indexes);
+            assert.equal('A108', durations0[0].place);
+        });
+
+        it('should be able to parse the durations when many', function () {
+            var durations0 = Encoder.parseDurations('星期二 1-2 [3-18] 星期四 3-4 [3-18]', '  C237 <br>  C237 <br>');
+            assert.equal(2, durations0.length);
+            assert.equal('001111111111111111000000', durations0[0].weeks);
+            assert.equal(2, durations0[0].day);
+            assert.equal('110000000000', durations0[0].indexes);
+            assert.equal('C237', durations0[0].place);
+
+            assert.equal('001111111111111111000000', durations0[1].weeks);
+            assert.equal(4, durations0[1].day);
+            assert.equal('001100000000', durations0[1].indexes);
+            assert.equal('C237', durations0[1].place);
+        });
+
+        it('should be able to parse the durations when many and with parity', function () {
+            var durations0 = Encoder.parseDurations('星期一 5-6 [1-17] 星期三 3-4 [2-16] 星期五 5-6 [1-17]', '  主楼A2区506 <br>双  主楼A2区506 <br>  主楼A2区506 <br>');
+            assert.equal(3, durations0.length);
+            assert.equal('111111111111111110000000', durations0[0].weeks);
+            assert.equal(1, durations0[0].day);
+            assert.equal('000011000000', durations0[0].indexes);
+            assert.equal('主楼A2区506', durations0[0].place);
+
+            assert.equal('010101010101010100000000', durations0[1].weeks);
+            assert.equal(3, durations0[1].day);
+            assert.equal('001100000000', durations0[1].indexes);
+            assert.equal('主楼A2区506', durations0[1].place);
+
+            assert.equal('111111111111111110000000', durations0[2].weeks);
+            assert.equal(5, durations0[2].day);
+            assert.equal('000011000000', durations0[2].indexes);
+            assert.equal('主楼A2区506', durations0[2].place);
+        });
     });
 
     describe('#parseSemester()', function () {
