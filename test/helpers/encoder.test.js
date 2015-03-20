@@ -52,6 +52,25 @@ describe('Encoder ', function () {
         });
     });
 
+    describe('#parseDurations()', function () {
+
+        it('should be able to parse the durations when single', function () {
+            var durations0 = Encoder.parseDurations('星期二 7-8 [6-16]', 'B305');
+            assert.equal(1, durations0.length);
+            assert.equal('000001111111111100000000', durations0[0].weeks);
+            assert.equal(2, durations0[0].day);
+            assert.equal('000000110000', durations0[0].indexes);
+            assert.equal('B305', durations0[0].place);
+
+            var durations1 = Encoder.parseDurations('星期四 7-8 [6-17]', '2楼教师休息室');
+            assert.equal(1, durations1.length);
+            assert.equal('000001111111111110000000', durations1[0].weeks);
+            assert.equal(4, durations1[0].day);
+            assert.equal('000000110000', durations1[0].indexes);
+            assert.equal('2楼教师休息室', durations1[0].place);
+        });
+    });
+
     describe('#parseSemester()', function () {
 
         it('should be able to parse grade and semester', function () {
