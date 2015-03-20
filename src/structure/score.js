@@ -24,10 +24,10 @@ module.exports = Score;
 // 非公开方法
 
 Score.prototype.__init__ = function () {
-    this.overall = 0;
-    this.resit = 0;
-    this.final = 0;
-    this.gpa = 0;
+    this.overall = -1;
+    this.resit = -1;
+    this.final = -1;
+    this.gpa = -1;
 };
 
 Score.prototype.__setField__ = function (field, val) {

@@ -156,11 +156,13 @@ describe('Parser ', function () {
                 assert.equal(0, course0.score.overall);
                 assert.equal(0, course0.score.resit);
                 assert.equal(67, course0.score.final);
+                assert.equal(-1, course0.score.gpa);
 
                 var course1 = courses[1];
                 assert.equal(80, course1.score.overall);
                 assert.equal(80, course1.score.resit);
                 assert.equal(80, course1.score.final);
+                assert.equal(-1, course0.score.gpa);
                 done();
             })
         });
