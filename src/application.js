@@ -27,8 +27,6 @@ module.exports = Application;
 
 // 静态字段
 
-Application.fixture = Fixture;
-
 
 // 实例方法
 

@@ -39,6 +39,19 @@ describe('Encoder ', function () {
         });
     });
 
+    describe('#parseDayofWeek()', function () {
+
+        it('should be able to parse day of week', function () {
+            assert.equal(1, Encoder.parseDayofWeek('星期一'));
+            assert.equal(2, Encoder.parseDayofWeek('星期二'));
+            assert.equal(3, Encoder.parseDayofWeek('星期三'));
+            assert.equal(4, Encoder.parseDayofWeek('星期四'));
+            assert.equal(5, Encoder.parseDayofWeek('星期五'));
+            assert.equal(6, Encoder.parseDayofWeek('星期六'));
+            assert.equal(7, Encoder.parseDayofWeek('星期日'));
+        });
+    });
+
     describe('#parseSemester()', function () {
 
         it('should be able to parse grade and semester', function () {
