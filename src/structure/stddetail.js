@@ -1,10 +1,12 @@
 // 外部依赖
 
+var _ = require('lodash');
 
 // 构造函数
 
 function StdDetail(id) {
     this.id = id;
+    this.__init__();
 }
 
 module.exports = StdDetail;
@@ -20,6 +22,11 @@ module.exports = StdDetail;
 
 
 // 非公开方法
+
+StdDetail.prototype.__init__ = function () {
+    this.direction = '';
+    this.educationType = '';
+};
 
 StdDetail.prototype.__setField__ = function (field, val) {
     var self = this;
@@ -41,9 +48,11 @@ StdDetail.prototype.__setField__ = function (field, val) {
         case 'studyType':
         case 'educationType':
         case 'status':
+        case 'administrationClass':
         case 'campus':
             self[field] = val;
             break;
+        case 'grade':
         case 'length':
             self[field] = +val;
             break;

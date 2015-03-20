@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var assert = require('assert');
 var Parser = require('../../src/helpers/parser');
 
@@ -137,7 +138,7 @@ describe('Parser ', function () {
             </div>';
         });
 
-        it('should be able to get course from html', function (done) {
+        it('should be able to get scores from html', function (done) {
             Parser.getUserAllScores(html).nodeify(function (err, courses) {
                 err && console.log(err);
                 var course0 = courses[0];
@@ -258,11 +259,31 @@ describe('Parser ', function () {
             </tbody></table>';
         });
 
-        it('should be able to get course from html', function (done) {
+        it('should be able to get detail from html', function (done) {
             Parser.getUserDetail(html).nodeify(function (err, detail) {
                 err && console.log(err);
+                assert.equal('2012019050020', detail.id);
                 assert.equal('刘建翔', detail.name);
-                assert.equal('男', detail.sex);
+                assert.equal('Liu JianXiang', detail.englishName);
+                assert.equal('男', detail.gender);
+                assert.equal(2012, detail.grade);
+                assert.equal(4, detail.length);
+                assert.equal('本科', detail.project);
+                assert.equal('本科', detail.qualification);
+                assert.equal('普通本科生', detail.type);
+                assert.equal('通信与信息工程学院', detail.college);
+                assert.equal('通信工程', detail.major);
+                assert.equal('', detail.direction);
+                assert.equal(true, _.isEqual(new Date('2012-09-01'), detail.fromDate));
+                assert.equal(true, _.isEqual(new Date('2016-07-01'), detail.toDate));
+                assert.equal('通信与信息工程学院', detail.administrationCollege);
+                assert.equal('普通全日制', detail.studyType);
+                assert.equal('', detail.educationType);
+                assert.equal('在籍在校', detail.status);
+                assert.equal(true, detail.inEnrollment);
+                assert.equal(true, detail.inSchool);
+                assert.equal('2012010306', detail.administrationClass);
+                assert.equal('清水河校区', detail.campus);
                 done();
             })
         });
