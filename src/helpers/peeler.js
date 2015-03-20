@@ -46,3 +46,27 @@ Peeler.getTable = function (table) {
     }
     return timeTable;
 };
+
+Peeler.getUserSemesterCourses = function (html) {
+    var raws = html.match(/var table0[\S\s]*?table0\.marshalTable/)[0];
+    raws = raws.replace('table0.marshalTable', '');
+    var CourseTable = function (year, semester) {
+        this.year = year;
+        this.semester = semester;
+        this.activities = [];
+        _.times(12 * 7, function (n) {
+            this.activities[n] = [];
+        }, this);
+    };
+    var TaskActivity = function (uk1, instructor, uk2, titleAndId, uk3, place, weeks) {
+        this.uk1 = uk1;
+        this.instructor = instructor;
+        this.uk2 = uk2;
+        this.titleAndId = titleAndId;
+        this.uk3 = uk3;
+        this.place = place;
+        this.weeks = weeks;
+    };
+    eval(raws);
+    return Peeler.getTable(table0);
+};
