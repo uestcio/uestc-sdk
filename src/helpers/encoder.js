@@ -50,8 +50,9 @@ Encoder.getAllSemesters = function (user) {
 };
 
 Encoder.parseSemester = function (semesterStr) {
-    var grade = _.words(semesterStr)[0];
-    var semester = _.words(semesterStr)[2];
-    return grade + ',' + semester;
+    var year0 = +_.words(semesterStr)[0];
+    var year1 = +_.words(semesterStr)[1];
+    var semester = +_.words(semesterStr)[2];
+    return [year0, year1, semester];
 };
 

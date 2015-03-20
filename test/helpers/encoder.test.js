@@ -32,10 +32,20 @@ describe('Encoder ', function () {
             user = new User('2012019050020', '811073');
         });
 
-        it('should be able to get semesterId', function () {
+        it('should be able to get semester array', function () {
             var semesters = Encoder.getAllSemesters(user);
             assert.equal(8, semesters.length);
             assert.equal(13, semesters[0]);
+        });
+    });
+
+    describe('#parseSemester()', function () {
+
+        it('should be able to parse grade and semester', function () {
+            var res = Encoder.parseSemester('2013-2014 2');
+            assert.equal(2013, res[0]);
+            assert.equal(2014, res[1]);
+            assert.equal(2, res[2]);
         });
     });
 
