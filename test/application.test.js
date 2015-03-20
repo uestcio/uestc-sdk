@@ -3,7 +3,6 @@ var Promise = require('promise');
 var _ = require('lodash');
 
 var Course = require('../src/structure/course');
-console.log(1, Course);
 var Person = require('../src/structure/person');
 var User = require('../src/user');
 var Application = require('../src/application');

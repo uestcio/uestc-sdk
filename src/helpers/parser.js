@@ -8,9 +8,7 @@ var Encoder = require('../helpers/encoder');
 
 var Exam = require('../structure/exam');
 var Score = require('../structure/score');
-console.log(2, Course);
 var Course = require('../structure/course');
-console.log(3, Course);
 var StdDetail = require('../structure/stddetail');
 
 

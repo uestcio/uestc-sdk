@@ -58,20 +58,34 @@ describe('Parser ', function () {
                 assert.equal('公共基础课', course0.type);
                 assert.equal('英才实验学院', course0.department);
                 assert.equal('肖义彬', course0.instructor);
+                assert.equal('清水河校区', course0.campus);
+
                 assert.equal(0, course0.semester[0]);
                 assert.equal(0, course0.semester[1]);
                 assert.equal(0, course0.semester[2]);
+
                 assert.equal('000001111111111100000000', course0.durations[0].weeks);
                 assert.equal('000000110000', course0.durations[0].indexes);
                 assert.equal('B305', course0.durations[0].place);
                 assert.equal(2, course0.durations[0].day);
-                assert.equal('清水河校区', course0.campus);
+                assert.equal(6, course0.durations[0].fromWeek);
+                assert.equal(16, course0.durations[0].toWeek);
+                assert.equal(4, course0.durations[0].parity);
+                assert.equal(7, course0.durations[0].fromIndex);
+                assert.equal(8, course0.durations[0].toIndex);
+                assert.equal(2, course0.durations[0].span);
 
                 var course1 = courses[1];
                 assert.equal('001010101010101010000000', course1.durations[2].weeks);
                 assert.equal('001100000000', course1.durations[2].indexes);
                 assert.equal('A307', course1.durations[2].place);
                 assert.equal(5, course1.durations[2].day);
+                assert.equal(3, course1.durations[2].fromWeek);
+                assert.equal(17, course1.durations[2].toWeek);
+                assert.equal(1, course1.durations[2].parity);
+                assert.equal(3, course1.durations[2].fromIndex);
+                assert.equal(4, course1.durations[2].toIndex);
+                assert.equal(2, course1.durations[2].span);
                 done();
             })
         });
