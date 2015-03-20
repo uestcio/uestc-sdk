@@ -7,6 +7,7 @@ var Promise = require('promise');
 var Encoder = require('../helpers/encoder');
 
 var Course = require('../structure/course');
+var Exam = require('../structure/exam');
 var Score = require('../structure/score');
 var StdDetail = require('../structure/stddetail');
 
@@ -118,6 +119,23 @@ Parser.getUserSemesterCourses = function (html) {
             course.__setField__('credit', +$(line.children[3]).text());
             course.__setField__('instructor', $(line.children[5]).text());
             return course;
+        });
+    });
+};
+
+Parser.getUserSemesterExams = function (html) {
+    return Parser.get$(html).then(function ($) {
+        var lines = $('table.formTable > tbody > tr[onclick]');
+        return _.map(lines, function (line) {
+            var id = _.trim($(line.children[0]).text());
+            var course = new Course(id);
+            course.__setField__('title', $(line.children[1]).text());
+            var exam = new Exam(course);
+            exam.__setField__('date', $(line.children[2]).text());
+            exam.__setField__('time', $(line.children[3]).text());
+            exam.__setField__('place', +$(line.children[4]).text());
+            exam.__setField__('seat', $(line.children[5]).text());
+            return exam;
         });
     });
 };

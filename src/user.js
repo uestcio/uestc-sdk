@@ -100,6 +100,10 @@ User.prototype.__cacheCourses__ = function (courses) {
     return courses;
 };
 
+User.prototype.__cacheExams__ = function (exams) {
+    return exams;
+};
+
 User.prototype.__ensureLogin__ = function () {
     var self = this;
     var meta = UrlUtil.getEnsureLoginMeta(self);
@@ -206,6 +210,18 @@ User.prototype.__getSemesterCoursesOnline__ = function (semester) {
         return courses;
     }).then(function (coursesWithTime) {
         return self.__cacheCourses__(coursesWithTime);
+    });
+};
+
+User.prototype.__getSemesterExams__ = function (semester) {
+    var self = this;
+    var meta = UrlUtil.getUserSemesterExamsMeta(self, semester);
+    return self.__ensureLogin__().then(function () {
+        return Carrier.get(meta).then(function (res) {
+            return Parser.getUserSemesterExams(res.body);
+        });
+    }).then(function (exams) {
+        return self.__cacheExams__(exams);
     });
 };
 
