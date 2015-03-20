@@ -133,9 +133,10 @@ Parser.getUserSemesterExams = function (html) {
             var exam = new Exam(course);
             exam.__setField__('date', $(line.children[2]).text());
             exam.__setField__('time', $(line.children[3]).text());
-            exam.__setField__('place', +$(line.children[4]).text());
+            exam.__setField__('place', $(line.children[4]).text());
             exam.__setField__('seat', $(line.children[5]).text());
-            return exam;
+            course.exam = exam;
+            return course;
         });
     });
 };

@@ -213,12 +213,25 @@ describe('User ', function () {
         });
     });
 
+    describe('#__getSemesterExams__()', function () {
+
+        it('should get the semester exams', function (done) {
+            user.__getSemesterExams__(43).nodeify(function (err, exams) {
+                err && console.log(err);
+                assert.equal(12, exams.length);
+                assert.equal('A302', exams[0].place);
+                done();
+            });
+        });
+    });
+
     describe('#__getSemesterScores__()', function () {
 
         it('should get the semester scores', function (done) {
-            user.__getSemesterScores__(43).nodeify(function (err, courses) {
+            user.__getSemesterScores__(43).nodeify(function (err, scores) {
                 err && console.log(err);
-                assert.equal(12, courses.length);
+                assert.equal(12, scores.length);
+                assert.equal(60, scores[0].final);
                 done();
             });
         });

@@ -100,10 +100,6 @@ User.prototype.__cacheCourses__ = function (courses) {
     return courses;
 };
 
-User.prototype.__cacheExams__ = function (exams) {
-    return exams;
-};
-
 User.prototype.__ensureLogin__ = function () {
     var self = this;
     var meta = UrlUtil.getEnsureLoginMeta(self);
@@ -220,8 +216,12 @@ User.prototype.__getSemesterExams__ = function (semester) {
         return Carrier.get(meta).then(function (res) {
             return Parser.getUserSemesterExams(res.body);
         });
-    }).then(function (exams) {
-        return self.__cacheExams__(exams);
+    }).then(function (courses) {
+        return self.__cacheCourses__(courses);
+    }).then(function (courses) {
+        return courses.map(function (course) {
+            return course.exam;
+        });
     });
 };
 
