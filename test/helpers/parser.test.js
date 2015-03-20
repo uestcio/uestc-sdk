@@ -271,6 +271,66 @@ describe('Parser ', function () {
         });
     });
 
+    describe('#getUserSemesterExams()', function () {
+        var html;
+
+        beforeEach(function () {
+            html = '<table width="100%" class="formTable">\
+            <tbody><tr align="center" bgcolor="#C7DBFF" height="23px">\
+            </tr>\
+            <tr class="brightStyle" align="center" onmouseover="swapOverTR(this,this.className)" onmouseout="swapOutTR(this)" onclick="onRowChange(event)" height="23px">\
+            <td>B1600360.31</td>\
+            <td>毛泽东思想和中国特色社会主义理论体系概论</td>\
+            <td>2015-01-14</td>\
+            <td>第20周 星期三(2015-01-14) 14:30-16:30</td>\
+            <td>A302</td>\
+            <td>399</td>\
+            <td>正常</td>\
+            <td>\
+            </td>\
+            </tr>\
+            <tr class="grayStyle" align="center" onmouseover="swapOverTR(this,this.className)" onmouseout="swapOutTR(this)" onclick="onRowChange(event)" height="23px">\
+            <td>E0100650.17</td>\
+            <td>微处理器系统结构与嵌入式系统设计</td>\
+            <td>2015-01-08</td>\
+            <td>第19周 星期四(2015-01-08) 09:30-11:30</td>\
+            <td>A212</td>\
+            <td>754</td>\
+            <td>正常</td>\
+            <td>\
+            </td>\
+            </tr>\
+            <tr class="brightStyle" align="center" onmouseover="swapOverTR(this,this.className)" onmouseout="swapOutTR(this)" onclick="onRowChange(event)" height="23px">\
+            <td>E0100940.01</td>\
+            <td>计算机通信网</td>\
+            <td colspan="5"><font color="BBC4C3">[考试情况尚未发布]</font></td>\
+            <td>\
+            </td>\
+            </tr>\
+            <tr class="grayStyle" align="center" onmouseover="swapOverTR(this,this.className)" onmouseout="swapOutTR(this)" onclick="onRowChange(event)" height="23px">\
+            <td>E0101040.03</td>\
+            <td>数字信号处理</td>\
+            <td>2015-01-10</td>\
+            <td>第19周 星期六(2015-01-10) 14:30-16:30</td>\
+            <td>A207</td>\
+            <td>1035</td>\
+            <td>正常</td>\
+            <td>\
+            </td>\
+            </tr>\
+            </tbody></table>';
+        });
+
+        it('should be able to get course from html', function (done) {
+            Parser.getUserSemesterExams(html).nodeify(function (err, courses) {
+                err && console.log(err);
+                assert.equal(4, courses.length);
+                assert.equal('A302', courses[0].exam.place);
+                done();
+            })
+        });
+    });
+
     describe('#getUserSemesterScores()', function () {
         var html;
 
