@@ -53,6 +53,17 @@ User.prototype.getCourses = function (grade, semester) {
     }
 };
 
+User.prototype.getExams = function (grade, semester) {
+    var self = this;
+    if (grade == 0) {
+        return Promise.resolve([]);
+    }
+    else {
+        var semesterId = Encoder.getSemester(grade, semester);
+        return self.__getSemesterExams__(semesterId);
+    }
+};
+
 User.prototype.getDetail = function () {
     var self = this;
     return self.__getDetailOnline__().then(null, function (err) {
