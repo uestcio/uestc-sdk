@@ -17,8 +17,9 @@ describe('Parser ', function () {
 
     describe('#getAppCourses()', function () {
         var html;
-         beforeEach(function () {
-             html = '<table id="grid11962977591" class="gridtable">\
+
+        beforeEach(function () {
+            html = '<table id="grid11962977591" class="gridtable">\
              <tbody id="grid11962977591_data"><tr class="griddata-even   "><td class="gridselect"><input class="box" name="lesson.id" value="220126" type="checkbox"></td>		<td>0010270.01</td>\
              <td>数学分析（含常微分方程）II</td><td>公共基础课</td><td>英才实验学院</td><td>			肖义彬\
              </td><td>			副教授\
@@ -45,11 +46,66 @@ describe('Parser ', function () {
              <td>未选择考试类型</td>\
              <td>清水河校区</td></tr></tbody>\
              </table>';
-         });
+        });
+
         it('should be able to get course from html', function (done) {
             Parser.getAppCourses(html).nodeify(function (err, courses) {
                 assert.equal(4, courses.length);
                 assert.equal('0010270.01', courses[0].id);
+                done();
+            })
+        });
+    });
+
+    describe('#getUserAllScores()', function () {
+        var html;
+
+        beforeEach(function () {
+            html = '<div class="grid">\
+            <table id="grid21344342991" class="gridtable">\
+            <thead class="gridhead">\
+            </thead>\
+            <tbody id="grid21344342991_data"><tr class="griddata-even  ">		<td>2012-2013 2</td>\
+            <td>1003350</td>\
+            <td>(2012-2013-2)-1003350-3203666-1-CX1</td>\
+            <td>微积分Ⅱ<span style="color:red;">(重修)</span></td>\
+            <td>公共基础课</td>		<td>5</td>\
+            <td style=""></td><td style=""></td><td style="">			67\
+            </td>\
+            </tr><tr class="griddata-odd">		<td>2013-2014 2</td>\
+            <td>K0400620</td>\
+            <td>K0400620.55</td>\
+            <td>大学物理实验 II</td>\
+            <td>公共基础课</td>		<td>2</td>\
+            <td style="">	  			80\
+            </td><td style=""></td><td style="">			80\
+            </td>\
+            </tr><tr class="griddata-even">		<td>2013-2014 1</td>\
+            <td>0404320</td>\
+            <td>(2013-2014-1)-0404320-3203431-1</td>\
+            <td>大学物理实验I</td>\
+            <td>公共基础课</td>		<td>2</td>\
+            <td style="">	  			80\
+            </td><td style=""></td><td style="">			80\
+            </td>\
+            </tr><tr class="griddata-odd  ">		<td>2012-2013 1</td>\
+            <td>1005140</td>\
+            <td>(2012-2013-1)-1005140-3203514-1</td>\
+            <td>线性代数与空间解析几何Ⅰ</td>\
+            <td>公共基础课</td>		<td>4</td>\
+            <td style="">	  			74\
+            </td><td style=""></td><td style="">			74\
+            </td>\
+            </tr></tbody>\
+            </table>\
+            </div>';
+        });
+
+        it('should be able to get course from html', function (done) {
+            Parser.getUserAllScores(html).nodeify(function (err, courses) {
+                err && console.log(err);
+                assert.equal(4, courses.length);
+                assert.equal(67, courses[0].score.final);
                 done();
             })
         });
