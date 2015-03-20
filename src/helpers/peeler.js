@@ -16,6 +16,26 @@ module.exports = Peeler;
 
 // 静态字段
 
+Peeler.fixtures = {
+    CourseTable: function (year, semester) {
+        this.year = year;
+        this.semester = semester;
+        this.activities = [];
+        _.times(12 * 7, function (n) {
+            this.activities[n] = [];
+        }, this);
+    },
+    TaskActivity: function (uk1, instructor, uk2, titleAndId, uk3, place, weeks) {
+        this.uk1 = uk1;
+        this.instructor = instructor;
+        this.uk2 = uk2;
+        this.titleAndId = titleAndId;
+        this.uk3 = uk3;
+        this.place = place;
+        this.weeks = weeks;
+    }
+};
+
 
 // 静态方法
 
@@ -29,14 +49,14 @@ Peeler.getTable = function (table) {
             var index = parseInt(i % 12);
             var place = course.place;
             var weeks = course.weeks.substr(1, 24);
-            if(!timeTable[id]) {
+            if (!timeTable[id]) {
                 timeTable[id] = [];
             }
             var before = _.find(timeTable[id], function (time) {
                 return (time.day == day) && (time.place == place) &&
                     (time.weeks == weeks) && (time.index + time.span == index);
             });
-            if(before) {
+            if (before) {
                 before.span += 1;
             }
             else {
@@ -50,23 +70,8 @@ Peeler.getTable = function (table) {
 Peeler.getUserSemesterCourses = function (html) {
     var raws = html.match(/var table0[\S\s]*?table0\.marshalTable/)[0];
     raws = raws.replace('table0.marshalTable', '');
-    var CourseTable = function (year, semester) {
-        this.year = year;
-        this.semester = semester;
-        this.activities = [];
-        _.times(12 * 7, function (n) {
-            this.activities[n] = [];
-        }, this);
-    };
-    var TaskActivity = function (uk1, instructor, uk2, titleAndId, uk3, place, weeks) {
-        this.uk1 = uk1;
-        this.instructor = instructor;
-        this.uk2 = uk2;
-        this.titleAndId = titleAndId;
-        this.uk3 = uk3;
-        this.place = place;
-        this.weeks = weeks;
-    };
+    var CourseTable = Peeler.fixtures.CourseTable;
+    var TaskActivity = Peeler.fixtures.TaskActivity;
     eval(raws);
     return Peeler.getTable(table0);
 };
