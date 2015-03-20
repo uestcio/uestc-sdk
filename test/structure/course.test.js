@@ -35,6 +35,11 @@ describe('Course ', function () {
             assert.equal(course.title, 'AAA');
         });
 
+        it('should not set the field NaN', function () {
+            course.__setField__('title', NaN);
+            assert.equal(course.title, 'AAA');
+        });
+
         it('should not set the field empty', function () {
             course.__setField__('title', '');
             assert.equal(course.title, 'AAA');

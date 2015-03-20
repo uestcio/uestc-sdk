@@ -40,7 +40,9 @@ Score.prototype.__setField__ = function (field, val) {
         case 'resit':
         case 'final':
         case 'gpa':
-            self[field] = +val;
+            if(+val >= 0) {
+                self[field] = +val;
+            }
             break;
         default :
             break;
