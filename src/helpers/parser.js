@@ -137,10 +137,10 @@ Parser.getUserSemesterExams = function (html) {
             var date = $(line.children[2]).text();
             var description = $(line.children[3]).text();
             var tmp = _.words(description, /\d+:\d+/g);
-            exam.__setField__('date', new Date(date? date: '1970-1-1'));
-            exam.__setField__('from', new Date(date? date + ' ' + tmp[0]: '1970-1-1'));
-            exam.__setField__('to', new Date(date? date + ' ' + tmp[1]: '1970-1-1'));
-            exam.__setField__('description', description);
+            exam.__setField__('date', new Date(_.startsWith(date, '20')? date: '1970-01-01'));
+            exam.__setField__('from', new Date(_.startsWith(date, '20')? date + ' ' + tmp[0]: '1970-01-01'));
+            exam.__setField__('to', new Date(_.startsWith(date, '20')? date + ' ' + tmp[1]: '1970-01-01'));
+            exam.__setField__('description', _.startsWith(date, '20')? description: date);
             exam.__setField__('place', $(line.children[4]).text());
             exam.__setField__('seat', $(line.children[5]).text());
             exam.__setField__('status', $(line.children[6]).text());

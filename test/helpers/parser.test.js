@@ -49,7 +49,7 @@ describe('Parser ', function () {
              </table>';
         });
 
-        it('should be able to get course from html', function (done) {
+        it('should be able to get course from html when single', function (done) {
             Parser.getAppCourses(html).nodeify(function (err, courses) {
                 err && console.log(err);
                 var course0 = courses[0];
@@ -77,6 +77,13 @@ describe('Parser ', function () {
                 assert.equal(8, course0.durations[0].toIndex);
                 assert.equal(2, course0.durations[0].span);
 
+                done();
+            })
+        });
+
+        it('should be able to get course from html when many', function (done) {
+            Parser.getAppCourses(html).nodeify(function (err, courses) {
+                err && console.log(err);
                 var course1 = courses[1];
 
                 assert.equal('001010101010101010000000', course1.durations[2].weeks);
@@ -138,7 +145,7 @@ describe('Parser ', function () {
             </div>';
         });
 
-        it('should be able to get scores from html', function (done) {
+        it('should be able to get scores from html when not all', function (done) {
             Parser.getUserAllScores(html).nodeify(function (err, courses) {
                 err && console.log(err);
                 var course0 = courses[0];
@@ -159,11 +166,19 @@ describe('Parser ', function () {
                 assert.equal(67, course0.score.final);
                 assert.equal(-1, course0.score.gpa);
 
+                done();
+            })
+        });
+
+        it('should be able to get scores from html when all', function (done) {
+            Parser.getUserAllScores(html).nodeify(function (err, courses) {
+                err && console.log(err);
                 var course1 = courses[1];
+
                 assert.equal(80, course1.score.overall);
                 assert.equal(80, course1.score.resit);
                 assert.equal(80, course1.score.final);
-                assert.equal(-1, course0.score.gpa);
+                assert.equal(-1, course1.score.gpa);
                 done();
             })
         });
@@ -410,22 +425,42 @@ describe('Parser ', function () {
             </tbody></table>';
         });
 
-        it('should be able to get course from html', function (done) {
+        it('should be able to get course from html when complete', function (done) {
             Parser.getUserSemesterExams(html).nodeify(function (err, courses) {
                 err && console.log(err);
-                var course = courses[0];
+                var course0 = courses[0];
                 assert.equal(4, courses.length);
 
-                assert.equal('B1600360.31', course.id);
-                assert.equal('毛泽东思想和中国特色社会主义理论体系概论', course.title);
+                assert.equal('B1600360.31', course0.id);
+                assert.equal('毛泽东思想和中国特色社会主义理论体系概论', course0.title);
 
-                assert.equal(true, _.isEqual(new Date('2015-01-14'), course.exam.date));
-                assert.equal(true, _.isEqual(new Date('2015-01-14 14:30'), course.exam.from));
-                assert.equal(true, _.isEqual(new Date('2015-01-14 16:30'), course.exam.to));
-                assert.equal('第20周 星期三(2015-01-14) 14:30-16:30', course.exam.description);
-                assert.equal('A302', course.exam.place);
-                assert.equal('399', course.exam.seat);
-                assert.equal('正常', course.exam.status);
+                assert.equal(true, _.isEqual(new Date('2015-01-14'), course0.exam.date));
+                assert.equal(true, _.isEqual(new Date('2015-01-14 14:30'), course0.exam.from));
+                assert.equal(true, _.isEqual(new Date('2015-01-14 16:30'), course0.exam.to));
+                assert.equal('第20周 星期三(2015-01-14) 14:30-16:30', course0.exam.description);
+                assert.equal('A302', course0.exam.place);
+                assert.equal('399', course0.exam.seat);
+                assert.equal('正常', course0.exam.status);
+                done();
+            })
+        });
+
+        it('should be able to get course from html when not complete', function (done) {
+            Parser.getUserSemesterExams(html).nodeify(function (err, courses) {
+                err && console.log(err);
+                var course2 = courses[2];
+                assert.equal(4, courses.length);
+
+                assert.equal('E0100940.01', course2.id);
+                assert.equal('计算机通信网', course2.title);
+
+                assert.equal(true, _.isEqual(new Date('1970-01-01'), course2.exam.date));
+                assert.equal(true, _.isEqual(new Date('1970-01-01'), course2.exam.from));
+                assert.equal(true, _.isEqual(new Date('1970-01-01'), course2.exam.to));
+                assert.equal('[考试情况尚未发布]', course2.exam.description);
+                assert.equal('', course2.exam.place);
+                assert.equal('', course2.exam.seat);
+                assert.equal('', course2.exam.status);
                 done();
             })
         });

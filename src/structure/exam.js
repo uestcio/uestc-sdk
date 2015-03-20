@@ -7,6 +7,7 @@ var _ = require('lodash');
 
 function Exam(course) {
     this.course = course;
+    this.__init__();
 }
 
 module.exports = Exam;
@@ -22,6 +23,12 @@ module.exports = Exam;
 
 
 // 非公开方法
+
+Exam.prototype.__init__ = function () {
+    this.place = '';
+    this.seat = '';
+    this.status = '';
+};
 
 Exam.prototype.__setField__ = function (field, val) {
     var self = this;
