@@ -415,4 +415,34 @@ describe('User ', function () {
         });
     });
 
+    describe('#getExams()', function () {
+        beforeEach(function () {
+            user._testRes_ = {
+                allExams: false,
+                semExams: false
+            };
+
+            user.__getSemesterExams__ = function () {
+                user._testRes_.semExams = true;
+                return Promise.resolve([]);
+            };
+        });
+
+        it('should get the empty array if semester is 0', function (done) {
+            user.getExams(0).nodeify(function (err, exams) {
+                assert.equal(false, user._testRes_.allExams);
+                assert.equal(false, user._testRes_.semExams);
+                done();
+            });
+        });
+
+        it('should get the semester exams if semester is not 0', function (done) {
+            user.getExams(2012, 1).nodeify(function (err, exams) {
+                assert.equal(false, user._testRes_.allExams);
+                assert.equal(true, user._testRes_.semExams);
+                done();
+            });
+        });
+    });
+
 });
