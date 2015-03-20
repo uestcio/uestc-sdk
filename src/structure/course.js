@@ -2,6 +2,9 @@
 
 var _ = require('lodash');
 
+var Duration = require('./duration');
+var Exam = require('./exam');
+var Score = require('./score');
 
 // 构造函数
 
@@ -35,7 +38,7 @@ Course.merge = function (courses0, courses1) {
         res[course.id] = course;
     });
     _.forEach(courses1, function (course) {
-        if(!res[course.id]) {
+        if (!res[course.id]) {
             res[course.id] = course;
         }
         else {
@@ -60,8 +63,38 @@ Course.prototype.__merge__ = function (course) {
 };
 
 Course.prototype.__setField__ = function (field, val) {
-    if(val == null || val == undefined || val == '' || _.isFunction(val) || field == 'id') {
+    if (val == null || val == undefined || val != val || val == '' || _.isFunction(val)) {
         return;
     }
-    this[field] = val;
+    switch (field) {
+        case 'id':
+            break;
+        case 'title':
+        case 'code':
+        case 'instructor':
+            this[field] = val;
+            break;
+        case 'credit':
+        case 'hours':
+            this[field] = +val;
+            break;
+        case 'type':
+            break;
+        case 'durations':
+            this[field] = Duration.merge(this.durations, val);
+            break;
+        case 'score':
+            if (val instanceof Score) {
+                this[field] = val;
+            }
+            break;
+        case 'exam':
+            if (val instanceof Exam) {
+                this[field] = val;
+            }
+            break;
+        default :
+            break;
+    }
+
 };
