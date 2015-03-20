@@ -106,7 +106,5 @@ Course.prototype.__setField__ = function (field, val) {
                 self[field] = val;
             }
             break;
-        default :
-            break;
     }
 };

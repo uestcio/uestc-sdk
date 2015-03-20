@@ -64,7 +64,5 @@ StdDetail.prototype.__setField__ = function (field, val) {
         case 'inSchool':
             self[field] = (val == '是');
             break;
-        default :
-            break;
     }
 };

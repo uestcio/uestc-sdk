@@ -22,11 +22,17 @@ module.exports = Person;
 // 非公开方法
 
 Person.prototype.__setField__ = function (field, val) {
-    if(val == null && val == undefined && val == '') {
+    var self = this;
+    if (val === null || val === undefined || val != val || val === '' || _.isFunction(val)) {
         return;
     }
-    if(field == 'id') {
-        return;
+    switch (field) {
+        case 'id':
+        case 'name':
+        case 'metier':
+        case 'deptName':
+        case 'description':
+            self[field] = val;
+            break;
     }
-    this[field] = val;
 };

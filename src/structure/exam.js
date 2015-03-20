@@ -47,7 +47,5 @@ Exam.prototype.__setField__ = function (field, val) {
         case 'seat':
             self[field] = +val;
             break;
-        default :
-            break;
     }
 };
