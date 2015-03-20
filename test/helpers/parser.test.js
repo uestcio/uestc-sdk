@@ -342,8 +342,19 @@ describe('Parser ', function () {
         it('should be able to get course from html', function (done) {
             Parser.getUserSemesterCourses(html).nodeify(function (err, courses) {
                 err && console.log(err);
+                var course0 = courses[0];
                 assert.equal(4, courses.length);
-                assert.equal('B1600360.31', courses[0].id);
+
+                assert.equal('B1600360.31', course0.id);
+                assert.equal('B1600360', course0.code);
+                assert.equal('毛泽东思想和中国特色社会主义理论体系概论', course0.title);
+                assert.equal(6, course0.credit);
+                assert.equal('董良', course0.instructor);
+
+                assert.equal(0, course0.semester[0]);
+                assert.equal(0, course0.semester[1]);
+                assert.equal(0, course0.semester[2]);
+
                 done();
             })
         });
