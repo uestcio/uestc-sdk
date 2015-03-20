@@ -1,7 +1,7 @@
 var assert = require('assert');
 var Score = require('../../src/structure/score');
 
-describe('Course ', function () {
+describe('Score ', function () {
     var score;
 
     beforeEach(function () {
