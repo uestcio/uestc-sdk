@@ -64,13 +64,10 @@ Course.prototype.__setField__ = function (field, val) {
         case 'title':
         case 'code':
         case 'instructor':
-        case 'instructorTitle':
-        case 'examType':
         case 'campus':
             this[field] = val;
             break;
         case 'credit':
-        case 'hours':
             this[field] = +val;
             break;
         case 'type':
@@ -107,8 +104,4 @@ Course.prototype.__setField__ = function (field, val) {
         default :
             break;
     }
-    //console.log(1, field);
-    //console.log(2, val);
-    //console.log(3, this[field]);
-    //console.log('');
 };

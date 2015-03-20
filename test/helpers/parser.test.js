@@ -58,7 +58,6 @@ describe('Parser ', function () {
                 assert.equal('公共基础课', course0.type);
                 assert.equal('英才实验学院', course0.department);
                 assert.equal('肖义彬', course0.instructor);
-                assert.equal('副教授', course0.instructorTitle);
                 assert.equal(0, course0.semester[0]);
                 assert.equal(0, course0.semester[1]);
                 assert.equal(0, course0.semester[2]);

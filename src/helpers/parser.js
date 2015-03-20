@@ -49,7 +49,6 @@ Parser.getAppCourses = function (html) {
             course.__setField__('type', $(line.children[3]).text());
             course.__setField__('department', $(line.children[4]).text());
             course.__setField__('instructor', _.trim($(line.children[5]).text()));
-            course.__setField__('instructorTitle', _.trim($(line.children[6]).text()));
             course.__setField__('grade', +$(line.children[7]).text());
             course.__setField__('durations',
                 Encoder.parseDurations($(line.children[8]).text(), $(line.children[9]).html()));

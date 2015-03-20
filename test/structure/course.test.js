@@ -16,6 +16,7 @@ describe('Course ', function () {
 
     describe('#__setField__()', function () {
         beforeEach(function () {
+            course = new Course('1234');
             course.title = 'AAA';
         });
 
@@ -37,6 +38,46 @@ describe('Course ', function () {
         it('should not set the field empty', function () {
             course.__setField__('title', '');
             assert.equal(course.title, 'AAA');
+        });
+
+        it('should not be able to set id', function () {
+            course.__setField__('id', '5678');
+            assert.equal(course.id, '1234');
+        });
+
+        it('should be able to set code', function () {
+            course.__setField__('code', '5678');
+            assert.equal(course.code, '5678');
+        });
+
+        it('should be able to set instructor', function () {
+            course.__setField__('instructor', '5678');
+            assert.equal(course.instructor, '5678');
+        });
+
+        it('should be able to set campus', function () {
+            course.__setField__('campus', '5678');
+            assert.equal(course.campus, '5678');
+        });
+
+        it('should be able to set credit to number', function () {
+            course.__setField__('credit', '5678');
+            assert.equal(course.credit, 5678);
+        });
+
+        it('should be able to set credit', function () {
+            course.__setField__('credit', 5678);
+            assert.equal(course.credit, 5678);
+        });
+
+        it('should be able to set valid type', function () {
+            course.__setField__('type', '公共基础课');
+            assert.equal(course.type, '公共基础课');
+        });
+
+        it('should not be able to set valid type', function () {
+            course.__setField__('type', '呵呵');
+            assert.equal(course.type, undefined);
         });
     });
 
