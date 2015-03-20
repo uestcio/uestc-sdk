@@ -87,9 +87,14 @@ Course.prototype.__setField__ = function (field, val) {
         case 'durations':
             self[field] = val;
             break;
+        case 'semester':
+            if (val.length === 3) {
+                self[field] = val;
+            }
+            break;
         case 'grade':
             self['semester'][0] = +val;
-            self['semester'][1] = val > 0? val + 1 : 0;
+            self['semester'][1] = val > 0 ? val + 1 : 0;
             break;
         case 'score':
             if (val instanceof Score) {

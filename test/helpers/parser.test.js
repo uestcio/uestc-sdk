@@ -53,6 +53,7 @@ describe('Parser ', function () {
                 err && console.log(err);
                 var course0 = courses[0];
                 assert.equal(4, courses.length);
+
                 assert.equal('0010270.01', course0.id);
                 assert.equal('数学分析（含常微分方程）II', course0.title);
                 assert.equal('公共基础课', course0.type);
@@ -76,6 +77,7 @@ describe('Parser ', function () {
                 assert.equal(2, course0.durations[0].span);
 
                 var course1 = courses[1];
+
                 assert.equal('001010101010101010000000', course1.durations[2].weeks);
                 assert.equal('001100000000', course1.durations[2].indexes);
                 assert.equal('A307', course1.durations[2].place);
@@ -103,7 +105,7 @@ describe('Parser ', function () {
             <td>1003350</td>\
             <td>(2012-2013-2)-1003350-3203666-1-CX1</td>\
             <td>微积分Ⅱ<span style="color:red;">(重修)</span></td>\
-            <td>公共基础课</td>		<td>5</td>\
+            <td>公共基础课</td>		<td>4.5</td>\
             <td style=""></td><td style=""></td><td style="">			67\
             </td>\
             </tr><tr class="griddata-odd">		<td>2013-2014 2</td>\
@@ -112,7 +114,7 @@ describe('Parser ', function () {
             <td>大学物理实验 II</td>\
             <td>公共基础课</td>		<td>2</td>\
             <td style="">	  			80\
-            </td><td style=""></td><td style="">			80\
+            </td><td style="">80</td><td style="">			80\
             </td>\
             </tr><tr class="griddata-even">		<td>2013-2014 1</td>\
             <td>0404320</td>\
@@ -138,8 +140,27 @@ describe('Parser ', function () {
         it('should be able to get course from html', function (done) {
             Parser.getUserAllScores(html).nodeify(function (err, courses) {
                 err && console.log(err);
+                var course0 = courses[0];
                 assert.equal(4, courses.length);
-                assert.equal(67, courses[0].score.final);
+
+                assert.equal('(2012-2013-2)-1003350-3203666-1-CX1', course0.id);
+                assert.equal('1003350', course0.code);
+                assert.equal('微积分Ⅱ(重修)',course0.title);
+                assert.equal('公共基础课', course0.type);
+                assert.equal(4.5, course0.credit);
+
+                assert.equal(2012, course0.semester[0]);
+                assert.equal(2013, course0.semester[1]);
+                assert.equal(2, course0.semester[2]);
+
+                assert.equal(0, course0.score.overall);
+                assert.equal(0, course0.score.resit);
+                assert.equal(67, course0.score.final);
+
+                var course1 = courses[1];
+                assert.equal(80, course1.score.overall);
+                assert.equal(80, course1.score.resit);
+                assert.equal(80, course1.score.final);
                 done();
             })
         });
