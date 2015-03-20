@@ -271,18 +271,61 @@ describe('Parser ', function () {
         });
     });
 
-    xdescribe('#getUserSemesterScores()', function () {
+    describe('#getUserSemesterScores()', function () {
         var html;
 
         beforeEach(function () {
-            html = '';
+            html = '<table id="grid209161621" class="gridtable">\
+            <thead class="gridhead"></thead>\
+            <tbody id="grid209161621_data"><tr class="griddata-even ">		<td>2014-2015 1</td>\
+            <td>F0101220</td>\
+            <td>F0101220.01</td>\
+            <td>信息论基础<span style="color:red;">(重修)</span></td>\
+            <td>学科基础课</td>		<td>2</td>\
+            <td style="">					60\
+            </td><td style="">--\
+            </td><td style="">			60\
+            </td><td>			1.5\
+            </td>\
+            </tr><tr class="griddata-odd   ">		<td>2014-2015 1</td>\
+            <td>E0100650</td>\
+            <td>E0100650.17</td>\
+            <td>微处理器系统结构与嵌入式系统设计</td>\
+            <td>学科基础课</td>		<td>5</td>\
+            <td style="">					61\
+            </td><td style="">--\
+            </td><td style="">			61\
+            </td><td>			1.6\
+            </td>\
+            </tr><tr class="griddata-even   ">		<td>2014-2015 1</td>\
+            <td>G0101830</td>\
+            <td>G0101830.04</td>\
+            <td>TCP/IP协议</td>\
+            <td>专业选修课</td>		<td>3</td>\
+            <td style="">					73\
+            </td><td style="">--\
+            </td><td style="">			73\
+            </td><td>			2.8\
+            </td>\
+            </tr><tr class="griddata-odd  ">		<td>2014-2015 1</td>\
+            <td>G0102030</td>\
+            <td>G0102030.01</td>\
+            <td>局域网与城域网</td>\
+            <td>专业选修课</td>		<td>3</td>\
+            <td style="">					76\
+            </td><td style="">--\
+            </td><td style="">			76\
+            </td><td>			3.1\
+            </td>\
+            </tr></tbody>\
+            </table>';
         });
 
         it('should be able to get course from html', function (done) {
             Parser.getUserSemesterScores(html).nodeify(function (err, courses) {
                 err && console.log(err);
                 assert.equal(4, courses.length);
-                assert.equal(67, courses[0].score.final);
+                assert.equal(60, courses[0].score.final);
                 done();
             })
         });

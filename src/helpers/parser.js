@@ -4,6 +4,8 @@ var _ = require('lodash');
 var jsdom = require('jsdom');
 var Promise = require('promise');
 
+var Encoder = require('../helpers/encoder');
+
 var Course = require('../structure/course');
 var Score = require('../structure/score');
 var StdDetail = require('../structure/stddetail');
@@ -63,11 +65,11 @@ Parser.getUserAllScores = function (html) {
             course.__setField__('type', $(line.children[4]).text());
             course.__setField__('credit', +$(line.children[5]).text());
             var score = new Score(course);
-            score.__setField__('semester', $(line.children[0]).text());
-            score.__setField__('overall', _.trim($(line.children[6]).text()));
-            score.__setField__('resit', _.trim($(line.children[7]).text()));
-            score.__setField__('final', _.trim($(line.children[8]).text()));
-            score.__setField__('gpa', _.trim($(line.children[9]).text()));
+            score.__setField__('semester', Encoder.parseSemester($(line.children[0]).text()));
+            score.__setField__('overall', +_.trim($(line.children[6]).text()));
+            score.__setField__('resit', +_.trim($(line.children[7]).text()));
+            score.__setField__('final', +_.trim($(line.children[8]).text()));
+            score.__setField__('gpa', +_.trim($(line.children[9]).text()));
             course.score = score;
             return course;
         });
@@ -82,7 +84,7 @@ Parser.getUserDetail = function (html) {
         detail.__setField__('name', $(lines[1].children[3]).text());
         detail.__setField__('eName', $(lines[2].children[1]).text());
         detail.__setField__('sex', $(lines[2].children[3]).text());
-        detail.__setField__('grade', $(lines[3].children[1]).text());
+        detail.__setField__('grade', +$(lines[3].children[1]).text());
         detail.__setField__('eduLenth', $(lines[3].children[3]).text());
         detail.__setField__('project', $(lines[4].children[1]).text());
         detail.__setField__('qualification', $(lines[4].children[3]).text());
@@ -130,12 +132,13 @@ Parser.getUserSemesterScores = function (html) {
             course.__setField__('title', $(line.children[3]).text());
             course.__setField__('type', $(line.children[4]).text());
             course.__setField__('credit', +$(line.children[5]).text());
-            course.__setField__('grade', $(line.children[7]).text());
+            course.__setField__('grade', +$(line.children[7]).text());
             var score = new Score(course);
-            score.__setField__('semester', $(line.children[0]).text());
-            score.__setField__('generalScore', _.trim($(line.children[6]).text()));
-            score.__setField__('finallScore', _.trim($(line.children[8]).text()));
-            score.__setField__('gpa', _.trim($(line.children[9]).text()));
+            score.__setField__('semester', Encoder.parseSemester($(line.children[0]).text()));
+            score.__setField__('overall', +_.trim($(line.children[6]).text()));
+            score.__setField__('resit', +_.trim($(line.children[7]).text()));
+            score.__setField__('final', +_.trim($(line.children[8]).text()));
+            score.__setField__('gpa', +_.trim($(line.children[9]).text()));
             course.score = score;
             return course;
         });
