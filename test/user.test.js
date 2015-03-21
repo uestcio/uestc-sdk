@@ -720,4 +720,15 @@ describe('User ', function () {
         });
     });
 
+    describe('#on()', function () {
+        it('should set the _callbacks_[event] to callback', function (done) {
+            var callback = function (err, res) {
+                assert.equal(1, res);
+                done();
+            };
+
+            user.on('exam', callback);
+            user.__notify__('exam', 1);
+        })
+    })
 });
