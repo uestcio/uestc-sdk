@@ -1,6 +1,7 @@
 // 外部依赖
 
 var Application = require('./application');
+var Fixture = require('./helpers/fixture');
 var MissionUtil = require('./helpers/missionutil');
 var Keeper = require('./helpers/keeper');
 
@@ -16,6 +17,10 @@ Sdk._singleton_ = Sdk._singleton_ || null;
 Sdk.create = function () {
     Sdk._singleton_ = new Application();
     return Sdk._singleton_;
+};
+
+Sdk.getFixture = function () {
+    return Fixture;
 };
 
 Sdk.single = function () {
