@@ -32,24 +32,26 @@ module.exports = Application;
 
 // 实例方法
 
-Application.prototype.identify = function (number, password, wait) {
+Application.prototype.identify = function (id, password, callback) {
     var self = this;
     var user, promise;
 
-    if (this._users_[number]) {
-        user = this._users_[number];
+    if (this._users_[id]) {
+        user = this._users_[id];
     }
     else {
-        user = new User(number, password, self);
+        user = new User(id, password, self);
         this._users_[user._number_] = user;
     }
 
-    promise = user.__login__().then(function () {
+    user.__login__().then(function () {
         self._current_ = user;
         return user;
+    }).nodeify(function (err, res) {
+        _.isFunction(callback) && callback(err, res);
     });
 
-    return wait ? promise : user;
+    return user;
 };
 
 Application.prototype.reset = function () {

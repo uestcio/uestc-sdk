@@ -14,13 +14,16 @@ exports = module.exports = Sdk;
 
 Sdk._singleton_ = Sdk._singleton_ || null;
 
+Sdk._options_ = Sdk._options_ || {};
+
+
+Sdk.config = function (options) {
+    Sdk._options_ = options;
+};
+
 Sdk.create = function () {
     Sdk._singleton_ = new Application();
     return Sdk._singleton_;
-};
-
-Sdk.getFixture = function () {
-    return Fixture;
 };
 
 Sdk.single = function () {

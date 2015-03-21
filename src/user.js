@@ -1,6 +1,7 @@
 // 外部依赖
 
 var _ = require('lodash');
+var later = require('later');
 var Promise = require('promise');
 
 var Carrier = require('./helpers/carrier');
@@ -9,6 +10,7 @@ var Duration = require('./structure/duration');
 var Score = require('./structure/score');
 var Parser = require('./helpers/parser');
 var Encoder = require('./helpers/encoder');
+var Keeper = require('./helpers/keeper');
 var Peeler = require('./helpers/peeler');
 var UrlUtil = require('./helpers/urlutil');
 var StdDetail = require('./structure/stddetail');
@@ -99,6 +101,10 @@ User.prototype.getScores = function (grade, semester) {
 User.prototype.on = function (event, callback) {
     var self = this;
     self._callbacks_[event] = callback;
+    var sched = later.parse.recur().every(3 * Keeper.period).minute();
+    later.setTimeout(function () {
+        self._inNotify_ = true;
+    }, sched);
 };
 
 

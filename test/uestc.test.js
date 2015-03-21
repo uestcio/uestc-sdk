@@ -16,13 +16,6 @@ describe('Uestc ', function () {
         });
     });
 
-    describe('#getFixture()', function () {
-        it('should get the fixture', function () {
-            var fixture = uestc.getFixture();
-            assert.equal('通信与信息工程学院', fixture.departments.scie);
-        });
-    });
-
     describe('#single()', function () {
         it('should return the same Application', function () {
             var app0 = uestc.single();
