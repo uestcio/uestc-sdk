@@ -14,6 +14,23 @@ describe('Course ', function () {
         });
     });
 
+    describe('#__dummy__()', function () {
+
+        beforeEach(function () {
+            course.title = 'Course Title';
+            course.exam = {a:1, b:2};
+            course.score = {c:1, d:2};
+        });
+
+        it('should be generate a dummy', function () {
+            var dummy = course.__dummy__();
+            assert.equal('1234', dummy.id);
+            assert.equal('Course Title', dummy.title);
+            assert.equal(undefined, dummy.exam);
+            assert.equal(undefined, dummy.score);
+        });
+    });
+
     describe('#__setField__()', function () {
         beforeEach(function () {
             course = new Course('1234');

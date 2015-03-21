@@ -41,7 +41,7 @@ Application.prototype.identify = function (number, password, wait) {
         user = this._users_[number];
     }
     else {
-        user = new User(number, password);
+        user = new User(number, password, self);
         this._users_[user._number_] = user;
     }
 

@@ -45,6 +45,14 @@ Course.merge = function (courses0, courses1) {
 
 // 非公开方法
 
+Course.prototype.__dummy__ = function () {
+    var self = this;
+    var res = _.cloneDeep(self);
+    delete res.exam;
+    delete res.score;
+    return res;
+};
+
 Course.prototype.__merge__ = function (course) {
     var self = this;
     _.forEach(course, function (val, field) {
