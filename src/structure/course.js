@@ -2,7 +2,6 @@
 
 var _ = require('lodash');
 
-var Duration = require('./duration');
 var Exam = require('./exam');
 var Fixture = require('../helpers/fixture');
 var Score = require('./score');

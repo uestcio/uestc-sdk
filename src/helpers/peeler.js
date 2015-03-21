@@ -1,7 +1,6 @@
 // 外部依赖
 
 var _ = require('lodash');
-var Promise = require('promise');
 
 var Course = require('../structure/course');
 

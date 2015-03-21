@@ -53,7 +53,6 @@ Parser.getAppCourses = function (html) {
             course.__setField__('durations',
                 Encoder.parseDurations($(line.children[8]).text(), $(line.children[9]).html()));
             course.__setField__('campus', $(line.children[11]).text());
-            //console.log(course);
             return course;
         });
     });
