@@ -621,7 +621,7 @@ describe('User ', function () {
                 return Promise.resolve([]);
             };
 
-            user.getDetail().nodeify(function (err, detail) {
+            user.getDetail(function (err, detail) {
                 assert.equal(true, user._testRes_.online);
                 assert.equal(false, user._testRes_.local);
                 done();
@@ -639,9 +639,44 @@ describe('User ', function () {
                 return Promise.resolve([]);
             };
 
-            user.getDetail().nodeify(function (err, detail) {
+            user.getDetail(function (err, detail) {
                 assert.equal(true, user._testRes_.online);
                 assert.equal(true, user._testRes_.local);
+                done();
+            });
+        });
+    });
+
+    describe('#getExams()', function () {
+        beforeEach(function () {
+            user._testRes_ = {
+                allExams: false,
+                semExams: false
+            };
+
+            user.__getAllExams__ = function () {
+                user._testRes_.allExams = true;
+                return Promise.resolve([]);
+            };
+
+            user.__getSemesterExams__ = function () {
+                user._testRes_.semExams = true;
+                return Promise.resolve([]);
+            };
+        });
+
+        it('should get the all exams if semester is 0', function (done) {
+            user.getExams(0, 0, function (err, exams) {
+                assert.equal(true, user._testRes_.allExams);
+                assert.equal(false, user._testRes_.semExams);
+                done();
+            });
+        });
+
+        it('should get the semester exams if semester is not 0', function (done) {
+            user.getExams(2012, 1, function (err, exams) {
+                assert.equal(false, user._testRes_.allExams);
+                assert.equal(true, user._testRes_.semExams);
                 done();
             });
         });
@@ -674,7 +709,7 @@ describe('User ', function () {
         });
 
         it('should get the all scores and scores if semester is 0', function (done) {
-            user.getScores(0).nodeify(function (err, scores) {
+            user.getScores(0, 0, function (err, scores) {
                 assert.equal(true, user._testRes_.allScores);
                 assert.equal(false, user._testRes_.semScores);
                 done();
@@ -682,39 +717,9 @@ describe('User ', function () {
         });
 
         it('should get the semester scores if semester is not 0', function (done) {
-            user.getScores(2012, 1).nodeify(function (err, scores) {
+            user.getScores(2012, 1, function (err, scores) {
                 assert.equal(false, user._testRes_.allScores);
                 assert.equal(true, user._testRes_.semScores);
-                done();
-            });
-        });
-    });
-
-    describe('#getExams()', function () {
-        beforeEach(function () {
-            user._testRes_ = {
-                allExams: false,
-                semExams: false
-            };
-
-            user.__getSemesterExams__ = function () {
-                user._testRes_.semExams = true;
-                return Promise.resolve([]);
-            };
-        });
-
-        it('should get the empty array if semester is 0', function (done) {
-            user.getExams(0).nodeify(function (err, exams) {
-                assert.equal(false, user._testRes_.allExams);
-                assert.equal(false, user._testRes_.semExams);
-                done();
-            });
-        });
-
-        it('should get the semester exams if semester is not 0', function (done) {
-            user.getExams(2012, 1).nodeify(function (err, exams) {
-                assert.equal(false, user._testRes_.allExams);
-                assert.equal(true, user._testRes_.semExams);
                 done();
             });
         });

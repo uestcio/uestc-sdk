@@ -64,22 +64,28 @@ User.prototype.getCourses = function (grade, semester, callback) {
     }
 };
 
-User.prototype.getExams = function (grade, semester) {
+User.prototype.getDetail = function (callback) {
+    var self = this;
+    self.__getDetailOnline__().then(null, function (err) {
+        return self.__getDetailOffline__();
+    }).nodeify(function (err, res) {
+        _.isFunction(callback) && callback(err, res);
+    });
+};
+
+User.prototype.getExams = function (grade, semester, callback) {
     var self = this;
     if (grade == 0) {
-        return Promise.resolve([]);
+        self.__getAllExams__().nodeify(function (err, res) {
+            _.isFunction(callback) && callback(err, res);
+        });
     }
     else {
         var semesterId = Encoder.getSemester(grade, semester);
-        return self.__getSemesterExams__(semesterId);
+        self.__getSemesterExams__(semesterId).nodeify(function (err, res) {
+            _.isFunction(callback) && callback(err, res);
+        });
     }
-};
-
-User.prototype.getDetail = function () {
-    var self = this;
-    return self.__getDetailOnline__().then(null, function (err) {
-        return self.__getDetailOffline__();
-    });
 };
 
 User.prototype.getGrade = function () {
@@ -93,14 +99,18 @@ User.prototype.getGrade = function () {
     return self._detail_.grade;
 };
 
-User.prototype.getScores = function (grade, semester) {
+User.prototype.getScores = function (grade, semester, callback) {
     var self = this;
     if (grade == 0) {
-        return self.__getAllScores__();
+        self.__getAllScores__().nodeify(function (err, res) {
+            _.isFunction(callback) && callback(err, res);
+        });
     }
     else {
         var semesterId = Encoder.getSemester(grade, semester);
-        return self.__getSemesterScores__(semesterId);
+        self.__getSemesterScores__(semesterId).nodeify(function (err, res) {
+            _.isFunction(callback) && callback(err, res);
+        });
     }
 };
 
