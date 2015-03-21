@@ -15,10 +15,10 @@ var StdDetail = require('./structure/stddetail');
 
 // 构造方法
 
-function User(number, password, belongTo) {
+function User(number, password, owner) {
     this._number_ = number;
     this._password_ = password;
-    this._belongTo_ = belongTo;
+    this._owner_ = owner;
     this._status_ = User.status.idle;
     this._jar_ = Carrier.jar();
     this._courses_ = {};
@@ -109,7 +109,7 @@ User.prototype.__cacheCourses__ = function (courses) {
             self._courses_[id] = courses[i];
         }
     }
-    self.__cacheCourses__(courses.map(function (course) {
+    self._owner_.__cacheCourses__(courses.map(function (course) {
         return course.__dummy__();
     }));
     return courses;

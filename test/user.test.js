@@ -10,6 +10,8 @@ describe('User ', function () {
 
     beforeEach(function () {
         user = new User('2012019050020', '811073');
+        user._owner_ = {};
+        user._owner_.__cacheCourses__ = function () {};
     });
 
     describe('#.ctor()', function () {
@@ -26,8 +28,8 @@ describe('User ', function () {
 
         beforeEach(function () {
             courses = [];
-            courses[0] = {id: '1', merged: false};
-            courses[1] = {id: '2', merged: false};
+            courses[0] = {id: '1', merged: false, __dummy__: function () {}};
+            courses[1] = {id: '2', merged: false, __dummy__: function () {}};
             courses[0].__merge__ = courses[1].__merge__ = function (course) {
                 this.merged = true;
             }
@@ -47,6 +49,15 @@ describe('User ', function () {
             user.__cacheCourses__(courses);
             user.__cacheCourses__([{id: '1'}]);
             assert.equal(true, user._courses_['1'].merged);
+        });
+
+        it('should call the owner', function () {
+            user._owner_.__cacheCourses__ = function (courses) {
+                this.len = courses.length;
+            };
+            user.__cacheCourses__(courses);
+            user.__cacheCourses__([{id: '1'}]);
+            assert.equal(1, user._owner_.len);
         });
     });
 
@@ -77,6 +88,8 @@ describe('User ', function () {
 
         beforeEach(function () {
             user = new User('2012019050020', '811073');
+            user._owner_ = {};
+            user._owner_.__cacheCourses__ = function () {};
         });
 
         it('should get the all courses when real online', function (done) {
@@ -124,6 +137,8 @@ describe('User ', function () {
 
         beforeEach(function () {
             user = new User('2012019050020', '811073');
+            user._owner_ = {};
+            user._owner_.__cacheCourses__ = function () {};
         });
 
         it('should get the all exams when real online', function (done) {
