@@ -6,11 +6,9 @@ var _ = require('lodash');
 var Carrier = require('./helpers/carrier');
 var User = require('./user');
 var UrlUtil = require('./helpers/urlutil');
-var MissionUtil = require('./helpers/missionutil');
 var Parser = require('./helpers/parser');
 var Course = require('./structure/course');
 var Fixture = require('./helpers/fixture');
-var Keeper = require('./helpers/keeper');
 
 
 // 构造方法
@@ -31,15 +29,6 @@ module.exports = Application;
 
 
 // 静态方法
-
-Application.begin = function () {
-    Keeper.addTask(0, MissionUtil.getUserLoginMission(Application.single()));
-    Keeper.addTask(1, MissionUtil.getUserDetailMission(Application.single()));
-    Keeper.addTask(2, MissionUtil.getUserCoursesMission(Application.single()));
-    Keeper.addTask(3, MissionUtil.getUserScoresMission(Application.single()));
-    Keeper.addTask(4, MissionUtil.getUserExamsMission(Application.single()));
-    Keeper.start();
-};
 
 
 // 实例方法

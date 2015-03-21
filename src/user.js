@@ -129,7 +129,14 @@ User.prototype.__ensureLogin__ = function () {
 User.prototype.__getAllCourses__ = function () {
     var self = this;
     var semesters = Encoder.getAllSemesters(self);
-    return Promise.all(semesters.map(self.__getSemesterCourses__)).then(null, self.__getAllCoursesOffline__);
+    return Promise.all(semesters.map(function (semester) {
+            return self.__getSemesterCourses__(semester);
+        }
+    )).then(function (coursesArray) {
+        return _.chain(coursesArray).flatten().uniq(function (course) {
+            return course.id;
+        }).value();
+    }, self.__getAllCoursesOffline__);
 };
 
 User.prototype.__getAllCoursesOffline__ = function () {
@@ -174,7 +181,9 @@ User.prototype.__getDetailOnline__ = function () {
 
 User.prototype.__getSemesterCourses__ = function (semester) {
     var self = this;
-    return self.__getSemesterCoursesOnline__(semester).then(null, function () {
+    return self.__getSemesterCoursesOnline__(semester).then(function (courses) {
+        return _.filter(courses, 'id');
+    }, function () {
         return self.__getSemesterCoursesOffline__(semester);
     });
 };
@@ -208,7 +217,7 @@ User.prototype.__getSemesterCoursesOnline__ = function (semester) {
             course.durations = _.map(timeTable[course.id] || [], function (time) {
                 var indexes = '';
                 _.times(24, function (n) {
-                    indexes += ((n >= time.index && n < time.index + time.span)? '1': '0');
+                    indexes += ((n >= time.index && n < time.index + time.span) ? '1' : '0');
                 });
                 return new Duration(time.weeks, time.day, indexes, time.place);
             });

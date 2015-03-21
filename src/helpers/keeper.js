@@ -32,16 +32,18 @@ Keeper.removeTask = function (flag) {
 
 Keeper.start = function () {
     var mission = function () {
-        async.series(Keeper.queue, function (err, results) {
+        async.parallelLimit(Keeper.queue, 2, function (err, results) {
             err? console.log('Async mission failed because of ' + err): console.log('Async mission success');
         });
     };
+
+    mission();
 
     if (Keeper.now) {
         Keeper.now.clear();
     }
 
-    var sched = later.parse.recur().every(10).minute();
+    var sched = later.parse.recur().every(2).minute();
     Keeper.now = later.setInterval(mission, sched);
 };
 

@@ -15,11 +15,13 @@ MissionUtil.getUserLoginMission = function (app) {
                 callback(null, res);
             }, function (err) {
                 console.log('Login failed at ' + new Date() + ', because of ' + err);
-                callback(err);
+                callback(null);
             });
         }
         else {
-            console.log('Login unavailable because of no user');
+            var message = 'Login unavailable because of no user';
+            console.log(message);
+            callback(null);
         }
     };
 };
@@ -33,11 +35,13 @@ MissionUtil.getUserDetailMission = function (app) {
                 callback(null, res);
             }, function (err) {
                 console.log('Get detail failed at ' + new Date() + ', because of ' + err);
-                callback(err);
+                callback(null);
             });
         }
         else {
-            console.log('Get detail unavailable because of no user');
+            var message = 'Get detail unavailable because of no user';
+            console.log(message);
+            callback(null);
         }
     };
 };
@@ -46,16 +50,20 @@ MissionUtil.getUserCoursesMission = function (app) {
     return function (callback) {
         var user = app._current_;
         if(user) {
-            user.__getAllCourses__().then(function (res) {
-                console.log('Get courses success at ' + new Date());
-                callback(null, res);
-            }, function (err) {
-                console.log('Get courses failed at ' + new Date() + ', because of ' + err);
-                callback(err);
-            });
+            //user.__getAllCourses__().then(function (res) {
+            //    console.log('Get courses success at ' + new Date());
+            //    callback(null, res);
+            //}, function (err) {
+            //    console.log('Get courses failed at ' + new Date() + ', because of ' + err);
+            //    callback(null);
+            //});
+            console.log('Get courses mission has not been completed yet');
+            callback(null);
         }
         else {
-            console.log('Get courses unavailable because of no user');
+            var message = 'Get courses unavailable because of no user';
+            console.log(message);
+            callback(null);
         }
     };
 };
@@ -69,11 +77,13 @@ MissionUtil.getUserScoresMission = function (app) {
                 callback(null, res);
             }, function (err) {
                 console.log('Get scores failed at ' + new Date() + ', because of ' + err);
-                callback(err);
+                callback(null);
             });
         }
         else {
-            console.log('Get scores unavailable because of no user');
+            var message = 'Get scores unavailable because of no user';
+            console.log(message);
+            callback(null);
         }
     };
 };
@@ -87,12 +97,15 @@ MissionUtil.getUserExamsMission = function (app) {
             //    callback(null, res);
             //}, function (err) {
             //    console.log('Get exams failed at ' + new Date() + ', because of ' + err);
-            //    callback(err);
+            //    callback(null);
             //});
-            callback(new Error('Get exams mission has not been completed yet'));
+            console.log('Get exams mission has not been completed yet');
+            callback(null);
         }
         else {
-            console.log('Get exams unavailable because of no user');
+            var message = 'Get exams unavailable because of no user';
+            console.log(message);
+            callback(null);
         }
     };
 };

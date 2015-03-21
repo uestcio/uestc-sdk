@@ -76,13 +76,25 @@ describe('User ', function () {
     describe('#__getAllCourses__()', function () {
 
         beforeEach(function () {
-            user.__getSemesterCourses__ = function () {
-                var id = 0;
-                return Promise.resolve([{id: (id++).toString()}]);
-            };
+            user = new User('2012019050020', '811073');
         });
 
-        it('should get the all courses when online', function (done) {
+        it('should get the all courses when real online', function (done) {
+
+            user.__getAllCourses__().nodeify(function (err, courses) {
+                err && console.log(err);
+                assert.equal(40, courses.length);
+                done();
+            });
+        });
+
+        it('should call the all semester courses when online', function (done) {
+            var id = 0;
+
+            user.__getSemesterCourses__ = function () {
+                return Promise.resolve([{id: (id++).toString()}]);
+            };
+
             user.__getAllCourses__().nodeify(function (err, courses) {
                 err && console.log(err);
                 assert.equal(8, courses.length);

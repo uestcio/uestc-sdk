@@ -1,7 +1,8 @@
 // 外部依赖
 
 var Application = require('./application');
-
+var MissionUtil = require('./helpers/missionutil');
+var Keeper = require('./helpers/keeper');
 
 // 构造方法
 
@@ -22,9 +23,18 @@ Sdk.single = function () {
         Sdk._singleton_ = new Application();
     }
     if(arguments.length != 0) {
-        Application.begin();
+        Sdk.__begin__();
     }
     return Sdk._singleton_;
+};
+
+Sdk.__begin__ = function () {
+    Keeper.addTask(0, MissionUtil.getUserLoginMission(Sdk.single()));
+    Keeper.addTask(1, MissionUtil.getUserDetailMission(Sdk.single()));
+    Keeper.addTask(2, MissionUtil.getUserCoursesMission(Sdk.single()));
+    Keeper.addTask(3, MissionUtil.getUserScoresMission(Sdk.single()));
+    Keeper.addTask(4, MissionUtil.getUserExamsMission(Sdk.single()));
+    Keeper.start();
 };
 
 
