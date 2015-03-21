@@ -49,14 +49,18 @@ User.status = {
 
 // 实例方法
 
-User.prototype.getCourses = function (grade, semester) {
+User.prototype.getCourses = function (grade, semester, callback) {
     var self = this;
     if (grade == 0) {
-        return self.__getAllCourses__();
+        self.__getAllCourses__().nodeify(function (err, res) {
+            _.isFunction(callback) && callback(err, res);
+        });
     }
     else {
         var semesterId = Encoder.getSemester(grade, semester);
-        return self.__getSemesterCourses__(semesterId);
+        self.__getSemesterCourses__(semesterId).nodeify(function (err, res) {
+            _.isFunction(callback) && callback(err, res);
+        });
     }
 };
 

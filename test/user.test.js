@@ -586,7 +586,7 @@ describe('User ', function () {
         });
 
         it('should get the all courses and scores if semester is 0', function (done) {
-            user.getCourses(0).nodeify(function (err, courses) {
+            user.getCourses(0, 0, function (err, courses) {
                 assert.equal(true, user._testRes_.allCourses);
                 assert.equal(false, user._testRes_.semCourses);
                 done();
@@ -594,7 +594,7 @@ describe('User ', function () {
         });
 
         it('should get the semester courses if semester is not 0', function (done) {
-            user.getCourses(2012, 1).nodeify(function (err, courses) {
+            user.getCourses(2012, 1 ,function (err, courses) {
                 assert.equal(false, user._testRes_.allCourses);
                 assert.equal(true, user._testRes_.semCourses);
                 done();
