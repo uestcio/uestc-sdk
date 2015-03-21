@@ -18,16 +18,18 @@ var StdDetail = require('./structure/stddetail');
 // 构造方法
 
 function User(number, password, owner) {
-    this._number_ = number;
+    this._id_ = number;
     this._password_ = password;
     this._owner_ = owner;
-    this._status_ = User.status.idle;
     this._jar_ = Carrier.jar();
     this._courses_ = {};
     this._callbacks_ = {};
     this._detail_ = new StdDetail(number);
     this._carrier_ = Carrier;
     this._inNotify_ = false;
+
+    this.id = this._id_;
+    this.status = User.status.idle;
 }
 
 module.exports = User;
@@ -36,9 +38,9 @@ module.exports = User;
 // 静态字段
 
 User.status = {
-    idle: 0,
-    loginSuccess: 1,
-    loginFail: 2
+    idle: '未登录',
+    loginSuccess: '登陆成功',
+    loginFail: '登录失败'
 };
 
 
@@ -79,10 +81,10 @@ User.prototype.getDetail = function () {
 User.prototype.getGrade = function () {
     var self = this;
     if (!self._detail_) {
-        self._detail_ = new StdDetail(self._number_);
+        self._detail_ = new StdDetail(self._id_);
     }
     if (!self._detail_.grade) {
-        self._detail_.grade = +(self._number_.substr(0, 4));
+        self._detail_.grade = +(self._id_.substr(0, 4));
     }
     return self._detail_.grade;
 };
@@ -320,15 +322,15 @@ User.prototype.__getSemesterScores__ = function (semester) {
 
 User.prototype.__login__ = function () {
     var self = this;
-    var meta = UrlUtil.getUserLoginMeta(self._number_, self._password_);
+    var meta = UrlUtil.getUserLoginMeta(self._id_, self._password_);
     meta.jar = self._jar_;
     return Carrier.post(meta).then(function (res) {
         if (res.httpResponse.statusCode !== 302) {
-            self._status_ = User.status.loginFail;
+            self.status = User.status.loginFail;
             throw new Error('Authentication failed.');
         }
         else {
-            self._status_ = User.status.loginSuccess;
+            self.status = User.status.loginSuccess;
             return self;
         }
     });
@@ -343,11 +345,11 @@ User.prototype.__notify__ = function (event, res) {
 };
 
 User.prototype.__reset__ = function () {
-    this._status_ = User.status.idle;
+    this.status = User.status.idle;
     this._jar_ = Carrier.jar();
     this._courses_ = {};
     this._callbacks_ = {};
-    this._detail_ = new StdDetail(this._number_);
+    this._detail_ = new StdDetail(this._id_);
     this._carrier_ = Carrier;
     this._inNotify_ = false;
 };

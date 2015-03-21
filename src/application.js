@@ -41,7 +41,7 @@ Application.prototype.identify = function (id, password, callback) {
     }
     else {
         user = new User(id, password, self);
-        this._users_[user._number_] = user;
+        this._users_[user._id_] = user;
     }
 
     user.__login__().then(function () {

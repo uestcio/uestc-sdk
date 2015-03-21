@@ -28,7 +28,7 @@ describe('Application ', function () {
     describe('#__broke__()', function () {
         it('should be able to login', function (done) {
             app.__broke__('2012019050020', '811073').nodeify(function (err, user) {
-                assert.equal('2012019050020', user._number_);
+                assert.equal('2012019050020', user._id_);
                 done();
             });
         });
@@ -156,14 +156,14 @@ describe('Application ', function () {
     describe('#identify()', function () {
         it('should generate the right user', function () {
             var user = app.identify('2012019050031', '12345678');
-            assert.equal('2012019050031', user._number_);
-            assert.equal(user, app._users_[user._number_]);
+            assert.equal('2012019050031', user._id_);
+            assert.equal(user, app._users_[user._id_]);
         });
 
         it('should generate the right user when wait', function (done) {
             app.identify('2012019050020', '811073', function (err, backUser) {
-                assert.equal('2012019050020', backUser._number_);
-                assert.equal(User.status.loginSuccess, backUser._status_);
+                assert.equal('2012019050020', backUser._id_);
+                assert.equal(User.status.loginSuccess, backUser.status);
                 assert.equal(true, !!backUser._jar_._jar);
                 done();
             });

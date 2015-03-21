@@ -14,10 +14,10 @@ MissionUtil.getUserLoginMission = function (app) {
             async.parallelLimit(_.map(users, function (user) {
                 return function (callback) {
                     user.__login__().then(function (res) {
-                        console.log(user._number_ + ' login success at ' + new Date());
+                        console.log(user._id_ + ' login success at ' + new Date());
                         callback(null, res);
                     }, function (err) {
-                        console.log(user._number_ + ' login failed at ' + new Date() + ', because of ' + err);
+                        console.log(user._id_ + ' login failed at ' + new Date() + ', because of ' + err);
                         callback(null);
                     });
                 }
@@ -42,10 +42,10 @@ MissionUtil.getUserDetailMission = function (app) {
             async.parallelLimit(_.map(users, function (user) {
                 return function (callback) {
                     user.__getDetailOnline__().then(function (res) {
-                        console.log(user._number_ + ' get detail success at ' + new Date());
+                        console.log(user._id_ + ' get detail success at ' + new Date());
                         callback(null, res);
                     }, function (err) {
-                        console.log(user._number_ + ' get detail failed at ' + new Date() + ', because of ' + err);
+                        console.log(user._id_ + ' get detail failed at ' + new Date() + ', because of ' + err);
                         callback(null);
                     });
                 }
@@ -70,10 +70,10 @@ MissionUtil.getUserCoursesMission = function (app) {
             async.parallelLimit(_.map(users, function (user) {
                 return function (callback) {
                     user.__getAllCourses__().then(function (res) {
-                        console.log(user._number_ + ' get courses success at ' + new Date());
+                        console.log(user._id_ + ' get courses success at ' + new Date());
                         callback(null, res);
                     }, function (err) {
-                        console.log(user._number_ + ' get courses failed at ' + new Date() + ', because of ' + err);
+                        console.log(user._id_ + ' get courses failed at ' + new Date() + ', because of ' + err);
                         callback(null);
                     });
                 }
@@ -98,10 +98,10 @@ MissionUtil.getUserScoresMission = function (app) {
             async.parallelLimit(_.map(users, function (user) {
                 return function (callback) {
                     user.__getAllScores__().then(function (res) {
-                        console.log(user._number_ + ' get scores success at ' + new Date());
+                        console.log(user._id_ + ' get scores success at ' + new Date());
                         callback(null, res);
                     }, function (err) {
-                        console.log(user._number_ + ' get scores failed at ' + new Date() + ', because of ' + err);
+                        console.log(user._id_ + ' get scores failed at ' + new Date() + ', because of ' + err);
                         callback(null);
                     });
                 }
@@ -126,10 +126,10 @@ MissionUtil.getUserExamsMission = function (app) {
             async.parallelLimit(_.map(users, function (user) {
                 return function (callback) {
                     user.__getAllExams__().then(function (res) {
-                        console.log(user._number_ + ' get exams success at ' + new Date());
+                        console.log(user._id_ + ' get exams success at ' + new Date());
                         callback(null, res);
                     }, function (err) {
-                        console.log(user._number_ + ' get exams failed at ' + new Date() + ', because of ' + err);
+                        console.log(user._id_ + ' get exams failed at ' + new Date() + ', because of ' + err);
                         callback(null);
                     });
                 }
