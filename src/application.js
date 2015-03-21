@@ -8,7 +8,7 @@ var User = require('./user');
 var UrlUtil = require('./helpers/urlutil');
 var Parser = require('./helpers/parser');
 var Course = require('./structure/course');
-var Fixture = require('./helpers/fixture');
+var Keeper = require('./helpers/keeper');
 
 
 // 构造方法

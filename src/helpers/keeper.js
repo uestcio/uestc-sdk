@@ -19,6 +19,7 @@ Keeper.queue = Keeper.queue || {};
 
 Keeper.now = Keeper.now || null;
 
+Keeper.period = Keeper.period || 10;
 
 // 静态方法
 
@@ -30,10 +31,16 @@ Keeper.removeTask = function (flag) {
     delete Keeper.queue[flag];
 };
 
+Keeper.setPeriod = function (period) {
+    Keeper.period = period;
+    Keeper.start();
+};
+
 Keeper.start = function () {
     var mission = function () {
         async.parallelLimit(Keeper.queue, 2, function (err, results) {
-            err? console.log('Async mission failed because of ' + err): console.log('Async mission success');
+            err? console.log('Async mission failed at ' + new Date() + ' because of ' + err):
+                console.log('Async missions over at ' + new Date());
         });
     };
 
@@ -43,7 +50,7 @@ Keeper.start = function () {
         Keeper.now.clear();
     }
 
-    var sched = later.parse.recur().every(2).minute();
+    var sched = later.parse.recur().every(Keeper.period).minute();
     Keeper.now = later.setInterval(mission, sched);
 };
 
