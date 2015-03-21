@@ -90,15 +90,13 @@ MissionUtil.getUserExamsMission = function (app) {
     return function (callback) {
         var user = app._current_;
         if(user) {
-            //user.__getAllExams__().then(function (res) {
-            //    console.log('Get exams success at ' + new Date());
-            //    callback(null, res);
-            //}, function (err) {
-            //    console.log('Get exams failed at ' + new Date() + ', because of ' + err);
-            //    callback(null);
-            //});
-            console.log('Get exams mission has not been completed yet');
-            callback(null);
+            user.__getAllExams__().then(function (res) {
+                console.log('Get exams success at ' + new Date());
+                callback(null, res);
+            }, function (err) {
+                console.log('Get exams failed at ' + new Date() + ', because of ' + err);
+                callback(null);
+            });
         }
         else {
             var message = 'Get exams unavailable because of no user at' + new Date();
