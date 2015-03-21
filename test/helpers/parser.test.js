@@ -161,10 +161,10 @@ describe('Parser ', function () {
                 assert.equal(2013, course0.semester[1]);
                 assert.equal(2, course0.semester[2]);
 
-                assert.equal(0, course0.score.overall);
-                assert.equal(0, course0.score.resit);
+                assert.equal(null, course0.score.overall);
+                assert.equal(null, course0.score.resit);
                 assert.equal(67, course0.score.final);
-                assert.equal(-1, course0.score.gpa);
+                assert.equal(null, course0.score.gpa);
 
                 done();
             })
@@ -178,7 +178,7 @@ describe('Parser ', function () {
                 assert.equal(80, course1.score.overall);
                 assert.equal(80, course1.score.resit);
                 assert.equal(80, course1.score.final);
-                assert.equal(-1, course1.score.gpa);
+                assert.equal(null, course1.score.gpa);
                 done();
             })
         });
@@ -533,7 +533,7 @@ describe('Parser ', function () {
                 assert.equal(1, course0.semester[2]);
 
                 assert.equal(60, course0.score.overall);
-                assert.equal(-1, course0.score.resit);
+                assert.equal(null, course0.score.resit);
                 assert.equal(60, course0.score.final);
                 assert.equal(1.5, course0.score.gpa);
 

@@ -2,6 +2,8 @@ var assert = require('assert');
 var _ = require('lodash');
 var Promise = require('promise');
 var Course = require('../src/structure/course');
+var Exam = require('../src/structure/exam');
+var Score = require('../src/structure/score');
 var User = require('../src/user');
 var UrlUtil = require('../src/helpers/urlutil');
 var StdDetail = require('../src/structure/stddetail');
@@ -99,6 +101,169 @@ describe('User ', function () {
             };
             user.__cacheCourses__([new Course('1')]);
             assert.equal(0, count);
+        });
+    });
+
+    describe('#__checkUpdate__()', function () {
+        var record;
+
+        beforeEach(function () {
+            record = {
+                exam: false,
+                score: false
+            };
+
+            user.__notify__ = function (event, res) {
+                record[event] = true;
+            }
+        });
+
+        it('should do nothing when old one is null', function () {
+            var oldOne = null;
+            var newOne = new Course('123');
+            user.__checkUpdate__(oldOne, newOne);
+            assert.equal(false, record.exam);
+            assert.equal(false, record.score);
+        });
+
+        it('should do nothing when new one is null', function () {
+            var oldOne = new Course('123');
+            var newOne = null;
+            user.__checkUpdate__(oldOne, newOne);
+            assert.equal(false, record.exam);
+            assert.equal(false, record.score);
+        });
+
+        it('should call exam when old one have no exam', function () {
+            var oldOne = new Course('123');
+            var newOne = new Course('123');
+            newOne.exam = new Exam(newOne);
+            newOne.exam.date = new Date();
+            user.__checkUpdate__(oldOne, newOne);
+            assert.equal(true, record.exam);
+            assert.equal(false, record.score);
+        });
+
+        it('should call exam when old one have no exam date', function () {
+            var oldOne = new Course('123');
+            oldOne.exam = new Exam(oldOne);
+            var newOne = new Course('123');
+            newOne.exam = new Exam(newOne);
+            newOne.exam.date = new Date();
+            user.__checkUpdate__(oldOne, newOne);
+            assert.equal(true, record.exam);
+            assert.equal(false, record.score);
+        });
+
+        it('should call exam when exam of courses are different', function () {
+            var oldOne = new Course('123');
+            oldOne.exam = new Exam(oldOne);
+            oldOne.exam.date = new Date('2001-01-01');
+            var newOne = new Course('123');
+            newOne.exam = new Exam(newOne);
+            newOne.exam.date = new Date('2010-10-10');
+            user.__checkUpdate__(oldOne, newOne);
+            assert.equal(true, record.exam);
+            assert.equal(false, record.score);
+        });
+
+        it('should not call exam when new one has no exam', function () {
+            var oldOne = new Course('123');
+            oldOne.exam = new Exam(oldOne);
+            oldOne.exam.date = new Date('2001-01-01');
+            var newOne = new Course('123');
+            user.__checkUpdate__(oldOne, newOne);
+            assert.equal(false, record.exam);
+            assert.equal(false, record.score);
+        });
+
+        it('should not call exam when new one has no exam date', function () {
+            var oldOne = new Course('123');
+            oldOne.exam = new Exam(oldOne);
+            oldOne.exam.date = new Date('2001-01-01');
+            var newOne = new Course('123');
+            newOne.exam = new Exam(newOne);
+            user.__checkUpdate__(oldOne, newOne);
+            assert.equal(false, record.exam);
+            assert.equal(false, record.score);
+        });
+
+        it('should not call exam when exam of courses are same', function () {
+            var oldOne = new Course('123');
+            oldOne.exam = new Exam(oldOne);
+            oldOne.exam.date = new Date('2001-01-01');
+            var newOne = new Course('123');
+            newOne.exam = new Exam(newOne);
+            newOne.exam.date = new Date('2001-01-01');
+            user.__checkUpdate__(oldOne, newOne);
+            assert.equal(false, record.exam);
+            assert.equal(false, record.score);
+        });
+
+        it('should call score when old one have no score', function () {
+            var oldOne = new Course('123');
+            var newOne = new Course('123');
+            newOne.score = new Score(newOne);
+            newOne.score.final = 100;
+            user.__checkUpdate__(oldOne, newOne);
+            assert.equal(false, record.exam);
+            assert.equal(true, record.score);
+        });
+
+        it('should call score when old one have no score final', function () {
+            var oldOne = new Course('123');
+            oldOne.score = new Score(oldOne);
+            var newOne = new Course('123');
+            newOne.score = new Score(newOne);
+            newOne.score.final = 100;
+            user.__checkUpdate__(oldOne, newOne);
+            assert.equal(false, record.exam);
+            assert.equal(true, record.score);
+        });
+
+        it('should call score when score of courses are different', function () {
+            var oldOne = new Course('123');
+            oldOne.score = new Score(oldOne);
+            oldOne.score.final = 90;
+            var newOne = new Course('123');
+            newOne.score = new Score(newOne);
+            newOne.score.final = 100;
+            user.__checkUpdate__(oldOne, newOne);
+            assert.equal(false, record.exam);
+            assert.equal(true, record.score);
+        });
+
+        it('should not call score when new one has no score', function () {
+            var oldOne = new Course('123');
+            oldOne.score = new Score(oldOne);
+            oldOne.score.final = 100;
+            var newOne = new Course('123');
+            user.__checkUpdate__(oldOne, newOne);
+            assert.equal(false, record.exam);
+            assert.equal(false, record.score);
+        });
+
+        it('should not call score when new one has no score final', function () {
+            var oldOne = new Course('123');
+            oldOne.score = new Score(oldOne);
+            oldOne.score.final = 100;
+            var newOne = new Course('123');
+            newOne.score = new Score(newOne);
+            user.__checkUpdate__(oldOne, newOne);
+            assert.equal(false, record.exam);
+            assert.equal(false, record.score);
+        });
+
+        it('should not call score when scores of courses are same', function () {
+            var oldOne = new Course('123');
+            oldOne.score = new Score(oldOne);
+            oldOne.score.final = 100;
+            var newOne = new Course('123');
+            newOne.score = new Score(newOne);
+            newOne.score.final = 100;
+            user.__checkUpdate__(oldOne, newOne);
+            assert.equal(false, record.exam);
+            assert.equal(false, record.score);
         });
     });
 

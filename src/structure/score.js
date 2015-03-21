@@ -20,14 +20,19 @@ module.exports = Score;
 
 // 实例方法
 
+Score.prototype.toString = function () {
+    return '[Score_' + this.course.id + '_' + this.overall + '_' +
+        this.resit + '_' + this.final + '_' + this.gpa + ']';
+};
+
 
 // 非公开方法
 
 Score.prototype.__init__ = function () {
-    this.overall = -1;
-    this.resit = -1;
-    this.final = -1;
-    this.gpa = -1;
+    this.overall = null;
+    this.resit = null;
+    this.final = null;
+    this.gpa = null;
 };
 
 Score.prototype.__setField__ = function (field, val) {
@@ -40,7 +45,10 @@ Score.prototype.__setField__ = function (field, val) {
         case 'resit':
         case 'final':
         case 'gpa':
-            if(+val >= 0) {
+            if(val === null){
+                self[field] = val;
+            }
+            else if(+val >= 0) {
                 self[field] = +val;
             }
             break;

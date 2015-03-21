@@ -21,17 +21,17 @@ describe('Score ', function () {
         });
 
         it('should be able to instantiate', function () {
-            assert.equal(-1, score.overall);
-            assert.equal(-1, score.resit);
-            assert.equal(-1, score.final);
-            assert.equal(-1, score.gpa);
+            assert.equal(null, score.overall);
+            assert.equal(null, score.resit);
+            assert.equal(null, score.final);
+            assert.equal(null, score.gpa);
         });
     });
 
     describe('#__setField__()', function () {
         beforeEach(function () {
             score = new Score('1234');
-            score.overall = -1;
+            score.overall = null;
         });
 
         it('should be able to set valid field', function () {
@@ -41,27 +41,27 @@ describe('Score ', function () {
 
         it('should not set the field null', function () {
             score.__setField__('overall', null);
-            assert.equal(score.overall, 0);
+            assert.equal(score.overall, null);
         });
 
         it('should not set the field undefined', function () {
             score.__setField__('overall', undefined);
-            assert.equal(score.overall, -1);
+            assert.equal(score.overall, null);
         });
 
         it('should not set the field NaN', function () {
             score.__setField__('overall', NaN);
-            assert.equal(score.overall, -1);
+            assert.equal(score.overall, null);
         });
 
         it('should not set the field empty', function () {
             score.__setField__('overall', '');
-            assert.equal(score.overall, -1);
+            assert.equal(score.overall, null);
         });
 
         it('should not set the field minus', function () {
             score.__setField__('overall', -2);
-            assert.equal(score.overall, -1);
+            assert.equal(score.overall, null);
         });
 
         it('should be able to set resit', function () {

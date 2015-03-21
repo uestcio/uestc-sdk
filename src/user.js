@@ -126,13 +126,11 @@ User.prototype.__checkUpdate__ = function (oldOne, newOne) {
         return;
     }
     if (newOne.exam && newOne.exam.date &&
-        (!oldOne.exam || !oldOne.exam.date || !_.isEqual(newOne.exam.date, oldOne.exam.date))) {
+        (!oldOne.exam || !oldOne.exam.date || !_.isEqual(newOne.exam.toString(), oldOne.exam.toString()))) {
         self.__notify__('exam', newOne.exam);
     }
     if (newOne.score && newOne.score.final &&
-        (!oldOne.score || !oldOne.score.final ||
-        (newOne.score.overall && (oldOne.score.overall != newOne.score.overall)) ||
-        (newOne.score.resit && (oldOne.score.resit != newOne.score.resit)))) {
+        (!oldOne.score || !oldOne.score.final || !_.isEqual(newOne.score.toString(), oldOne.score.toString()))) {
         self.__notify__('score', newOne.score);
     }
 };

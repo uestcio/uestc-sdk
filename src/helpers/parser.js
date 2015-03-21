@@ -70,9 +70,9 @@ Parser.getUserAllScores = function (html) {
             course.__setField__('credit', +$(line.children[5]).text());
             course.__setField__('semester', Encoder.parseSemester($(line.children[0]).text()));
             var score = new Score(course);
-            score.__setField__('overall', +_.trim($(line.children[6]).text()));
-            score.__setField__('resit', +_.trim($(line.children[7]).text()));
-            score.__setField__('final', +_.trim($(line.children[8]).text()));
+            score.__setField__('overall', _.trim($(line.children[6]).text()) || null);
+            score.__setField__('resit', _.trim($(line.children[7]).text()) || null);
+            score.__setField__('final', _.trim($(line.children[8]).text()) || null);
             course.score = score;
             return course;
         });
@@ -162,10 +162,10 @@ Parser.getUserSemesterScores = function (html) {
             course.__setField__('grade', +$(line.children[7]).text());
             course.__setField__('semester', Encoder.parseSemester($(line.children[0]).text()));
             var score = new Score(course);
-            score.__setField__('overall', +_.trim($(line.children[6]).text()));
-            score.__setField__('resit', +_.trim($(line.children[7]).text()));
-            score.__setField__('final', +_.trim($(line.children[8]).text()));
-            score.__setField__('gpa', +_.trim($(line.children[9]).text()));
+            score.__setField__('overall', _.trim($(line.children[6]).text()) || null);
+            score.__setField__('resit', _.trim($(line.children[7]).text()) || null);
+            score.__setField__('final', _.trim($(line.children[8]).text()) || null);
+            score.__setField__('gpa', _.trim($(line.children[9]).text()) || null);
             course.score = score;
             return course;
         });

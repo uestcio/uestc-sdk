@@ -21,6 +21,12 @@ module.exports = Exam;
 
 // 实例方法
 
+Exam.prototype.toString = function () {
+    return '[Exam_' + this.course.id + '_' + this.date + '_' +
+        this.from + '_' + this.to + '_' + this.description + '_' +
+        this.place + '_' + this.seat + '_' + this.status + ']';
+};
+
 
 // 非公开方法
 
