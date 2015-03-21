@@ -106,7 +106,7 @@ User.prototype.__cacheCourses__ = function (courses) {
         var newOne = courses[i];
         var oldOne = self._courses_[courses[i].id];
         if (oldOne) {
-            self._inNotify_ && self.__checkUpdate__(oldOne, newOne);
+            self._inNotify_ && self.__checkUpdates__(oldOne, newOne);
             self._courses_[id].__merge__(courses[i]);
             courses[i] = self._courses_[id];
         }
@@ -120,7 +120,7 @@ User.prototype.__cacheCourses__ = function (courses) {
     return courses;
 };
 
-User.prototype.__checkUpdate__ = function (oldOne, newOne) {
+User.prototype.__checkUpdates__ = function (oldOne, newOne) {
     var self = this;
     if (!oldOne || !newOne) {
         return;
@@ -132,14 +132,6 @@ User.prototype.__checkUpdate__ = function (oldOne, newOne) {
     if (newOne.score && newOne.score.final &&
         (!oldOne.score || !oldOne.score.final || !_.isEqual(newOne.score.toString(), oldOne.score.toString()))) {
         self.__notify__('score', newOne.score);
-    }
-};
-
-User.prototype.__notify__ = function (event, res) {
-    var self = this;
-    var callback = self._callbacks_[event];
-    if(callback && _.isFunction(callback)) {
-        callback(null, res);
     }
 };
 
@@ -329,6 +321,14 @@ User.prototype.__login__ = function () {
             return self;
         }
     });
+};
+
+User.prototype.__notify__ = function (event, res) {
+    var self = this;
+    var callback = self._callbacks_[event];
+    if(callback && _.isFunction(callback)) {
+        callback(null, res);
+    }
 };
 
 User.prototype.__reset__ = function () {

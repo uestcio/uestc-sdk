@@ -70,7 +70,7 @@ describe('User ', function () {
                 '1': new Course('1')
             };
             user._owner_.__cacheCourses__ = function () {};
-            user.__checkUpdate__ = function (courses) {
+            user.__checkUpdates__ = function (courses) {
                 count = 1;
             };
             user.__cacheCourses__([new Course('1')]);
@@ -84,7 +84,7 @@ describe('User ', function () {
                 '1': new Course('1')
             };
             user._owner_.__cacheCourses__ = function () {};
-            user.__checkUpdate__ = function (courses) {
+            user.__checkUpdates__ = function (courses) {
                 count = 1;
             };
             user.__cacheCourses__([new Course('1')]);
@@ -96,7 +96,7 @@ describe('User ', function () {
             user._inNotify_ = true;
             user._courses_ = {};
             user._owner_.__cacheCourses__ = function () {};
-            user.__checkUpdate__ = function (courses) {
+            user.__checkUpdates__ = function (courses) {
                 count += courses.length;
             };
             user.__cacheCourses__([new Course('1')]);
@@ -104,7 +104,7 @@ describe('User ', function () {
         });
     });
 
-    describe('#__checkUpdate__()', function () {
+    describe('#__checkUpdates__()', function () {
         var record;
 
         beforeEach(function () {
@@ -121,7 +121,7 @@ describe('User ', function () {
         it('should do nothing when old one is null', function () {
             var oldOne = null;
             var newOne = new Course('123');
-            user.__checkUpdate__(oldOne, newOne);
+            user.__checkUpdates__(oldOne, newOne);
             assert.equal(false, record.exam);
             assert.equal(false, record.score);
         });
@@ -129,7 +129,7 @@ describe('User ', function () {
         it('should do nothing when new one is null', function () {
             var oldOne = new Course('123');
             var newOne = null;
-            user.__checkUpdate__(oldOne, newOne);
+            user.__checkUpdates__(oldOne, newOne);
             assert.equal(false, record.exam);
             assert.equal(false, record.score);
         });
@@ -139,7 +139,7 @@ describe('User ', function () {
             var newOne = new Course('123');
             newOne.exam = new Exam(newOne);
             newOne.exam.date = new Date();
-            user.__checkUpdate__(oldOne, newOne);
+            user.__checkUpdates__(oldOne, newOne);
             assert.equal(true, record.exam);
             assert.equal(false, record.score);
         });
@@ -150,7 +150,7 @@ describe('User ', function () {
             var newOne = new Course('123');
             newOne.exam = new Exam(newOne);
             newOne.exam.date = new Date();
-            user.__checkUpdate__(oldOne, newOne);
+            user.__checkUpdates__(oldOne, newOne);
             assert.equal(true, record.exam);
             assert.equal(false, record.score);
         });
@@ -162,7 +162,7 @@ describe('User ', function () {
             var newOne = new Course('123');
             newOne.exam = new Exam(newOne);
             newOne.exam.date = new Date('2010-10-10');
-            user.__checkUpdate__(oldOne, newOne);
+            user.__checkUpdates__(oldOne, newOne);
             assert.equal(true, record.exam);
             assert.equal(false, record.score);
         });
@@ -172,7 +172,7 @@ describe('User ', function () {
             oldOne.exam = new Exam(oldOne);
             oldOne.exam.date = new Date('2001-01-01');
             var newOne = new Course('123');
-            user.__checkUpdate__(oldOne, newOne);
+            user.__checkUpdates__(oldOne, newOne);
             assert.equal(false, record.exam);
             assert.equal(false, record.score);
         });
@@ -183,7 +183,7 @@ describe('User ', function () {
             oldOne.exam.date = new Date('2001-01-01');
             var newOne = new Course('123');
             newOne.exam = new Exam(newOne);
-            user.__checkUpdate__(oldOne, newOne);
+            user.__checkUpdates__(oldOne, newOne);
             assert.equal(false, record.exam);
             assert.equal(false, record.score);
         });
@@ -195,7 +195,7 @@ describe('User ', function () {
             var newOne = new Course('123');
             newOne.exam = new Exam(newOne);
             newOne.exam.date = new Date('2001-01-01');
-            user.__checkUpdate__(oldOne, newOne);
+            user.__checkUpdates__(oldOne, newOne);
             assert.equal(false, record.exam);
             assert.equal(false, record.score);
         });
@@ -205,7 +205,7 @@ describe('User ', function () {
             var newOne = new Course('123');
             newOne.score = new Score(newOne);
             newOne.score.final = 100;
-            user.__checkUpdate__(oldOne, newOne);
+            user.__checkUpdates__(oldOne, newOne);
             assert.equal(false, record.exam);
             assert.equal(true, record.score);
         });
@@ -216,7 +216,7 @@ describe('User ', function () {
             var newOne = new Course('123');
             newOne.score = new Score(newOne);
             newOne.score.final = 100;
-            user.__checkUpdate__(oldOne, newOne);
+            user.__checkUpdates__(oldOne, newOne);
             assert.equal(false, record.exam);
             assert.equal(true, record.score);
         });
@@ -228,7 +228,7 @@ describe('User ', function () {
             var newOne = new Course('123');
             newOne.score = new Score(newOne);
             newOne.score.final = 100;
-            user.__checkUpdate__(oldOne, newOne);
+            user.__checkUpdates__(oldOne, newOne);
             assert.equal(false, record.exam);
             assert.equal(true, record.score);
         });
@@ -238,7 +238,7 @@ describe('User ', function () {
             oldOne.score = new Score(oldOne);
             oldOne.score.final = 100;
             var newOne = new Course('123');
-            user.__checkUpdate__(oldOne, newOne);
+            user.__checkUpdates__(oldOne, newOne);
             assert.equal(false, record.exam);
             assert.equal(false, record.score);
         });
@@ -249,7 +249,7 @@ describe('User ', function () {
             oldOne.score.final = 100;
             var newOne = new Course('123');
             newOne.score = new Score(newOne);
-            user.__checkUpdate__(oldOne, newOne);
+            user.__checkUpdates__(oldOne, newOne);
             assert.equal(false, record.exam);
             assert.equal(false, record.score);
         });
@@ -261,7 +261,7 @@ describe('User ', function () {
             var newOne = new Course('123');
             newOne.score = new Score(newOne);
             newOne.score.final = 100;
-            user.__checkUpdate__(oldOne, newOne);
+            user.__checkUpdates__(oldOne, newOne);
             assert.equal(false, record.exam);
             assert.equal(false, record.score);
         });
@@ -531,6 +531,27 @@ describe('User ', function () {
                 assert.equal(true, !!err);
                 done();
             });
+        });
+    });
+
+    describe('#__notify__()', function () {
+
+        it('should able to notify then exam event', function (done) {
+            user._callbacks_.exam = function (err, res) {
+                assert.equal(1, res);
+                done();
+            };
+
+            user.__notify__('exam', 1);
+        });
+
+        it('should able to notify then exam event', function (done) {
+            user._callbacks_.score = function (err, res) {
+                assert.equal(1, res);
+                done();
+            };
+
+            user.__notify__('score', 1);
         });
     });
 
