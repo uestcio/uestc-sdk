@@ -59,20 +59,24 @@ Application.prototype.reset = function () {
     this._current_ = null;
 };
 
-Application.prototype.searchForCourses = function (options) {
+Application.prototype.searchForCourses = function (options, callback) {
     var self = this;
     return self.__searchForCoursesOnline__(options).then(null, function (err) {
         return self.__searchForCoursesOffline__(options);
+    }).nodeify(function (err, res) {
+        _.isFunction(callback) && callback(err, res);
     });
 };
 
-Application.prototype.searchForPeople = function (term, limit) {
+Application.prototype.searchForPeople = function (term, limit, callback) {
     var self = this;
     if (!limit || limit <= 0) {
         limit = 10;
     }
     return self.__searchForPeopleOnline__(term, limit).then(null, function (err) {
         return self.__searchForPeopleOffline__(term, limit);
+    }).nodeify(function (err, res) {
+        _.isFunction(callback) && callback(err, res);
     });
 };
 

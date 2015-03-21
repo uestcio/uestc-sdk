@@ -199,7 +199,7 @@ describe('Application ', function () {
                 instructor: '徐世中'
             };
 
-            app.searchForCourses(options).nodeify(function (err, courses) {
+            app.searchForCourses(options ,function (err, courses) {
                 assert.equal(true, app._testRes_.online);
                 assert.equal(false, app._testRes_.local);
                 done();
@@ -221,7 +221,7 @@ describe('Application ', function () {
                 instructor: '徐世中'
             };
 
-            app.searchForCourses(options).nodeify(function (err, courses) {
+            app.searchForCourses(options ,function (err, courses) {
                 assert.equal(true, app._testRes_.online);
                 assert.equal(true, app._testRes_.local);
                 done();
@@ -250,7 +250,7 @@ describe('Application ', function () {
 
             var term = '徐世中';
 
-            app.searchForPeople(term, 10).nodeify(function (err, people) {
+            app.searchForPeople(term, 10 ,function (err, people) {
                 assert.equal(true, app._testRes_.online);
                 assert.equal(false, app._testRes_.local);
                 done();
@@ -270,7 +270,7 @@ describe('Application ', function () {
 
             var term = '徐世中';
 
-            app.searchForPeople(term, 10).nodeify(function (err, people) {
+            app.searchForPeople(term, 10 ,function (err, people) {
                 assert.equal(true, app._testRes_.online);
                 assert.equal(true, app._testRes_.local);
                 done();
