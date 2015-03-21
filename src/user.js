@@ -96,6 +96,11 @@ User.prototype.getScores = function (grade, semester) {
     }
 };
 
+User.prototype.on = function (event, callback) {
+    var self = this;
+    self._callbacks_[event] = callback;
+};
+
 
 // 非公开方法
 
