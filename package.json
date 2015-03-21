@@ -1,6 +1,6 @@
 {
   "name": "uestc",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "A concise, reliable and powerful SDK platform for UESTC.",
   "main": "index.js",
   "engines": {
