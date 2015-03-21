@@ -17,7 +17,7 @@
 ```js
 var sdk = require('uestc');
 var app = sdk.single();
-var user = app.login('2012019050031', '12345678');
+var user = app.identify('2012019050031', '12345678');
 
 app.searchForPeople('章萌芊').then(function (people) {
   console.log('全电子科大叫章萌芊的共有' + people.length + '人，分别是：');
