@@ -41,7 +41,7 @@ describe('Score ', function () {
 
         it('should not set the field null', function () {
             score.__setField__('overall', null);
-            assert.equal(score.overall, -1);
+            assert.equal(score.overall, 0);
         });
 
         it('should not set the field undefined', function () {

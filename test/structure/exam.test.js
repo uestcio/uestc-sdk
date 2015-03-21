@@ -40,7 +40,7 @@ describe('Exam ', function () {
 
         it('should not set the field null', function () {
             exam.__setField__('place', null);
-            assert.equal(exam.place, 'AAA');
+            assert.equal(exam.place, null);
         });
 
         it('should not set the field undefined', function () {

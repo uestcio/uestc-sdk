@@ -27,7 +27,7 @@ describe('Course ', function () {
 
         it('should not set the field null', function () {
             course.__setField__('title', null);
-            assert.equal(course.title, 'AAA');
+            assert.equal(course.title, null);
         });
 
         it('should not set the field undefined', function () {

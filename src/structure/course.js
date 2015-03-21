@@ -55,7 +55,7 @@ Course.prototype.__merge__ = function (course) {
 
 Course.prototype.__setField__ = function (field, val) {
     var self = this;
-    if (val === null || val === undefined || val != val || val === '' || _.isFunction(val)) {
+    if (val === undefined || val != val || val === '' || _.isFunction(val)) {
         return;
     }
     switch (field) {

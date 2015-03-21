@@ -454,9 +454,9 @@ describe('Parser ', function () {
                 assert.equal('E0100940.01', course2.id);
                 assert.equal('计算机通信网', course2.title);
 
-                assert.equal(true, _.isEqual(new Date('1970-01-01'), course2.exam.date));
-                assert.equal(true, _.isEqual(new Date('1970-01-01'), course2.exam.from));
-                assert.equal(true, _.isEqual(new Date('1970-01-01'), course2.exam.to));
+                assert.equal(null, course2.exam.date);
+                assert.equal(null, course2.exam.from);
+                assert.equal(null, course2.exam.to);
                 assert.equal('[考试情况尚未发布]', course2.exam.description);
                 assert.equal('', course2.exam.place);
                 assert.equal('', course2.exam.seat);
