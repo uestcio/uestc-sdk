@@ -1,6 +1,7 @@
 var assert = require('assert');
 var _ = require('lodash');
 var Promise = require('promise');
+var Course = require('../src/structure/course');
 var User = require('../src/user');
 var UrlUtil = require('../src/helpers/urlutil');
 var StdDetail = require('../src/structure/stddetail');
@@ -58,6 +59,46 @@ describe('User ', function () {
             user.__cacheCourses__(courses);
             user.__cacheCourses__([{id: '1'}]);
             assert.equal(1, user._owner_.len);
+        });
+
+        it('should be able to check update', function () {
+            var count = 0;
+            user._inNotify_ = true;
+            user._courses_ = {
+                '1': new Course('1')
+            };
+            user._owner_.__cacheCourses__ = function () {};
+            user.__checkUpdate__ = function (courses) {
+                count = 1;
+            };
+            user.__cacheCourses__([new Course('1')]);
+            assert.equal(1, count);
+        });
+
+        it('should be able to not check update when no need', function () {
+            var count = 0;
+            user._inNotify_ = false;
+            user._courses_ = {
+                '1': new Course('1')
+            };
+            user._owner_.__cacheCourses__ = function () {};
+            user.__checkUpdate__ = function (courses) {
+                count = 1;
+            };
+            user.__cacheCourses__([new Course('1')]);
+            assert.equal(0, count);
+        });
+
+        it('should be able to not check update when no old', function () {
+            var count = 0;
+            user._inNotify_ = true;
+            user._courses_ = {};
+            user._owner_.__cacheCourses__ = function () {};
+            user.__checkUpdate__ = function (courses) {
+                count += courses.length;
+            };
+            user.__cacheCourses__([new Course('1')]);
+            assert.equal(0, count);
         });
     });
 

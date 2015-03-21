@@ -32,6 +32,7 @@ app.searchForPeople('章萌芊').then(function (people) {
     console.log('身份：' + person.metier + '，学院：' + person.deptName + '，学号：' + person.id);
   }
 });
+// 很遗憾的告诉你真的没有这个人...
 
 user.getCourses(3, 2).then(function (courses) {
   console.log('上学期的成绩如下：');
@@ -68,6 +69,8 @@ $ npm install uestc --save-dev
 
 ## Features / 特性
 
+ 已有功能：
+
   * 用户登陆认证
   * 学校的课程信息条件查询
   * 学校的人员信息关键字查询
@@ -75,11 +78,15 @@ $ npm install uestc --save-dev
   * 用户课程成绩信息获取
   * 用户课程表信息获取
   * 用户考试信息获取
-  * 教务处公告获取（待实现）
+  * 考试安排、学科成绩事件推送
   * 数据缓存，支持离线访问
+
+ 待实现功能：
+
+  * 教务处公告获取（待实现）
   * 教务系统自动评教（待实现）
   * 一卡通消费信息查询（待实现）
-  * 考试安排、学科成绩、饭卡消费等事件推送（待实现）
+  * 一卡通消费、教务处通知事件推送（待实现）
   * 选课系统退补选时自动实时抢课（待实现）
 
 ## Docs / 文档
