@@ -136,7 +136,28 @@ User.prototype.__getAllCourses__ = function () {
         return _.chain(coursesArray).flatten().uniq(function (course) {
             return course.id;
         }).value();
-    }, self.__getAllCoursesOffline__);
+    }, function (err) {
+        return self.__getAllCoursesOffline__();
+    });
+};
+
+User.prototype.__getAllExams__ = function () {
+    var self = this;
+    var semesters = Encoder.getAllSemesters(self);
+    return Promise.all(semesters.map(function (semester) {
+            return self.__getSemesterExams__(semester);
+        }
+    )).then(function (examsArray) {
+        return _.chain(examsArray).flatten().uniq(function (exam) {
+            return exam.course.id;
+        }).value();
+    }, function (err) {
+        return self.__getAllExamsOffline__();
+    });
+};
+
+User.prototype.__getAllExamsOffline__ = function () {
+    return [];
 };
 
 User.prototype.__getAllCoursesOffline__ = function () {

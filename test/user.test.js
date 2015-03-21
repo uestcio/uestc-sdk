@@ -120,6 +120,35 @@ describe('User ', function () {
         });
     });
 
+    describe('#__getAllExams__()', function () {
+
+        beforeEach(function () {
+            user = new User('2012019050020', '811073');
+        });
+
+        it('should get the all exams when real online', function (done) {
+            user.__getAllExams__().nodeify(function (err, courses) {
+                err && console.log(err);
+                assert.equal(40, courses.length);
+                done();
+            });
+        });
+
+        it('should call the all semester exams when online', function (done) {
+            var id = 0;
+
+            user.__getSemesterExams__ = function () {
+                return Promise.resolve([{course: {id: (id++).toString()}}]);
+            };
+
+            user.__getAllExams__().nodeify(function (err, courses) {
+                err && console.log(err);
+                assert.equal(8, courses.length);
+                done();
+            });
+        });
+    });
+
     describe('#__getAllScores__()', function () {
 
         it('should get the all scores', function (done) {

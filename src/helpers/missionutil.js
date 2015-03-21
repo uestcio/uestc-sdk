@@ -19,7 +19,7 @@ MissionUtil.getUserLoginMission = function (app) {
             });
         }
         else {
-            var message = 'Login unavailable because of no user';
+            var message = 'Login unavailable because of no user at' + new Date();
             console.log(message);
             callback(null);
         }
@@ -39,7 +39,7 @@ MissionUtil.getUserDetailMission = function (app) {
             });
         }
         else {
-            var message = 'Get detail unavailable because of no user';
+            var message = 'Get detail unavailable because of no user at' + new Date();
             console.log(message);
             callback(null);
         }
@@ -50,18 +50,16 @@ MissionUtil.getUserCoursesMission = function (app) {
     return function (callback) {
         var user = app._current_;
         if(user) {
-            //user.__getAllCourses__().then(function (res) {
-            //    console.log('Get courses success at ' + new Date());
-            //    callback(null, res);
-            //}, function (err) {
-            //    console.log('Get courses failed at ' + new Date() + ', because of ' + err);
-            //    callback(null);
-            //});
-            console.log('Get courses mission has not been completed yet');
-            callback(null);
+            user.__getAllCourses__().then(function (res) {
+                console.log('Get courses success at ' + new Date());
+                callback(null, res);
+            }, function (err) {
+                console.log('Get courses failed at ' + new Date() + ', because of ' + err);
+                callback(null);
+            });
         }
         else {
-            var message = 'Get courses unavailable because of no user';
+            var message = 'Get courses unavailable because of no user at' + new Date();
             console.log(message);
             callback(null);
         }
@@ -81,7 +79,7 @@ MissionUtil.getUserScoresMission = function (app) {
             });
         }
         else {
-            var message = 'Get scores unavailable because of no user';
+            var message = 'Get scores unavailable because of no user at' + new Date();
             console.log(message);
             callback(null);
         }
@@ -103,7 +101,7 @@ MissionUtil.getUserExamsMission = function (app) {
             callback(null);
         }
         else {
-            var message = 'Get exams unavailable because of no user';
+            var message = 'Get exams unavailable because of no user at' + new Date();
             console.log(message);
             callback(null);
         }
