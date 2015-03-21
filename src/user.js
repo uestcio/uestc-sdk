@@ -22,8 +22,10 @@ function User(number, password, owner) {
     this._status_ = User.status.idle;
     this._jar_ = Carrier.jar();
     this._courses_ = {};
+    this._callbacks_ = {};
     this._detail_ = new StdDetail(number);
     this._carrier_ = Carrier;
+    this._inNotify_ = false;
 }
 
 module.exports = User;
@@ -101,7 +103,10 @@ User.prototype.__cacheCourses__ = function (courses) {
     var self = this;
     for (var i in courses) {
         var id = courses[i].id;
-        if (self._courses_[id]) {
+        var newOne = courses[i];
+        var oldOne = self._courses_[courses[i].id];
+        if (oldOne) {
+            self._inNotify_ && self.__checkUpdate__(oldOne, newOne);
             self._courses_[id].__merge__(courses[i]);
             courses[i] = self._courses_[id];
         }
@@ -113,6 +118,31 @@ User.prototype.__cacheCourses__ = function (courses) {
         return course.__dummy__();
     }));
     return courses;
+};
+
+User.prototype.__checkUpdate__ = function (oldOne, newOne) {
+    var self = this;
+    if (!oldOne || !newOne) {
+        return;
+    }
+    if (newOne.exam && newOne.exam.date &&
+        (!oldOne.exam || !oldOne.exam.date || !_.isEqual(newOne.exam.date, oldOne.exam.date))) {
+        self.__notify__('exam', newOne);
+    }
+    if (newOne.score && newOne.score.final &&
+        (!oldOne.score || !oldOne.score.final ||
+        (newOne.score.overall && (oldOne.score.overall != newOne.score.overall)) ||
+        (newOne.score.resit && (oldOne.score.resit != newOne.score.resit)))) {
+        self.__notify__('score', newOne);
+    }
+};
+
+User.prototype.__notify__ = function (event, res) {
+    var self = this;
+    var callback = self._callbacks_[event];
+    if(callback && _.isFunction(callback)) {
+        callback(null, res);
+    }
 };
 
 User.prototype.__ensureLogin__ = function () {
@@ -307,6 +337,8 @@ User.prototype.__reset__ = function () {
     this._status_ = User.status.idle;
     this._jar_ = Carrier.jar();
     this._courses_ = {};
+    this._callbacks_ = {};
     this._detail_ = new StdDetail(this._number_);
     this._carrier_ = Carrier;
+    this._inNotify_ = false;
 };
