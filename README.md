@@ -19,7 +19,7 @@ var sdk = require('uestc');
 var app = sdk.single();
 var user = app.identify('2012019050031', '12345678');
 
-app.searchForPeople('章萌芊').then(function (people) {
+app.searchForPeople('章萌芊', function (people) {
   console.log('全电子科大叫章萌芊的共有' + people.length + '人，分别是：');
   for(var i in people) {
     person = people[i];
@@ -28,7 +28,7 @@ app.searchForPeople('章萌芊').then(function (people) {
 });
 // 很遗憾的告诉你真的没有这个人...
 
-user.getCourses(3, 2).then(function (courses) {
+user.getCourses(3, 2, function (courses) {
   console.log('上学期的成绩如下：');
   for(var i in courses) {
     var course = courses[i];
