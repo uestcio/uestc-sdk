@@ -149,6 +149,23 @@ describe('User ', function () {
         });
     });
 
+    describe('#__getAllExamsOffline__()', function () {
+
+        beforeEach(function () {
+            user._courses_ = {
+                '1': {id: '1', exam: {}},
+                '2': {id: '2', exam: {}}
+            }
+        });
+
+        it('should be able to get local courses', function (done) {
+            user.__getAllExamsOffline__().nodeify(function (err, exams) {
+                assert.equal(2, exams.length);
+                done();
+            });
+        });
+    });
+
     describe('#__getAllScores__()', function () {
 
         it('should get the all scores', function (done) {

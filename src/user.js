@@ -141,6 +141,11 @@ User.prototype.__getAllCourses__ = function () {
     });
 };
 
+User.prototype.__getAllCoursesOffline__ = function () {
+    var self = this;
+    return Promise.resolve(_.values(self._courses_));
+};
+
 User.prototype.__getAllExams__ = function () {
     var self = this;
     var semesters = Encoder.getAllSemesters(self);
@@ -157,12 +162,8 @@ User.prototype.__getAllExams__ = function () {
 };
 
 User.prototype.__getAllExamsOffline__ = function () {
-    return [];
-};
-
-User.prototype.__getAllCoursesOffline__ = function () {
     var self = this;
-    return Promise.resolve(_.values(self._courses_));
+    return Promise.resolve(_.filter(self._courses_, 'exam'));
 };
 
 User.prototype.__getAllScores__ = function () {
