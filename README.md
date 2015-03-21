@@ -6,12 +6,13 @@
 
   简洁、可靠且功能强大的 [UESTC](http://portal.uestc.edu.cn) 集成 SDK 平台。
 
-
+<!--
 > The project id still under developing, some of the features has not been achieved yet,
 > And the documentation is under revising. Please do NOT use this package now except for research purpose.
 
 > 项目目前还在开发中，部分功能尚未完成，文档也没有最终确定，除了研究目的外，请勿直接使用！
 > 预计项目的第一版发行版为 1.0.0 版，有需求的同学可以 Watch 本项目。
+-->
 
   [![NPM Version][npm-image]][npm-url]
   [![Node Version][node-version]][npm-url]
