@@ -6,10 +6,10 @@ var Promise = require('promise');
 
 var Encoder = require('../helpers/encoder');
 
-var Exam = require('../structure/exam');
-var Score = require('../structure/score');
-var Course = require('../structure/course');
-var StdDetail = require('../structure/stddetail');
+var Exam = require('../models/exam');
+var Score = require('../models/score');
+var Course = require('../models/course');
+var StdDetail = require('../models/stddetail');
 
 
 // 构造函数

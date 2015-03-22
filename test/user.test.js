@@ -1,12 +1,12 @@
 var assert = require('assert');
 var _ = require('lodash');
 var Promise = require('promise');
-var Course = require('../src/structure/course');
-var Exam = require('../src/structure/exam');
-var Score = require('../src/structure/score');
+var Course = require('../src/models/course');
+var Exam = require('../src/models/exam');
+var Score = require('../src/models/score');
 var User = require('../src/user');
 var UrlUtil = require('../src/helpers/urlutil');
-var StdDetail = require('../src/structure/stddetail');
+var StdDetail = require('../src/models/stddetail');
 
 describe('User ', function () {
     var user;

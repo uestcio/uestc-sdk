@@ -2,7 +2,7 @@
 
 var _ = require('lodash');
 
-var Course = require('../structure/course');
+var Course = require('../models/course');
 
 
 // 构造函数

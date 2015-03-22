@@ -1,5 +1,5 @@
 var assert = require('assert');
-var Score = require('../../src/structure/score');
+var Score = require('../../src/models/score');
 
 describe('Score ', function () {
     var score;

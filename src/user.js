@@ -5,15 +5,15 @@ var later = require('later');
 var Promise = require('promise');
 
 var Carrier = require('./helpers/carrier');
-var Course = require('./structure/course');
-var Duration = require('./structure/duration');
-var Score = require('./structure/score');
+var Course = require('./models/course');
+var Duration = require('./models/duration');
+var Score = require('./models/score');
 var Parser = require('./helpers/parser');
 var Encoder = require('./helpers/encoder');
 var Keeper = require('./helpers/keeper');
 var Peeler = require('./helpers/peeler');
 var UrlUtil = require('./helpers/urlutil');
-var StdDetail = require('./structure/stddetail');
+var StdDetail = require('./models/stddetail');
 
 // 构造方法
 

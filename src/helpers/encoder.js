@@ -3,7 +3,7 @@
 var _ = require('lodash');
 var moment = require('moment');
 
-var Duration = require('../structure/duration');
+var Duration = require('../models/duration');
 
 // 构造函数
 

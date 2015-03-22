@@ -1,5 +1,5 @@
 var assert = require('assert');
-var Exam = require('../../src/structure/exam');
+var Exam = require('../../src/models/exam');
 
 describe('Exam ', function () {
     var exam;

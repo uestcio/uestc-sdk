@@ -7,7 +7,7 @@ var Carrier = require('./helpers/carrier');
 var User = require('./user');
 var UrlUtil = require('./helpers/urlutil');
 var Parser = require('./helpers/parser');
-var Course = require('./structure/course');
+var Course = require('./models/course');
 
 
 // 构造方法
