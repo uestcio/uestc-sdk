@@ -27,6 +27,7 @@ function User(number, password, owner) {
     this._detail_ = new StdDetail(number);
     this._carrier_ = Carrier;
     this._inNotify_ = false;
+    this._cardId_ = '';
 
     this.id = this._id_;
     this.status = User.status.idle;

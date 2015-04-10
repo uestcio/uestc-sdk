@@ -52,6 +52,13 @@ UrlUtil.getAppSearchPeopleMeta = function (user, term, limit) {
     };
 };
 
+UrlUtil.getConsumptionPreMeta = function (user) {
+    return {
+        url: 'http://ecard.uestc.edu.cn/c/portal/layout?p_l_id=1',
+        jar: user._jar_
+    };
+};
+
 UrlUtil.getEnsureLoginMeta = function (user) {
     return {
         url: 'http://portal.uestc.edu.cn/login.portal',
