@@ -1,5 +1,5 @@
 // 外部依赖
-
+var moment = require('moment');
 
 // 构造函数
 
