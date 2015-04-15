@@ -65,6 +65,13 @@ User.prototype.getCourses = function (grade, semester, callback) {
     }
 };
 
+User.prototype.getConsumptions = function (days, callback) {
+    var self = this;
+    self.__getConsumptions__(days).nodeify(function (err, res) {
+        _.isFunction(callback) && callback(err, res);
+    });
+};
+
 User.prototype.getDetail = function (callback) {
     var self = this;
     self.__getDetailOnline__().then(null, function (err) {
@@ -227,6 +234,32 @@ User.prototype.__getAllScores__ = function () {
         }).then(function (courses) {
             return self.__cacheCourses__(courses);
         });
+    });
+};
+
+User.prototype.__getConsumptions__ = function (days) {
+    var self = this;
+    var user = this._current_;
+    var getMeta = UrlUtil.getUserConsumptionPreMeta(user);
+
+    // Todo this is not complete
+    var next = function () {
+        var postMeta = UrlUtil.getUserConsumptionMeta(user, days);
+        return Carrier.post(postMeta).then(function (postRes) {
+            return Parser.getUserConsumptions(postRes.body);
+        }).then(self.__cacheConsumptions__);
+    };
+
+    return user.__ensureLogin__().then(function () {
+        if(user._cardId_) {
+            return next();
+        }
+        else {
+            return Carrier.get(getMeta).then(function (getRes) {
+                user._cardId_ = Parser.getUserCardId(getRes.body);
+                return next();
+            });
+        }
     });
 };
 

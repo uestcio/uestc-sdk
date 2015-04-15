@@ -52,25 +52,6 @@ UrlUtil.getAppSearchPeopleMeta = function (user, term, limit) {
     };
 };
 
-UrlUtil.getConsumptionPreMeta = function (user) {
-    return {
-        url: 'http://ecard.uestc.edu.cn/c/portal/layout?p_l_id=1',
-        jar: user._jar_
-    };
-};
-
-UrlUtil.getConsumptionMeta = function (user, days) {
-    return {
-        url: 'http://ecard.uestc.edu.cn/c/portal/layout?p_l_id=1&p_p_id=querydetail&p_p_action=1&p_p_state=maximized&p_p_mode=view&p_p_width=270&p_p_col_order=n1&p_p_col_pos=1&p_p_col_count=3&_querydetail_struts_action=%2Fecardtransaction%2Fquerydetail_result',
-        form: {
-            'beginDate': moment().format('YYYY/MM/DD'),
-            'endDate': moment().subtract(days, 'days'),
-            'cardId': user._cardId_
-        },
-        jar: user._jar_
-    };
-};
-
 UrlUtil.getEnsureLoginMeta = function (user) {
     return {
         url: 'http://portal.uestc.edu.cn/login.portal',
@@ -81,6 +62,25 @@ UrlUtil.getEnsureLoginMeta = function (user) {
 UrlUtil.getUserAllScoresMeta = function (user) {
     return {
         url: 'http://eams.uestc.edu.cn/eams/teach/grade/course/person!historyCourseGrade.action?projectType=MAJOR',
+        jar: user._jar_
+    };
+};
+
+UrlUtil.getUserConsumptionPreMeta = function (user) {
+    return {
+        url: 'http://ecard.uestc.edu.cn/c/portal/layout?p_l_id=1',
+        jar: user._jar_
+    };
+};
+
+UrlUtil.getUserConsumptionMeta = function (user, days) {
+    return {
+        url: 'http://ecard.uestc.edu.cn/c/portal/layout?p_l_id=1&p_p_id=querydetail&p_p_action=1&p_p_state=maximized&p_p_mode=view&p_p_width=270&p_p_col_order=n1&p_p_col_pos=1&p_p_col_count=3&_querydetail_struts_action=%2Fecardtransaction%2Fquerydetail_result',
+        form: {
+            'beginDate': moment().format('YYYY/MM/DD'),
+            'endDate': moment().subtract(days, 'days'),
+            'cardId': user._cardId_
+        },
         jar: user._jar_
     };
 };
