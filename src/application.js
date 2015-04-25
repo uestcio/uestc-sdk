@@ -1,5 +1,4 @@
 // 外部依赖
-
 var Promise = require('promise');
 var _ = require('lodash');
 
@@ -11,30 +10,22 @@ var Course = require('./models/course');
 
 
 // 构造方法
-
 function Application() {
-    this._users_ = {};
-    this._courses_ = {};
-    this._people_ = {};
-    this._notices_ = {};
-    this._current_ = null;
-    this._carrier_ = Carrier;
+    this._users_ = {};          // 用户实例集合，Key为用户学号，Value为用户实例
+    this._courses_ = {};        // 课程缓存集合，Key为课程序号，Value为课程实例
+    this._people_ = {};         // 人员缓存集合，Key为人员标识（学号或工号），Value为人员实例
+    this._notices_ = {};        // 公告缓存集合，Key为公告序号，Value为公告实例
+    this._current_ = null;      // 当前用户实例，用于需要登陆才可进行的全局操作
+    this._carrier_ = Carrier;   // 底层服务接口实例
 }
 
+// 模块输出
 module.exports = Application;
 
-
-// 静态字段
-
-
-// 静态方法
-
-
-// 实例方法
-
+// 用户登陆
 Application.prototype.identify = function (id, password, callback) {
     var self = this;
-    var user, promise;
+    var user;
 
     if (this._users_[id]) {
         user = this._users_[id];
@@ -54,11 +45,13 @@ Application.prototype.identify = function (id, password, callback) {
     return user;
 };
 
+// 重置应用实例方法
 Application.prototype.reset = function () {
     this._users_ = {};
     this._current_ = null;
 };
 
+// 课程搜索方法
 Application.prototype.searchForCourses = function (options, callback) {
     var self = this;
     return self.__searchForCoursesOnline__(options).then(null, function (err) {
@@ -68,6 +61,7 @@ Application.prototype.searchForCourses = function (options, callback) {
     });
 };
 
+// 人员搜索方法
 Application.prototype.searchForPeople = function (term, limit, callback) {
     var self = this;
     if (!limit || limit <= 0) {
@@ -81,8 +75,10 @@ Application.prototype.searchForPeople = function (term, limit, callback) {
 };
 
 
-// 私用方法
+// ----私有方法分界线----
 
+
+// 轻量级登陆方法，用于测试等操作
 Application.prototype.__broke__ = function (number, password) {
     var self = this;
     var user = new User(number, password);
@@ -92,6 +88,7 @@ Application.prototype.__broke__ = function (number, password) {
     });
 };
 
+// 课程缓存方法
 Application.prototype.__cacheCourses__ = function (courses) {
     var self = this;
     for (var i in courses) {
@@ -107,6 +104,7 @@ Application.prototype.__cacheCourses__ = function (courses) {
     return courses;
 };
 
+// 离线课程搜索方法
 Application.prototype.__searchForCoursesOffline__ = function (options) {
     var courses = [];
     _.forEach(this._courses_, function (course) {
@@ -126,6 +124,7 @@ Application.prototype.__searchForCoursesOffline__ = function (options) {
     return Promise.resolve(courses);
 };
 
+// 在线课程搜索方法
 Application.prototype.__searchForCoursesOnline__ = function (options) {
     var self = this;
     var getMeta = UrlUtil.getAppSearchCoursesPreMeta(this._current_);
@@ -139,6 +138,7 @@ Application.prototype.__searchForCoursesOnline__ = function (options) {
     });
 };
 
+// 离线人员搜索方法
 Application.prototype.__searchForPeopleOffline__ = function (term, limit) {
     var people = [];
     _.forEach(this._people_, function (person) {
@@ -155,6 +155,7 @@ Application.prototype.__searchForPeopleOffline__ = function (term, limit) {
     return Promise.resolve(people);
 };
 
+// 在线人员搜索方法
 Application.prototype.__searchForPeopleOnline__ = function (term, limit) {
     var self = this;
     var preMeta = UrlUtil.getAppSearchPeoplePreMeta(this._current_);
