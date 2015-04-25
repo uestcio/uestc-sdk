@@ -1,3 +1,5 @@
+// User类，用于用户相关操作
+
 // 外部依赖
 var _ = require('lodash');
 var later = require('later');
@@ -415,6 +417,5 @@ User.prototype.__reset__ = function () {
     this._courses_ = {};
     this._callbacks_ = {};
     this._detail_ = new StdDetail(this._id_);
-    this._carrier_ = Carrier;
     this._inNotify_ = false;
 };

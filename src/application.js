@@ -1,3 +1,5 @@
+// Application类，用于全局性操作
+
 // 外部依赖
 var Promise = require('promise');
 var _ = require('lodash');
