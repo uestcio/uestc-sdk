@@ -1,5 +1,4 @@
 // 外部依赖
-
 var _ = require('lodash');
 var later = require('later');
 var Promise = require('promise');
@@ -16,40 +15,32 @@ var UrlUtil = require('./helpers/urlutil');
 var StdDetail = require('./models/stddetail');
 
 // 构造方法
-
 function User(number, password, owner) {
-    this._id_ = number;
-    this._password_ = password;
-    this._owner_ = owner;
-    this._jar_ = Carrier.jar();
-    this._courses_ = {};
-    this._callbacks_ = {};
-    this._detail_ = new StdDetail(number);
-    this._carrier_ = Carrier;
-    this._inNotify_ = false;
-    this._cardId_ = '';
+    this._id_ = number;                     // 用户学号（私有，以防被用户意外修改）
+    this._password_ = password;             // 用户密码
+    this._owner_ = owner;                   // 该用户所在的应用实例
+    this._jar_ = Carrier.jar();             // 用户的Cookie信息
+    this._courses_ = {};                    // 用户的课程缓存，Key为课程序号，Value为课程实例
+    this._callbacks_ = {};                  // 用户的订阅集合，Key为事件名称，Value为回调函数
+    this._detail_ = new StdDetail(number);  // 用户的详细信息
+    this._inNotify_ = false;                // 用户的订阅开关
+    this._cardId_ = '';                     // 用户的一卡通序号
 
-    this.id = this._id_;
-    this.status = User.status.idle;
+    this.id = this._id_;                    // 用户学号（公共，用户可以访问）
+    this.status = User.status.idle;         // 用户登录状态（未登录，登录成功，登录失败）
 }
 
+// 模块输出
 module.exports = User;
 
-
-// 静态字段
-
+// 用户登陆状态枚举
 User.status = {
     idle: '未登录',
-    loginSuccess: '登陆成功',
+    loginSuccess: '登录成功',
     loginFail: '登录失败'
 };
 
-
-// 静态方法
-
-
-// 实例方法
-
+// 获取用户课程列表方法（来自：教务系统 - 我的课表）
 User.prototype.getCourses = function (grade, semester, callback) {
     var self = this;
     if (grade == 0) {
@@ -65,6 +56,8 @@ User.prototype.getCourses = function (grade, semester, callback) {
     }
 };
 
+// 获取用户消费列表方法（来自：一卡通）
+// Todo: 还未测试
 User.prototype.getConsumptions = function (days, callback) {
     var self = this;
     self.__getConsumptions__(days).nodeify(function (err, res) {
@@ -72,6 +65,7 @@ User.prototype.getConsumptions = function (days, callback) {
     });
 };
 
+// 获取用户详情方法（来自：教务系统 - 我的信息）
 User.prototype.getDetail = function (callback) {
     var self = this;
     self.__getDetailOnline__().then(null, function (err) {
@@ -81,6 +75,7 @@ User.prototype.getDetail = function (callback) {
     });
 };
 
+// 获取用户考试信息（来自：教务系统 - 我的考试）
 User.prototype.getExams = function (grade, semester, callback) {
     var self = this;
     if (grade == 0) {
@@ -96,6 +91,7 @@ User.prototype.getExams = function (grade, semester, callback) {
     }
 };
 
+// 获取用户年级信息（来自：详细信息/学号）
 User.prototype.getGrade = function () {
     var self = this;
     if (!self._detail_) {
@@ -107,6 +103,7 @@ User.prototype.getGrade = function () {
     return self._detail_.grade;
 };
 
+// 获取用户成绩信息（来自：教务系统 - 我的考试）
 User.prototype.getScores = function (grade, semester, callback) {
     var self = this;
     if (grade == 0) {
@@ -122,6 +119,7 @@ User.prototype.getScores = function (grade, semester, callback) {
     }
 };
 
+// 订阅事件响应
 User.prototype.on = function (event, callback) {
     var self = this;
     self._callbacks_[event] = callback;
@@ -132,8 +130,10 @@ User.prototype.on = function (event, callback) {
 };
 
 
-// 非公开方法
+// ----私有方法分界线----
 
+
+// 课程缓存方法
 User.prototype.__cacheCourses__ = function (courses) {
     var self = this;
     for (var i in courses) {
@@ -155,6 +155,7 @@ User.prototype.__cacheCourses__ = function (courses) {
     return courses;
 };
 
+// 检查课程信息变化
 User.prototype.__checkUpdates__ = function (oldOne, newOne) {
     var self = this;
     if (!oldOne || !newOne) {
@@ -170,6 +171,7 @@ User.prototype.__checkUpdates__ = function (oldOne, newOne) {
     }
 };
 
+// 登录保证方法（若未登录则进行登录）
 User.prototype.__ensureLogin__ = function () {
     var self = this;
     var meta = UrlUtil.getEnsureLoginMeta(self);
@@ -185,6 +187,7 @@ User.prototype.__ensureLogin__ = function () {
     });
 };
 
+// 所有课程列表获取方法
 User.prototype.__getAllCourses__ = function () {
     var self = this;
     var semesters = Encoder.getAllSemesters(self);
@@ -200,6 +203,7 @@ User.prototype.__getAllCourses__ = function () {
     });
 };
 
+// 所有课程列表离线获取方法
 User.prototype.__getAllCoursesOffline__ = function () {
     var self = this;
     return Promise.resolve(_.values(self._courses_));
@@ -220,11 +224,13 @@ User.prototype.__getAllExams__ = function () {
     });
 };
 
+// 所有考试列表离线获取方法
 User.prototype.__getAllExamsOffline__ = function () {
     var self = this;
     return Promise.resolve(_.filter(self._courses_, 'exam'));
 };
 
+// 所有成绩列表离线获取方法
 User.prototype.__getAllScores__ = function () {
     var self = this;
     var meta = UrlUtil.getUserAllScoresMeta(self);
@@ -237,14 +243,16 @@ User.prototype.__getAllScores__ = function () {
     });
 };
 
-User.prototype.__getConsumptions__ = function (days) {
+// 消费列表获取方法
+// Todo: 该方法未完成
+User.prototype.__getConsumptions__ = function (from, to) {
     var self = this;
     var user = this._current_;
     var getMeta = UrlUtil.getUserConsumptionPreMeta(user);
 
     // Todo this is not complete
     var next = function () {
-        var postMeta = UrlUtil.getUserConsumptionMeta(user, days);
+        var postMeta = UrlUtil.getUserConsumptionMeta(user, from, to);
         return Carrier.post(postMeta).then(function (postRes) {
             return Parser.getUserConsumptions(postRes.body);
         }).then(self.__cacheConsumptions__);
@@ -263,6 +271,7 @@ User.prototype.__getConsumptions__ = function (days) {
     });
 };
 
+// 用户详细信息离线获取方法
 User.prototype.__getDetailOffline__ = function () {
     var self = this;
     if (self._detail_) {
@@ -273,6 +282,7 @@ User.prototype.__getDetailOffline__ = function () {
     }
 };
 
+// 用户详细信息在线获取方法
 User.prototype.__getDetailOnline__ = function () {
     var self = this;
     var meta = UrlUtil.getUserDetailMeta(self);
@@ -286,6 +296,7 @@ User.prototype.__getDetailOnline__ = function () {
     });
 };
 
+// 用户特定学期课程获取方法
 User.prototype.__getSemesterCourses__ = function (semester) {
     var self = this;
     return self.__getSemesterCoursesOnline__(semester).then(function (courses) {
@@ -295,11 +306,13 @@ User.prototype.__getSemesterCourses__ = function (semester) {
     });
 };
 
+// 用户特定学期课程离线获取方法
 User.prototype.__getSemesterCoursesOffline__ = function (semester) {
     var self = this;
     return Promise.resolve(_.chain(self._courses_).values().where({_semester_: semester}).value());
 };
 
+// 用户特定学期课程在线获取方法
 User.prototype.__getSemesterCoursesOnline__ = function (semester) {
     var self = this;
     var getMeta = UrlUtil.getUserSemesterCoursesPreMeta(self);
@@ -335,6 +348,7 @@ User.prototype.__getSemesterCoursesOnline__ = function (semester) {
     });
 };
 
+// 用户特定学期考试获取方法
 User.prototype.__getSemesterExams__ = function (semester) {
     var self = this;
     var meta = UrlUtil.getUserSemesterExamsMeta(self, semester);
@@ -351,6 +365,7 @@ User.prototype.__getSemesterExams__ = function (semester) {
     });
 };
 
+// 用户特定学期成绩获取方法
 User.prototype.__getSemesterScores__ = function (semester) {
     var self = this;
     var meta = UrlUtil.getUserSemesterScoresMeta(self, semester);
@@ -367,7 +382,7 @@ User.prototype.__getSemesterScores__ = function (semester) {
     });
 };
 
-
+// 用户登录方法
 User.prototype.__login__ = function () {
     var self = this;
     var meta = UrlUtil.getUserLoginMeta(self._id_, self._password_);
@@ -384,6 +399,7 @@ User.prototype.__login__ = function () {
     });
 };
 
+// 事件订阅回调方法
 User.prototype.__notify__ = function (event, res) {
     var self = this;
     var callback = self._callbacks_[event];
@@ -392,6 +408,7 @@ User.prototype.__notify__ = function (event, res) {
     }
 };
 
+// 用户信息重置方法
 User.prototype.__reset__ = function () {
     this.status = User.status.idle;
     this._jar_ = Carrier.jar();

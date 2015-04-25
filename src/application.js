@@ -16,7 +16,6 @@ function Application() {
     this._people_ = {};         // 人员缓存集合，Key为人员标识（学号或工号），Value为人员实例
     this._notices_ = {};        // 公告缓存集合，Key为公告序号，Value为公告实例
     this._current_ = null;      // 当前用户实例，用于需要登陆才可进行的全局操作
-    this._carrier_ = Carrier;   // 底层服务接口实例
 }
 
 // 模块输出

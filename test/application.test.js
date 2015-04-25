@@ -21,7 +21,6 @@ describe('Application ', function () {
             assert.equal(0, _.keys(app._courses_).length);
             assert.equal(0, _.keys(app._notices_).length);
             assert.equal(null, app._current_);
-            assert.equal(false, !app._carrier_);
         });
     });
 
