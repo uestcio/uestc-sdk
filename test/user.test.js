@@ -302,7 +302,7 @@ describe('User ', function () {
 
             user.__getAllCourses__().nodeify(function (err, courses) {
                 err && console.log(err);
-                assert.equal(40, courses.length);
+                assert.equal(41, courses.length);
                 done();
             });
         });
@@ -350,7 +350,7 @@ describe('User ', function () {
         it('should get the all exams when real online', function (done) {
             user.__getAllExams__().nodeify(function (err, courses) {
                 err && console.log(err);
-                assert.equal(40, courses.length);
+                assert.equal(41, courses.length);
                 done();
             });
         });
