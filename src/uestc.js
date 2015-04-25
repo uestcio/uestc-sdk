@@ -39,6 +39,11 @@ Sdk.single = function () {
     return Sdk._singleton_;
 };
 
+// 未来将替换上面两种方法的唯一获取应用实例方法
+Sdk.getApp = function () {
+    return Sdk.single();
+};
+
 // SDK 初始化（开启定时任务）
 Sdk.__begin__ = function () {
     Keeper.addTask(0, MissionUtil.getUserLoginMission(Sdk.single()));
