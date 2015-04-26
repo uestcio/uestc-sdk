@@ -1,5 +1,5 @@
 // 外部依赖
-
+var _ = require('lodash');
 
 // 构造函数
 
@@ -17,7 +17,13 @@ module.exports = Person;
 
 
 // 实例方法
-
+Person.prototype.__merge__ = function (person) {
+    var self = this;
+    _.forEach(person, function (val, field) {
+        self.__setField__(field, val);
+    });
+    return self;
+};
 
 // 非公开方法
 

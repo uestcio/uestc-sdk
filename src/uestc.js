@@ -1,3 +1,5 @@
+// Sdk的根文件，用于创建应用实例及配置相关选项
+
 // 外部依赖
 var Application = require('./application');
 var Fixture = require('./helpers/fixture');
