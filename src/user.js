@@ -45,51 +45,58 @@ User.status = {
 // 获取用户课程列表方法（来自：教务系统 - 我的课表）
 User.prototype.getCourses = function (grade, semester, callback) {
     var self = this;
-    if (grade == 0) {
-        self.__getAllCourses__().nodeify(function (err, res) {
-            _.isFunction(callback) && callback(err, res);
-        });
+    if (grade == 0) {                                           // 若为所有学期
+        self.__getAllCourses__()                                // 获取所有学期课程
+            .nodeify(function (err, res) {
+                _.isFunction(callback) && callback(err, res);   // 执行回调
+            });
     }
-    else {
-        var semesterId = Encoder.getSemester(grade, semester);
-        self.__getSemesterCourses__(semesterId).nodeify(function (err, res) {
-            _.isFunction(callback) && callback(err, res);
-        });
+    else {                                                      // 若为特定学期
+        var semesterId = Encoder.getSemester(grade, semester);  // 获取特定学期Id
+        self.__getSemesterCourses__(semesterId)                 // 获取特定学期课程
+            .nodeify(function (err, res) {
+                _.isFunction(callback) && callback(err, res);   // 执行回调
+            });
     }
 };
 
 // 获取用户消费列表方法（来自：一卡通）
 // Todo: 还未测试
-User.prototype.getConsumptions = function (days, callback) {
+User.prototype.getConsumptions = function (from, to, callback) {
     var self = this;
-    self.__getConsumptions__(days).nodeify(function (err, res) {
-        _.isFunction(callback) && callback(err, res);
+    self.__getConsumptionsOnline__(from, to)            // 尝试在线获取
+        .then(null, function () {
+            self.__getConsumptionsOffline__();          // 若在线获取失败则离线获取
+        }).nodeify(function (err, res) {
+        _.isFunction(callback) && callback(err, res);   // 执行回调
     });
 };
 
 // 获取用户详情方法（来自：教务系统 - 我的信息）
 User.prototype.getDetail = function (callback) {
     var self = this;
-    self.__getDetailOnline__().then(null, function (err) {
-        return self.__getDetailOffline__();
+    self.__getDetailOnline__().then(null, function (err) {  // 尝试在线获取
+        return self.__getDetailOffline__();                 // 若在线获取失败则离线获取
     }).nodeify(function (err, res) {
-        _.isFunction(callback) && callback(err, res);
+        _.isFunction(callback) && callback(err, res);       // 执行回调
     });
 };
 
 // 获取用户考试信息（来自：教务系统 - 我的考试）
 User.prototype.getExams = function (grade, semester, callback) {
     var self = this;
-    if (grade == 0) {
-        self.__getAllExams__().nodeify(function (err, res) {
-            _.isFunction(callback) && callback(err, res);
-        });
+    if (grade == 0) {                                           // 若为所有学期
+        self.__getAllExams__()                                  // 获取所有学期考试
+            .nodeify(function (err, res) {
+                _.isFunction(callback) && callback(err, res);   // 执行回调
+            });
     }
     else {
-        var semesterId = Encoder.getSemester(grade, semester);
-        self.__getSemesterExams__(semesterId).nodeify(function (err, res) {
-            _.isFunction(callback) && callback(err, res);
-        });
+        var semesterId = Encoder.getSemester(grade, semester);  // 获取特定学期Id
+        self.__getSemesterExams__(semesterId)                   // 获取特定学期课程
+            .nodeify(function (err, res) {
+                _.isFunction(callback) && callback(err, res);   // 执行回调
+            });
     }
 };
 
