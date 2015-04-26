@@ -1,13 +1,13 @@
 var _ = require('lodash');
 var async = require('async');
 
-function MissionUtil() {
+function Tasks() {
 }
 
-module.exports = MissionUtil;
+module.exports = Tasks;
 
 
-MissionUtil.getUserLoginMission = function (app) {
+Tasks.userLogin = function (app) {
     return function (callback) {
         var users = app._users_;
         if (_.size(users) > 0) {
@@ -35,7 +35,7 @@ MissionUtil.getUserLoginMission = function (app) {
     };
 };
 
-MissionUtil.getUserDetailMission = function (app) {
+Tasks.userDetail = function (app) {
     return function (callback) {
         var users = app._users_;
         if (_.size(users) > 0) {
@@ -63,7 +63,7 @@ MissionUtil.getUserDetailMission = function (app) {
     };
 };
 
-MissionUtil.getUserCoursesMission = function (app) {
+Tasks.userCourses = function (app) {
     return function (callback) {
         var users = app._users_;
         if (_.size(users) > 0) {
@@ -91,7 +91,7 @@ MissionUtil.getUserCoursesMission = function (app) {
     };
 };
 
-MissionUtil.getUserScoresMission = function (app) {
+Tasks.userScores = function (app) {
     return function (callback) {
         var users = app._users_;
         if (_.size(users) > 0) {
@@ -119,7 +119,7 @@ MissionUtil.getUserScoresMission = function (app) {
     };
 };
 
-MissionUtil.getUserExamsMission = function (app) {
+Tasks.userExams = function (app) {
     return function (callback) {
         var users = app._users_;
         if (_.size(users) > 0) {

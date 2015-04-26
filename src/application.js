@@ -7,7 +7,7 @@ var _ = require('lodash');
 var Caller = require('./helpers/caller');
 var Carrier = require('./helpers/carrier');
 var User = require('./user');
-var UrlUtil = require('./helpers/urlutil');
+var Urls = require('./utils/urls');
 var Parser = require('./helpers/parser');
 var Course = require('./models/course');
 
@@ -79,8 +79,8 @@ Application.prototype.__searchForCoursesOnline__ = function (options) {
         return Caller.rejectForNoLogin();
     }
 
-    var getMeta = UrlUtil.getAppSearchCoursesPreMeta(this._current_);       // 获取课程搜索准备参数
-    var postMeta = UrlUtil.getAppSearchCoursesMeta(this._current_, options);// 获取课程搜索参数
+    var getMeta = Urls.appSearchCoursesPre(this._current_);       // 获取课程搜索准备参数
+    var postMeta = Urls.appSearchCourses(this._current_, options);// 获取课程搜索参数
     return self._current_.__ensureLogin__()                                 // 确保登录状态
         .then(function () {
             return Carrier.get(getMeta);                                    // 发送课程搜索准备请求
@@ -172,8 +172,8 @@ Application.prototype.__searchForPeopleOffline__ = function (term, limit) {
 // 在线人员搜索方法
 Application.prototype.__searchForPeopleOnline__ = function (term, limit) {
     var self = this;
-    var preMeta = UrlUtil.getAppSearchPeoplePreMeta(this._current_);        // 获取人员搜索准备参数
-    var meta = UrlUtil.getAppSearchPeopleMeta(this._current_, term, limit); // 获取人员搜索参数
+    var preMeta = Urls.appSearchPeoplePre(this._current_);        // 获取人员搜索准备参数
+    var meta = Urls.appSearchPeople(this._current_, term, limit); // 获取人员搜索参数
     return self._current_.__ensureLogin__()                                 // 确保登录状态
         .then(function () {
             return Carrier.post(preMeta);                                   // 发送人员搜索准备请求

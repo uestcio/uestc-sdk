@@ -3,10 +3,10 @@ var moment = require('moment');
 
 // 构造函数
 
-function UrlUtil() {
+function Urls() {
 }
 
-module.exports = UrlUtil;
+module.exports = Urls;
 
 
 // 静态字段
@@ -14,14 +14,14 @@ module.exports = UrlUtil;
 
 // 静态方法
 
-UrlUtil.getAppSearchCoursesPreMeta = function (user) {
+Urls.appSearchCoursesPre = function (user) {
     return {
         url: 'http://eams.uestc.edu.cn/eams/publicSearch.action',
         jar: user._jar_
     };
 };
 
-UrlUtil.getAppSearchCoursesMeta = function (user, options) {
+Urls.appSearchCourses = function (user, options) {
     return {
         url: 'http://eams.uestc.edu.cn/eams/publicSearch!search.action',
         form: {
@@ -33,14 +33,14 @@ UrlUtil.getAppSearchCoursesMeta = function (user, options) {
     };
 };
 
-UrlUtil.getAppSearchPeoplePreMeta = function (user) {
+Urls.appSearchPeoplePre = function (user) {
     return {
         url: 'http://portal.uestc.edu.cn/pnull.portal?action=globalGroupsTree&.ia=false&.pmn=view&.pen=personnelGroupmanager&groupId&identity=undefined&authorize=undefined',
         jar: user._jar_
     };
 };
 
-UrlUtil.getAppSearchPeopleMeta = function (user, term, limit) {
+Urls.appSearchPeople = function (user, term, limit) {
     return {
         url: 'http://portal.uestc.edu.cn/pnull.portal?action=fetchUsers&.ia=false&.pmn=view&.pen=personnelGroupmanager',
         form: {
@@ -52,28 +52,28 @@ UrlUtil.getAppSearchPeopleMeta = function (user, term, limit) {
     };
 };
 
-UrlUtil.getEnsureLoginMeta = function (user) {
+Urls.userEnsureLogin = function (user) {
     return {
         url: 'http://portal.uestc.edu.cn/login.portal',
         jar: user._jar_
     };
 };
 
-UrlUtil.getUserAllScoresMeta = function (user) {
+Urls.userAllScores = function (user) {
     return {
         url: 'http://eams.uestc.edu.cn/eams/teach/grade/course/person!historyCourseGrade.action?projectType=MAJOR',
         jar: user._jar_
     };
 };
 
-UrlUtil.getUserConsumptionPreMeta = function (user) {
+Urls.userConsumptionsPre = function (user) {
     return {
         url: 'http://ecard.uestc.edu.cn/c/portal/layout?p_l_id=1',
         jar: user._jar_
     };
 };
 
-UrlUtil.getUserConsumptionMeta = function (user, from, to) {
+Urls.userConsumptions = function (user, from, to) {
     return {
         url: 'http://ecard.uestc.edu.cn/c/portal/layout?p_l_id=1&p_p_id=querydetail&p_p_action=1&p_p_state=maximized&p_p_mode=view&p_p_width=270&p_p_col_order=n1&p_p_col_pos=1&p_p_col_count=3&_querydetail_struts_action=%2Fecardtransaction%2Fquerydetail_result',
         form: {
@@ -85,21 +85,21 @@ UrlUtil.getUserConsumptionMeta = function (user, from, to) {
     };
 };
 
-UrlUtil.getUserDetailMeta = function (user) {
+Urls.userDetail = function (user) {
     return {
         url: 'http://eams.uestc.edu.cn/eams/stdDetail.action',
         jar: user._jar_
     };
 };
 
-UrlUtil.getUserSemesterExamsMeta = function (user, semester) {
+Urls.userSemesterExams = function (user, semester) {
     return {
         url: 'http://eams.uestc.edu.cn/eams/stdExamTable!examTable.action?semester.id=' + semester + '&examType.id=1',
         jar: user._jar_
     };
 };
 
-UrlUtil.getUserLoginMeta = function (number, password) {
+Urls.userLogin = function (number, password) {
     return {
         url: 'https://uis.uestc.edu.cn/amserver/UI/Login',
         form: {
@@ -114,7 +114,7 @@ UrlUtil.getUserLoginMeta = function (number, password) {
     };
 };
 
-UrlUtil.getUserSemesterCoursesMeta = function (user, semester, ids) {
+Urls.userSemesterCourses = function (user, semester, ids) {
     return {
         url: 'http://eams.uestc.edu.cn/eams/courseTableForStd!courseTable.action',
         form: {
@@ -129,14 +129,14 @@ UrlUtil.getUserSemesterCoursesMeta = function (user, semester, ids) {
     };
 };
 
-UrlUtil.getUserSemesterCoursesPreMeta = function (user) {
+Urls.userSemesterCoursesPre = function (user) {
     return {
         url: 'http://eams.uestc.edu.cn/eams/courseTableForStd.action',
         jar: user._jar_
     };
 };
 
-UrlUtil.getUserSemesterScoresMeta = function (user, semester) {
+Urls.userSemesterScores = function (user, semester) {
     return {
         url: 'http://eams.uestc.edu.cn/eams/teach/grade/course/person!search.action?semesterId=' + semester,
         jar: user._jar_
