@@ -5,7 +5,7 @@ var Course = require('../src/models/course');
 var Exam = require('../src/models/exam');
 var Score = require('../src/models/score');
 var User = require('../src/user');
-var UrlUtil = require('../src/helpers/urlutil');
+var Urls = require('../src/utils/urls');
 var StdDetail = require('../src/models/stddetail');
 
 describe('User ', function () {

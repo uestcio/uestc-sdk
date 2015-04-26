@@ -13,7 +13,7 @@ var Parser = require('./helpers/parser');
 var Encoder = require('./helpers/encoder');
 var Keeper = require('./helpers/keeper');
 var Peeler = require('./helpers/peeler');
-var UrlUtil = require('./helpers/urlutil');
+var Urls = require('./utils/urls');
 var StdDetail = require('./models/stddetail');
 
 // 构造方法
@@ -183,7 +183,7 @@ User.prototype.__checkUpdates__ = function (oldOne, newOne) {
 // 登录保证方法（若未登录则进行登录）
 User.prototype.__ensureLogin__ = function () {
     var self = this;
-    var meta = UrlUtil.getEnsureLoginMeta(self);
+    var meta = Urls.userEnsureLogin(self);
     return Carrier.get(meta).then(function (res) {
         if (res.httpResponse.statusCode !== 302) {
             throw new Error('Authentication failed.');
@@ -242,7 +242,7 @@ User.prototype.__getAllExamsOffline__ = function () {
 // 所有成绩列表离线获取方法
 User.prototype.__getAllScores__ = function () {
     var self = this;
-    var meta = UrlUtil.getUserAllScoresMeta(self);
+    var meta = Urls.userAllScores(self);
     return self.__ensureLogin__().then(function () {
         return Carrier.get(meta).then(function (res) {
             return Parser.getUserAllScores(res.body);
@@ -257,11 +257,11 @@ User.prototype.__getAllScores__ = function () {
 User.prototype.__getConsumptions__ = function (from, to) {
     var self = this;
     var user = this._current_;
-    var getMeta = UrlUtil.getUserConsumptionPreMeta(user);
+    var getMeta = Urls.userConsumptionsPre(user);
 
     // Todo this is not complete
     var next = function () {
-        var postMeta = UrlUtil.getUserConsumptionMeta(user, from, to);
+        var postMeta = Urls.userConsumptions(user, from, to);
         return Carrier.post(postMeta).then(function (postRes) {
             return Parser.getUserConsumptions(postRes.body);
         }).then(self.__cacheConsumptions__);
@@ -294,7 +294,7 @@ User.prototype.__getDetailOffline__ = function () {
 // 用户详细信息在线获取方法
 User.prototype.__getDetailOnline__ = function () {
     var self = this;
-    var meta = UrlUtil.getUserDetailMeta(self);
+    var meta = Urls.userDetail(self);
     return self.__ensureLogin__().then(function () {
         return Carrier.get(meta).then(function (res) {
             return Parser.getUserDetail(res.body);
@@ -324,13 +324,13 @@ User.prototype.__getSemesterCoursesOffline__ = function (semester) {
 // 用户特定学期课程在线获取方法
 User.prototype.__getSemesterCoursesOnline__ = function (semester) {
     var self = this;
-    var getMeta = UrlUtil.getUserSemesterCoursesPreMeta(self);
+    var getMeta = Urls.userSemesterCoursesPre(self);
     var postMeta, courses;
     return self.__ensureLogin__().then(function () {
         return Carrier.get(getMeta).then(function (getRes) {
             var raw = getRes.body.match(/bg\.form\.addInput\(form,"ids","\d+"\);/)[0];
             var ids = raw.match(/\d+/)[0];
-            postMeta = UrlUtil.getUserSemesterCoursesMeta(self, semester, ids);
+            postMeta = Urls.userSemesterCourses(self, semester, ids);
             return Carrier.post(postMeta).then(function (postRes) {
                 return Parser.getUserSemesterCourses(postRes.body).then(function (coursesRes) {
                     courses = coursesRes;
@@ -360,7 +360,7 @@ User.prototype.__getSemesterCoursesOnline__ = function (semester) {
 // 用户特定学期考试获取方法
 User.prototype.__getSemesterExams__ = function (semester) {
     var self = this;
-    var meta = UrlUtil.getUserSemesterExamsMeta(self, semester);
+    var meta = Urls.userSemesterExams(self, semester);
     return self.__ensureLogin__().then(function () {
         return Carrier.get(meta).then(function (res) {
             return Parser.getUserSemesterExams(res.body);
@@ -377,7 +377,7 @@ User.prototype.__getSemesterExams__ = function (semester) {
 // 用户特定学期成绩获取方法
 User.prototype.__getSemesterScores__ = function (semester) {
     var self = this;
-    var meta = UrlUtil.getUserSemesterScoresMeta(self, semester);
+    var meta = Urls.userSemesterScores(self, semester);
     return self.__ensureLogin__().then(function () {
         return Carrier.get(meta).then(function (res) {
             return Parser.getUserSemesterScores(res.body);
@@ -394,7 +394,7 @@ User.prototype.__getSemesterScores__ = function (semester) {
 // 用户登录方法
 User.prototype.__login__ = function () {
     var self = this;
-    var meta = UrlUtil.getUserLoginMeta(self._id_, self._password_);
+    var meta = Urls.userLogin(self._id_, self._password_);
     meta.jar = self._jar_;
     return Carrier.post(meta).then(function (res) {
         if (res.httpResponse.statusCode !== 302) {

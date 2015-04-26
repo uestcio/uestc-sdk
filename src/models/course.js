@@ -3,7 +3,7 @@
 var _ = require('lodash');
 
 var Exam = require('./exam');
-var Fixture = require('../helpers/fixture');
+var Fixtures = require('../utils/fixtures');
 var Score = require('./score');
 
 // 构造函数
@@ -78,14 +78,14 @@ Course.prototype.__setField__ = function (field, val) {
             self[field] = +val;
             break;
         case 'type':
-            if (_.some(Fixture.courseTypes, function (value) {
+            if (_.some(Fixtures.courseTypes, function (value) {
                     return val == value;
                 })) {
                 self[field] = val;
             }
             break;
         case 'department':
-            if (_.some(Fixture.departments, function (value) {
+            if (_.some(Fixtures.departments, function (value) {
                     return val == value;
                 })) {
                 self[field] = val;

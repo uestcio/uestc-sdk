@@ -4,15 +4,15 @@
 
 // 构造方法
 
-function Fixture() {
+function Fixtures() {
 }
 
-module.exports = Fixture;
+module.exports = Fixtures;
 
 
 // 静态字段
 
-Fixture.courseTypes = {
+Fixtures.courseTypes = {
     all: '',
     publicDisciplinary: '公共基础课',
     basicDisciplinary: '学科基础课',
@@ -24,7 +24,7 @@ Fixture.courseTypes = {
     qualityElective: '素质教育选修课'
 };
 
-Fixture.departments = {
+Fixtures.departments = {
     scie: '通信与信息工程学院',
     ncl: '通信抗干扰技术国家级重点实验室',
     ee: '电子工程学院',

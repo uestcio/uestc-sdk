@@ -1,21 +1,21 @@
 var assert = require('assert');
-var UrlUtil = require('../../src/helpers/urlutil');
+var Urls = require('../../src/utils/urls');
 
-describe('UrlUtil ', function () {
+describe('Urls ', function () {
 
     beforeEach(function () {
     });
 
-    describe('#getUserLoginMeta()', function () {
+    describe('#userLogin()', function () {
         it('should generate the meta', function () {
-            var meta = UrlUtil.getUserLoginMeta('1', '2');
+            var meta = Urls.userLogin('1', '2');
             assert.equal(true, !!meta);
         });
     });
 
-    describe('#getAppSearchPeopleMeta()', function () {
+    describe('#appSearchPeople()', function () {
         it('should generate the meta', function () {
-            var meta = UrlUtil.getAppSearchPeopleMeta({jar: 1}, '2', 3);
+            var meta = Urls.appSearchPeople({jar: 1}, '2', 3);
             assert.equal(true, !!meta);
         });
     });

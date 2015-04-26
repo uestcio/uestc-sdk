@@ -2,8 +2,7 @@
 
 // 外部依赖
 var Application = require('./application');
-var Fixture = require('./helpers/fixture');
-var MissionUtil = require('./helpers/missionutil');
+var Tasks = require('./utils/tasks');
 var Keeper = require('./helpers/keeper');
 
 // 构造方法
@@ -48,11 +47,11 @@ Sdk.getApp = function () {
 
 // SDK 初始化（开启定时任务）
 Sdk.__begin__ = function () {
-    Keeper.addTask(0, MissionUtil.getUserLoginMission(Sdk.single()));
-    Keeper.addTask(1, MissionUtil.getUserDetailMission(Sdk.single()));
-    Keeper.addTask(2, MissionUtil.getUserCoursesMission(Sdk.single()));
-    Keeper.addTask(3, MissionUtil.getUserScoresMission(Sdk.single()));
-    Keeper.addTask(4, MissionUtil.getUserExamsMission(Sdk.single()));
+    Keeper.addTask(0, Tasks.userLogin(Sdk.getApp()));
+    Keeper.addTask(1, Tasks.userDetail(Sdk.getApp()));
+    Keeper.addTask(2, Tasks.userCourses(Sdk.getApp()));
+    Keeper.addTask(3, Tasks.userScores(Sdk.getApp()));
+    Keeper.addTask(4, Tasks.userExams(Sdk.getApp()));
     Keeper.start();
 };
 
