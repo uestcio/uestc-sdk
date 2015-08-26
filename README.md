@@ -163,9 +163,9 @@ $ npm run test-ci
 [node-version]: https://img.shields.io/node/v/uestc.svg
 [downloads-image]: https://img.shields.io/npm/dm/uestc.svg
 [downloads-url]: https://npmjs.org/package/uestc
-[appveyor-image]: https://img.shields.io/appveyor/ci/trotyl/UESTC-SDK-Npm/master.svg?label=windows
-[appveyor-url]: https://ci.appveyor.com/project/trotyl/UESTC-SDK-Npm
-[travis-image]: https://img.shields.io/travis/trotyl/UESTC-SDK-Npm/master.svg?label=linux
-[travis-url]: https://travis-ci.org/trotyl/UESTC-SDK-Npm
+[appveyor-image]: https://img.shields.io/appveyor/ci/trotyl/UESTC-SDK/master.svg?label=windows
+[appveyor-url]: https://ci.appveyor.com/project/trotyl/UESTC-SDK
+[travis-image]: https://img.shields.io/travis/trotyl/UESTC-SDK/master.svg?label=linux
+[travis-url]: https://travis-ci.org/trotyl/UESTC-SDK
 [coveralls-image]: https://img.shields.io/coveralls/trotyl/UESTC-SDK-Npm.svg
 [coveralls-url]: https://coveralls.io/r/trotyl/UESTC-SDK-Npm
