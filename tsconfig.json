@@ -4,14 +4,14 @@
 		"declaration": true,
 		"diagnostics": true,
 		"emitDecoratorMetadata": true,
-		"experimentalAsyncFunctions": true,
+        "experimentalDecorators": true,
         "noImplicitAny": true,
         "removeComments": true,
         "preserveConstEnums": true,
-        "outFile": "dist/uestc.js",
+        "outDir": "dist",
         "sourceMap": true
     },
-    "files": [
-       	
+    "fileGlobs": [
+       	"src/**/*.ts"
     ]
 }
