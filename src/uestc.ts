@@ -27,7 +27,7 @@ export class Application {
 
     identify(id: string, password: string, callback?: { (error: Error, user: User): void; }): Promise<User> {
         var promise = new Promise<User>((resolve, reject) => {
-            if (!id || !password) {
+            if (!_.isString(id) || !_.isString(password)) {
                 reject(new Error('parameter id and password can neither be null!'));
                 return;
             }
@@ -40,7 +40,7 @@ export class Application {
             resolve(user);
         });
         
-        if (callback) {
+        if (_.isFunction(callback)) {
             promise.then((user) => {
                 callback(null, user);
             }, (error) => {
