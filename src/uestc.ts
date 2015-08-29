@@ -15,63 +15,63 @@ import { User } from 'models/user';
 
 
 export class Application {
-	private users: { [id: string]: User; };
-	private courses: { [id: string]: Course; };
-	private people: { [id: string]: Person; };
-	private notices: { [id: string]: Notice; };
-	private currentUser: User;
-	
-	constructor() {
-		this.reset();
-	}
- 	
-	identify(id: string, password: string, callback?: { (error: Error, user: User): void; }): Promise<User> {
-		var promise = new Promise<User>((resolve, reject) => {
-			if (!id || !password) {
-				reject(new Error('parameter id and password can neither be null!'));
-				return;
-			}
-			
-			var user: User;
-			if (this.users[id]) {
-				user = this.users[id];
-			}
-			else {
-				user = new User(id, password);
-				this.users[id] = user;
-			}
-			
-			resolve(user);
-		});
-		
-		if (callback) {
-			promise.then((user) => {
-				callback(null, user);
-			}, (error) => {
-				callback(error, null);
-			})
-		}
-		
-		return promise;
-	}
+    private users: { [id: string]: User; };
+    private courses: { [id: string]: Course; };
+    private people: { [id: string]: Person; };
+    private notices: { [id: string]: Notice; };
+    private currentUser: User;
+
+    constructor() {
+        this.reset();
+    }
+
+    identify(id: string, password: string, callback?: { (error: Error, user: User): void; }): Promise<User> {
+        var promise = new Promise<User>((resolve, reject) => {
+        if (!id || !password) {
+            reject(new Error('parameter id and password can neither be null!'));
+            return;
+        }
+        
+        var user: User;
+        if (this.users[id]) {
+            user = this.users[id];
+        }
+        else {
+            user = new User(id, password);
+            this.users[id] = user;
+        }
+        
+            resolve(user);
+        });
+        
+        if (callback) {
+            promise.then((user) => {
+                callback(null, user);
+            }, (error) => {
+                callback(error, null);
+            })
+        }
+        
+        return promise;
+    }
     
     reset(): void {
         this.users = {};
-		this.courses = {};
-		this.people = {};
-		this.notices = {};
-		this.currentUser = null;
+        this.courses = {};
+        this.people = {};
+        this.notices = {};
+        this.currentUser = null;
     }
-	
-	searchForCourses(options: any, callback?: { (error: Error, courses: Course[]): void; }): Observable<Course> {
-		//Todo
-		return Observable.fromArray([]);
-	}
-	
-	searchForPeople(options: any, callback?: { (error: Error, people: Person[]): void; }): Observable<Person> {
-		//Todo
-		return Observable.fromArray([]);
-	}
+    
+    searchForCourses(options: any, callback?: { (error: Error, courses: Course[]): void; }): Observable<Course> {
+        //Todo
+        return Observable.fromArray([]);
+    }
+    
+    searchForPeople(options: any, callback?: { (error: Error, people: Person[]): void; }): Observable<Person> {
+        //Todo
+        return Observable.fromArray([]);
+    }
 }
 
 export const app: Application = new Application();
