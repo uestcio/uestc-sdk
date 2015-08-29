@@ -27,19 +27,15 @@ export class Application {
 
     identify(id: string, password: string, callback?: { (error: Error, user: User): void; }): Promise<User> {
         var promise = new Promise<User>((resolve, reject) => {
-        if (!id || !password) {
-            reject(new Error('parameter id and password can neither be null!'));
-            return;
-        }
-        
-        var user: User;
-        if (this.users[id]) {
-            user = this.users[id];
-        }
-        else {
-            user = new User(id, password);
-            this.users[id] = user;
-        }
+            if (!id || !password) {
+                reject(new Error('parameter id and password can neither be null!'));
+                return;
+            }
+            
+            var user: User;
+            if (!(user = this.users[id])) {
+                this.users[id] = user = new User(id, password);
+            }
         
             resolve(user);
         });
