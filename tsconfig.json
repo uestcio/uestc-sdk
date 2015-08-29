@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+        "module": "commonjs",
+		"declaration": true,
+		"diagnostics": true,
+		"emitDecoratorMetadata": true,
+		"experimentalAsyncFunctions": true,
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "outFile": "dist/uestc.js",
+        "sourceMap": true
+    },
+    "files": [
+       	
+    ]
+}
