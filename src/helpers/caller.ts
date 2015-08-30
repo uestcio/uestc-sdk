@@ -6,17 +6,15 @@ import { Promise } from 'es6-promise';
 import { Observable } from 'rx';
 
 export class Caller {
-    static nodifyPromise (promise: Promise<any>, callback: { (error: any, res: any): void; }): any {
+    static nodifyPromise (promise: Promise<any>, callback: { (error: any, res: any): void; }): void {
         promise.then((res) => {
             callback(null, res);
         }, (error) => {
             callback(error, null);
         });
-        
-        return null;
     }
     
-    static nodifyObservable (observable: Observable<any>, callback: { (error: any, res: any): void; }): any {
+    static nodifyObservable (observable: Observable<any>, callback: { (error: any, res: any): void; }): void {
         var res: any[] = [];
         observable.subscribe((item) => {
             res.push(item);
@@ -25,7 +23,5 @@ export class Caller {
         }, () => {
             callback(null, res);
         });
-        
-        return null;
     }
 }

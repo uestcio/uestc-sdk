@@ -46,7 +46,7 @@ export class Application {
         });
         
         if (_.isFunction(callback)) {
-            return Caller.nodifyPromise(promise, callback);
+            Caller.nodifyPromise(promise, callback);
         }
         
         return promise;
@@ -68,7 +68,7 @@ export class Application {
         }).merge(Crawler.searchForCourses(option));
         
         if (_.isFunction(callback)) {
-            return Caller.nodifyObservable(observable, callback);
+            Caller.nodifyObservable(observable, callback);
         }
         
         return observable;
@@ -78,7 +78,7 @@ export class Application {
         var observable = Seeker.searchForCourses(option);
         
         if (_.isFunction(callback)) {
-            return Caller.nodifyObservable(observable, callback);
+            Caller.nodifyObservable(observable, callback);
         }
         
         return observable;
