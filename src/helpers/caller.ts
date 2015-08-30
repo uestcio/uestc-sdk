@@ -1,0 +1,31 @@
+///<reference path="../../typings/es6-promise/es6-promise"/>
+///<reference path="../../typings/rx/rx"/>
+///<reference path="../../typings/rx/rx-lite"/>
+
+import { Promise } from 'es6-promise';
+import { Observable } from 'rx';
+
+export class Caller {
+    static nodifyPromise (promise: Promise<any>, callback: { (error: any, res: any): void; }): any {
+        promise.then((res) => {
+            callback(null, res);
+        }, (error) => {
+            callback(error, null);
+        });
+        
+        return null;
+    }
+    
+    static nodifyObservable (observable: Observable<any>, callback: { (error: any, res: any): void; }): any {
+        var res: any[] = [];
+        observable.subscribe((item) => {
+            res.push(item);
+        }, (error) => {
+            callback(error, null);
+        }, () => {
+            callback(null, res);
+        });
+        
+        return null;
+    }
+}

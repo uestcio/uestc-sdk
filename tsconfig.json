@@ -11,7 +11,7 @@
         "outDir": "dist",
         "sourceMap": true
     },
-    "fileGlobs": [
-       	"src/**/*.ts"
+    "files": [
+       	"src/uestc.ts"
     ]
 }

@@ -13,6 +13,10 @@ import { Notice } from 'models/notice';
 import { Person } from 'models/person';
 import { User } from 'models/user';
 
+import { Caller } from 'helpers/caller';
+import { Crawler } from 'helpers/crawler';
+
+import { ISearchCoursesOption } from 'utils/interfaces';
 
 export class Application {
     private users: { [id: string]: User; };
@@ -21,14 +25,14 @@ export class Application {
     private notices: { [id: string]: Notice; };
     private currentUser: User;
 
-    constructor() {
+    constructor () {
         this.reset();
     }
 
-    identify(id: string, password: string, callback?: { (error: Error, user: User): void; }): Promise<User> {
+    identify (id: string, password: string, callback?: { (error: Error, user: User): void; }): Promise<User> {
         var promise = new Promise<User>((resolve, reject) => {
             if (!_.isString(id) || !_.isString(password)) {
-                reject(new Error('parameter id and password can neither be null!'));
+                reject(new Error(400, 'parameter id and password can neither be null!'));
                 return;
             }
             
@@ -41,17 +45,13 @@ export class Application {
         });
         
         if (_.isFunction(callback)) {
-            promise.then((user) => {
-                callback(null, user);
-            }, (error) => {
-                callback(error, null);
-            })
+            return Caller.nodifyPromise(promise, callback);
         }
         
         return promise;
     }
     
-    reset(): void {
+    reset (): void {
         this.users = {};
         this.courses = {};
         this.people = {};
@@ -59,53 +59,39 @@ export class Application {
         this.currentUser = null;
     }
     
-    searchForCourses(options: any, callback?: { (error: Error, courses: Course[]): void; }): Observable<Course> {
+    searchForCourses (options: ISearchCoursesOption, callback?: { (error: Error, courses: Course[]): void; }): Observable<Course> {
+        var observable = Observable.create((observer) => {
+            if(!this.isUserExist()) {
+                observer.onError(new Error(403, 'Cannot search courses without a login user.'));
+            }
+        }).merge(Crawler.searchForCourses(options));
+        
+        if (_.isFunction(callback)) {
+            return Caller.nodifyObservable(observable, callback);
+        }
+        
+        return observable;
+    }
+    
+    searchForCoursesInCache () {
+        
+    }
+    
+    searchForCoursesWithCache () {
+        
+    }
+    
+    searchForPeople (options: any, callback?: { (error: Error, people: Person[]): void; }): Observable<Person> {
         //Todo
         return Observable.fromArray([]);
     }
     
-    searchForPeople(options: any, callback?: { (error: Error, people: Person[]): void; }): Observable<Person> {
-        //Todo
-        return Observable.fromArray([]);
+    private isUserExist (): boolean {
+        return !!this.currentUser;
     }
 }
 
 export const app: Application = new Application();
-
-
-// // 模块输出
-// // module.exports = Application;
-
-// // 用户登陆
-// Application.prototype.identify = function (id, password, callback) {
-//     var self = this;
-//     var user;
-
-//     if (this._users_[id]) {                                 // 若该用户已存在，则从用户集合中直接取出
-//         user = this._users_[id];
-//     }
-//     else {                                                  // 若该用户不存在，则创建该用户
-//         user = new User(id, password, self);
-//         this._users_[user._id_] = user;                     // 将该用户添加到用户集合中
-//     }
-
-//     user.__ensureLogin__()                                  // 确保处于登录状态
-//         .then(function () {
-//             self._current_ = user;                          // 若登录成功则将该用户设为应用的当前用户
-//             return user;
-//         }).nodeify(function (err, res) {                    // 执行回调函数
-//             _.isFunction(callback) && callback(err, res);
-//         });
-
-//     return user;
-// };
-
-// // 重置应用实例方法
-// Application.prototype.reset = function () {
-//     this._users_ = {};
-//     this._current_ = null;
-// };
-
 
 
 // /// ------课程搜索相关------
