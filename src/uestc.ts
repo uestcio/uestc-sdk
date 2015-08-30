@@ -21,47 +21,27 @@ import { ISearchCoursesOption } from 'utils/interfaces';
 
 export class Application {
     private users: { [id: string]: User; };
-    private courses: { [id: string]: Course; };
-    private people: { [id: string]: Person; };
-    private notices: { [id: string]: Notice; };
     private currentUser: User;
 
     constructor () {
         this.reset();
     }
+    
+    one (id: string): User {
+        return this.users[id] || null;
+    }
 
-    identify (id: string, password: string, callback?: { (error: Error, user: User): void; }): Promise<User> {
-        var promise = new Promise<User>((resolve, reject) => {
-            if (!_.isString(id) || !_.isString(password)) {
-                reject(new Error(400, 'parameter id and password can neither be null!'));
-                return;
-            }
-            
-            var user: User;
-            if (!(user = this.users[id])) {
-                this.users[id] = user = new User(id, password);
-            }
-        
-            resolve(user);
-        });
-        
-        if (_.isFunction(callback)) {
-            Caller.nodifyPromise(promise, callback);
-        }
-        
-        return promise;
+    register (id: string, password: string): User {
+        return this.users[id] = new User(id, password);
     }
     
     reset (): void {
         this.users = {};
-        this.courses = {};
-        this.people = {};
-        this.notices = {};
         this.currentUser = null;
     }
     
-    searchForCourses (option: ISearchCoursesOption, callback?: { (error: Error, courses: Course[]): void; }): Observable<Course> {
-        var observable = Observable.create((observer) => {
+    searchForCourses (option: ISearchCoursesOption, callback?: { (error: Error, courses: Course[]): void; }): Observable<Course[]> {       
+        var observable: Observable<Course[]> = Observable.create<Course[]>((observer) => {
             if(!this.isUserExist()) {
                 observer.onError(new Error(403, 'Cannot search courses without a login user.'));
             }
@@ -91,6 +71,11 @@ export class Application {
     searchForPeople (options: any, callback?: { (error: Error, people: Person[]): void; }): Observable<Person> {
         //Todo
         return Observable.fromArray([]);
+    }
+    
+    verify (id: string, password: string): Promise<boolean> {
+        var user = new User(id, password);
+        return user.confirm();
     }
     
     private isUserExist (): boolean {

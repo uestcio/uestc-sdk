@@ -8,7 +8,7 @@ import { Course } from '../models/course';
 import { ISearchCoursesOption } from '../utils/interfaces';
 
 export class Crawler {
-    static searchForCourses (option: ISearchCoursesOption): Observable<Course> {
+    static searchForCourses (option: ISearchCoursesOption): Observable<Course[]> {
         return null;
     }
 }
