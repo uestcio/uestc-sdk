@@ -15,6 +15,7 @@ import { User } from 'models/user';
 
 import { Caller } from 'helpers/caller';
 import { Crawler } from 'helpers/crawler';
+import { Seeker } from 'helpers/seeker';
 
 import { ISearchCoursesOption } from 'utils/interfaces';
 
@@ -59,12 +60,12 @@ export class Application {
         this.currentUser = null;
     }
     
-    searchForCourses (options: ISearchCoursesOption, callback?: { (error: Error, courses: Course[]): void; }): Observable<Course> {
+    searchForCourses (option: ISearchCoursesOption, callback?: { (error: Error, courses: Course[]): void; }): Observable<Course> {
         var observable = Observable.create((observer) => {
             if(!this.isUserExist()) {
                 observer.onError(new Error(403, 'Cannot search courses without a login user.'));
             }
-        }).merge(Crawler.searchForCourses(options));
+        }).merge(Crawler.searchForCourses(option));
         
         if (_.isFunction(callback)) {
             return Caller.nodifyObservable(observable, callback);
@@ -73,12 +74,18 @@ export class Application {
         return observable;
     }
     
-    searchForCoursesInCache () {
+    searchForCoursesInCache (option: ISearchCoursesOption, callback?: { (error: Error, courses: Course[]): void; }): Observable<Course> {
+        var observable = Seeker.searchForCourses(option);
         
+        if (_.isFunction(callback)) {
+            return Caller.nodifyObservable(observable, callback);
+        }
+        
+        return observable;
     }
     
-    searchForCoursesWithCache () {
-        
+    searchForCoursesWithCache (option: ISearchCoursesOption, callback?: { (error: Error, courses: Course[]): void; }): Observable<Course> {
+        return null;
     }
     
     searchForPeople (options: any, callback?: { (error: Error, people: Person[]): void; }): Observable<Person> {
