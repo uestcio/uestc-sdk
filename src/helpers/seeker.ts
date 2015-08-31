@@ -9,7 +9,7 @@ import { ISearchCoursesOption } from '../utils/interfaces';
 
 
 export class Seeker {
-    static searchForCourses (option: ISearchCoursesOption): Observable<Course> {
+    static searchForCourses (option: ISearchCoursesOption): Observable<Course[]> {
         return null;
     }
 }

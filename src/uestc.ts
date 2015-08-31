@@ -14,7 +14,7 @@ import { Person } from 'models/person';
 import { User } from 'models/user';
 
 import { Caller } from 'helpers/caller';
-import { Crawler } from 'helpers/crawler';
+import { Fetcher } from 'helpers/fetcher';
 import { Seeker } from 'helpers/seeker';
 
 import { ISearchCoursesOption } from 'utils/interfaces';
@@ -45,7 +45,7 @@ export class Application {
             if(!this.isUserExist()) {
                 observer.onError(new Error(403, 'Cannot search courses without a login user.'));
             }
-        }).merge(Crawler.searchForCourses(option));
+        }).merge(Fetcher.searchForCourses(option));
         
         if (_.isFunction(callback)) {
             Caller.nodifyObservable(observable, callback);
@@ -54,7 +54,7 @@ export class Application {
         return observable;
     }
     
-    searchForCoursesInCache (option: ISearchCoursesOption, callback?: { (error: Error, courses: Course[]): void; }): Observable<Course> {
+    searchForCoursesInCache (option: ISearchCoursesOption, callback?: { (error: Error, courses: Course[]): void; }): Observable<Course[]> {
         var observable = Seeker.searchForCourses(option);
         
         if (_.isFunction(callback)) {
@@ -64,16 +64,16 @@ export class Application {
         return observable;
     }
     
-    searchForCoursesWithCache (option: ISearchCoursesOption, callback?: { (error: Error, courses: Course[]): void; }): Observable<Course> {
+    searchForCoursesWithCache (option: ISearchCoursesOption, callback?: { (error: Error, courses: Course[]): void; }): Observable<Course[]> {
         return null;
     }
     
-    searchForPeople (options: any, callback?: { (error: Error, people: Person[]): void; }): Observable<Person> {
+    searchForPeople (options: any, callback?: { (error: Error, people: Person[]): void; }): Observable<Person[]> {
         //Todo
         return Observable.fromArray([]);
     }
     
-    verify (id: string, password: string): Promise<boolean> {
+    verify (id: string, password: string): Observable<User> {
         var user = new User(id, password);
         return user.confirm();
     }

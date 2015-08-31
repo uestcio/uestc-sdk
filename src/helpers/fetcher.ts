@@ -7,7 +7,7 @@ import { Course } from '../models/course';
 
 import { ISearchCoursesOption } from '../utils/interfaces';
 
-export class Crawler {
+export class Fetcher {
     static searchForCourses (option: ISearchCoursesOption): Observable<Course[]> {
         return null;
     }
