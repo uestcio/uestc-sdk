@@ -7,18 +7,18 @@ import { Promise } from 'es6-promise';
 import * as _ from 'lodash';
 import { Observable } from 'rx';
 
-import { Course } from 'models/course';
-import { Error } from 'models/error';
-import { Notice } from 'models/notice';
-import { Person } from 'models/person';
-import { User } from 'models/user';
+import { Course } from './models/course';
+import { Error } from './models/error';
+import { Notice } from './models/notice';
+import { Person } from './models/person';
+import { User } from './models/user';
 
-import { Caller } from 'helpers/caller';
-import { Cacher } from 'helpers/cacher';
-import { Fetcher } from 'helpers/fetcher';
-import { Seeker } from 'helpers/seeker';
+import { Caller } from './helpers/caller';
+import { Cacher } from './helpers/cacher';
+import { Fetcher } from './helpers/fetcher';
+import { Seeker } from './helpers/seeker';
 
-import { ISearchCoursesOption, ISearchPeopleOption } from 'utils/interfaces';
+import { ISearchCoursesOption, ISearchPeopleOption } from './utils/interfaces';
 
 export class Application {
     private currentUser: User;

@@ -12,6 +12,6 @@
         "sourceMap": true
     },
     "files": [
-       	"src/uestc.ts"
+       	"src/application"
     ]
 }
