@@ -1,43 +1,44 @@
 {
-    "name": "uestc",
-    "version": "0.7.4",
-    "description": "A concise, reliable and powerful SDK platform for UESTC.",
-    "main": "index.js",
-    "engines": {
-        "node": ">=0.12"
-    },
-    "scripts": {
-        "test": "mocha --reporter spec --bail --check-leaks test/**/*.spec.js --timeout 600000 --recursive",
-        "test-ci": ""
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/trotyl/UESTC-SDK-Npm.git"
-    },
-    "keywords": [
-        "uestc",
-        "eams"
-    ],
-    "author": "Trotyl Yu <trotyl@qq.com> (http://trotyl.me)",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/trotyl/UESTC-SDK-Npm/issues"
-    },
-    "homepage": "https://github.com/trotyl/UESTC-SDK-Npm",
-    "dependencies": {
-        "async": "^0.9.0",
-        "es6-promise": "^3.0.2",
-        "jquery": "^2.1.3",
-        "jsdom": "4.0.2",
-        "later": "^1.1.6",
-        "moment": "^2.9.0",
-        "request": "^2.53.0",
-        "rx": "^3.1.1"
-    },
-    "devDependencies": {
-        "coveralls": "^2.11.2",
-        "istanbul": "^0.3.6",
-        "lodash": "^3.5.0",
-        "mocha": "^2.2.1"
-    }
+  "name": "uestc",
+  "version": "0.7.4",
+  "description": "A concise, reliable and powerful SDK platform for UESTC.",
+  "main": "index.js",
+  "engines": {
+    "node": ">=0.12"
+  },
+  "scripts": {
+    "test": "mocha --reporter spec --bail --check-leaks test/**/*.spec.js --timeout 600000 --recursive",
+    "test-ci": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/trotyl/UESTC-SDK-Npm.git"
+  },
+  "keywords": [
+    "uestc",
+    "eams"
+  ],
+  "author": "Trotyl Yu <trotyl@qq.com> (http://trotyl.me)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/trotyl/UESTC-SDK-Npm/issues"
+  },
+  "homepage": "https://github.com/trotyl/UESTC-SDK-Npm",
+  "dependencies": {
+    "async": "^0.9.0",
+    "es6-promise": "^3.0.2",
+    "jquery": "^2.1.3",
+    "jsdom": "4.0.2",
+    "later": "^1.1.6",
+    "moment": "^2.9.0",
+    "request": "^2.53.0",
+    "rx": "^3.1.1"
+  },
+  "devDependencies": {
+    "coveralls": "^2.11.2",
+    "expect.js": "^0.3.1",
+    "istanbul": "^0.3.6",
+    "lodash": "^3.5.0",
+    "mocha": "^2.2.1"
+  }
 }

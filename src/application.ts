@@ -32,7 +32,14 @@ export class Application {
     }
 
     register (id: string, password: string): User {
-        return Cacher.users[id] = new User(id, password);
+        var user;
+        Cacher.users[id] = user = new User(id, password);
+        
+        if(!this.isUserExist()) {
+            user.confirm().subscribe(() => this.currentUser = user);
+        }
+        
+        return user;
     }
     
     reset (): void {
