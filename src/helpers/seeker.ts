@@ -5,11 +5,15 @@ import { Observable } from 'rx';
 
 import { Course } from '../models/course';
 
-import { ISearchCoursesOption } from '../utils/interfaces';
+import { ISearchCoursesOption, ISearchPeopleOption } from '../utils/interfaces';
 
 
 export class Seeker {
     static searchForCourses (option: ISearchCoursesOption): Observable<Course[]> {
+        return null;
+    }
+    
+    static searchForPeople (option: ISearchPeopleOption): Observable<Person[]> {
         return null;
     }
 }

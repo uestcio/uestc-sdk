@@ -5,3 +5,7 @@ export interface ISearchCoursesOption {
     grade?: string, 
     type?: string 
 }
+
+export interface ISearchPeopleOption {
+    term?: string
+}
