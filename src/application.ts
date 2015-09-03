@@ -71,10 +71,8 @@ export class Application {
     }
     
     searchForCoursesWithCache (option: ISearchCoursesOption, callback?: { (error: Error, courses: Course[]): void; }): Observable<Course[]> {
-        var observable = this.searchForCoursesInCache(option)
-            .combineLatest<Course[], Course[]>(this.searchForCourses(option), (olds, news) => {
-                return _.uniq(_.union(news, olds), (course) => course.id);
-            });
+        var observable = this.searchForCourses(option)
+            .catch(this.searchForCoursesInCache(option));
             
         if (_.isFunction(callback)) {
             Caller.nodifyObservable(observable, callback);
@@ -108,10 +106,8 @@ export class Application {
     }
     
     searchForPeopleWithCache (option: ISearchPeopleOption, callback?: { (error: Error, people: Person[]): void; }): Observable<Person[]> {
-        var observable = this.searchForPeopleInCache(option)
-            .combineLatest<Person[], Person[]>(this.searchForPeople(option), (olds, news) => {
-                return _.uniq(_.union(news, olds), (person) => person.id);
-            });
+        var observable = this.searchForPeople(option)
+            .catch(this.searchForPeopleInCache(option));
             
         if (_.isFunction(callback)) {
             Caller.nodifyObservable(observable, callback);
