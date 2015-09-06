@@ -22,31 +22,21 @@ import { Initialize } from './utils/initialize';
 import { ISearchCoursesOption, ISearchPeopleOption } from './utils/interfaces';
 
 
+Initialize.init(injector);
+
+var cacher: Cacher = injector.get('Cacher');
+var caller: Caller = injector.get('Caller');
+var fetcher: Fetcher = injector.get('Fetcher');
+var seeker: Seeker = injector.get('Seeker');
+
+var userFactory: UserFactory = injector.get('UserFactory');
+var exceptionFactory: ExceptionFactory = injector.get('ExceptionFactory');
 
 export class Application {
     private currentUser: User;
     
-    private cacher: Cacher;
-    private caller: Caller;
-    private fetcher: Fetcher;
-    private seeker: Seeker;
-    
-    private userFactory: UserFactory;
-    private exceptionFactory: ExceptionFactory;
-    
-
     constructor () {
-        Initialize.init(injector);
-        
-        this.cacher = injector.get('Cacher');
-        this.caller = injector.get('Caller');
-        this.fetcher = injector.get('Fetcher');
-        this.seeker = injector.get('Seeker');
-        
-        this.userFactory = injector.get('UserFactory');
-        this.exceptionFactory = injector.get('ExceptionFactory');
-        
-        this.currentUser = _.find(this.cacher.users, (user) => user.isConfirmed) || null;
+        this.currentUser = _.find(cacher.users, (user) => user.isConfirmed) || null;
     }
     
     getInjector (): Injector {
@@ -54,12 +44,12 @@ export class Application {
     }
     
     one (id: string): User {
-        return this.cacher.users[id] || null;
+        return cacher.users[id] || null;
     }
 
     register (id: string, password: string): User {
         var user: User;
-        this.cacher.users[id] = user = this.userFactory.$new(id, password);
+        cacher.users[id] = user = userFactory.$new(id, password);
         
         if(!this.isUserExist()) {
             user.confirm().subscribe(() => this.currentUser = user);
@@ -71,22 +61,22 @@ export class Application {
     searchForCourses (option: ISearchCoursesOption, callback?: { (error: Error, courses: Course[]): void; }): Observable<Course[]> {       
         var observable = Observable.create<Course[]>((observer) => {
             if(!this.isUserExist()) {
-                observer.onError(this.exceptionFactory.$new(401, 'Application#searchForCourses must be called with a current user.'));
+                observer.onError(exceptionFactory.$new(401, 'Application#searchForCourses must be called with a current user.'));
             }
-        }).merge(this.fetcher.searchForCourses(option));
+        }).merge(fetcher.searchForCourses(option));
         
         if (_.isFunction(callback)) {
-            this.caller.nodifyObservable(observable, callback);
+            caller.nodifyObservable(observable, callback);
         }
         
         return observable;
     }
     
     searchForCoursesInCache (option: ISearchCoursesOption, callback?: { (error: Error, courses: Course[]): void; }): Observable<Course[]> {
-        var observable = this.seeker.searchForCourses(option);
+        var observable = seeker.searchForCourses(option);
         
         if (_.isFunction(callback)) {
-            this.caller.nodifyObservable(observable, callback);
+            caller.nodifyObservable(observable, callback);
         }
         
         return observable;
@@ -97,7 +87,7 @@ export class Application {
             .catch(this.searchForCoursesInCache(option));
             
         if (_.isFunction(callback)) {
-            this.caller.nodifyObservable(observable, callback);
+            caller.nodifyObservable(observable, callback);
         }
         
         return observable;
@@ -106,22 +96,22 @@ export class Application {
     searchForPeople (option: ISearchPeopleOption, callback?: { (error: Error, people: Person[]): void; }): Observable<Person[]> {       
         var observable = Observable.create<Person[]>((observer) => {
             if(!this.isUserExist()) {
-                observer.onError(this.exceptionFactory.$new(401, 'Application#searchForPeople must be called with a current user.'));
+                observer.onError(exceptionFactory.$new(401, 'Application#searchForPeople must be called with a current user.'));
             }
-        }).merge(this.fetcher.searchForPeople(option));
+        }).merge(fetcher.searchForPeople(option));
         
         if (_.isFunction(callback)) {
-            this.caller.nodifyObservable(observable, callback);
+            caller.nodifyObservable(observable, callback);
         }
         
         return observable;
     }
     
     searchForPeopleInCache (option: ISearchPeopleOption, callback?: { (error: Error, people: Person[]): void; }): Observable<Person[]> {
-        var observable = this.seeker.searchForPeople(option);
+        var observable = seeker.searchForPeople(option);
         
         if (_.isFunction(callback)) {
-            this.caller.nodifyObservable(observable, callback);
+            caller.nodifyObservable(observable, callback);
         }
         
         return observable;
@@ -132,7 +122,7 @@ export class Application {
             .catch(this.searchForPeopleInCache(option));
             
         if (_.isFunction(callback)) {
-            this.caller.nodifyObservable(observable, callback);
+            caller.nodifyObservable(observable, callback);
         }
         
         return observable;

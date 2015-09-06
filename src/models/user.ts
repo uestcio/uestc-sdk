@@ -85,11 +85,7 @@ export class User {
     }
 }
 
-export class UserFactory {
-    constructor(injector: Injector) {
-        $injector = injector;
-    }
-    
+export class UserFactory {    
     $new (id: string, password: string) {
         return new User(id, password);
     }

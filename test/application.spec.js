@@ -40,36 +40,6 @@ describe('Application: ', function () {
                 expect(app).to.have.property('currentUser');
                 expect(app.currentUser).to.be(null);
             });
-            
-            it('should have a cacher of type Cacher.', function () {
-                expect(app).to.have.property('cacher');
-                expect(app.cacher).to.be.a(Cacher);
-            });
-            
-            it('should have a caller of type Caller.', function () {
-                expect(app).to.have.property('caller');
-                expect(app.caller).to.be.a(Caller);
-            });
-            
-            it('should have a fetcher of type Fetcher.', function () {
-                expect(app).to.have.property('fetcher');
-                expect(app.fetcher).to.be.a(Fetcher);
-            });
-            
-            it('should have a seeker of type Seeker.', function () {
-                expect(app).to.have.property('seeker');
-                expect(app.seeker).to.be.a(Seeker);
-            });
-            
-            it('should have a userFactory of type UserFactory.', function () {
-                expect(app).to.have.property('userFactory');
-                expect(app.userFactory).to.be.a(UserFactory);
-            });
-            
-            it('should have a exceptionFactory of type ExceptionFactory.', function () {
-                expect(app).to.have.property('exceptionFactory');
-                expect(app.exceptionFactory).to.be.a(ExceptionFactory);
-            });
         });
         
         describe('should be able to register and get user:', function () {
