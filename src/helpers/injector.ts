@@ -12,7 +12,7 @@ export class Injector {
     get (dependent: string): any {
         var instance: any;
         if (!(instance = this.instanceCache[dependent])) {
-            instance = new this.providerCache[dependent];
+            instance = new this.providerCache[dependent](this);
         }
         return instance;
     }
@@ -25,3 +25,5 @@ export class Injector {
         this.providerCache[name] = provider;
     }
 }
+
+export var injector: Injector = new Injector();

@@ -2,7 +2,7 @@ import { CourseFactory } from '../models/course';
 import { ExceptionFactory } from '../models/exception';
 import { NoticeFactory } from '../models/notice';
 import { PersonFactory } from '../models/person';
-import { UserFactory } from '../models/user';
+import { User, UserFactory } from '../models/user';
 
 import { Caller } from '../helpers/caller';
 import { Cacher } from '../helpers/cacher';

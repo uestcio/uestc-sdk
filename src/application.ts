@@ -15,11 +15,12 @@ import { Person, PersonFactory } from './models/person';
 import { Cacher } from './helpers/cacher';
 import { Caller } from './helpers/caller';
 import { Fetcher } from './helpers/fetcher';
-import { Injector } from './helpers/injector';
+import { Injector, injector } from './helpers/injector';
 import { Seeker } from './helpers/seeker';
 
 import { Initialize } from './utils/initialize';
 import { ISearchCoursesOption, ISearchPeopleOption } from './utils/interfaces';
+
 
 
 export class Application {
@@ -28,30 +29,28 @@ export class Application {
     private cacher: Cacher;
     private caller: Caller;
     private fetcher: Fetcher;
-    private injector: Injector;
     private seeker: Seeker;
     
     private userFactory: UserFactory;
     private exceptionFactory: ExceptionFactory;
     
 
-    constructor (injector: Injector) {
-        this.injector = injector;
-        Initialize.init(this.injector);
+    constructor () {
+        Initialize.init(injector);
         
-        this.cacher = this.injector.get('Cacher');
-        this.caller = this.injector.get('Caller');
-        this.fetcher = this.injector.get('Fetcher');
-        this.seeker = this.injector.get('Seeker');
+        this.cacher = injector.get('Cacher');
+        this.caller = injector.get('Caller');
+        this.fetcher = injector.get('Fetcher');
+        this.seeker = injector.get('Seeker');
         
-        this.userFactory = this.injector.get('UserFactory');
-        this.exceptionFactory = this.injector.get('ExceptionFactory');
+        this.userFactory = injector.get('UserFactory');
+        this.exceptionFactory = injector.get('ExceptionFactory');
         
         this.currentUser = _.find(this.cacher.users, (user) => user.isConfirmed) || null;
     }
     
     getInjector (): Injector {
-        return this.injector;
+        return injector;
     }
     
     one (id: string): User {
@@ -149,4 +148,4 @@ export class Application {
     }
 }
 
-export const app: Application = new Application(new Injector());
+export const app: Application = new Application();

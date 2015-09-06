@@ -6,6 +6,10 @@ export class Course {
     }
 }
 
+export class TakenCourse extends Course {
+    
+}
+
 export class CourseFactory {
     $new (id: string) {
         return new Course(id);

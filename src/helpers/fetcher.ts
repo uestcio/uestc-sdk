@@ -9,6 +9,10 @@ import { Person } from '../models/person';
 import { ISearchCoursesOption, ISearchPeopleOption } from 'utils/interfaces';
 
 export class Fetcher {
+    confirmUser (id: string, password: string) {
+        return null;
+    }
+    
     searchForCourses (option: ISearchCoursesOption): Observable<Course[]> {
         return null;
     }

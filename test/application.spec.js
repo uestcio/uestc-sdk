@@ -10,14 +10,13 @@ var Course = require('../dist/models/course').Course;
 var ExceptionFactory = require('../dist/models/exception').ExceptionFactory;
 var Fetcher = require('../dist/helpers/fetcher').Fetcher;
 var Injector = require('../dist/helpers/injector').Injector;
+var injector = require('../dist/helpers/injector').injector;
 var Person = require('../dist/models/person').Person;
 var Seeker = require('../dist/helpers/seeker').Seeker;
 var User = require('../dist/models/user').User;
 var UserFactory = require('../dist/models/user').UserFactory;
 
-describe('Application: ', function () {
-    var injector = new Injector();
-    
+describe('Application: ', function () {   
     it('should have an `app` property.', function () {
         var Application = appModule.Application;
         expect(appModule).to.have.property('app');
@@ -55,11 +54,6 @@ describe('Application: ', function () {
             it('should have a fetcher of type Fetcher.', function () {
                 expect(app).to.have.property('fetcher');
                 expect(app.fetcher).to.be.a(Fetcher);
-            });
-            
-            it('should have a injector of type Injector.', function () {
-                expect(app).to.have.property('injector');
-                expect(app.injector).to.be.a(Injector);
             });
             
             it('should have a seeker of type Seeker.', function () {
