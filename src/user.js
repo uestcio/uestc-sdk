@@ -17,6 +17,7 @@ var Urls = require('./utils/urls');
 var StdDetail = require('./models/stddetail');
 
 // 构造方法
+/** This is a test doc. */
 function User(number, password, owner) {
     this._id_ = number;                     // 用户学号（私有，以防被用户意外修改）
     this._password_ = password;             // 用户密码

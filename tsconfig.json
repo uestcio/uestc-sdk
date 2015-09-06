@@ -6,12 +6,25 @@
 		"emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "noImplicitAny": true,
-        "removeComments": true,
+        "removeComments": false,
         "preserveConstEnums": true,
         "outDir": "dist",
         "sourceMap": true
     },
     "files": [
-       	"src/application"
+       	"src/application.ts",
+        "src/models/course.ts",
+        "src/models/exam.ts",
+        "src/models/exception.ts",
+        "src/models/notice.ts",
+        "src/models/person.ts",
+        "src/models/user.ts",
+        "src/helpers/cacher.ts",
+        "src/helpers/caller.ts",
+        "src/helpers/fetcher.ts",
+        "src/helpers/injector.ts",
+        "src/helpers/seeker.ts",
+        "src/utils/initialize.ts",
+        "src/utils/interfaces.ts"
     ]
 }

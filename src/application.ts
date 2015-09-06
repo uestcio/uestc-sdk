@@ -31,9 +31,17 @@ var seeker: Seeker = injector.get('Seeker');
 var userFactory: UserFactory = injector.get('UserFactory');
 var exceptionFactory: ExceptionFactory = injector.get('ExceptionFactory');
 
+/** 
+ * @class
+ * Represents an instance of SDK application.
+ */
 export class Application {
     private currentUser: User;
     
+    /**
+     * @constructor
+     * The constructor of Application class.
+     */
     constructor () {
         this.currentUser = _.find(cacher.users, (user) => user.isConfirmed) || null;
     }
