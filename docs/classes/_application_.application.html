@@ -74,7 +74,7 @@
 				<div class="tsd-comment tsd-typography">
 					<dl class="tsd-comment-tags">
 						<dt>class</dt>
-						<dd><p>Represents an instance of SDK application.</p>
+						<dd><p>Represents an instance of SDK application. The entry of the entire library.</p>
 						</dd>
 					</dl>
 				</div>
@@ -134,7 +134,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/application.ts#L39">application.ts:39</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/application.ts#L48">application.ts:48</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -157,9 +157,16 @@
 					<div class="tsd-signature tsd-kind-icon">current<wbr>User<span class="tsd-signature-symbol">:</span> <a href="_models_user_.user.html" class="tsd-signature-type">User</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/application.ts#L39">application.ts:39</a></li>
+							<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/application.ts#L48">application.ts:48</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>The user instance for application global operations.</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -174,10 +181,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/application.ts#L49">application.ts:49</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/application.ts#L63">application.ts:63</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>method</dt>
+									<dd><p>Get the Injector instance of current application.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-returns-title">Returns <a href="_helpers_injector_.injector.html" class="tsd-signature-type">Injector</a></h4>
+							<p>the Injector instance of current application.</p>
 						</li>
 					</ul>
 				</section>
@@ -191,10 +206,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/application.ts#L120">application.ts:120</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/application.ts#L202">application.ts:202</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>method</dt>
+									<dd><p>Check whether there is a user to deal with global operation.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>The boolean result of exist or not.</p>
 						</li>
 					</ul>
 				</section>
@@ -208,16 +231,27 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/application.ts#L53">application.ts:53</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/application.ts#L73">application.ts:73</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>method</dt>
+									<dd><p>Get the exact user of given student id which has been registered before.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The student id of the student.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_models_user_.user.html" class="tsd-signature-type">User</a></h4>
+							<p>The student instance if exist, null if not.</p>
 						</li>
 					</ul>
 				</section>
@@ -231,19 +265,33 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/application.ts#L57">application.ts:57</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/application.ts#L84">application.ts:84</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>method</dt>
+									<dd><p>Register a student entity with student id and password.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The student id of the student.</p>
+									</div>
 								</li>
 								<li>
 									<h5>password: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The password of the UESTC Portal site.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_models_user_.user.html" class="tsd-signature-type">User</a></h4>
+							<p>The student instance of the given student id.</p>
 						</li>
 					</ul>
 				</section>
@@ -257,27 +305,40 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/application.ts#L67">application.ts:67</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/application.ts#L101">application.ts:101</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>method</dt>
+									<dd><p>Search for courses that satisfy the given option online.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>option: <a href="../interfaces/_utils_interfaces_.isearchcoursesoption.html" class="tsd-signature-type">ISearchCoursesOption</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The option of the search.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <span class="tsd-signature-type">function</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The function to be called with an error or the result of search if don&#39;t want to use the Observable operations. It&#39;s deprecated.</p>
+									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span>, courses<span class="tsd-signature-symbol">: </span><a href="_models_course_.course.html" class="tsd-signature-type">Course</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><a href="_models_exception_.exception.html" class="tsd-signature-type">Exception</a>, courses<span class="tsd-signature-symbol">: </span><a href="_models_course_.course.html" class="tsd-signature-type">Course</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>error: <span class="tsd-signature-type">Error</span></h5>
+															<h5>error: <a href="_models_exception_.exception.html" class="tsd-signature-type">Exception</a></h5>
 														</li>
 														<li>
 															<h5>courses: <a href="_models_course_.course.html" class="tsd-signature-type">Course</a><span class="tsd-signature-symbol">[]</span></h5>
@@ -291,6 +352,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_models_course_.course.html" class="tsd-signature-type">Course</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>The Observable instance of the search result.</p>
 						</li>
 					</ul>
 				</section>
@@ -304,27 +366,40 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/application.ts#L77">application.ts:77</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/application.ts#L118">application.ts:118</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>method</dt>
+									<dd><p>Search for courses that satisfy the given option offline.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>option: <a href="../interfaces/_utils_interfaces_.isearchcoursesoption.html" class="tsd-signature-type">ISearchCoursesOption</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The option of the search.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <span class="tsd-signature-type">function</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The function to be called with an error or the result of search if don&#39;t want to use the Observable operations. It&#39;s deprecated.</p>
+									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span>, courses<span class="tsd-signature-symbol">: </span><a href="_models_course_.course.html" class="tsd-signature-type">Course</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><a href="_models_exception_.exception.html" class="tsd-signature-type">Exception</a>, courses<span class="tsd-signature-symbol">: </span><a href="_models_course_.course.html" class="tsd-signature-type">Course</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>error: <span class="tsd-signature-type">Error</span></h5>
+															<h5>error: <a href="_models_exception_.exception.html" class="tsd-signature-type">Exception</a></h5>
 														</li>
 														<li>
 															<h5>courses: <a href="_models_course_.course.html" class="tsd-signature-type">Course</a><span class="tsd-signature-symbol">[]</span></h5>
@@ -338,6 +413,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_models_course_.course.html" class="tsd-signature-type">Course</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>The Observable instance of the search result.</p>
 						</li>
 					</ul>
 				</section>
@@ -351,27 +427,40 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/application.ts#L83">application.ts:83</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/application.ts#L131">application.ts:131</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>method</dt>
+									<dd><p>Search for courses that satisfy the given option online when possible, offline when necessary.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>option: <a href="../interfaces/_utils_interfaces_.isearchcoursesoption.html" class="tsd-signature-type">ISearchCoursesOption</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The option of the search.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <span class="tsd-signature-type">function</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The function to be called with an error or the result of search if don&#39;t want to use the Observable operations. It&#39;s deprecated.</p>
+									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span>, courses<span class="tsd-signature-symbol">: </span><a href="_models_course_.course.html" class="tsd-signature-type">Course</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><a href="_models_exception_.exception.html" class="tsd-signature-type">Exception</a>, courses<span class="tsd-signature-symbol">: </span><a href="_models_course_.course.html" class="tsd-signature-type">Course</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>error: <span class="tsd-signature-type">Error</span></h5>
+															<h5>error: <a href="_models_exception_.exception.html" class="tsd-signature-type">Exception</a></h5>
 														</li>
 														<li>
 															<h5>courses: <a href="_models_course_.course.html" class="tsd-signature-type">Course</a><span class="tsd-signature-symbol">[]</span></h5>
@@ -385,6 +474,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_models_course_.course.html" class="tsd-signature-type">Course</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>The Observable instance of the search result.</p>
 						</li>
 					</ul>
 				</section>
@@ -398,27 +488,40 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/application.ts#L90">application.ts:90</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/application.ts#L145">application.ts:145</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>method</dt>
+									<dd><p>Search for people that satisfy the given option online.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>option: <a href="../interfaces/_utils_interfaces_.isearchpeopleoption.html" class="tsd-signature-type">ISearchPeopleOption</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The option of the search.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <span class="tsd-signature-type">function</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The function to be called with an error or the result of search if don&#39;t want to use the Observable operations. It&#39;s deprecated.</p>
+									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span>, people<span class="tsd-signature-symbol">: </span><a href="_models_person_.person.html" class="tsd-signature-type">Person</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><a href="_models_exception_.exception.html" class="tsd-signature-type">Exception</a>, people<span class="tsd-signature-symbol">: </span><a href="_models_person_.person.html" class="tsd-signature-type">Person</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>error: <span class="tsd-signature-type">Error</span></h5>
+															<h5>error: <a href="_models_exception_.exception.html" class="tsd-signature-type">Exception</a></h5>
 														</li>
 														<li>
 															<h5>people: <a href="_models_person_.person.html" class="tsd-signature-type">Person</a><span class="tsd-signature-symbol">[]</span></h5>
@@ -432,6 +535,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_models_person_.person.html" class="tsd-signature-type">Person</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>The Observable instance of the search result.</p>
 						</li>
 					</ul>
 				</section>
@@ -445,27 +549,40 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/application.ts#L100">application.ts:100</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/application.ts#L162">application.ts:162</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>method</dt>
+									<dd><p>Search for people that satisfy the given option offline.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>option: <a href="../interfaces/_utils_interfaces_.isearchpeopleoption.html" class="tsd-signature-type">ISearchPeopleOption</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The option of the search.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <span class="tsd-signature-type">function</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The function to be called with an error or the result of search if don&#39;t want to use the Observable operations. It&#39;s deprecated.</p>
+									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span>, people<span class="tsd-signature-symbol">: </span><a href="_models_person_.person.html" class="tsd-signature-type">Person</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><a href="_models_exception_.exception.html" class="tsd-signature-type">Exception</a>, people<span class="tsd-signature-symbol">: </span><a href="_models_person_.person.html" class="tsd-signature-type">Person</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>error: <span class="tsd-signature-type">Error</span></h5>
+															<h5>error: <a href="_models_exception_.exception.html" class="tsd-signature-type">Exception</a></h5>
 														</li>
 														<li>
 															<h5>people: <a href="_models_person_.person.html" class="tsd-signature-type">Person</a><span class="tsd-signature-symbol">[]</span></h5>
@@ -479,6 +596,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_models_person_.person.html" class="tsd-signature-type">Person</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>The Observable instance of the search result.</p>
 						</li>
 					</ul>
 				</section>
@@ -492,27 +610,40 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/application.ts#L106">application.ts:106</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/application.ts#L175">application.ts:175</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>method</dt>
+									<dd><p>Search for people that satisfy the given option online when possible, offline when necessary.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>option: <a href="../interfaces/_utils_interfaces_.isearchpeopleoption.html" class="tsd-signature-type">ISearchPeopleOption</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The option of the search.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <span class="tsd-signature-type">function</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The function to be called with an error or the result of search if don&#39;t want to use the Observable operations. It&#39;s deprecated.</p>
+									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span>, people<span class="tsd-signature-symbol">: </span><a href="_models_person_.person.html" class="tsd-signature-type">Person</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><a href="_models_exception_.exception.html" class="tsd-signature-type">Exception</a>, people<span class="tsd-signature-symbol">: </span><a href="_models_person_.person.html" class="tsd-signature-type">Person</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>error: <span class="tsd-signature-type">Error</span></h5>
+															<h5>error: <a href="_models_exception_.exception.html" class="tsd-signature-type">Exception</a></h5>
 														</li>
 														<li>
 															<h5>people: <a href="_models_person_.person.html" class="tsd-signature-type">Person</a><span class="tsd-signature-symbol">[]</span></h5>
@@ -526,6 +657,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_models_person_.person.html" class="tsd-signature-type">Person</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>The Observable instance of the search result.</p>
 						</li>
 					</ul>
 				</section>
@@ -539,30 +671,46 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/application.ts#L113">application.ts:113</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/application.ts#L190">application.ts:190</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>method</dt>
+									<dd><p>Verify whether the given student id and password is valid. Notice that if some other accident occurs (i.e. No network), the result would be null, please check the error.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The student id of the student.</p>
+									</div>
 								</li>
 								<li>
 									<h5>password: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The password of the student.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <span class="tsd-signature-type">function</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The function to be called with an error or the result of search if don&#39;t want to use the Observable operations. It&#39;s deprecated.</p>
+									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span>, result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><a href="_models_exception_.exception.html" class="tsd-signature-type">Exception</a>, result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>error: <span class="tsd-signature-type">Error</span></h5>
+															<h5>error: <a href="_models_exception_.exception.html" class="tsd-signature-type">Exception</a></h5>
 														</li>
 														<li>
 															<h5>result: <span class="tsd-signature-type">boolean</span></h5>
@@ -576,6 +724,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>The boolean result of valid or not.</p>
 						</li>
 					</ul>
 				</section>
