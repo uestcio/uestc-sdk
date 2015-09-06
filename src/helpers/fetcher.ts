@@ -9,11 +9,11 @@ import { Person } from '../models/person';
 import { ISearchCoursesOption, ISearchPeopleOption } from 'utils/interfaces';
 
 export class Fetcher {
-    static searchForCourses (option: ISearchCoursesOption): Observable<Course[]> {
+    searchForCourses (option: ISearchCoursesOption): Observable<Course[]> {
         return null;
     }
     
-    static searchForPeople (option: ISearchPeopleOption): Observable<Person[]> {
+    searchForPeople (option: ISearchPeopleOption): Observable<Person[]> {
         return null;
     }
 }

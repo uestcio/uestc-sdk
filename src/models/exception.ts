@@ -1,4 +1,4 @@
-export class Error {
+export class Exception {
     code: number;
     message: string;
     
@@ -8,6 +8,12 @@ export class Error {
     
     constructor(code: number, message?: string) {
         this.code = code;
-        this.message = message? message: Error.code2Message[code];
+        this.message = message? message: Exception.code2Message[code];
+    }
+}
+
+export class ExceptionFactory {
+    $new (code: number, message?: string) {
+        return new Exception(code, message);
     }
 }

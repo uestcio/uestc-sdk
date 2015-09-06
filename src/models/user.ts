@@ -3,6 +3,7 @@
 
 import { Observable } from 'rx';
 
+
 export class User {
     id: string;
     password: string;
@@ -16,6 +17,12 @@ export class User {
     
     confirm (): Observable<User> {
         return null;
+    }
+}
+
+export class UserFactory {
+    $new (id: string, password: string) {
+        return new User(id, password);
     }
 }
 

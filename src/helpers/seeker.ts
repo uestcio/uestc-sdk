@@ -10,11 +10,11 @@ import { ISearchCoursesOption, ISearchPeopleOption } from '../utils/interfaces';
 
 
 export class Seeker {
-    static searchForCourses (option: ISearchCoursesOption): Observable<Course[]> {
+    searchForCourses (option: ISearchCoursesOption): Observable<Course[]> {
         return null;
     }
     
-    static searchForPeople (option: ISearchPeopleOption): Observable<Person[]> {
+    searchForPeople (option: ISearchPeopleOption): Observable<Person[]> {
         return null;
     }
 }
