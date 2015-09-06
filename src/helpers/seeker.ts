@@ -3,13 +3,22 @@
 
 import { Observable } from 'rx';
 
-import { Course } from '../models/course';
+import { Course, TakenCourse } from '../models/course';
+import { Exam } from '../models/exam';
 import { Person } from '../models/person';
 
-import { ISearchCoursesOption, ISearchPeopleOption } from '../utils/interfaces';
+import { IGetUserCoursesOption, ISearchCoursesOption, ISearchPeopleOption } from '../utils/interfaces';
 
 
 export class Seeker {
+    getUserCourses (option: IGetUserCoursesOption) : Observable<TakenCourse[]> {
+        return null;
+    }
+    
+    getUserExams (option: IGetUserCoursesOption) : Observable<Exam[]> {
+        return null;
+    }
+    
     searchForCourses (option: ISearchCoursesOption): Observable<Course[]> {
         return null;
     }

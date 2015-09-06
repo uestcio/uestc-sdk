@@ -6,11 +6,14 @@ import { Observable } from 'rx';
 import { TakenCourse } from '../models/course';
 
 import { Caller } from '../helpers/caller';
+import { Exam } from '../models/exam';
 import { Fetcher } from '../helpers/fetcher';
 import { Injector, injector } from '../helpers/injector';
+import { Seeker } from '../helpers/seeker';
 
 var caller: Caller = injector.get('Caller');
 var fetcher: Fetcher = injector.get('Fetcher');
+var seeker: Seeker = injector.get('Seeker');
 
 export class User {
     administrationClass: string;
@@ -47,42 +50,60 @@ export class User {
         this.isConfirmed = false;
     }
     
-    confirm (): Observable<boolean> {
+    confirm (callback?: { (error: Error, res: boolean): void; }): Observable<boolean> {
         var observable = fetcher.confirmUser(this.id, this.password)
-        
-        return ;
+        caller.nodifyObservable(observable, callback);
+        return observable;
     }
     
     getCourses (grade?: number, semester?: number, callback?: any): Observable<TakenCourse[]> {
-        return fetcher.getUserCourses({ grade: grade, semester: semester }, false);
+        var observable = fetcher.getUserCourses({ grade: grade, semester: semester }, false);
+        caller.nodifyObservable(observable, callback);
+        return observable;
     }
     
     getCoursesForever (grade?: number, semester?: number, callback?: any): Observable<TakenCourse[]> {
-        return null;
+        var observable = fetcher.getUserCourses({ grade: grade, semester: semester }, true);
+        caller.nodifyObservable(observable, callback);
+        return observable;
     }
     
     getCoursesInCache (grade?: number, semester?: number, callback?: any): Observable<TakenCourse[]> {
-        return null;
+        var observable = seeker.getUserCourses({ grade: grade, semester: semester });
+        caller.nodifyObservable(observable, callback);
+        return observable;
     }
     
     getCoursesWithCache (grade?: number, semester?: number, callback?: any): Observable<TakenCourse[]> {
-        return null;
+        var observable = fetcher.getUserCourses({ grade: grade, semester: semester }, true)
+            .catch(seeker.getUserCourses({ grade: grade, semester: semester }));
+        caller.nodifyObservable(observable, callback);
+        return observable;
     }
     
-    getExams (grade?: number, semester?: number, callback?: any): Observable<any> {
-        return null;
+    getExams (grade?: number, semester?: number, callback?: any): Observable<Exam[]> {
+        var observable = fetcher.getUserExams({ grade: grade, semester: semester }, false);
+        caller.nodifyObservable(observable, callback);
+        return observable;
     }
     
-    getExamsForever (grade?: number, semester?: number, callback?: any): Observable<TakenCourse[]> {
-        return null;
+    getExamsForever (grade?: number, semester?: number, callback?: any): Observable<Exam[]> {
+        var observable = fetcher.getUserExams({ grade: grade, semester: semester }, true);
+        caller.nodifyObservable(observable, callback);
+        return observable;
     }
     
-    getExamsInCache (grade?: number, semester?: number, callback?: any): Observable<TakenCourse[]> {
-        return null;
+    getExamsInCache (grade?: number, semester?: number, callback?: any): Observable<Exam[]> {
+        var observable = seeker.getUserExams({ grade: grade, semester: semester });
+        caller.nodifyObservable(observable, callback);
+        return observable;
     }
     
-    getExamsWithCache (grade?: number, semester?: number, callback?: any): Observable<TakenCourse[]> {
-        return null;
+    getExamsWithCache (grade?: number, semester?: number, callback?: any): Observable<Exam[]> {
+        var observable = fetcher.getUserExams({ grade: grade, semester: semester }, true)
+            .catch(seeker.getUserExams({ grade: grade, semester: semester }));
+        caller.nodifyObservable(observable, callback);
+        return observable;
     }
 }
 
