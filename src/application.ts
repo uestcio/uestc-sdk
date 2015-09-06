@@ -35,8 +35,8 @@ export class Application {
     private exceptionFactory: ExceptionFactory;
     
 
-    constructor () {
-        this.injector = new Injector();
+    constructor (injector: Injector) {
+        this.injector = injector;
         Initialize.init(this.injector);
         
         this.cacher = this.injector.get('Cacher');
@@ -48,6 +48,10 @@ export class Application {
         this.exceptionFactory = this.injector.get('ExceptionFactory');
         
         this.currentUser = _.find(this.cacher.users, (user) => user.isConfirmed) || null;
+    }
+    
+    getInjector (): Injector {
+        return this.injector;
     }
     
     one (id: string): User {
@@ -145,4 +149,4 @@ export class Application {
     }
 }
 
-export const app: Application = new Application();
+export const app: Application = new Application(new Injector());
