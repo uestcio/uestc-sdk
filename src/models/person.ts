@@ -1,9 +1,13 @@
 export class Person {
     id: string;
+    
+    constructor (id: string) {
+        this.id = id;
+    }
 }
 
 export class PersonFactory {
-    $new () {
-        return new Person();
+    $new (id: string) {
+        return new Person(id);
     }
 }
