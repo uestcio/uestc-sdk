@@ -32,7 +32,7 @@ describe('Application: ', function () {
         var app;
         
         beforeEach(function () {
-            app = new appModule.Application(injector);
+            app = new appModule.Application();
         });
         
         describe('should have proper properties: ', function () {
