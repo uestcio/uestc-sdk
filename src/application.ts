@@ -1,9 +1,12 @@
-///<reference path="../typings/es6-promise/es6-promise"/>
 ///<reference path="../typings/lodash/lodash"/>
 ///<reference path="../typings/rx/rx"/>
 ///<reference path="../typings/rx/rx-lite"/>
 
-import { Promise } from 'es6-promise';
+import { Initialize } from './utils/initialize';
+import { Injector, injector } from './helpers/injector';
+
+Initialize.init(injector);
+
 import * as _ from 'lodash';
 import { Observable } from 'rx';
 
@@ -15,14 +18,10 @@ import { Person, PersonFactory } from './models/person';
 import { Cacher } from './helpers/cacher';
 import { Caller } from './helpers/caller';
 import { Fetcher } from './helpers/fetcher';
-import { Injector, injector } from './helpers/injector';
 import { Seeker } from './helpers/seeker';
 
-import { Initialize } from './utils/initialize';
 import { ISearchCoursesOption, ISearchPeopleOption } from './utils/interfaces';
 
-
-Initialize.init(injector);
 
 var cacher: Cacher = injector.get('Cacher');
 var caller: Caller = injector.get('Caller');
@@ -54,7 +53,6 @@ export class Application {
         if(!this.isUserExist()) {
             user.confirm().subscribe(() => this.currentUser = user);
         }
-        
         return user;
     }
     
@@ -64,32 +62,20 @@ export class Application {
                 observer.onError(exceptionFactory.$new(401, 'Application#searchForCourses must be called with a current user.'));
             }
         }).merge(fetcher.searchForCourses(option));
-        
-        if (_.isFunction(callback)) {
-            caller.nodifyObservable(observable, callback);
-        }
-        
+        caller.nodifyObservable(observable, callback);
         return observable;
     }
     
     searchForCoursesInCache (option: ISearchCoursesOption, callback?: { (error: Error, courses: Course[]): void; }): Observable<Course[]> {
         var observable = seeker.searchForCourses(option);
-        
-        if (_.isFunction(callback)) {
-            caller.nodifyObservable(observable, callback);
-        }
-        
+        caller.nodifyObservable(observable, callback);
         return observable;
     }
     
     searchForCoursesWithCache (option: ISearchCoursesOption, callback?: { (error: Error, courses: Course[]): void; }): Observable<Course[]> {
         var observable = this.searchForCourses(option)
-            .catch(this.searchForCoursesInCache(option));
-            
-        if (_.isFunction(callback)) {
-            caller.nodifyObservable(observable, callback);
-        }
-        
+            .catch(this.searchForCoursesInCache(option)); 
+        caller.nodifyObservable(observable, callback);
         return observable;
     }
     
@@ -99,38 +85,28 @@ export class Application {
                 observer.onError(exceptionFactory.$new(401, 'Application#searchForPeople must be called with a current user.'));
             }
         }).merge(fetcher.searchForPeople(option));
-        
-        if (_.isFunction(callback)) {
-            caller.nodifyObservable(observable, callback);
-        }
-        
+        caller.nodifyObservable(observable, callback);
         return observable;
     }
     
     searchForPeopleInCache (option: ISearchPeopleOption, callback?: { (error: Error, people: Person[]): void; }): Observable<Person[]> {
         var observable = seeker.searchForPeople(option);
-        
-        if (_.isFunction(callback)) {
-            caller.nodifyObservable(observable, callback);
-        }
-        
+        caller.nodifyObservable(observable, callback);
         return observable;
     }
     
     searchForPeopleWithCache (option: ISearchPeopleOption, callback?: { (error: Error, people: Person[]): void; }): Observable<Person[]> {
         var observable = this.searchForPeople(option)
-            .catch(this.searchForPeopleInCache(option));
-            
-        if (_.isFunction(callback)) {
-            caller.nodifyObservable(observable, callback);
-        }
-        
+            .catch(this.searchForPeopleInCache(option));   
+        caller.nodifyObservable(observable, callback);
         return observable;
     }
     
-    verify (id: string, password: string): Observable<User> {
+    verify (id: string, password: string, callback?: { (error: Error, result: boolean): void; }): Observable<boolean> {
         var user = new User(id, password);
-        return user.confirm();
+        var observable = user.confirm();
+        caller.nodifyObservable(observable, callback);
+        return observable;
     }
     
     private isUserExist (): boolean {

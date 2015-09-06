@@ -10,9 +10,15 @@ export class Injector {
     }
     
     get (dependent: string): any {
-        var instance: any;
+        var instance: any = null;
+        var provider: any = null;
         if (!(instance = this.instanceCache[dependent])) {
-            instance = new this.providerCache[dependent](this);
+            if(provider = this.providerCache[dependent]) {
+                instance = new this.providerCache[dependent];
+            }
+            else {
+                console.log(dependent);
+            }
         }
         return instance;
     }

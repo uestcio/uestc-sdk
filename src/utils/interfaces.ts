@@ -4,6 +4,11 @@
 import { Observable } from 'rx';
 
 
+export interface IGetUserCoursesOption {
+    grade?: number,
+    semester?: number
+}
+
 export interface ISearchCoursesOption { 
     name?: string, 
     department?: string, 

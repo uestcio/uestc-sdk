@@ -132,9 +132,7 @@ describe('Application: ', function () {
                 expect(app.currentUser).not.to.be(null);
                
                 app.searchForCourses().subscribeOnNext(function (courses) {
-                    expect(courses).to.be.an(Array);
-                    expect(courses.length).to.be(2);
-                    expect(courses[0].id).to.be('0');
+                    expect(courses).to.be(onlineCourses);
                 });
             });
             
@@ -142,9 +140,7 @@ describe('Application: ', function () {
                 expect(app.currentUser).to.be(null);
                
                 app.searchForCoursesInCache().subscribeOnNext(function (courses) {
-                    expect(courses).to.be.an(Array);
-                    expect(courses.length).to.be(1);
-                    expect(courses[0].id).to.be('0');
+                    expect(courses).to.be(offlineCourses);
                 });
             });
             
@@ -153,9 +149,7 @@ describe('Application: ', function () {
                 expect(app.currentUser).not.to.be(null);
                
                 app.searchForCoursesInCache().subscribeOnNext(function (courses) {
-                    expect(courses).to.be.an(Array);
-                    expect(courses.length).to.be(1);
-                    expect(courses[0].id).to.be('0');
+                    expect(courses).to.be(offlineCourses);
                 });
             });
             
@@ -163,9 +157,7 @@ describe('Application: ', function () {
                 expect(app.currentUser).to.be(null);
                
                 app.searchForCoursesWithCache().subscribeOnNext(function (courses) {
-                    expect(courses).to.be.an(Array);
-                    expect(courses.length).to.be(1);
-                    expect(courses[0].id).to.be('0');
+                    expect(courses).to.be(offlineCourses);
                 });
             });
             
@@ -174,9 +166,37 @@ describe('Application: ', function () {
                 expect(app.currentUser).not.to.be(null);
                
                 app.searchForCoursesWithCache().subscribeOnNext(function (courses) {
-                    expect(courses).to.be.an(Array);
-                    expect(courses.length).to.be(2);
-                    expect(courses[0].id).to.be('0');
+                    expect(courses).to.be(onlineCourses);
+                });
+            });
+            
+            it('should be able to use callback.', function () {
+                app.searchForCourses(null, function (err, res) {
+                    expect(err).not.to.be(null);
+                    expect(err.code).to.be(401);
+                    expect(res).to.be(null);
+                });
+                app.searchForCoursesInCache(null, function (err, res) {
+                    expect(err).to.be(null);
+                    expect(res).to.be(offlineCourses);
+                });
+                app.searchForCoursesWithCache(null, function (err, res) {
+                    expect(err).to.be(null);
+                    expect(res).to.be(offlineCourses);
+                });
+                
+                app.currentUser = new User('2012019050031', '******');
+                app.searchForCourses(null, function (err, res) {
+                    expect(err).to.be(null);
+                    expect(res).to.be(onlineCourses);
+                });
+                app.searchForCoursesInCache(null, function (err, res) {
+                    expect(err).to.be(null);
+                    expect(res).to.be(offlineCourses);
+                });
+                app.searchForCoursesWithCache(null, function (err, res) {
+                    expect(err).to.be(null);
+                    expect(res).to.be(onlineCourses);
                 });
             });
         });
@@ -269,6 +289,36 @@ describe('Application: ', function () {
                     expect(people).to.be.an(Array);
                     expect(people.length).to.be(2);
                     expect(people[0].id).to.be('0');
+                });
+            });
+            
+            it('should be able to use callback.', function () {
+                app.searchForPeople(null, function (err, res) {
+                    expect(err).not.to.be(null);
+                    expect(err.code).to.be(401);
+                    expect(res).to.be(null);
+                });
+                app.searchForPeopleInCache(null, function (err, res) {
+                    expect(err).to.be(null);
+                    expect(res).to.be(offlinePeople);
+                });
+                app.searchForPeopleWithCache(null, function (err, res) {
+                    expect(err).to.be(null);
+                    expect(res).to.be(offlinePeople);
+                });
+                
+                app.currentUser = new User('2012019050031', '******');
+                app.searchForPeople(null, function (err, res) {
+                    expect(err).to.be(null);
+                    expect(res).to.be(onlinePeople);
+                });
+                app.searchForPeopleInCache(null, function (err, res) {
+                    expect(err).to.be(null);
+                    expect(res).to.be(offlinePeople);
+                });
+                app.searchForPeopleWithCache(null, function (err, res) {
+                    expect(err).to.be(null);
+                    expect(res).to.be(onlinePeople);
                 });
             });
         });

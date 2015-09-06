@@ -5,15 +5,14 @@ import { Observable } from 'rx';
 
 import { TakenCourse } from '../models/course';
 
+import { Caller } from '../helpers/caller';
 import { Fetcher } from '../helpers/fetcher';
-import { Injector } from '../helpers/injector';
+import { Injector, injector } from '../helpers/injector';
 
-var $injector: Injector;
+var caller: Caller = injector.get('Caller');
+var fetcher: Fetcher = injector.get('Fetcher');
 
 export class User {
-
-    static fetcher: Fetcher;
-        
     administrationClass: string;
     administrationCollege: string;
     campus: string;
@@ -48,12 +47,14 @@ export class User {
         this.isConfirmed = false;
     }
     
-    confirm (): Observable<User> {
-        return 
+    confirm (): Observable<boolean> {
+        var observable = fetcher.confirmUser(this.id, this.password)
+        
+        return ;
     }
     
     getCourses (grade?: number, semester?: number, callback?: any): Observable<TakenCourse[]> {
-        return null;
+        return fetcher.getUserCourses({ grade: grade, semester: semester }, false);
     }
     
     getCoursesForever (grade?: number, semester?: number, callback?: any): Observable<TakenCourse[]> {

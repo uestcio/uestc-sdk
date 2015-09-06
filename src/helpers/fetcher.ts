@@ -3,13 +3,17 @@
 
 import { Observable } from 'rx';
 
-import { Course } from '../models/course';
+import { Course, TakenCourse } from '../models/course';
 import { Person } from '../models/person';
 
-import { ISearchCoursesOption, ISearchPeopleOption } from 'utils/interfaces';
+import { ISearchCoursesOption, ISearchPeopleOption, IGetUserCoursesOption } from 'utils/interfaces';
 
 export class Fetcher {
-    confirmUser (id: string, password: string): any {
+    confirmUser (id: string, password: string): Observable<boolean> {
+        return null;
+    }
+    
+    getUserCourses (option: IGetUserCoursesOption, once: boolean = true) : Observable<TakenCourse[]> {
         return null;
     }
     
