@@ -60,7 +60,7 @@ export class Application {
         cacher.users[id] = user = userFactory.$new(id, password);
         
         if(!this.isUserExist()) {
-            user.confirm().subscribe(() => this.currentUser = user);
+            user.confirm().subscribe((res) => res && (this.currentUser = user));
         }
         return user;
     }

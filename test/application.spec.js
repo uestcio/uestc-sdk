@@ -14,7 +14,17 @@ var Seeker = require('../dist/helpers/seeker').Seeker;
 var User = require('../dist/models/user').User;
 var UserFactory = require('../dist/models/user').UserFactory;
 
-describe('Application: ', function () {   
+describe('Application: ', function () {
+    var originalConfirm = User.prototype.confirm;
+    var originalSeekerSearchForPeople = Seeker.prototype.searchForPeople;
+    var originalFetcherSearchForPeople = Fetcher.prototype.searchForPeople;
+  
+    after(function () {
+        User.prototype.confirm = originalConfirm;
+        Seeker.prototype.searchForPeople = originalSeekerSearchForPeople;
+        Fetcher.prototype.searchForPeople = originalFetcherSearchForPeople;
+    });  
+    
     it('should have an `app` property.', function () {
         var Application = appModule.Application;
         expect(appModule).to.have.property('app');
@@ -67,29 +77,26 @@ describe('Application: ', function () {
         });
         
         describe('should be able to register and get user:', function () {
-            var confirmCount = 0;
-            var originalConfirm = User.prototype.confirm;
+            var confirmCount, confirmResult;
             
             before(function () {
                 User.prototype.confirm = function () {
                     confirmCount++;
-                    return {
-                        subscribe: function (callback) {
-                            callback(true);
-                        }
-                    };
+                    return { subscribe: function (callback) { callback(confirmResult); }};
                 };
-            });  
+            }); 
             
-            after(function () {
-                User.prototype.confirm = originalConfirm;
-            });       
+            beforeEach(function () {
+                confirmCount = 0;
+            });         
             
             it('should be able to get the null if the user is not register.', function () {
                 expect(app.one('2012019050031')).to.be(null);
             });
             
             it('should be able to register a user.', function () {
+                confirmResult = true;
+                
                 expect(confirmCount).to.be(0);
                 app.register('2012019050031', '******');
                 expect(app.one('2012019050031')).to.be.a(User);
@@ -101,6 +108,27 @@ describe('Application: ', function () {
                 expect(confirmCount).to.be(1);
                 expect(app.one('2012019050032')).to.be.a(User);
                 expect(app.one('2012019050032').id).to.be('2012019050032');
+            });
+            
+            it('should not have currentUser if confirm failed.', function () {
+                confirmResult = false;
+                
+                app.register('2012019050031', '******');
+                expect(app.one('2012019050031')).to.be.a(User);
+                expect(app.one('2012019050031').id).to.be('2012019050031');
+                expect(app.one('2012019050031').password).to.be('******');
+                expect(app.currentUser).to.be(null); 
+            });
+            
+            it('should not have currentUser if confirm throws.', function () {
+                User.prototype.confirm = function () {
+                    return { subscribe: function (onNext, onError, onComplete) { onError && onError(new Error('000: Fake error.')); }};
+                };
+                app.register('2012019050031', '******');
+                expect(app.one('2012019050031')).to.be.a(User);
+                expect(app.one('2012019050031').id).to.be('2012019050031');
+                expect(app.one('2012019050031').password).to.be('******');
+                expect(app.currentUser).to.be(null); 
             });
         });
         
@@ -238,9 +266,7 @@ describe('Application: ', function () {
         describe('should be able to search people: ', function () {
             var onlinePeople = [new Person('0'), new Person('1')];
             var offlinePeople = [new Person('0')];
-            var originalSeekerSearchForPeople = Seeker.prototype.searchForPeople;
-            var originalFetcherSearchForPeople = Fetcher.prototype.searchForPeople;
-            
+           
             before(function () {
                 Seeker.prototype.searchForPeople = function () {
                     return rx.Observable.return(offlinePeople);

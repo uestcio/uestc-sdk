@@ -10,6 +10,14 @@ var userModule = require('../../dist/models/user');
 
 
 describe('User: ' , function () {
+    var originalFetcherConfirmUser = Fetcher.prototype.comfirmUser;
+    var originalFetcherGetUserDetail = Fetcher.prototype.getUserDetail;
+    
+    after(function () {
+        Fetcher.prototype.confirmUser = originalFetcherConfirmUser;
+        Fetcher.prototype.getUserDetail = originalFetcherGetUserDetail;
+    });
+    
     it('should have an `User` class.', function () {
         expect(userModule).to.have.property('User');
         expect(userModule.User).to.be.a('function');
@@ -139,46 +147,34 @@ describe('User: ' , function () {
         });
         
         describe('should be able to confirm and get detail: ', function () {
-            var confirmCount = 0;
-            var detailCount = 0;
-            var detail = {
-                id: '2012019050031',
-                grade: 2012
-            };
-            var originalFetcherConfirmUser = Fetcher.prototype.comfirmUser;
-            var originalFetcherGetUserDetail = Fetcher.prototype.getUserDetail;
+            var confirmCount, detailCount, confirmResult, detailResult;
             
             before(function () {
                 Fetcher.prototype.confirmUser = function () {
                     confirmCount++;
-                    return {
-                        subscribe: function (callback) {
-                            callback(true);
-                        }
-                    }
+                    return { subscribe: function (callback) { callback(confirmResult); }};
                 };
                 
                 Fetcher.prototype.getUserDetail = function () {
                     detailCount++;
-                    return {
-                        subscribe: function (callback) {
-                            callback(detail);
-                        }
-                    };
+                    return { subscribe: function (callback) { callback(detailResult); }};
                 };
             });
             
-            after(function () {
-                Fetcher.prototype.confirmUser = originalFetcherConfirmUser;
-                Fetcher.prototype.getUserDetail = originalFetcherGetUserDetail;
-            });
+            beforeEach(function () {
+                confirmCount = 0;
+                detailCount = 0;
+            })
             
             it('should not confirm itself if not called.', function () {
                 expect(confirmCount).to.be(0);
                 expect(detailCount).to.be(0);
             });
             
-            it('should get detail if called confirm.', function (done) {
+            it('should get detail if called confirm and succeed.', function (done) {
+                confirmResult = true;
+                detailResult = { id: '2012019050031' };
+                
                 user.confirm().subscribe(function (res) {
                     expect(res).to.be(true);
                     expect(confirmCount).to.be(1);
@@ -186,6 +182,21 @@ describe('User: ' , function () {
                     done();
                 });
             });
+            
+            it('should not get detail if confirm failed.', function (done) {
+                confirmResult = false;
+                
+                user.confirm().subscribe(function (res) {
+                    expect(res).to.be(false);
+                    expect(confirmCount).to.be(1);
+                    expect(detailCount).to.be(0);
+                    done();
+                });
+            })
+        });
+        
+        describe('should be able to get taken courses: ', function () {
+            
         });
     });
 });

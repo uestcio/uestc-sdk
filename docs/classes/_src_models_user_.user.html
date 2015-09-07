@@ -132,11 +132,13 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_models_user_.user.html#confirm" class="tsd-kind-icon">confirm</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_models_user_.user.html#getcourses" class="tsd-kind-icon">get<wbr>Courses</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_src_models_user_.user.html#getcoursescallbyparam" class="tsd-kind-icon">get<wbr>Courses<wbr>Call<wbr>ByParam</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_models_user_.user.html#getcoursesforever" class="tsd-kind-icon">get<wbr>Courses<wbr>Forever</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_models_user_.user.html#getcoursesincache" class="tsd-kind-icon">get<wbr>Courses<wbr>InCache</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_models_user_.user.html#getcourseswithcache" class="tsd-kind-icon">get<wbr>Courses<wbr>With<wbr>Cache</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_src_models_user_.user.html#getdetail" class="tsd-kind-icon">get<wbr>Detail</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_models_user_.user.html#getexams" class="tsd-kind-icon">get<wbr>Exams</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_src_models_user_.user.html#getexamscallbyparam" class="tsd-kind-icon">get<wbr>Exams<wbr>Call<wbr>ByParam</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_models_user_.user.html#getexamsforever" class="tsd-kind-icon">get<wbr>Exams<wbr>Forever</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_models_user_.user.html#getexamsincache" class="tsd-kind-icon">get<wbr>Exams<wbr>InCache</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_models_user_.user.html#getexamswithcache" class="tsd-kind-icon">get<wbr>Exams<wbr>With<wbr>Cache</a></li>
@@ -652,25 +654,54 @@
 					<a name="getcourses" class="tsd-anchor"></a>
 					<h3>get<wbr>Courses</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Courses<span class="tsd-signature-symbol">(</span>grade<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, semester<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, callback<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_src_models_course_.takencourse.html" class="tsd-signature-type">TakenCourse</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Courses<span class="tsd-signature-symbol">(</span>grade<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, semester<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, callback<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_src_models_course_.takencourse.html" class="tsd-signature-type">TakenCourse</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L184">src/models/user.ts:184</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L182">src/models/user.ts:182</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> grade: <span class="tsd-signature-type">number</span></h5>
+									<h5>grade: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> semester: <span class="tsd-signature-type">number</span></h5>
+									<h5>semester: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_src_models_course_.takencourse.html" class="tsd-signature-type">TakenCourse</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="getcoursescallbyparam" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> get<wbr>Courses<wbr>Call<wbr>ByParam</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Courses<wbr>Call<wbr>ByParam<span class="tsd-signature-symbol">(</span>grade<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, semester<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, forever<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_src_models_course_.takencourse.html" class="tsd-signature-type">TakenCourse</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L232">src/models/user.ts:232</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>grade: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>semester: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>forever: <span class="tsd-signature-type">boolean</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_src_models_course_.takencourse.html" class="tsd-signature-type">TakenCourse</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -681,22 +712,22 @@
 					<a name="getcoursesforever" class="tsd-anchor"></a>
 					<h3>get<wbr>Courses<wbr>Forever</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Courses<wbr>Forever<span class="tsd-signature-symbol">(</span>grade<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, semester<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, callback<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_src_models_course_.takencourse.html" class="tsd-signature-type">TakenCourse</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Courses<wbr>Forever<span class="tsd-signature-symbol">(</span>grade<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, semester<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, callback<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_src_models_course_.takencourse.html" class="tsd-signature-type">TakenCourse</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L190">src/models/user.ts:190</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L188">src/models/user.ts:188</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> grade: <span class="tsd-signature-type">number</span></h5>
+									<h5>grade: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> semester: <span class="tsd-signature-type">number</span></h5>
+									<h5>semester: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <span class="tsd-signature-type">any</span></h5>
@@ -710,22 +741,22 @@
 					<a name="getcoursesincache" class="tsd-anchor"></a>
 					<h3>get<wbr>Courses<wbr>InCache</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Courses<wbr>InCache<span class="tsd-signature-symbol">(</span>grade<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, semester<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, callback<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_src_models_course_.takencourse.html" class="tsd-signature-type">TakenCourse</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Courses<wbr>InCache<span class="tsd-signature-symbol">(</span>grade<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, semester<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, callback<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_src_models_course_.takencourse.html" class="tsd-signature-type">TakenCourse</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L196">src/models/user.ts:196</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L194">src/models/user.ts:194</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> grade: <span class="tsd-signature-type">number</span></h5>
+									<h5>grade: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> semester: <span class="tsd-signature-type">number</span></h5>
+									<h5>semester: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <span class="tsd-signature-type">any</span></h5>
@@ -739,22 +770,22 @@
 					<a name="getcourseswithcache" class="tsd-anchor"></a>
 					<h3>get<wbr>Courses<wbr>With<wbr>Cache</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Courses<wbr>With<wbr>Cache<span class="tsd-signature-symbol">(</span>grade<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, semester<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, callback<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_src_models_course_.takencourse.html" class="tsd-signature-type">TakenCourse</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Courses<wbr>With<wbr>Cache<span class="tsd-signature-symbol">(</span>grade<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, semester<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, callback<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_src_models_course_.takencourse.html" class="tsd-signature-type">TakenCourse</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L202">src/models/user.ts:202</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L200">src/models/user.ts:200</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> grade: <span class="tsd-signature-type">number</span></h5>
+									<h5>grade: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> semester: <span class="tsd-signature-type">number</span></h5>
+									<h5>semester: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <span class="tsd-signature-type">any</span></h5>
@@ -774,7 +805,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L234">src/models/user.ts:234</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L238">src/models/user.ts:238</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -785,25 +816,54 @@
 					<a name="getexams" class="tsd-anchor"></a>
 					<h3>get<wbr>Exams</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Exams<span class="tsd-signature-symbol">(</span>grade<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, semester<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, callback<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_src_models_exam_.exam.html" class="tsd-signature-type">Exam</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Exams<span class="tsd-signature-symbol">(</span>grade<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, semester<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, callback<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_src_models_exam_.exam.html" class="tsd-signature-type">Exam</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L209">src/models/user.ts:209</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L207">src/models/user.ts:207</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> grade: <span class="tsd-signature-type">number</span></h5>
+									<h5>grade: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> semester: <span class="tsd-signature-type">number</span></h5>
+									<h5>semester: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_src_models_exam_.exam.html" class="tsd-signature-type">Exam</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="getexamscallbyparam" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> get<wbr>Exams<wbr>Call<wbr>ByParam</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Exams<wbr>Call<wbr>ByParam<span class="tsd-signature-symbol">(</span>grade<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, semester<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, forever<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_src_models_exam_.exam.html" class="tsd-signature-type">Exam</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L266">src/models/user.ts:266</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>grade: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>semester: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>forever: <span class="tsd-signature-type">boolean</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_src_models_exam_.exam.html" class="tsd-signature-type">Exam</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -814,22 +874,22 @@
 					<a name="getexamsforever" class="tsd-anchor"></a>
 					<h3>get<wbr>Exams<wbr>Forever</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Exams<wbr>Forever<span class="tsd-signature-symbol">(</span>grade<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, semester<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, callback<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_src_models_exam_.exam.html" class="tsd-signature-type">Exam</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Exams<wbr>Forever<span class="tsd-signature-symbol">(</span>grade<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, semester<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, callback<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_src_models_exam_.exam.html" class="tsd-signature-type">Exam</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L215">src/models/user.ts:215</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L213">src/models/user.ts:213</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> grade: <span class="tsd-signature-type">number</span></h5>
+									<h5>grade: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> semester: <span class="tsd-signature-type">number</span></h5>
+									<h5>semester: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <span class="tsd-signature-type">any</span></h5>
@@ -843,22 +903,22 @@
 					<a name="getexamsincache" class="tsd-anchor"></a>
 					<h3>get<wbr>Exams<wbr>InCache</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Exams<wbr>InCache<span class="tsd-signature-symbol">(</span>grade<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, semester<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, callback<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_src_models_exam_.exam.html" class="tsd-signature-type">Exam</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Exams<wbr>InCache<span class="tsd-signature-symbol">(</span>grade<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, semester<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, callback<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_src_models_exam_.exam.html" class="tsd-signature-type">Exam</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L221">src/models/user.ts:221</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L219">src/models/user.ts:219</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> grade: <span class="tsd-signature-type">number</span></h5>
+									<h5>grade: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> semester: <span class="tsd-signature-type">number</span></h5>
+									<h5>semester: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <span class="tsd-signature-type">any</span></h5>
@@ -872,22 +932,22 @@
 					<a name="getexamswithcache" class="tsd-anchor"></a>
 					<h3>get<wbr>Exams<wbr>With<wbr>Cache</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Exams<wbr>With<wbr>Cache<span class="tsd-signature-symbol">(</span>grade<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, semester<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, callback<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_src_models_exam_.exam.html" class="tsd-signature-type">Exam</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Exams<wbr>With<wbr>Cache<span class="tsd-signature-symbol">(</span>grade<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, semester<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, callback<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_src_models_exam_.exam.html" class="tsd-signature-type">Exam</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L227">src/models/user.ts:227</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L225">src/models/user.ts:225</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> grade: <span class="tsd-signature-type">number</span></h5>
+									<h5>grade: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> semester: <span class="tsd-signature-type">number</span></h5>
+									<h5>semester: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <span class="tsd-signature-type">any</span></h5>
@@ -1052,6 +1112,9 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_src_models_user_.user.html#getcourses" class="tsd-kind-icon">get<wbr>Courses</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="_src_models_user_.user.html#getcoursescallbyparam" class="tsd-kind-icon">get<wbr>Courses<wbr>Call<wbr>ByParam</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_src_models_user_.user.html#getcoursesforever" class="tsd-kind-icon">get<wbr>Courses<wbr>Forever</a>
 							</li>
@@ -1066,6 +1129,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_src_models_user_.user.html#getexams" class="tsd-kind-icon">get<wbr>Exams</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="_src_models_user_.user.html#getexamscallbyparam" class="tsd-kind-icon">get<wbr>Exams<wbr>Call<wbr>ByParam</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_src_models_user_.user.html#getexamsforever" class="tsd-kind-icon">get<wbr>Exams<wbr>Forever</a>

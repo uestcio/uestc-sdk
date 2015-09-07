@@ -174,61 +174,65 @@ export class User {
     
     confirm (callback?: { (error: Error, res: boolean): void; }): Observable<boolean> {
         var observable = fetcher.confirmUser(this.id, this.password);
-        observable.subscribe((res) => {
-            res && this.getDetail();
-        })
+        observable.subscribe((res) => res && this.getDetail());
         caller.nodifyObservable(observable, callback);
         return observable;
     }
     
-    getCourses (grade?: number, semester?: number, callback?: any): Observable<TakenCourse[]> {
-        var observable = fetcher.getUserCourses({ grade: grade, semester: semester }, false);
+    getCourses (grade: number, semester: number, callback?: any): Observable<TakenCourse[]> {
+        var observable = this.getCoursesCallByParam(grade, semester, false);
         caller.nodifyObservable(observable, callback);
         return observable;
     }
     
-    getCoursesForever (grade?: number, semester?: number, callback?: any): Observable<TakenCourse[]> {
-        var observable = fetcher.getUserCourses({ grade: grade, semester: semester }, true);
+    getCoursesForever (grade: number, semester: number, callback?: any): Observable<TakenCourse[]> {
+        var observable = this.getCoursesCallByParam(grade, semester, true);
         caller.nodifyObservable(observable, callback);
         return observable;
     }
     
-    getCoursesInCache (grade?: number, semester?: number, callback?: any): Observable<TakenCourse[]> {
+    getCoursesInCache (grade: number, semester: number, callback?: any): Observable<TakenCourse[]> {
         var observable = seeker.getUserCourses({ grade: grade, semester: semester });
         caller.nodifyObservable(observable, callback);
         return observable;
     }
     
-    getCoursesWithCache (grade?: number, semester?: number, callback?: any): Observable<TakenCourse[]> {
+    getCoursesWithCache (grade: number, semester: number, callback?: any): Observable<TakenCourse[]> {
         var observable = fetcher.getUserCourses({ grade: grade, semester: semester }, true)
             .catch(seeker.getUserCourses({ grade: grade, semester: semester }));
         caller.nodifyObservable(observable, callback);
         return observable;
     }
     
-    getExams (grade?: number, semester?: number, callback?: any): Observable<Exam[]> {
-        var observable = fetcher.getUserExams({ grade: grade, semester: semester }, false);
+    getExams (grade: number, semester: number, callback?: any): Observable<Exam[]> {
+        var observable = this.getExamsCallByParam(grade, semester, false);
         caller.nodifyObservable(observable, callback);
         return observable;
     }
     
-    getExamsForever (grade?: number, semester?: number, callback?: any): Observable<Exam[]> {
-        var observable = fetcher.getUserExams({ grade: grade, semester: semester }, true);
+    getExamsForever (grade: number, semester: number, callback?: any): Observable<Exam[]> {
+        var observable = this.getExamsCallByParam(grade, semester, true);
         caller.nodifyObservable(observable, callback);
         return observable;
     }
     
-    getExamsInCache (grade?: number, semester?: number, callback?: any): Observable<Exam[]> {
+    getExamsInCache (grade: number, semester: number, callback?: any): Observable<Exam[]> {
         var observable = seeker.getUserExams({ grade: grade, semester: semester });
         caller.nodifyObservable(observable, callback);
         return observable;
     }
     
-    getExamsWithCache (grade?: number, semester?: number, callback?: any): Observable<Exam[]> {
+    getExamsWithCache (grade: number, semester: number, callback?: any): Observable<Exam[]> {
         var observable = fetcher.getUserExams({ grade: grade, semester: semester }, true)
             .catch(seeker.getUserExams({ grade: grade, semester: semester }));
         caller.nodifyObservable(observable, callback);
         return observable;
+    }
+     
+    private getCoursesCallByParam (grade: number, semester: number, forever: boolean): Observable<TakenCourse[]> {
+        return this.confirm()
+            .map((res) => res || Observable.throw(new Error('401: The user validation failed.')))
+            .flatMap(() => fetcher.getUserCourses({ grade: grade, semester: semester }, forever));
     }
     
     private getDetail (): void {
@@ -257,6 +261,12 @@ export class User {
             this.studyType = detail.studyType;
             this.type = detail.type;
         });
+    }
+    
+    private getExamsCallByParam (grade: number, semester: number, forever: boolean): Observable<Exam[]> {
+        return this.confirm()
+            .map((res) => res || Observable.throw(new Error('401: The user validation failed.')))
+            .flatMap(() => fetcher.getUserExams({ grade: grade, semester: semester }, forever));
     }
 }
 
