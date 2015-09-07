@@ -7,7 +7,7 @@
     "node": ">=0.12"
   },
   "scripts": {
-    "test": "mocha --reporter spec --bail --check-leaks test/**/*.spec.js --timeout 600000 --recursive",
+    "test": "mocha --check-leaks test/ --timeout 30000 --recursive",
     "test-ci": ""
   },
   "repository": {

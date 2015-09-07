@@ -1,5 +1,6 @@
 dist/
 typings/
+test.old/
 # Created by .gitignore support plugin (hsz.mobi)
 ### JetBrains template
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm

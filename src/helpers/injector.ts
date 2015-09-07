@@ -17,7 +17,7 @@ export class Injector {
                 instance = new this.providerCache[dependent];
             }
             else {
-                console.log(dependent);
+                console.log('Error find denpency: ' + dependent);
             }
         }
         return instance;
