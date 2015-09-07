@@ -7,3 +7,5 @@ export class Cacher {
         this.users = {};
     }
 }
+
+export const cacher: Cacher = new Cacher();

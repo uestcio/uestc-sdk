@@ -27,3 +27,5 @@ export class Seeker {
         return null;
     }
 }
+
+export const seeker: Seeker = new Seeker();

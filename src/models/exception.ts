@@ -17,3 +17,5 @@ export class ExceptionFactory {
         return new Exception(code, message);
     }
 }
+
+export const exceptionFactory: ExceptionFactory = new ExceptionFactory();

@@ -22,9 +22,7 @@
         "src/helpers/cacher.ts",
         "src/helpers/caller.ts",
         "src/helpers/fetcher.ts",
-        "src/helpers/injector.ts",
         "src/helpers/seeker.ts",
-        "src/utils/initialize.ts",
         "src/utils/interfaces.ts"
     ]
 }

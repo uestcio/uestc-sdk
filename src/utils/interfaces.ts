@@ -20,3 +20,28 @@ export interface ISearchCoursesOption {
 export interface ISearchPeopleOption {
     term?: string
 }
+
+export interface IUserDetail {
+    administrationClass: string,
+    administrationCollege: string,
+    campus: string,
+    college: string,
+    dateFrom: Date,
+    dateTo: Date,
+    direction: string,
+    educationType: string,
+    englishName: string,
+    gender: string,
+    grade: number,
+    id: string,
+    inEnrollment: boolean,
+    inSchool: boolean,
+    major: string,
+    name: string,
+    project: string,
+    qualification: string,
+    schoolingLength: number,
+    status: string,
+    studyType: string,
+    type: string
+}

@@ -7,7 +7,7 @@ import { Course, TakenCourse } from '../models/course';
 import { Exam } from '../models/exam';
 import { Person } from '../models/person';
 
-import { IGetUserCoursesOption, ISearchCoursesOption, ISearchPeopleOption } from 'utils/interfaces';
+import { IGetUserCoursesOption, ISearchCoursesOption, ISearchPeopleOption, IUserDetail } from 'utils/interfaces';
 
 export class Fetcher {
     confirmUser (id: string, password: string): Observable<boolean> {
@@ -15,6 +15,10 @@ export class Fetcher {
     }
     
     getUserCourses (option: IGetUserCoursesOption, forever: boolean = false) : Observable<TakenCourse[]> {
+        return null;
+    }
+    
+    getUserDetail (): Observable<IUserDetail> {
         return null;
     }
     
@@ -30,3 +34,5 @@ export class Fetcher {
         return null;
     }
 }
+
+export const fetcher: Fetcher = new Fetcher();

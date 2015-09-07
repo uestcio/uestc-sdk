@@ -18,3 +18,5 @@ export class Caller {
         });
     }
 }
+
+export const caller: Caller = new Caller();

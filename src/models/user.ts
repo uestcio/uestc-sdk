@@ -4,20 +4,12 @@
 import { Observable } from 'rx';
 
 import { TakenCourse } from '../models/course';
-
-import { Caller } from '../helpers/caller';
 import { Exam } from '../models/exam';
-import { Fetcher } from '../helpers/fetcher';
-import { Injector, injector } from '../helpers/injector';
-import { Seeker } from '../helpers/seeker';
 
+import { caller } from '../helpers/caller';
+import { fetcher } from '../helpers/fetcher';
+import { seeker } from '../helpers/seeker';
 
-/** @unaccessible Dependency instance. */
-var caller: Caller = injector.get('Caller');
-/** @unaccessible Dependency instance. */
-var fetcher: Fetcher = injector.get('Fetcher');
-/** @unaccessible Dependency instance. */
-var seeker: Seeker = injector.get('Seeker');
 
 /** 
 * @description
@@ -28,151 +20,151 @@ export class User {
     * @description
     * The administration class id.
     */
-    administrationClass: string;
+    administrationClass: string = null;
     
     /**
     * @description
     * The administration college name.
     */
-    administrationCollege: string;
+    administrationCollege: string = null;
     
     /**
     * @description
     * The campus name.
     */
-    campus: string;
+    campus: string = null;
     
     /**
     * @description
     * The college name.
     */
-    college: string;
+    college: string = null;
     
     /**
     * @description
     * The date of enrollment.
     */
-    dateFrom: Date;
+    dateFrom: Date = null;
     
     /**
     * @description
     * The date of graduation.
     */
-    dateTo: Date;
+    dateTo: Date = null;
     
     /**
     * @description
     * The administration class id.
     */
-    direction: string;
+    direction: string = null;
     
     /**
     * @description
     * The administration class id.
     */
-    educationType: string;
+    educationType: string = null;
     
     /**
     * @description
     * The administration class id.
     */
-    englishName: string;
+    englishName: string = null;
     
     /**
     * @description
     * The administration class id.
     */
-    gender: string;
+    gender: string = null;
     
     /**
     * @description
     * The administration class id.
     */
-    grade: number;
+    grade: number = null;
     
     /**
     * @description
     * The administration class id.
     */
-    id: string;
+    id: string = null;
     
     /**
     * @description
     * The administration class id.
     */
-    inEnrollment: boolean;
+    inEnrollment: boolean = null;
     
     /**
     * @description
     * The administration class id.
     */
-    inSchool: boolean;
+    inSchool: boolean = null;
     
     /**
     * @description
     * The administration class id.
     */
-    major: string;
+    major: string = null;
     
     /**
     * @description
     * The administration class id.
     */
-    name: string;
+    name: string = null;
     
     /**
     * @description
     * The administration class id.
     */
-    project: string;
+    project: string = null;
     
     /**
     * @description
     * The administration class id.
     */
-    qualification: string;
+    qualification: string = null;
     
     /**
     * @description
     * The administration class id.
     */
-    schoolingLength: number;
+    schoolingLength: number = null;
     
     /**
     * @description
     * The administration class id.
     */
-    status: string;
+    status: string = null;
     
     /**
     * @description
     * The administration class id.
     */
-    studyType: string;
+    studyType: string = null;
     
     /**
     * @description
     * The administration class id.
     */
-    type: string;
+    type: string = null;
     
     /**
     * @description
     * The administration class id.
     */
-    isConfirmed: boolean;
+    isConfirmed: boolean = null;
     
     /**
     * @description
     * The administration class id.
     */
-    private password: string;
+    private password: string = null;
     
     /**
     * @description
     * The administration class id.
     */
-    private jar: any;
+    private jar: any = null;
     
     constructor (id: string, password: string) {
         this.id = id;
@@ -181,7 +173,10 @@ export class User {
     }
     
     confirm (callback?: { (error: Error, res: boolean): void; }): Observable<boolean> {
-        var observable = fetcher.confirmUser(this.id, this.password)
+        var observable = fetcher.confirmUser(this.id, this.password);
+        observable.subscribe((res) => {
+            res && this.getDetail();
+        })
         caller.nodifyObservable(observable, callback);
         return observable;
     }
@@ -235,6 +230,34 @@ export class User {
         caller.nodifyObservable(observable, callback);
         return observable;
     }
+    
+    private getDetail (): void {
+        fetcher.getUserDetail().subscribe((detail) => {
+            if (this.id !== detail.id) {
+                throw new Error('The user id is different of the detail one.')
+            }
+            this.administrationClass = detail.administrationClass;
+            this.administrationCollege = detail.administrationCollege;
+            this.campus = detail.campus;
+            this.college = detail.college;
+            this.dateFrom = detail.dateFrom;
+            this.dateTo = detail.dateTo;
+            this.direction = detail.direction;
+            this.educationType = detail.educationType;
+            this.englishName = detail.englishName;
+            this.gender = detail.gender;
+            this.grade = detail.grade;
+            this.inEnrollment = detail.inEnrollment;
+            this.inSchool = detail.inSchool;
+            this.major = detail.major;
+            this.project = detail.project;
+            this.qualification = detail.qualification;
+            this.schoolingLength = detail.schoolingLength;
+            this.status = detail.status;
+            this.studyType = detail.studyType;
+            this.type = detail.type;
+        });
+    }
 }
 
 export class UserFactory {    
@@ -242,3 +265,5 @@ export class UserFactory {
         return new User(id, password);
     }
 }
+
+export const userFactory: UserFactory = new UserFactory();

@@ -2,40 +2,22 @@
 ///<reference path="../typings/rx/rx"/>
 ///<reference path="../typings/rx/rx-lite"/>
 
-import { Initialize } from './utils/initialize';
-import { Injector, injector } from './helpers/injector';
-
-Initialize.init(injector);
 
 import * as _ from 'lodash';
 import { Observable } from 'rx';
 
-import { Course, CourseFactory } from './models/course';
-import { Exception, ExceptionFactory } from './models/exception';
-import { User, UserFactory } from './models/user';
-import { Person, PersonFactory } from './models/person';
+import { Course } from './models/course';
+import { Exception, exceptionFactory } from './models/exception';
+import { User, userFactory } from './models/user';
+import { Person } from './models/person';
 
-import { Cacher } from './helpers/cacher';
-import { Caller } from './helpers/caller';
-import { Fetcher } from './helpers/fetcher';
-import { Seeker } from './helpers/seeker';
+import { cacher } from './helpers/cacher';
+import { caller } from './helpers/caller';
+import { fetcher } from './helpers/fetcher';
+import { seeker } from './helpers/seeker';
 
 import { ISearchCoursesOption, ISearchPeopleOption } from './utils/interfaces';
 
-
-/** @unaccessible Dependency instance. */
-var cacher: Cacher = injector.get('Cacher');
-/** @unaccessible Dependency instance. */
-var caller: Caller = injector.get('Caller');
-/** @unaccessible Dependency instance. */
-var fetcher: Fetcher = injector.get('Fetcher');
-/** @unaccessible Dependency instance. */
-var seeker: Seeker = injector.get('Seeker');
-
-/** @unaccessible Dependency instance. */
-var userFactory: UserFactory = injector.get('UserFactory');
-/** @unaccessible Dependency instance. */
-var exceptionFactory: ExceptionFactory = injector.get('ExceptionFactory');
 
 /** 
 * @description
@@ -46,7 +28,7 @@ export class Application {
     * @description
     * The user instance for application global operations.
     */
-    private currentUser: User;
+    private currentUser: User = null;
     
     /**
     * @description
@@ -54,15 +36,6 @@ export class Application {
     */
     constructor () {
         this.currentUser = _.find(cacher.users, (user) => user.isConfirmed) || null;
-    }
-    
-    /**
-    * @description
-    * Get the Injector instance of current application.
-    * @returns the Injector instance of current application.
-    */
-    getInjector (): Injector {
-        return injector;
     }
     
     /**

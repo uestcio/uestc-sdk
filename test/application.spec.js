@@ -9,8 +9,6 @@ var Caller = require('../dist/helpers/caller').Caller;
 var Course = require('../dist/models/course').Course;
 var ExceptionFactory = require('../dist/models/exception').ExceptionFactory;
 var Fetcher = require('../dist/helpers/fetcher').Fetcher;
-var Injector = require('../dist/helpers/injector').Injector;
-var injector = require('../dist/helpers/injector').injector;
 var Person = require('../dist/models/person').Person;
 var Seeker = require('../dist/helpers/seeker').Seeker;
 var User = require('../dist/models/user').User;
@@ -28,17 +26,43 @@ describe('Application: ', function () {
         expect(appModule.Application).to.be.a('function');
     });
     
-    describe('property app: ', function () {
+    describe('instance of Application: ', function () {
         var app;
         
         beforeEach(function () {
             app = new appModule.Application();
         });
         
-        describe('should have proper properties: ', function () {
-            it('should have a currentUser of type User.', function () {
+        describe('should have proper properties and methods: ', function () {
+            it('should have exact properties.', function () {
                 expect(app).to.have.property('currentUser');
                 expect(app.currentUser).to.be(null);
+            });
+            
+            it('should have exact methods.', function () {
+                expect(app).to.have.property('one');
+                expect(app.one).to.be.a('function');
+                
+                expect(app).to.have.property('register');
+                expect(app.register).to.be.a('function');
+                
+                expect(app).to.have.property('searchForCourses');
+                expect(app.searchForCourses).to.be.a('function');
+                
+                expect(app).to.have.property('searchForCoursesInCache');
+                expect(app.searchForCoursesInCache).to.be.a('function');
+                
+                expect(app).to.have.property('searchForCoursesWithCache');
+                expect(app.searchForCoursesWithCache).to.be.a('function');
+                
+                expect(app).to.have.property('searchForPeople');
+                expect(app.searchForPeople).to.be.a('function');
+                
+                expect(app).to.have.property('searchForPeopleInCache');
+                expect(app.searchForPeopleInCache).to.be.a('function');
+                
+                expect(app).to.have.property('searchForPeopleWithCache');
+                expect(app.searchForPeopleWithCache).to.be.a('function');
             });
         });
         
@@ -48,10 +72,10 @@ describe('Application: ', function () {
             
             before(function () {
                 User.prototype.confirm = function () {
-                    confirmCount += 1;
+                    confirmCount++;
                     return {
                         subscribe: function (callback) {
-                            callback();
+                            callback(true);
                         }
                     };
                 };
@@ -61,20 +85,11 @@ describe('Application: ', function () {
                 User.prototype.confirm = originalConfirm;
             });       
             
-            it('should init with a currentUser of null.', function () {
-                expect(app).to.have.property('currentUser');
-                expect(app.currentUser).to.be(null);
-            });
-            
             it('should be able to get the null if the user is not register.', function () {
-                expect(app).to.have.property('one');
-                expect(app.one).to.be.a('function');
                 expect(app.one('2012019050031')).to.be(null);
             });
             
             it('should be able to register a user.', function () {
-                expect(app).to.have.property('register');
-                expect(app.register).to.be.a('function');
                 expect(confirmCount).to.be(0);
                 app.register('2012019050031', '******');
                 expect(app.one('2012019050031')).to.be.a(User);
@@ -108,16 +123,7 @@ describe('Application: ', function () {
                 Seeker.prototype.searchForCourses = originalSeekerSearchForCourses;
                 Fetcher.prototype.searchForCourses = originalFetcherSearchForCourses;
             });
-            
-            it('should have proper functions for courses searching.', function () {
-                expect(app).to.have.property('searchForCourses');
-                expect(app.searchForCourses).to.be.a('function');
-                expect(app).to.have.property('searchForCoursesInCache');
-                expect(app.searchForCoursesInCache).to.be.a('function');
-                expect(app).to.have.property('searchForCoursesWithCache');
-                expect(app.searchForCoursesWithCache).to.be.a('function');
-            })
-            
+                        
             it('should not be able to search if no user is registered.', function (done) {
                 expect(app.currentUser).to.be(null);
 
@@ -249,15 +255,6 @@ describe('Application: ', function () {
                 Fetcher.prototype.searchForPeople = originalFetcherSearchForPeople;
             });
             
-            it('should have proper functions for people searching.', function () {
-                expect(app).to.have.property('searchForPeople');
-                expect(app.searchForPeople).to.be.a('function');
-                expect(app).to.have.property('searchForPeopleInCache');
-                expect(app.searchForPeopleInCache).to.be.a('function');
-                expect(app).to.have.property('searchForPeopleWithCache');
-                expect(app.searchForPeopleWithCache).to.be.a('function');
-            })
-            
             it('should not be able to search if no user is registered.', function (done) {
                 expect(app.currentUser).to.be(null);
 
@@ -376,17 +373,6 @@ describe('Application: ', function () {
                     expect(res).to.be(onlinePeople);
                     done();
                 });
-            });
-        });
-        
-        describe('should be able to deal with injector.', function () {
-            it('should have getInjector method.', function () {
-                expect(app).to.have.property('getInjector');
-                expect(app.getInjector).to.be.a('function');
-            });
-            
-            it('should be able to get the injector.', function () {
-                expect(app.getInjector()).to.be(injector);
             });
         });
     });
