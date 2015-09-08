@@ -1,13 +1,14 @@
 ///<reference path="../typings/lodash/lodash"/>
 ///<reference path="../typings/rx/rx"/>
 ///<reference path="../typings/rx/rx-lite"/>
+///<reference path="../typings/request/request"/>
 
 
 import * as _ from 'lodash';
+import * as Request from 'request';
 import { Observable } from 'rx';
 
 import { Course } from './models/course';
-import { Exception, exceptionFactory } from './models/exception';
 import { User, userFactory } from './models/user';
 import { Person } from './models/person';
 
@@ -20,7 +21,7 @@ import { ISearchCoursesOption, ISearchPeopleOption } from './utils/interfaces';
 
 
 /** 
-* @description Represents an instance of SDK application. The entry of the entire library.
+* @description Represents an portal of SDK library.
 */
 export class Application {
     /**
@@ -66,12 +67,11 @@ export class Application {
     * @param callback The callback function to be called with an error or the result of courses if don't want to use the Observable operations. It's deprecated.
     * @returns The Observable instance of the search result.
     */
-    searchForCourses (option: ISearchCoursesOption, callback?: { (error: Exception, courses: Course[]): void; }): Observable<Course[]> {       
-        var observable = Observable.create<Course[]>((observer) => {
-            if(!this.isUserExist()) {
-                observer.onError(exceptionFactory.$new(401, 'Application#searchForCourses must be called with a current user.'));
-            }
-        }).merge(fetcher.searchForCourses(option));
+    searchForCourses (option: ISearchCoursesOption, callback?: { (error: Error, courses: Course[]): void; }): Observable<Course[]> {       
+        var observable: Observable<Course[]> = Observable.just<boolean>(this.isUserExist())
+            .flatMap<Course[]>((x) => x? 
+                fetcher.searchForCourses(option, this.currentUser.jar):
+                Observable.throw<Course[]>(new Error('401: Application#searchForCourses must be called with a current user.')));
         caller.nodifyObservable(observable, callback);
         return observable;
     }
@@ -82,7 +82,7 @@ export class Application {
     * @param callback The callback function to be called with an error or the result of courses ifor users unfamiliar with Rx. It's deprecated.
     * @returns The Observable instance of the search result.
     */
-    searchForCoursesInCache (option: ISearchCoursesOption, callback?: { (error: Exception, courses: Course[]): void; }): Observable<Course[]> {
+    searchForCoursesInCache (option: ISearchCoursesOption, callback?: { (error: Error, courses: Course[]): void; }): Observable<Course[]> {
         var observable = seeker.searchForCourses(option);
         caller.nodifyObservable(observable, callback);
         return observable;
@@ -94,7 +94,7 @@ export class Application {
     * @param callback The callback function to be called with an error or the result of courses for users unfamiliar with Rx. It's deprecated.
     * @returns The Observable instance of the search result.
     */
-    searchForCoursesWithCache (option: ISearchCoursesOption, callback?: { (error: Exception, courses: Course[]): void; }): Observable<Course[]> {
+    searchForCoursesWithCache (option: ISearchCoursesOption, callback?: { (error: Error, courses: Course[]): void; }): Observable<Course[]> {
         var observable = this.searchForCourses(option)
             .catch(this.searchForCoursesInCache(option)); 
         caller.nodifyObservable(observable, callback);
@@ -107,12 +107,11 @@ export class Application {
     * @param callback The callback function to be called with an error or the result of people for users unfamiliar with Rx. It's deprecated.
     * @returns The Observable instance of the search result.
     */
-    searchForPeople (option: ISearchPeopleOption, callback?: { (error: Exception, people: Person[]): void; }): Observable<Person[]> {       
-        var observable = Observable.create<Person[]>((observer) => {
-            if(!this.isUserExist()) {
-                observer.onError(exceptionFactory.$new(401, 'Application#searchForPeople must be called with a current user.'));
-            }
-        }).merge(fetcher.searchForPeople(option));
+    searchForPeople (option: ISearchPeopleOption, callback?: { (error: Error, people: Person[]): void; }): Observable<Person[]> {       
+        var observable: Observable<Person[]> = Observable.just<boolean>(this.isUserExist())
+            .flatMap<Person[]>((x) => x? 
+                fetcher.searchForPeople(option, this.currentUser.jar):
+                Observable.throw<Person[]>(new Error('401: Application#searchForCourses must be called with a current user.')));
         caller.nodifyObservable(observable, callback);
         return observable;
     }
@@ -123,7 +122,7 @@ export class Application {
     * @param callback The callback function to be called with an error or the result of people for users unfamiliar with Rx. It's deprecated.
     * @returns The Observable instance of the search result.
     */
-    searchForPeopleInCache (option: ISearchPeopleOption, callback?: { (error: Exception, people: Person[]): void; }): Observable<Person[]> {
+    searchForPeopleInCache (option: ISearchPeopleOption, callback?: { (error: Error, people: Person[]): void; }): Observable<Person[]> {
         var observable = seeker.searchForPeople(option);
         caller.nodifyObservable(observable, callback);
         return observable;
@@ -135,7 +134,7 @@ export class Application {
     * @param callback The callback function to be called with an error or the result of people for users unfamiliar with Rx. It's deprecated.
     * @returns The Observable instance of the search result.
     */
-    searchForPeopleWithCache (option: ISearchPeopleOption, callback?: { (error: Exception, people: Person[]): void; }): Observable<Person[]> {
+    searchForPeopleWithCache (option: ISearchPeopleOption, callback?: { (error: Error, people: Person[]): void; }): Observable<Person[]> {
         var observable = this.searchForPeople(option)
             .catch(this.searchForPeopleInCache(option));   
         caller.nodifyObservable(observable, callback);
@@ -150,7 +149,7 @@ export class Application {
     * @param callback The callback function to be called with an error or the result of verify for users unfamiliar with Rx. It's deprecated.
     * @returns The boolean result of valid or not. 
     */
-    verify (id: string, password: string, callback?: { (error: Exception, result: boolean): void; }): Observable<boolean> {
+    verify (id: string, password: string, callback?: { (error: Error, result: boolean): void; }): Observable<boolean> {
         var user = new User(id, password);
         var observable = user.confirm();
         caller.nodifyObservable(observable, callback);

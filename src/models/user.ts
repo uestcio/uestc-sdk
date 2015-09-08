@@ -1,6 +1,9 @@
+///<reference path="../../typings/request/request"/>
 ///<reference path="../../typings/rx/rx"/>
 ///<reference path="../../typings/rx/rx-lite"/>
 
+
+import * as Request from 'request';
 import { Observable } from 'rx';
 
 import { TakenCourse } from '../models/course';
@@ -163,7 +166,7 @@ export class User {
     /**
     * @description The jar to save the cookies.
     */
-    private jar: any = null;
+    jar: Request.CookieJar = null;
     
     /**
      * @description The constructor of the class.
@@ -174,6 +177,7 @@ export class User {
         this.id = id;
         this.password = password;
         this.isConfirmed = false;
+        this.jar = Request.jar();
     }
     
     /**
@@ -183,7 +187,7 @@ export class User {
      * @returns The Observable instance of the confirm result.
      */
     confirm (callback?: { (error: Error, res: boolean): void; }): Observable<boolean> {
-        var observable = fetcher.confirmUser(this.id, this.password)
+        var observable = fetcher.confirmUser(this.id, this.password, this.jar)
             .do((res) => res && this.getDetail());
         caller.nodifyObservable(observable, callback);
         return observable;
@@ -293,7 +297,7 @@ export class User {
     private getCoursesCallByParam (grade: number, semester: number, forever: boolean): Observable<TakenCourse[]> {
         return this.confirm()
             .flatMap((res) => res? 
-                fetcher.getUserCourses({ grade: grade, semester: semester }, forever): 
+                fetcher.getUserCourses({ grade: grade, semester: semester }, forever, this.jar): 
                 Observable.throw<TakenCourse[]>(new Error('401: The user validation failed.')));
     }
     
@@ -301,7 +305,7 @@ export class User {
      * @description The internal method to get the user details.
      */
     private getDetail (): void {
-        fetcher.getUserDetail().subscribe((detail) => {
+        fetcher.getUserDetail(this.jar).subscribe((detail) => {
             if (this.id !== detail.id) {
                 throw new Error('The user id is different of the detail one.')
             }
@@ -333,7 +337,7 @@ export class User {
      */
     private getExamsCallByParam (grade: number, semester: number, forever: boolean): Observable<Exam[]> {
         return this.confirm().flatMap((res) => res? 
-            fetcher.getUserExams({ grade: grade, semester: semester }, forever): 
+            fetcher.getUserExams({ grade: grade, semester: semester }, forever, this.jar): 
             Observable.throw<Exam[]>(new Error('401: The user validation failed.')));
     }
 }

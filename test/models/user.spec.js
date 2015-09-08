@@ -100,8 +100,8 @@ describe('User: ' , function () {
                 expect(user).to.have.property('studyType');
                 expect(user.studyType).to.be(null);
 
-                expect(user).to.have.property('type');
-                expect(user.type).to.be(null);
+                expect(user).to.have.property('genre');
+                expect(user.genre).to.be(null);
 
                 expect(user).to.have.property('isConfirmed');
                 expect(user.isConfirmed).to.be(false);
@@ -110,7 +110,7 @@ describe('User: ' , function () {
                 expect(user.password).to.be('******');
 
                 expect(user).to.have.property('jar');
-                expect(user.jar).to.be(null);
+                expect(user.jar).not.to.be(null);
             });
             
             it('should have exact methods.', function () {

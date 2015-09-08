@@ -173,7 +173,6 @@ describe('for Application: ', function () {
                         expect(true).to.be(false);
                     },function (error) {
                         expect(error).not.to.be(null);
-                        expect(error.code).to.be(401);
                         done();
                     });
                 });
@@ -181,7 +180,6 @@ describe('for Application: ', function () {
                 it('should be able to use callback without user.', function (done) {
                     app.searchForCourses(null, function (err, res) {
                         expect(err).not.to.be(null);
-                        expect(err.code).to.be(401);
                         expect(res).to.be(null);
                         done();
                     });
@@ -322,7 +320,7 @@ describe('for Application: ', function () {
                         expect(true).to.be(false);
                     },function (error) {
                         expect(error).not.to.be(null);
-                        expect(error.code).to.be(401);
+
                         done();
                     });
                 });
@@ -339,7 +337,6 @@ describe('for Application: ', function () {
                 it('should be able to use callback without user.', function (done) {
                     app.searchForPeople(null, function (err, res) {
                         expect(err).not.to.be(null);
-                        expect(err.code).to.be(401);
                         expect(res).to.be(null);
                         done();
                     });
