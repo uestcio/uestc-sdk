@@ -15,7 +15,7 @@ var User = require('../dist/models/user').User;
 var UserFactory = require('../dist/models/user').UserFactory;
 
 
-describe('Application: ', function () {
+describe('for Application: ', function () {
     var originalConfirm = User.prototype.confirm;
     var originalSeekerSearchForPeople = Seeker.prototype.searchForPeople;
     var originalFetcherSearchForPeople = Fetcher.prototype.searchForPeople;
@@ -37,7 +37,7 @@ describe('Application: ', function () {
         expect(appModule.Application).to.be.a('function');
     });
     
-    describe('instance of Application: ', function () {
+    describe('for instance of Application: ', function () {
         var app;
         
         beforeEach(function () {
@@ -152,114 +152,132 @@ describe('Application: ', function () {
                 Seeker.prototype.searchForCourses = originalSeekerSearchForCourses;
                 Fetcher.prototype.searchForCourses = originalFetcherSearchForCourses;
             });
-                        
-            it('should not be able to search if no user is registered.', function (done) {
-                expect(app.currentUser).to.be(null);
+            
+            describe('for app#searchForCourses: ', function () {               
+                it('should call fetcher#searchForCourses from searchForCourses if user exists.', function (done) {
+                    app.currentUser = new User('2012019050031', '******');
+                    expect(app.currentUser).not.to.be(null);
+                
+                    app.searchForCourses().subscribe(function (courses) {
+                        expect(courses).to.be(onlineCourses);
+                        done();
+                    }, function (err) {
+                        expect(true).to.be(false);
+                    });
+                });
 
-                app.searchForCourses().subscribeOnError(function (error) {
-                    expect(error).not.to.be(null);
-                    expect(error.code).to.be(401);
-                    done();
+                it('should not be able to search if no user is registered.', function (done) {
+                    expect(app.currentUser).to.be(null);
+    
+                    app.searchForCourses().subscribe(function (x) {
+                        expect(true).to.be(false);
+                    },function (error) {
+                        expect(error).not.to.be(null);
+                        expect(error.code).to.be(401);
+                        done();
+                    });
+                });
+                
+                it('should be able to use callback without user.', function (done) {
+                    app.searchForCourses(null, function (err, res) {
+                        expect(err).not.to.be(null);
+                        expect(err.code).to.be(401);
+                        expect(res).to.be(null);
+                        done();
+                    });
+                });
+                                
+                it('should be able to use callback with user.', function (done) {
+                    app.currentUser = new User('2012019050031', '******');
+                    app.searchForCourses(null, function (err, res) {
+                        expect(err).to.be(null);
+                        expect(res).to.be(onlineCourses);
+                        done();
+                    });
                 });
             });
             
-            it('should be able to call Fetcher#searchForCourses from searchForCourses if user exists.', function (done) {
-                app.currentUser = new User('2012019050031', '******');
-                expect(app.currentUser).not.to.be(null);
-               
-                app.searchForCourses().subscribeOnNext(function (courses) {
-                    expect(courses).to.be(onlineCourses);
-                    done();
+            describe('for app#searchForCoursesInCache: ', function () {
+                it('should call seeker#searchForCourses from searchForCoursesInCache with a user.', function (done) {
+                    app.currentUser = new User('2012019050031', '******');
+                    expect(app.currentUser).not.to.be(null);
+                
+                    app.searchForCoursesInCache().subscribe(function (courses) {
+                        expect(courses).to.be(offlineCourses);
+                        done();
+                    }, function (err) {
+                        expect(true).to.be(false);
+                    });
+                });
+                
+                it('should call Seeker#searchForCourses from searchForCoursesInCache without a user.', function (done) {
+                    expect(app.currentUser).to.be(null);
+                
+                    app.searchForCoursesInCache().subscribe(function (courses) {
+                        expect(courses).to.be(offlineCourses);
+                        done();
+                    }, function (err) {
+                        expect(true).to.be(false);
+                    });
+                });
+                
+                it('should be able to use callback with user.', function (done) {  
+                    app.currentUser = new User('2012019050031', '******');
+                    app.searchForCoursesInCache(null, function (err, res) {
+                        expect(err).to.be(null);
+                        expect(res).to.be(offlineCourses);
+                        done();
+                    });
+                });
+                
+                it('should be able to use callback without user.', function (done) {
+                    app.searchForCoursesInCache(null, function (err, res) {
+                        expect(err).to.be(null);
+                        expect(res).to.be(offlineCourses);
+                        done();
+                    });
                 });
             });
             
-            it('should be able to call Seeker#searchForCourses from searchForCoursesInCache without a user.', function (done) {
-                expect(app.currentUser).to.be(null);
-               
-                app.searchForCoursesInCache().subscribeOnNext(function (courses) {
-                    expect(courses).to.be(offlineCourses);
-                    done();
+            describe('for app#searchForCoursesWithCache: ', function () {
+                it('should call Fetcher#searchForCourses from searchForCoursesWithCache with a user.', function (done) {
+                    app.currentUser = new User('2012019050031', '******');
+                    expect(app.currentUser).not.to.be(null);
+                
+                    app.searchForCoursesWithCache().subscribe(function (courses) {
+                        expect(courses).to.be(onlineCourses);
+                        done();
+                    }, function (err) {
+                        expect(true).to.be(false);
+                    });
                 });
-            });
-            
-            it('should be able to call Seeker#searchForCourses from searchForCoursesInCache with a user.', function (done) {
-                app.currentUser = new User('2012019050031', '******');
-                expect(app.currentUser).not.to.be(null);
-               
-                app.searchForCoursesInCache().subscribeOnNext(function (courses) {
-                    expect(courses).to.be(offlineCourses);
-                    done();
+                
+                it('should call Seeker#searchForCourses from searchForCoursesWithCache without a user.', function (done) {
+                    expect(app.currentUser).to.be(null);
+                
+                    app.searchForCoursesWithCache().subscribe(function (courses) {
+                        expect(courses).to.be(offlineCourses);
+                        done();
+                    }, function (err) {
+                        expect(true).to.be(false);
+                    });
                 });
-            });
-            
-            it('should be able to call Seeker#searchForCourses from searchForCoursesWithCache without a user.', function (done) {
-                expect(app.currentUser).to.be(null);
-               
-                app.searchForCoursesWithCache().subscribeOnNext(function (courses) {
-                    expect(courses).to.be(offlineCourses);
-                    done();
+                
+                it('should searchForCoursesWithCache method to be able to use callback with user.', function (done) {  
+                    app.currentUser = new User('2012019050031', '******');
+                    app.searchForCoursesWithCache(null, function (err, res) {
+                        expect(err).to.be(null);
+                        expect(res).to.be(onlineCourses);
+                        done();
+                    });
                 });
-            });
-            
-            it('should be able to call Fetcher#searchForCourses from searchForCoursesInCache with a user.', function (done) {
-                app.currentUser = new User('2012019050031', '******');
-                expect(app.currentUser).not.to.be(null);
-               
-                app.searchForCoursesWithCache().subscribeOnNext(function (courses) {
-                    expect(courses).to.be(onlineCourses);
-                    done();
-                });
-            });
-            
-            it('should searchForCourses method to be able to use callback without user.', function (done) {
-                app.searchForCourses(null, function (err, res) {
-                    expect(err).not.to.be(null);
-                    expect(err.code).to.be(401);
-                    expect(res).to.be(null);
-                    done();
-                });
-            });
-            
-            it('should searchForCoursesInCache method to be able to use callback without user.', function (done) {
-                app.searchForCoursesInCache(null, function (err, res) {
-                    expect(err).to.be(null);
-                    expect(res).to.be(offlineCourses);
-                    done();
-                });
-            });
-            
-            it('should searchForCoursesWithCache method to be able to use callback without user.', function (done) {
-                app.searchForCoursesWithCache(null, function (err, res) {
-                    expect(err).to.be(null);
-                    expect(res).to.be(offlineCourses);
-                    done();
-                });
-            });
-            
-            it('should searchForCourses method to be able to use callback with user.', function (done) {
-                app.currentUser = new User('2012019050031', '******');
-                app.searchForCourses(null, function (err, res) {
-                    expect(err).to.be(null);
-                    expect(res).to.be(onlineCourses);
-                    done();
-                });
-            });
-            
-            it('should searchForCoursesInCache method to be able to use callback with user.', function (done) {  
-                app.currentUser = new User('2012019050031', '******');
-                app.searchForCoursesInCache(null, function (err, res) {
-                    expect(err).to.be(null);
-                    expect(res).to.be(offlineCourses);
-                    done();
-                });
-            });
-            
-            it('should searchForCoursesWithCache method to be able to use callback with user.', function (done) {  
-                app.currentUser = new User('2012019050031', '******');
-                app.searchForCoursesWithCache(null, function (err, res) {
-                    expect(err).to.be(null);
-                    expect(res).to.be(onlineCourses);
-                    done();
+                
+                it('should searchForCoursesWithCache method to be able to use callback without user.', function (done) {
+                    app.searchForCoursesWithCache(null, function (err, res) {
+                        expect(err).to.be(null);
+                        expect(res).to.be(offlineCourses);
+                        done();
+                    });
                 });
             });
         });
@@ -282,125 +300,143 @@ describe('Application: ', function () {
                 Fetcher.prototype.searchForPeople = originalFetcherSearchForPeople;
             });
             
-            it('should not be able to search if no user is registered.', function (done) {
-                expect(app.currentUser).to.be(null);
-
-                app.searchForPeople().subscribeOnError(function (error) {
-                    expect(error).not.to.be(null);
-                    expect(error.code).to.be(401);
-                    done();
+            describe('for app#searchForPeople: ', function () {
+                it('should call Fetcher#searchForPeople from searchForPeople if user exists.', function (done) {
+                    app.currentUser = new User('2012019050031', '******');
+                    expect(app.currentUser).not.to.be(null);
+                
+                    app.searchForPeople().subscribe(function (people) {
+                        expect(people).to.be.an(Array);
+                        expect(people.length).to.be(2);
+                        expect(people[0].id).to.be('0');
+                        done();
+                    }, function (err) {
+                        expect(true).to.be(false);
+                    });
+                });
+                
+                it('should not be able to search if no user is registered.', function (done) {
+                    expect(app.currentUser).to.be(null);
+    
+                    app.searchForPeople().subscribe(function (x) {
+                        expect(true).to.be(false);
+                    },function (error) {
+                        expect(error).not.to.be(null);
+                        expect(error.code).to.be(401);
+                        done();
+                    });
+                });
+                
+                it('should searchForPeople method be able to use callback with user.', function (done) {
+                    app.currentUser = new User('2012019050031', '******');
+                    app.searchForPeople(null, function (err, res) {
+                        expect(err).to.be(null);
+                        expect(res).to.be(onlinePeople);
+                        done();
+                    });
+                });
+                
+                it('should searchForPeople method be able to use callback without user.', function (done) {
+                    app.searchForPeople(null, function (err, res) {
+                        expect(err).not.to.be(null);
+                        expect(err.code).to.be(401);
+                        expect(res).to.be(null);
+                        done();
+                    });
                 });
             });
             
-            it('should be able to call Fetcher#searchForPeople from searchForPeople if user exists.', function (done) {
-                app.currentUser = new User('2012019050031', '******');
-                expect(app.currentUser).not.to.be(null);
-               
-                app.searchForPeople().subscribeOnNext(function (people) {
-                    expect(people).to.be.an(Array);
-                    expect(people.length).to.be(2);
-                    expect(people[0].id).to.be('0');
-                    done();
+            describe('for app#searchForPeopleInCache: ', function () {
+                it('should call Seeker#searchForPeople from searchForPeopleInCache with a user.', function (done) {
+                    app.currentUser = new User('2012019050031', '******');
+                    expect(app.currentUser).not.to.be(null);
+                
+                    app.searchForPeopleInCache().subscribe(function (people) {
+                        expect(people).to.be.an(Array);
+                        expect(people.length).to.be(1);
+                        expect(people[0].id).to.be('0');
+                        done();
+                    }, function (err) {
+                        expect(true).to.be(false);
+                    });
+                });
+                
+                it('should call Seeker#searchForPeople from searchForPeopleInCache without a user.', function (done) {
+                    expect(app.currentUser).to.be(null);
+                
+                    app.searchForPeopleInCache().subscribe(function (people) {
+                        expect(people).to.be.an(Array);
+                        expect(people.length).to.be(1);
+                        expect(people[0].id).to.be('0');
+                        done();
+                    }, function (err) {
+                        expect(true).to.be(false);
+                    });
+                });
+                
+                it('should be able to use callback with user.', function (done) {
+                    app.currentUser = new User('2012019050031', '******');
+                    app.searchForPeopleInCache(null, function (err, res) {
+                        expect(err).to.be(null);
+                        expect(res).to.be(offlinePeople);
+                        done();
+                    });
+                });
+                
+                it('should searchForPeopleInCache method be able to use callback without user.', function (done) {
+                    app.searchForPeopleInCache(null, function (err, res) {
+                        expect(err).to.be(null);
+                        expect(res).to.be(offlinePeople);
+                        done();
+                    });
                 });
             });
             
-            it('should be able to call Seeker#searchForPeople from searchForPeopleInCache without a user.', function (done) {
-                expect(app.currentUser).to.be(null);
-               
-                app.searchForPeopleInCache().subscribeOnNext(function (people) {
-                    expect(people).to.be.an(Array);
-                    expect(people.length).to.be(1);
-                    expect(people[0].id).to.be('0');
-                    done();
+            describe('for app#searchForPeopleWithCache: ', function () {
+                it('should call Fetcher#searchForPeople from searchForPeopleWithCache with a user.', function (done) {
+                    app.currentUser = new User('2012019050031', '******');
+                    expect(app.currentUser).not.to.be(null);
+                
+                    app.searchForPeopleWithCache().subscribe(function (people) {
+                        expect(people).to.be.an(Array);
+                        expect(people.length).to.be(2);
+                        expect(people[0].id).to.be('0');
+                        done();
+                    }, function (err) {
+                        expect(true).to.be(false);
+                    });
                 });
-            });
-            
-            it('should be able to call Seeker#searchForPeople from searchForPeopleInCache with a user.', function (done) {
-                app.currentUser = new User('2012019050031', '******');
-                expect(app.currentUser).not.to.be(null);
-               
-                app.searchForPeopleInCache().subscribeOnNext(function (people) {
-                    expect(people).to.be.an(Array);
-                    expect(people.length).to.be(1);
-                    expect(people[0].id).to.be('0');
-                    done();
+                
+                it('should call Seeker#searchForPeople from searchForPeopleWithCache without a user.', function (done) {
+                    expect(app.currentUser).to.be(null);
+                
+                    app.searchForPeopleWithCache().subscribe(function (people) {
+                        expect(people).to.be.an(Array);
+                        expect(people.length).to.be(1);
+                        expect(people[0].id).to.be('0');
+                        done();
+                    }, function (err) {
+                        expect(true).to.be(false);
+                    });
                 });
-            });
-            
-            it('should be able to call Seeker#searchForPeople from searchForPeopleWithCache without a user.', function (done) {
-                expect(app.currentUser).to.be(null);
-               
-                app.searchForPeopleWithCache().subscribeOnNext(function (people) {
-                    expect(people).to.be.an(Array);
-                    expect(people.length).to.be(1);
-                    expect(people[0].id).to.be('0');
-                    done();
+                
+                it('should searchForPeopleWithCache method be able to use callback with user.', function (done) {
+                    app.currentUser = new User('2012019050031', '******');
+                    app.searchForPeopleWithCache(null, function (err, res) {
+                        expect(err).to.be(null);
+                        expect(res).to.be(onlinePeople);
+                        done();
+                    });
                 });
-            });
-            
-            it('should be able to call Fetcher#searchForPeople from searchForPeopleInCache with a user.', function (done) {
-                app.currentUser = new User('2012019050031', '******');
-                expect(app.currentUser).not.to.be(null);
-               
-                app.searchForPeopleWithCache().subscribeOnNext(function (people) {
-                    expect(people).to.be.an(Array);
-                    expect(people.length).to.be(2);
-                    expect(people[0].id).to.be('0');
-                    done();
+                
+                it('should searchForPeopleWithCache method be able to use callback without user.', function (done) {
+                    app.searchForPeopleWithCache(null, function (err, res) {
+                        expect(err).to.be(null);
+                        expect(res).to.be(offlinePeople);
+                        done();
+                    });
                 });
-            });
-            
-            it('should searchForPeople method be able to use callback without user.', function (done) {
-                app.searchForPeople(null, function (err, res) {
-                    expect(err).not.to.be(null);
-                    expect(err.code).to.be(401);
-                    expect(res).to.be(null);
-                    done();
-                });
-            });
-            
-            it('should searchForPeopleInCache method be able to use callback without user.', function (done) {
-                app.searchForPeopleInCache(null, function (err, res) {
-                    expect(err).to.be(null);
-                    expect(res).to.be(offlinePeople);
-                    done();
-                });
-            });
-            
-            it('should searchForPeopleWithCache method be able to use callback without user.', function (done) {
-                app.searchForPeopleWithCache(null, function (err, res) {
-                    expect(err).to.be(null);
-                    expect(res).to.be(offlinePeople);
-                    done();
-                });
-            });
-            
-            it('should searchForPeople method be able to use callback with user.', function (done) {
-                app.currentUser = new User('2012019050031', '******');
-                app.searchForPeople(null, function (err, res) {
-                    expect(err).to.be(null);
-                    expect(res).to.be(onlinePeople);
-                    done();
-                });
-            });
-            
-            it('should searchForPeopleInCache method be able to use callback with user.', function (done) {
-                app.currentUser = new User('2012019050031', '******');
-                app.searchForPeopleInCache(null, function (err, res) {
-                    expect(err).to.be(null);
-                    expect(res).to.be(offlinePeople);
-                    done();
-                });
-            });
-            
-            it('should searchForPeopleWithCache method be able to use callback with user.', function (done) {
-                app.currentUser = new User('2012019050031', '******');
-                app.searchForPeopleWithCache(null, function (err, res) {
-                    expect(err).to.be(null);
-                    expect(res).to.be(onlinePeople);
-                    done();
-                });
-            });
+            }); 
         });
     });
 });

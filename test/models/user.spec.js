@@ -4,7 +4,7 @@ var rx = require('rx');
 
 var Course = require('../../dist/models/course').Course;
 var Fetcher = require('../../dist/helpers/fetcher').Fetcher;
-var fetcher = require('../../dist/helpers/fetcher').fetcher;
+var Seeker = require('../../dist/helpers/seeker').Seeker;
 var userModule = require('../../dist/models/user');
 
 
@@ -195,7 +195,7 @@ describe('User: ' , function () {
         });
         
         describe('should be able to get taken courses: ', function () {
-            var confirmObservable, coursesObservable;
+            var confirmObservable, coursesObservable, offlineCoursesObservable;
             
             before(function () {
                 Fetcher.prototype.confirmUser = function () {
@@ -209,31 +209,154 @@ describe('User: ' , function () {
                 Fetcher.prototype.getUserDetail = function () {
                     return rx.Observable.return({ id: '2012019050031' });
                 };
+                
+                Seeker.prototype.getUserCourses = function () {
+                    return offlineCoursesObservable;
+                };
             });
             
-            it('should not be able to get courses if confirmed failed.', function (done) {
+            it('should not be able to get courses if confirm failed.', function (done) {
                 confirmObservable = rx.Observable.return(false);
                 coursesObservable = rx.Observable.return([new Course('0'), new Course('1')]);
                 
                 user.getCourses().subscribe(function (x) {
-                    expect(0).to.be(1);
-                }, function (err) {
-                    expect(err).to.be.ok();
-                    done();
-                });
-            });
-            
-            it('should not be able to get courses if confirmed throws.', function (done) {
-                confirmObservable = rx.Observable.throw(new Error('000: Fake error.'));
-                coursesObservable = rx.Observable.return([new Course('0'), new Course('1')])
-                
-                user.getCourses().subscribe(function (x) {
-                    expect(0).to.be(1);
+                    expect(true).to.be(false);
                 }, function (err) {
                     expect(err).not.to.be(null);
                     done();
                 });
             });
+            
+            it('should not be able to get courses if confirm throws.', function (done) {
+                confirmObservable = rx.Observable.throw(new Error('000: Fake error.'));
+                coursesObservable = rx.Observable.return([new Course('0'), new Course('1')])
+                
+                user.getCourses().subscribe(function (x) {
+                    expect(true).to.be(false);
+                }, function (err) {
+                    expect(err).not.to.be(null);
+                    done();
+                });
+            });
+            
+            it('should call fetcher#getUserCourses from getCourses if confirmed.', function (done) {
+                var courses = [new Course('0'), new Course('1')];
+                confirmObservable = rx.Observable.return(true);
+                coursesObservable = rx.Observable.return(courses);
+                
+                user.getCourses().subscribe(function (x) {
+                    expect(x).to.be(courses);
+                    done();
+                }, function (err) {
+                    expect(true).to.be(false);
+                });
+            });
+            
+            it('should call fetcher#getUserCourses from getCoursesForever if confirmed.', function (done) {
+                var courseses = [[new Course('0'), new Course('1')], [new Course('2'), new Course('3')]];
+                var counter = 0;
+                confirmObservable = rx.Observable.return(true);
+                coursesObservable = rx.Observable.from(courseses);
+                
+                user.getCoursesForever().subscribe(function (x) {
+                    expect(x).to.be(courseses[counter++]);
+                    if(counter === courseses.length) { done() };
+                }, function (err) {
+                    expect(true).to.be(false);
+                });
+            });
+            
+            it('should call seeker#getUserCourses from getCoursesInCache if confirm failed.', function (done) {
+                var onlineCourses = [new Course('0'), new Course('1')];
+                var offlineCourses = [new Course('2'), new Course('3')];
+                confirmObservable = rx.Observable.return(false);
+                coursesObservable = rx.Observable.return(onlineCourses);
+                offlineCoursesObservable = rx.Observable.return(offlineCourses);
+                
+                user.getCoursesInCache().subscribe(function (x) {
+                    expect(x).to.be(offlineCourses);
+                    done();
+                }, function (err) {
+                    expect(true).to.be(false);
+                });
+            });
+            
+            it('should call seeker#getUserCourses from getCoursesInCache if confirm throws.', function (done) {
+                var onlineCourses = [new Course('0'), new Course('1')];
+                var offlineCourses = [new Course('2'), new Course('3')];
+                confirmObservable = rx.Observable.throw(new Error('000: Fake error.'));
+                coursesObservable = rx.Observable.return(onlineCourses);
+                offlineCoursesObservable = rx.Observable.return(offlineCourses);
+                
+                user.getCoursesInCache().subscribe(function (x) {
+                    expect(x).to.be(offlineCourses);
+                    done();
+                }, function (err) {
+                    expect(true).to.be(false);
+                });
+            });
+            
+            it('should call seeker#getUserCourses from getCoursesInCache if confirmed.', function (done) {
+                var onlineCourses = [new Course('0'), new Course('1')];
+                var offlineCourses = [new Course('2'), new Course('3')];
+                confirmObservable = rx.Observable.return(true);
+                coursesObservable = rx.Observable.return(onlineCourses);
+                offlineCoursesObservable = rx.Observable.return(offlineCourses);
+                
+                user.getCoursesInCache().subscribe(function (x) {
+                    expect(x).to.be(offlineCourses);
+                    done();
+                }, function (err) {
+                    expect(true).to.be(false);
+                });
+            });
+            
+            it('should call seeker#getUserCourses from getCoursesWithCache if confirm failed.', function (done) {
+                var onlineCourses = [new Course('0'), new Course('1')];
+                var offlineCourses = [new Course('2'), new Course('3')];
+                confirmObservable = rx.Observable.return(false);
+                coursesObservable = rx.Observable.return(onlineCourses);
+                offlineCoursesObservable = rx.Observable.return(offlineCourses);
+                
+                user.getCoursesWithCache().subscribe(function (x) {
+                    expect(x).to.be(offlineCourses);
+                    done();
+                }, function (err) {
+                    expect(true).to.be(false);
+                });
+            });
+            
+            it('should call seeker#getUserCourses from getCoursesWithCache if confirm throws.', function (done) {
+                var onlineCourses = [new Course('0'), new Course('1')];
+                var offlineCourses = [new Course('2'), new Course('3')];
+                confirmObservable = rx.Observable.throw(new Error('000: Fake error.'));
+                coursesObservable = rx.Observable.return(onlineCourses);
+                offlineCoursesObservable = rx.Observable.return(offlineCourses);
+                
+                user.getCoursesWithCache().subscribe(function (x) {
+                    expect(x).to.be(offlineCourses);
+                    done();
+                }, function (err) {
+                    expect(true).to.be(false);
+                });
+            });
+            
+            it('should call fetcher#getUserCourses from getCoursesWithCache if confirmed.', function (done) {
+                var onlineCourses = [new Course('0'), new Course('1')];
+                var offlineCourses = [new Course('2'), new Course('3')];
+                confirmObservable = rx.Observable.return(true);
+                coursesObservable = rx.Observable.return(onlineCourses);
+                offlineCoursesObservable = rx.Observable.return(offlineCourses);
+                
+                user.getCoursesWithCache().subscribe(function (x) {
+                    expect(x).to.be(onlineCourses);
+                    done();
+                }, function (err) {
+                    expect(true).to.be(false);
+                });
+            });
+            
+            
         });
     });
 });

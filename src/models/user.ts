@@ -198,8 +198,8 @@ export class User {
     }
     
     getCoursesWithCache (grade: number, semester: number, callback?: any): Observable<TakenCourse[]> {
-        var observable = fetcher.getUserCourses({ grade: grade, semester: semester }, true)
-            .catch(seeker.getUserCourses({ grade: grade, semester: semester }));
+        var observable = this.getCourses(grade, semester)
+            .catch(this.getCoursesInCache(grade, semester));
         caller.nodifyObservable(observable, callback);
         return observable;
     }
@@ -223,8 +223,8 @@ export class User {
     }
     
     getExamsWithCache (grade: number, semester: number, callback?: any): Observable<Exam[]> {
-        var observable = fetcher.getUserExams({ grade: grade, semester: semester }, true)
-            .catch(seeker.getUserExams({ grade: grade, semester: semester }));
+        var observable = this.getExams(grade, semester)
+            .catch(this.getExamsInCache(grade, semester));
         caller.nodifyObservable(observable, callback);
         return observable;
     }

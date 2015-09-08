@@ -7,7 +7,7 @@
     "node": ">=0.12"
   },
   "scripts": {
-    "test": "mocha --full-trace test/ --timeout 30000 --recursive",
+    "test": "mocha test/ --timeout 30000 --recursive",
     "test-ci": ""
   },
   "repository": {
