@@ -154,7 +154,7 @@ describe('for Application: ', function () {
             });
             
             describe('for app#searchForCourses: ', function () {               
-                it('should call fetcher#searchForCourses from searchForCourses if user exists.', function (done) {
+                it('should call fetcher#searchForCourses if user exists.', function (done) {
                     app.currentUser = new User('2012019050031', '******');
                     expect(app.currentUser).not.to.be(null);
                 
@@ -198,7 +198,7 @@ describe('for Application: ', function () {
             });
             
             describe('for app#searchForCoursesInCache: ', function () {
-                it('should call seeker#searchForCourses from searchForCoursesInCache with a user.', function (done) {
+                it('should call seeker#searchForCourses with a user.', function (done) {
                     app.currentUser = new User('2012019050031', '******');
                     expect(app.currentUser).not.to.be(null);
                 
@@ -210,7 +210,7 @@ describe('for Application: ', function () {
                     });
                 });
                 
-                it('should call Seeker#searchForCourses from searchForCoursesInCache without a user.', function (done) {
+                it('should call Seeker#searchForCourses without a user.', function (done) {
                     expect(app.currentUser).to.be(null);
                 
                     app.searchForCoursesInCache().subscribe(function (courses) {
@@ -240,7 +240,7 @@ describe('for Application: ', function () {
             });
             
             describe('for app#searchForCoursesWithCache: ', function () {
-                it('should call Fetcher#searchForCourses from searchForCoursesWithCache with a user.', function (done) {
+                it('should call Fetcher#searchForCourses with a user.', function (done) {
                     app.currentUser = new User('2012019050031', '******');
                     expect(app.currentUser).not.to.be(null);
                 
@@ -252,7 +252,7 @@ describe('for Application: ', function () {
                     });
                 });
                 
-                it('should call Seeker#searchForCourses from searchForCoursesWithCache without a user.', function (done) {
+                it('should call Seeker#searchForCourses without a user.', function (done) {
                     expect(app.currentUser).to.be(null);
                 
                     app.searchForCoursesWithCache().subscribe(function (courses) {
@@ -263,7 +263,7 @@ describe('for Application: ', function () {
                     });
                 });
                 
-                it('should searchForCoursesWithCache method to be able to use callback with user.', function (done) {  
+                it('should be able to use callback with user.', function (done) {  
                     app.currentUser = new User('2012019050031', '******');
                     app.searchForCoursesWithCache(null, function (err, res) {
                         expect(err).to.be(null);
@@ -272,7 +272,7 @@ describe('for Application: ', function () {
                     });
                 });
                 
-                it('should searchForCoursesWithCache method to be able to use callback without user.', function (done) {
+                it('should be able to use callback without user.', function (done) {
                     app.searchForCoursesWithCache(null, function (err, res) {
                         expect(err).to.be(null);
                         expect(res).to.be(offlineCourses);
@@ -301,7 +301,7 @@ describe('for Application: ', function () {
             });
             
             describe('for app#searchForPeople: ', function () {
-                it('should call Fetcher#searchForPeople from searchForPeople if user exists.', function (done) {
+                it('should call Fetcher#searchForPeople if user exists.', function (done) {
                     app.currentUser = new User('2012019050031', '******');
                     expect(app.currentUser).not.to.be(null);
                 
@@ -327,7 +327,7 @@ describe('for Application: ', function () {
                     });
                 });
                 
-                it('should searchForPeople method be able to use callback with user.', function (done) {
+                it('should be able to use callback with user.', function (done) {
                     app.currentUser = new User('2012019050031', '******');
                     app.searchForPeople(null, function (err, res) {
                         expect(err).to.be(null);
@@ -336,7 +336,7 @@ describe('for Application: ', function () {
                     });
                 });
                 
-                it('should searchForPeople method be able to use callback without user.', function (done) {
+                it('should be able to use callback without user.', function (done) {
                     app.searchForPeople(null, function (err, res) {
                         expect(err).not.to.be(null);
                         expect(err.code).to.be(401);
@@ -347,7 +347,7 @@ describe('for Application: ', function () {
             });
             
             describe('for app#searchForPeopleInCache: ', function () {
-                it('should call Seeker#searchForPeople from searchForPeopleInCache with a user.', function (done) {
+                it('should call Seeker#searchForPeople with a user.', function (done) {
                     app.currentUser = new User('2012019050031', '******');
                     expect(app.currentUser).not.to.be(null);
                 
@@ -361,7 +361,7 @@ describe('for Application: ', function () {
                     });
                 });
                 
-                it('should call Seeker#searchForPeople from searchForPeopleInCache without a user.', function (done) {
+                it('should call Seeker#searchForPeople without a user.', function (done) {
                     expect(app.currentUser).to.be(null);
                 
                     app.searchForPeopleInCache().subscribe(function (people) {
@@ -383,7 +383,7 @@ describe('for Application: ', function () {
                     });
                 });
                 
-                it('should searchForPeopleInCache method be able to use callback without user.', function (done) {
+                it('should be able to use callback without user.', function (done) {
                     app.searchForPeopleInCache(null, function (err, res) {
                         expect(err).to.be(null);
                         expect(res).to.be(offlinePeople);
@@ -393,7 +393,7 @@ describe('for Application: ', function () {
             });
             
             describe('for app#searchForPeopleWithCache: ', function () {
-                it('should call Fetcher#searchForPeople from searchForPeopleWithCache with a user.', function (done) {
+                it('should call Fetcher#searchForPeople with a user.', function (done) {
                     app.currentUser = new User('2012019050031', '******');
                     expect(app.currentUser).not.to.be(null);
                 
@@ -407,7 +407,7 @@ describe('for Application: ', function () {
                     });
                 });
                 
-                it('should call Seeker#searchForPeople from searchForPeopleWithCache without a user.', function (done) {
+                it('should call Seeker#searchForPeople without a user.', function (done) {
                     expect(app.currentUser).to.be(null);
                 
                     app.searchForPeopleWithCache().subscribe(function (people) {
@@ -420,7 +420,7 @@ describe('for Application: ', function () {
                     });
                 });
                 
-                it('should searchForPeopleWithCache method be able to use callback with user.', function (done) {
+                it('should be able to use callback with user.', function (done) {
                     app.currentUser = new User('2012019050031', '******');
                     app.searchForPeopleWithCache(null, function (err, res) {
                         expect(err).to.be(null);
@@ -429,7 +429,7 @@ describe('for Application: ', function () {
                     });
                 });
                 
-                it('should searchForPeopleWithCache method be able to use callback without user.', function (done) {
+                it('should be able to use callback without user.', function (done) {
                     app.searchForPeopleWithCache(null, function (err, res) {
                         expect(err).to.be(null);
                         expect(res).to.be(offlinePeople);

@@ -1,3 +1,13 @@
 export class Exam {
+    id:string = null;
     
+    constructor(id: string) {
+        this.id = id;
+    }
+}
+
+export class ExamFactory {
+    $new (id: string): Exam {
+        return new Exam(id);
+    }
 }

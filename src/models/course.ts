@@ -1,5 +1,5 @@
 export class Course {
-    id: string;
+    id: string = null;
     
     constructor (id: string) {
         this.id = id;
