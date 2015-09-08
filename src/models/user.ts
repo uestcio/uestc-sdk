@@ -173,8 +173,8 @@ export class User {
     }
     
     confirm (callback?: { (error: Error, res: boolean): void; }): Observable<boolean> {
-        var observable = fetcher.confirmUser(this.id, this.password);
-        observable.subscribe((res) => res && this.getDetail());
+        var observable = fetcher.confirmUser(this.id, this.password)
+            .do((res) => res && this.getDetail());
         caller.nodifyObservable(observable, callback);
         return observable;
     }
@@ -231,8 +231,9 @@ export class User {
      
     private getCoursesCallByParam (grade: number, semester: number, forever: boolean): Observable<TakenCourse[]> {
         return this.confirm()
-            .map((res) => res || Observable.throw(new Error('401: The user validation failed.')))
-            .flatMap(() => fetcher.getUserCourses({ grade: grade, semester: semester }, forever));
+            .flatMap((res) => res? 
+                fetcher.getUserCourses({ grade: grade, semester: semester }, forever): 
+                Observable.throw<TakenCourse[]>(new Error('401: The user validation failed.')));
     }
     
     private getDetail (): void {
@@ -264,9 +265,9 @@ export class User {
     }
     
     private getExamsCallByParam (grade: number, semester: number, forever: boolean): Observable<Exam[]> {
-        return this.confirm()
-            .map((res) => res || Observable.throw(new Error('401: The user validation failed.')))
-            .flatMap(() => fetcher.getUserExams({ grade: grade, semester: semester }, forever));
+        return this.confirm().flatMap((res) => res? 
+            fetcher.getUserExams({ grade: grade, semester: semester }, forever): 
+            Observable.throw<Exam[]>(new Error('401: The user validation failed.')));
     }
 }
 

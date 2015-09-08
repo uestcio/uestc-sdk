@@ -1,11 +1,10 @@
 var assert = require('assert');
 var expect = require('expect.js');
+var rx = require('rx');
 
-var injector = require('../../dist/helpers/injector').injector;
-var Initialize = require('../../dist/utils/initialize').Initialize;
-Initialize.init(injector);
-
+var Course = require('../../dist/models/course').Course;
 var Fetcher = require('../../dist/helpers/fetcher').Fetcher;
+var fetcher = require('../../dist/helpers/fetcher').fetcher;
 var userModule = require('../../dist/models/user');
 
 
@@ -152,12 +151,12 @@ describe('User: ' , function () {
             before(function () {
                 Fetcher.prototype.confirmUser = function () {
                     confirmCount++;
-                    return { subscribe: function (callback) { callback(confirmResult); }};
+                    return rx.Observable.return(confirmResult);
                 };
                 
                 Fetcher.prototype.getUserDetail = function () {
                     detailCount++;
-                    return { subscribe: function (callback) { callback(detailResult); }};
+                    return rx.Observable.return(detailResult);
                 };
             });
             
@@ -196,7 +195,45 @@ describe('User: ' , function () {
         });
         
         describe('should be able to get taken courses: ', function () {
+            var confirmObservable, coursesObservable;
             
+            before(function () {
+                Fetcher.prototype.confirmUser = function () {
+                    return confirmObservable;
+                };
+                                
+                Fetcher.prototype.getUserCourses = function () {
+                    return coursesObservable;
+                };
+                
+                Fetcher.prototype.getUserDetail = function () {
+                    return rx.Observable.return({ id: '2012019050031' });
+                };
+            });
+            
+            it('should not be able to get courses if confirmed failed.', function (done) {
+                confirmObservable = rx.Observable.return(false);
+                coursesObservable = rx.Observable.return([new Course('0'), new Course('1')]);
+                
+                user.getCourses().subscribe(function (x) {
+                    expect(0).to.be(1);
+                }, function (err) {
+                    expect(err).to.be.ok();
+                    done();
+                });
+            });
+            
+            it('should not be able to get courses if confirmed throws.', function (done) {
+                confirmObservable = rx.Observable.throw(new Error('000: Fake error.'));
+                coursesObservable = rx.Observable.return([new Course('0'), new Course('1')])
+                
+                user.getCourses().subscribe(function (x) {
+                    expect(0).to.be(1);
+                }, function (err) {
+                    expect(err).not.to.be(null);
+                    done();
+                });
+            });
         });
     });
 });

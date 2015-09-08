@@ -14,6 +14,7 @@ var Seeker = require('../dist/helpers/seeker').Seeker;
 var User = require('../dist/models/user').User;
 var UserFactory = require('../dist/models/user').UserFactory;
 
+
 describe('Application: ', function () {
     var originalConfirm = User.prototype.confirm;
     var originalSeekerSearchForPeople = Seeker.prototype.searchForPeople;
