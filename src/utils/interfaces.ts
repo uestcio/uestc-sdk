@@ -43,5 +43,5 @@ export interface IUserDetail {
     schoolingLength: number,
     status: string,
     studyType: string,
-    type: string
+    genre: string
 }

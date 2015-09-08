@@ -20,27 +20,23 @@ import { ISearchCoursesOption, ISearchPeopleOption } from './utils/interfaces';
 
 
 /** 
-* @description
-* Represents an instance of SDK application. The entry of the entire library.
+* @description Represents an instance of SDK application. The entry of the entire library.
 */
 export class Application {
     /**
-    * @description
-    * The user instance for application global operations.
+    * @description The user instance for application global operations.
     */
     private currentUser: User = null;
     
     /**
-    * @description
-    * The constructor of Application class.
+    * @description The constructor of Application class.
     */
     constructor () {
         this.currentUser = _.find(cacher.users, (user) => user.isConfirmed) || null;
     }
     
     /**
-    * @description
-    * Get the exact user of given student id which has been registered before.
+    * @description Get the exact user of given student id which has been registered before.
     * @param id The student id of the student.
     * @returns The student instance if exist, null if not.
     */
@@ -49,8 +45,7 @@ export class Application {
     }
 
     /**
-    * @description
-    * Register a student entity with student id and password.
+    * @description Register a student entity with student id and password.
     * @param id The student id of the student.
     * @param password The password of the UESTC Portal site.
     * @returns The student instance of the given student id.
@@ -66,10 +61,9 @@ export class Application {
     }
     
     /**
-    * @description
-    * Search for courses that satisfy the given option online.
+    * @description Search for courses that satisfy the given option online.
     * @param option The option of the search.
-    * @param callback The function to be called with an error or the result of search if don't want to use the Observable operations. It's deprecated.
+    * @param callback The callback function to be called with an error or the result of courses if don't want to use the Observable operations. It's deprecated.
     * @returns The Observable instance of the search result.
     */
     searchForCourses (option: ISearchCoursesOption, callback?: { (error: Exception, courses: Course[]): void; }): Observable<Course[]> {       
@@ -83,10 +77,9 @@ export class Application {
     }
     
     /**
-    * @description
-    * Search for courses that satisfy the given option offline.
+    * @description Search for courses that satisfy the given option offline.
     * @param option The option of the search.
-    * @param callback The function to be called with an error or the result of search if don't want to use the Observable operations. It's deprecated.
+    * @param callback The callback function to be called with an error or the result of courses ifor users unfamiliar with Rx. It's deprecated.
     * @returns The Observable instance of the search result.
     */
     searchForCoursesInCache (option: ISearchCoursesOption, callback?: { (error: Exception, courses: Course[]): void; }): Observable<Course[]> {
@@ -96,10 +89,9 @@ export class Application {
     }
     
     /**
-    * @description
-    * Search for courses that satisfy the given option online when possible, offline when necessary.
+    * @description Search for courses that satisfy the given option online when possible, offline when necessary.
     * @param option The option of the search.
-    * @param callback The function to be called with an error or the result of search if don't want to use the Observable operations. It's deprecated.
+    * @param callback The callback function to be called with an error or the result of courses for users unfamiliar with Rx. It's deprecated.
     * @returns The Observable instance of the search result.
     */
     searchForCoursesWithCache (option: ISearchCoursesOption, callback?: { (error: Exception, courses: Course[]): void; }): Observable<Course[]> {
@@ -110,10 +102,9 @@ export class Application {
     }
     
     /**
-    * @description
-    * Search for people that satisfy the given option online.
+    * @description Search for people that satisfy the given option online.
     * @param option The option of the search.
-    * @param callback The function to be called with an error or the result of search if don't want to use the Observable operations. It's deprecated.
+    * @param callback The callback function to be called with an error or the result of people for users unfamiliar with Rx. It's deprecated.
     * @returns The Observable instance of the search result.
     */
     searchForPeople (option: ISearchPeopleOption, callback?: { (error: Exception, people: Person[]): void; }): Observable<Person[]> {       
@@ -127,10 +118,9 @@ export class Application {
     }
     
     /**
-    * @description
-    * Search for people that satisfy the given option offline.
+    * @description Search for people that satisfy the given option offline.
     * @param option The option of the search.
-    * @param callback The function to be called with an error or the result of search if don't want to use the Observable operations. It's deprecated.
+    * @param callback The callback function to be called with an error or the result of people for users unfamiliar with Rx. It's deprecated.
     * @returns The Observable instance of the search result.
     */
     searchForPeopleInCache (option: ISearchPeopleOption, callback?: { (error: Exception, people: Person[]): void; }): Observable<Person[]> {
@@ -140,10 +130,9 @@ export class Application {
     }
     
     /**
-    * @description
-    * Search for people that satisfy the given option online when possible, offline when necessary.
+    * @description Search for people that satisfy the given option online when possible, offline when necessary.
     * @param option The option of the search.
-    * @param callback The function to be called with an error or the result of search if don't want to use the Observable operations. It's deprecated.
+    * @param callback The callback function to be called with an error or the result of people for users unfamiliar with Rx. It's deprecated.
     * @returns The Observable instance of the search result.
     */
     searchForPeopleWithCache (option: ISearchPeopleOption, callback?: { (error: Exception, people: Person[]): void; }): Observable<Person[]> {
@@ -154,11 +143,11 @@ export class Application {
     }
     
     /**
-    * @description
-    * Verify whether the given student id and password is valid. Notice that if some other accident occurs (i.e. No network), the result would be null, please check the error.
+    * @description Verify whether the given student id and password is valid. 
+    * @notice If some other accident occurs (i.e. No network), the result would be null, please do check whether the error exists or not.
     * @param id The student id of the student.
     * @param password The password of the student.
-    * @param callback The function to be called with an error or the result of search if don't want to use the Observable operations. It's deprecated.
+    * @param callback The callback function to be called with an error or the result of verify for users unfamiliar with Rx. It's deprecated.
     * @returns The boolean result of valid or not. 
     */
     verify (id: string, password: string, callback?: { (error: Exception, result: boolean): void; }): Observable<boolean> {
@@ -169,8 +158,7 @@ export class Application {
     }
     
     /**
-    * @description
-    * Check whether there is a user to deal with global operation.
+    * @description Check whether there is a user to deal with global operation.
     * @returns The boolean result of exist or not.
     */
     private isUserExist (): boolean {
@@ -179,7 +167,6 @@ export class Application {
 }
 
 /**
-* @instance
-* The Application instance for quick access.
+* @description The Application instance for access.
 */
 export const app: Application = new Application();

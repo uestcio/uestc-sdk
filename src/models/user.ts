@@ -17,161 +17,171 @@ import { seeker } from '../helpers/seeker';
 */
 export class User {
     /**
-    * @description
-    * The administration class id.
+    * @description The administration class id. (行政班级)
+    * @example '2012010201'
     */
     administrationClass: string = null;
     
     /**
-    * @description
-    * The administration college name.
+    * @description The administration college name.(行政管理院系)
+    * @example '通信与信息工程学院'
     */
     administrationCollege: string = null;
     
     /**
-    * @description
-    * The campus name.
+    * @description The campus name. (所属校区)
+    * @example '清水河校区'
     */
     campus: string = null;
     
     /**
-    * @description
-    * The college name.
+    * @description The college name. (院系)
+    * @example '通信与信息工程学院'
     */
     college: string = null;
     
     /**
-    * @description
-    * The date of enrollment.
+    * @description The date of enrollment. (入校时间)
+    * @example new Date('2012-09-01')
     */
     dateFrom: Date = null;
     
     /**
-    * @description
-    * The date of graduation.
+    * @description The date of graduation. (应毕业时间)
+    * @example new Date('2016-07-01')
     */
     dateTo: Date = null;
     
     /**
-    * @description
-    * The administration class id.
+    * @description The direction of major. (专业方向)
+    * @example null
     */
     direction: string = null;
     
     /**
-    * @description
-    * The administration class id.
+    * @description The type of education. (教育形式)
+    * @example null
     */
     educationType: string = null;
     
     /**
-    * @description
-    * The administration class id.
+    * @description The english name. (英文名)
+    * @example 'Qiu Tongyu'
     */
     englishName: string = null;
     
     /**
-    * @description
-    * The administration class id.
+    * @description The gender/sex. (性别)
+    * @example '男'
     */
     gender: string = null;
     
     /**
-    * @description
-    * The administration class id.
+    * @description The actual grade of education. (所在年级)
+    * @notice It may not be the same number in the student id.
+    * @example 2012
     */
     grade: number = null;
     
     /**
-    * @description
-    * The administration class id.
+    * @description The student/staff id. (学号/工号)
+    * @example '2012019050031'
     */
     id: string = null;
     
     /**
-    * @description
-    * The administration class id.
+    * @description The status of whether in enrollment. (是否在籍)
+    * @example true
     */
     inEnrollment: boolean = null;
     
     /**
-    * @description
-    * The administration class id.
+    * @description The status of whether in school. (是否在校)
+    * @example true
     */
     inSchool: boolean = null;
     
     /**
-    * @description
-    * The administration class id.
+    * @description The major name. (专业)
+    * @example '网络工程'
     */
     major: string = null;
     
     /**
-    * @description
-    * The administration class id.
+    * @description The chinese name. (姓名)
+    * @example '秋桐宇'
     */
     name: string = null;
     
     /**
-    * @description
-    * The administration class id.
+    * @description The project name. (项目)
+    * @example '本科'
     */
     project: string = null;
     
     /**
-    * @description
-    * The administration class id.
+    * @description The qualification of education. (学历层次)
+    * @example '本科'
     */
     qualification: string = null;
     
     /**
-    * @description
-    * The administration class id.
+    * @description The length of years in campus. (学制)
+    * @example 4
     */
     schoolingLength: number = null;
     
     /**
-    * @description
-    * The administration class id.
+    * @description The status of enrollment. (学籍状态)
+    * @example '在籍在校'
     */
     status: string = null;
     
     /**
-    * @description
-    * The administration class id.
+    * @description The type of study. (学习形式)
+    * @example '普通全日制'
     */
     studyType: string = null;
     
     /**
-    * @description
-    * The administration class id.
+    * @description The genre of student. (学生类别)
+    * @example '普通本科生'
     */
-    type: string = null;
+    genre: string = null;
     
     /**
-    * @description
-    * The administration class id.
+    * @description The status of whether the given id and password is confirmed.
+    * @example true
     */
     isConfirmed: boolean = null;
     
     /**
-    * @description
-    * The administration class id.
+    * @description The password.
     */
     private password: string = null;
     
     /**
-    * @description
-    * The administration class id.
+    * @description The jar to save the cookies.
     */
     private jar: any = null;
     
+    /**
+     * @description The constructor of the class.
+     * @param id The student/staff id.
+     * @param password The password.
+     */
     constructor (id: string, password: string) {
         this.id = id;
         this.password = password;
         this.isConfirmed = false;
     }
     
+    /**
+     * @description Check whether the student id and password is valid of not.
+     * @notice If some other accident occurs (i.e. No network), the result would be null, please do check whether the error exists or not.
+     * @param callback The callback function to be called with an error or the result of verify for users unfamiliar with Rx. It's deprecated.
+     * @returns The Observable instance of the confirm result.
+     */
     confirm (callback?: { (error: Error, res: boolean): void; }): Observable<boolean> {
         var observable = fetcher.confirmUser(this.id, this.password)
             .do((res) => res && this.getDetail());
@@ -179,24 +189,48 @@ export class User {
         return observable;
     }
     
+    /**
+     * @description Get the courses of the given grade and semester online only once.
+     * @param grade The grade of courses, such as 2012, use 0 to mean all grades.
+     * @param semester The semester of courses, such as 1, use 0 to mean all semesters.
+     * @param callback The callback function to be called with an error or the result of courses for users unfamiliar with Rx. It's deprecated.
+     */
     getCourses (grade: number, semester: number, callback?: any): Observable<TakenCourse[]> {
         var observable = this.getCoursesCallByParam(grade, semester, false);
         caller.nodifyObservable(observable, callback);
         return observable;
     }
     
+    /**
+     * @description Get the courses of the given grade and semester online anytime it's updated.
+     * @param grade The grade of courses, such as 2012, use 0 to mean all grades.
+     * @param semester The semester of courses, such as 1, use 0 to mean all semesters.
+     * @param callback The callback function to be called with an error or the result of courses for users unfamiliar with Rx. It's deprecated.
+     */
     getCoursesForever (grade: number, semester: number, callback?: any): Observable<TakenCourse[]> {
         var observable = this.getCoursesCallByParam(grade, semester, true);
         caller.nodifyObservable(observable, callback);
         return observable;
     }
     
+    /**
+     * @description Get the courses of the given grade and semester offline only once.
+     * @param grade The grade of courses, such as 2012, use 0 to mean all grades.
+     * @param semester The semester of courses, such as 1, use 0 to mean all semesters.
+     * @param callback The callback function to be called with an error or the result of courses for users unfamiliar with Rx. It's deprecated.
+     */
     getCoursesInCache (grade: number, semester: number, callback?: any): Observable<TakenCourse[]> {
         var observable = seeker.getUserCourses({ grade: grade, semester: semester });
         caller.nodifyObservable(observable, callback);
         return observable;
     }
     
+    /**
+     * @description Get the courses of the given grade and semester online when possible, offline if necessary only once.
+     * @param grade The grade of courses, such as 2012, use 0 to mean all grades.
+     * @param semester The semester of courses, such as 1, use 0 to mean all semesters.
+     * @param callback The callback function to be called with an error or the result of courses for users unfamiliar with Rx. It's deprecated.
+     */
     getCoursesWithCache (grade: number, semester: number, callback?: any): Observable<TakenCourse[]> {
         var observable = this.getCourses(grade, semester)
             .catch(this.getCoursesInCache(grade, semester));
@@ -204,24 +238,48 @@ export class User {
         return observable;
     }
     
+    /**
+     * @description Get the exams of the given grade and semester online only once.
+     * @param grade The grade of exams, such as 2012, use 0 to mean all grades.
+     * @param semester The semester of exams, such as 1, use 0 to mean all semesters.
+     * @param callback The callback function to be called with an error or the result of exams for users unfamiliar with Rx. It's deprecated.
+     */
     getExams (grade: number, semester: number, callback?: any): Observable<Exam[]> {
         var observable = this.getExamsCallByParam(grade, semester, false);
         caller.nodifyObservable(observable, callback);
         return observable;
     }
     
+    /**
+     * @description Get the exams of the given grade and semester online anytime it's updated.
+     * @param grade The grade of exams, such as 2012, use 0 to mean all grades.
+     * @param semester The semester of exams, such as 1, use 0 to mean all semesters.
+     * @param callback The callback function to be called with an error or the result of exams for users unfamiliar with Rx. It's deprecated.
+     */
     getExamsForever (grade: number, semester: number, callback?: any): Observable<Exam[]> {
         var observable = this.getExamsCallByParam(grade, semester, true);
         caller.nodifyObservable(observable, callback);
         return observable;
     }
     
+    /**
+     * @description Get the exams of the given grade and semester offline only once.
+     * @param grade The grade of exams, such as 2012, use 0 to mean all grades.
+     * @param semester The semester of exams, such as 1, use 0 to mean all semesters.
+     * @param callback The callback function to be called with an error or the result of exams for users unfamiliar with Rx. It's deprecated.
+     */
     getExamsInCache (grade: number, semester: number, callback?: any): Observable<Exam[]> {
         var observable = seeker.getUserExams({ grade: grade, semester: semester });
         caller.nodifyObservable(observable, callback);
         return observable;
     }
     
+    /**
+     * @description Get the exams of the given grade and semester online when possible, offline if necessary only once.
+     * @param grade The grade of exams, such as 2012, use 0 to mean all grades.
+     * @param semester The semester of exams, such as 1, use 0 to mean all semesters.
+     * @param callback The callback function to be called with an error or the result of exams for users unfamiliar with Rx. It's deprecated.
+     */
     getExamsWithCache (grade: number, semester: number, callback?: any): Observable<Exam[]> {
         var observable = this.getExams(grade, semester)
             .catch(this.getExamsInCache(grade, semester));
@@ -229,6 +287,9 @@ export class User {
         return observable;
     }
      
+    /**
+     * @description The internal method for DRY reason.
+     */
     private getCoursesCallByParam (grade: number, semester: number, forever: boolean): Observable<TakenCourse[]> {
         return this.confirm()
             .flatMap((res) => res? 
@@ -236,6 +297,9 @@ export class User {
                 Observable.throw<TakenCourse[]>(new Error('401: The user validation failed.')));
     }
     
+    /**
+     * @description The internal method to get the user details.
+     */
     private getDetail (): void {
         fetcher.getUserDetail().subscribe((detail) => {
             if (this.id !== detail.id) {
@@ -260,10 +324,13 @@ export class User {
             this.schoolingLength = detail.schoolingLength;
             this.status = detail.status;
             this.studyType = detail.studyType;
-            this.type = detail.type;
+            this.genre = detail.genre;
         });
     }
     
+    /**
+     * @description The internal method for DRY reason.
+     */
     private getExamsCallByParam (grade: number, semester: number, forever: boolean): Observable<Exam[]> {
         return this.confirm().flatMap((res) => res? 
             fetcher.getUserExams({ grade: grade, semester: semester }, forever): 
@@ -271,10 +338,22 @@ export class User {
     }
 }
 
-export class UserFactory {    
+/**
+ * @description The factory of User class.
+ */
+export class UserFactory {  
+    /**
+     * @description The method to create new user instance.
+     * @param id The student/staff id.
+     * @param password The password.
+     * @returns The user instance of given id and password. (not confirmed)
+     */  
     $new (id: string, password: string) {
         return new User(id, password);
     }
 }
 
+/**
+ * @description The UserFactory instance for access.
+ */
 export const userFactory: UserFactory = new UserFactory();

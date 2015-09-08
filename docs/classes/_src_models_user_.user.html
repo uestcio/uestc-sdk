@@ -110,6 +110,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_models_user_.user.html#educationtype" class="tsd-kind-icon">education<wbr>Type</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_models_user_.user.html#englishname" class="tsd-kind-icon">english<wbr>Name</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_models_user_.user.html#gender" class="tsd-kind-icon">gender</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_models_user_.user.html#genre" class="tsd-kind-icon">genre</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_models_user_.user.html#grade" class="tsd-kind-icon">grade</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_models_user_.user.html#id" class="tsd-kind-icon">id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_models_user_.user.html#inenrollment" class="tsd-kind-icon">in<wbr>Enrollment</a></li>
@@ -124,7 +125,6 @@
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_models_user_.user.html#schoolinglength" class="tsd-kind-icon">schooling<wbr>Length</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_models_user_.user.html#status" class="tsd-kind-icon">status</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_models_user_.user.html#studytype" class="tsd-kind-icon">study<wbr>Type</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_models_user_.user.html#type" class="tsd-kind-icon">type</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -159,16 +159,33 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L167">src/models/user.ts:167</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L166">src/models/user.ts:166</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>description</dt>
+									<dd><p>The constructor of the class.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The student/staff id.</p>
+										</div>
+									</div>
 								</li>
 								<li>
 									<h5>password: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The password.</p>
+										</div>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_src_models_user_.user.html" class="tsd-signature-type">User</a></h4>
@@ -190,7 +207,10 @@
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
 							<dt>description</dt>
-							<dd><p>The administration class id.</p>
+							<dd><p>The administration class id. (行政班级)</p>
+							</dd>
+							<dt>example</dt>
+							<dd><p>&#39;2012010201&#39;</p>
 							</dd>
 						</dl>
 					</div>
@@ -207,7 +227,10 @@
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
 							<dt>description</dt>
-							<dd><p>The administration college name.</p>
+							<dd><p>The administration college name.(行政管理院系)</p>
+							</dd>
+							<dt>example</dt>
+							<dd><p>&#39;通信与信息工程学院&#39;</p>
 							</dd>
 						</dl>
 					</div>
@@ -224,7 +247,10 @@
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
 							<dt>description</dt>
-							<dd><p>The campus name.</p>
+							<dd><p>The campus name. (所属校区)</p>
+							</dd>
+							<dt>example</dt>
+							<dd><p>&#39;清水河校区&#39;</p>
 							</dd>
 						</dl>
 					</div>
@@ -241,7 +267,10 @@
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
 							<dt>description</dt>
-							<dd><p>The college name.</p>
+							<dd><p>The college name. (院系)</p>
+							</dd>
+							<dt>example</dt>
+							<dd><p>&#39;通信与信息工程学院&#39;</p>
 							</dd>
 						</dl>
 					</div>
@@ -258,7 +287,10 @@
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
 							<dt>description</dt>
-							<dd><p>The date of enrollment.</p>
+							<dd><p>The date of enrollment. (入校时间)</p>
+							</dd>
+							<dt>example</dt>
+							<dd><p>new Date(&#39;2012-09-01&#39;)</p>
 							</dd>
 						</dl>
 					</div>
@@ -275,7 +307,10 @@
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
 							<dt>description</dt>
-							<dd><p>The date of graduation.</p>
+							<dd><p>The date of graduation. (应毕业时间)</p>
+							</dd>
+							<dt>example</dt>
+							<dd><p>new Date(&#39;2016-07-01&#39;)</p>
 							</dd>
 						</dl>
 					</div>
@@ -292,7 +327,10 @@
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
 							<dt>description</dt>
-							<dd><p>The administration class id.</p>
+							<dd><p>The direction of major. (专业方向)</p>
+							</dd>
+							<dt>example</dt>
+							<dd><p>null</p>
 							</dd>
 						</dl>
 					</div>
@@ -309,7 +347,10 @@
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
 							<dt>description</dt>
-							<dd><p>The administration class id.</p>
+							<dd><p>The type of education. (教育形式)</p>
+							</dd>
+							<dt>example</dt>
+							<dd><p>null</p>
 							</dd>
 						</dl>
 					</div>
@@ -326,7 +367,10 @@
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
 							<dt>description</dt>
-							<dd><p>The administration class id.</p>
+							<dd><p>The english name. (英文名)</p>
+							</dd>
+							<dt>example</dt>
+							<dd><p>&#39;Qiu Tongyu&#39;</p>
 							</dd>
 						</dl>
 					</div>
@@ -343,7 +387,30 @@
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
 							<dt>description</dt>
-							<dd><p>The administration class id.</p>
+							<dd><p>The gender/sex. (性别)</p>
+							</dd>
+							<dt>example</dt>
+							<dd><p>&#39;男&#39;</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="genre" class="tsd-anchor"></a>
+					<h3>genre</h3>
+					<div class="tsd-signature tsd-kind-icon">genre<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L150">src/models/user.ts:150</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>description</dt>
+							<dd><p>The genre of student. (学生类别)</p>
+							</dd>
+							<dt>example</dt>
+							<dd><p>&#39;普通本科生&#39;</p>
 							</dd>
 						</dl>
 					</div>
@@ -354,13 +421,19 @@
 					<div class="tsd-signature tsd-kind-icon">grade<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L83">src/models/user.ts:83</a></li>
+							<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L84">src/models/user.ts:84</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
 							<dt>description</dt>
-							<dd><p>The administration class id.</p>
+							<dd><p>The actual grade of education. (所在年级)</p>
+							</dd>
+							<dt>notice</dt>
+							<dd><p>It may not be the same number in the student id.</p>
+							</dd>
+							<dt>example</dt>
+							<dd><p>2012</p>
 							</dd>
 						</dl>
 					</div>
@@ -371,13 +444,16 @@
 					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L89">src/models/user.ts:89</a></li>
+							<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L90">src/models/user.ts:90</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
 							<dt>description</dt>
-							<dd><p>The administration class id.</p>
+							<dd><p>The student/staff id. (学号/工号)</p>
+							</dd>
+							<dt>example</dt>
+							<dd><p>&#39;2012019050031&#39;</p>
 							</dd>
 						</dl>
 					</div>
@@ -388,13 +464,16 @@
 					<div class="tsd-signature tsd-kind-icon">in<wbr>Enrollment<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L95">src/models/user.ts:95</a></li>
+							<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L96">src/models/user.ts:96</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
 							<dt>description</dt>
-							<dd><p>The administration class id.</p>
+							<dd><p>The status of whether in enrollment. (是否在籍)</p>
+							</dd>
+							<dt>example</dt>
+							<dd><p>true</p>
 							</dd>
 						</dl>
 					</div>
@@ -405,13 +484,16 @@
 					<div class="tsd-signature tsd-kind-icon">in<wbr>School<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L101">src/models/user.ts:101</a></li>
+							<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L102">src/models/user.ts:102</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
 							<dt>description</dt>
-							<dd><p>The administration class id.</p>
+							<dd><p>The status of whether in school. (是否在校)</p>
+							</dd>
+							<dt>example</dt>
+							<dd><p>true</p>
 							</dd>
 						</dl>
 					</div>
@@ -422,13 +504,16 @@
 					<div class="tsd-signature tsd-kind-icon">is<wbr>Confirmed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L155">src/models/user.ts:155</a></li>
+							<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L156">src/models/user.ts:156</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
 							<dt>description</dt>
-							<dd><p>The administration class id.</p>
+							<dd><p>The status of whether the given id and password is confirmed.</p>
+							</dd>
+							<dt>example</dt>
+							<dd><p>true</p>
 							</dd>
 						</dl>
 					</div>
@@ -439,13 +524,13 @@
 					<div class="tsd-signature tsd-kind-icon">jar<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L167">src/models/user.ts:167</a></li>
+							<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L166">src/models/user.ts:166</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
 							<dt>description</dt>
-							<dd><p>The administration class id.</p>
+							<dd><p>The jar to save the cookies.</p>
 							</dd>
 						</dl>
 					</div>
@@ -456,13 +541,16 @@
 					<div class="tsd-signature tsd-kind-icon">major<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L107">src/models/user.ts:107</a></li>
+							<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L108">src/models/user.ts:108</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
 							<dt>description</dt>
-							<dd><p>The administration class id.</p>
+							<dd><p>The major name. (专业)</p>
+							</dd>
+							<dt>example</dt>
+							<dd><p>&#39;网络工程&#39;</p>
 							</dd>
 						</dl>
 					</div>
@@ -473,13 +561,16 @@
 					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L113">src/models/user.ts:113</a></li>
+							<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L114">src/models/user.ts:114</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
 							<dt>description</dt>
-							<dd><p>The administration class id.</p>
+							<dd><p>The chinese name. (姓名)</p>
+							</dd>
+							<dt>example</dt>
+							<dd><p>&#39;秋桐宇&#39;</p>
 							</dd>
 						</dl>
 					</div>
@@ -496,7 +587,7 @@
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
 							<dt>description</dt>
-							<dd><p>The administration class id.</p>
+							<dd><p>The password.</p>
 							</dd>
 						</dl>
 					</div>
@@ -507,13 +598,16 @@
 					<div class="tsd-signature tsd-kind-icon">project<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L119">src/models/user.ts:119</a></li>
+							<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L120">src/models/user.ts:120</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
 							<dt>description</dt>
-							<dd><p>The administration class id.</p>
+							<dd><p>The project name. (项目)</p>
+							</dd>
+							<dt>example</dt>
+							<dd><p>&#39;本科&#39;</p>
 							</dd>
 						</dl>
 					</div>
@@ -524,13 +618,16 @@
 					<div class="tsd-signature tsd-kind-icon">qualification<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L125">src/models/user.ts:125</a></li>
+							<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L126">src/models/user.ts:126</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
 							<dt>description</dt>
-							<dd><p>The administration class id.</p>
+							<dd><p>The qualification of education. (学历层次)</p>
+							</dd>
+							<dt>example</dt>
+							<dd><p>&#39;本科&#39;</p>
 							</dd>
 						</dl>
 					</div>
@@ -541,13 +638,16 @@
 					<div class="tsd-signature tsd-kind-icon">schooling<wbr>Length<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L131">src/models/user.ts:131</a></li>
+							<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L132">src/models/user.ts:132</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
 							<dt>description</dt>
-							<dd><p>The administration class id.</p>
+							<dd><p>The length of years in campus. (学制)</p>
+							</dd>
+							<dt>example</dt>
+							<dd><p>4</p>
 							</dd>
 						</dl>
 					</div>
@@ -558,13 +658,16 @@
 					<div class="tsd-signature tsd-kind-icon">status<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L137">src/models/user.ts:137</a></li>
+							<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L138">src/models/user.ts:138</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
 							<dt>description</dt>
-							<dd><p>The administration class id.</p>
+							<dd><p>The status of enrollment. (学籍状态)</p>
+							</dd>
+							<dt>example</dt>
+							<dd><p>&#39;在籍在校&#39;</p>
 							</dd>
 						</dl>
 					</div>
@@ -575,30 +678,16 @@
 					<div class="tsd-signature tsd-kind-icon">study<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L143">src/models/user.ts:143</a></li>
+							<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L144">src/models/user.ts:144</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
 							<dt>description</dt>
-							<dd><p>The administration class id.</p>
+							<dd><p>The type of study. (学习形式)</p>
 							</dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="type" class="tsd-anchor"></a>
-					<h3>type</h3>
-					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L149">src/models/user.ts:149</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<dl class="tsd-comment-tags">
-							<dt>description</dt>
-							<dd><p>The administration class id.</p>
+							<dt>example</dt>
+							<dd><p>&#39;普通全日制&#39;</p>
 							</dd>
 						</dl>
 					</div>
@@ -616,13 +705,26 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L175">src/models/user.ts:175</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L185">src/models/user.ts:185</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>description</dt>
+									<dd><p>Check whether the student id and password is valid of not.</p>
+									</dd>
+									<dt>notice</dt>
+									<dd><p>If some other accident occurs (i.e. No network), the result would be null, please do check whether the error exists or not.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <span class="tsd-signature-type">function</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback function to be called with an error or the result of verify for users unfamiliar with Rx. It&#39;s deprecated.</p>
+									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
@@ -647,6 +749,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>The Observable instance of the confirm result.</p>
 						</li>
 					</ul>
 				</section>
@@ -660,19 +763,35 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L182">src/models/user.ts:182</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L198">src/models/user.ts:198</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>description</dt>
+									<dd><p>Get the courses of the given grade and semester online only once.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>grade: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The grade of courses, such as 2012, use 0 to mean all grades.</p>
+									</div>
 								</li>
 								<li>
 									<h5>semester: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The semester of courses, such as 1, use 0 to mean all semesters.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback function to be called with an error or the result of courses for users unfamiliar with Rx. It&#39;s deprecated.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_src_models_course_.takencourse.html" class="tsd-signature-type">TakenCourse</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -689,9 +808,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L232">src/models/user.ts:232</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L293">src/models/user.ts:293</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>description</dt>
+									<dd><p>The internal method for DRY reason.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -718,19 +844,35 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L188">src/models/user.ts:188</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L210">src/models/user.ts:210</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>description</dt>
+									<dd><p>Get the courses of the given grade and semester online anytime it&#39;s updated.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>grade: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The grade of courses, such as 2012, use 0 to mean all grades.</p>
+									</div>
 								</li>
 								<li>
 									<h5>semester: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The semester of courses, such as 1, use 0 to mean all semesters.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback function to be called with an error or the result of courses for users unfamiliar with Rx. It&#39;s deprecated.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_src_models_course_.takencourse.html" class="tsd-signature-type">TakenCourse</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -747,19 +889,35 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L194">src/models/user.ts:194</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L222">src/models/user.ts:222</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>description</dt>
+									<dd><p>Get the courses of the given grade and semester offline only once.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>grade: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The grade of courses, such as 2012, use 0 to mean all grades.</p>
+									</div>
 								</li>
 								<li>
 									<h5>semester: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The semester of courses, such as 1, use 0 to mean all semesters.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback function to be called with an error or the result of courses for users unfamiliar with Rx. It&#39;s deprecated.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_src_models_course_.takencourse.html" class="tsd-signature-type">TakenCourse</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -776,19 +934,35 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L200">src/models/user.ts:200</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L234">src/models/user.ts:234</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>description</dt>
+									<dd><p>Get the courses of the given grade and semester online when possible, offline if necessary only once.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>grade: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The grade of courses, such as 2012, use 0 to mean all grades.</p>
+									</div>
 								</li>
 								<li>
 									<h5>semester: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The semester of courses, such as 1, use 0 to mean all semesters.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback function to be called with an error or the result of courses for users unfamiliar with Rx. It&#39;s deprecated.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_src_models_course_.takencourse.html" class="tsd-signature-type">TakenCourse</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -805,9 +979,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L239">src/models/user.ts:239</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L303">src/models/user.ts:303</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>description</dt>
+									<dd><p>The internal method to get the user details.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -822,19 +1003,35 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L207">src/models/user.ts:207</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L247">src/models/user.ts:247</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>description</dt>
+									<dd><p>Get the exams of the given grade and semester online only once.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>grade: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The grade of exams, such as 2012, use 0 to mean all grades.</p>
+									</div>
 								</li>
 								<li>
 									<h5>semester: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The semester of exams, such as 1, use 0 to mean all semesters.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback function to be called with an error or the result of exams for users unfamiliar with Rx. It&#39;s deprecated.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_src_models_exam_.exam.html" class="tsd-signature-type">Exam</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -851,9 +1048,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L267">src/models/user.ts:267</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L334">src/models/user.ts:334</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>description</dt>
+									<dd><p>The internal method for DRY reason.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -880,19 +1084,35 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L213">src/models/user.ts:213</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L259">src/models/user.ts:259</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>description</dt>
+									<dd><p>Get the exams of the given grade and semester online anytime it&#39;s updated.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>grade: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The grade of exams, such as 2012, use 0 to mean all grades.</p>
+									</div>
 								</li>
 								<li>
 									<h5>semester: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The semester of exams, such as 1, use 0 to mean all semesters.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback function to be called with an error or the result of exams for users unfamiliar with Rx. It&#39;s deprecated.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_src_models_exam_.exam.html" class="tsd-signature-type">Exam</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -909,19 +1129,35 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L219">src/models/user.ts:219</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L271">src/models/user.ts:271</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>description</dt>
+									<dd><p>Get the exams of the given grade and semester offline only once.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>grade: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The grade of exams, such as 2012, use 0 to mean all grades.</p>
+									</div>
 								</li>
 								<li>
 									<h5>semester: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The semester of exams, such as 1, use 0 to mean all semesters.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback function to be called with an error or the result of exams for users unfamiliar with Rx. It&#39;s deprecated.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_src_models_exam_.exam.html" class="tsd-signature-type">Exam</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -938,19 +1174,35 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L225">src/models/user.ts:225</a></li>
+									<li>Defined in <a href="https://github.com/trotyl/uestc-sdk/blob/typescipt/src/models/user.ts#L283">src/models/user.ts:283</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>description</dt>
+									<dd><p>Get the exams of the given grade and semester online when possible, offline if necessary only once.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>grade: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The grade of exams, such as 2012, use 0 to mean all grades.</p>
+									</div>
 								</li>
 								<li>
 									<h5>semester: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The semester of exams, such as 1, use 0 to mean all semesters.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback function to be called with an error or the result of exams for users unfamiliar with Rx. It&#39;s deprecated.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="_src_models_exam_.exam.html" class="tsd-signature-type">Exam</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -1062,6 +1314,9 @@
 								<a href="_src_models_user_.user.html#gender" class="tsd-kind-icon">gender</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_src_models_user_.user.html#genre" class="tsd-kind-icon">genre</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_src_models_user_.user.html#grade" class="tsd-kind-icon">grade</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
@@ -1102,9 +1357,6 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_src_models_user_.user.html#studytype" class="tsd-kind-icon">study<wbr>Type</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_src_models_user_.user.html#type" class="tsd-kind-icon">type</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_src_models_user_.user.html#confirm" class="tsd-kind-icon">confirm</a>
