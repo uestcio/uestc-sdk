@@ -7,7 +7,6 @@ var appModule = require('../dist/application');
 var Cacher = require('../dist/helpers/cacher').Cacher;
 var Caller = require('../dist/helpers/caller').Caller;
 var Course = require('../dist/models/course').Course;
-var ExceptionFactory = require('../dist/models/exception').ExceptionFactory;
 var Fetcher = require('../dist/helpers/fetcher').Fetcher;
 var Person = require('../dist/models/person').Person;
 var Seeker = require('../dist/helpers/seeker').Seeker;

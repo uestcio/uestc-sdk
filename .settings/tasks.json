@@ -64,7 +64,7 @@
 	"isShellCommand": true,
 	"tasks": [
 		{
-			"taskName": "default",
+			"taskName": "tsc",
 			// Make this the default build command.
 			"isBuildCommand": true,
 			// Show the output window only if unrecognized errors occur.

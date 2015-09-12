@@ -9,7 +9,8 @@ import { Observable } from 'rx';
 
 export interface IProcedureResult {
     response: any,
-    body: string
+    body: string,
+    result: any
 }
 
 export interface IUserLoginResult extends IProcedureResult {
@@ -21,13 +22,15 @@ export class Procedure {
     url: string = null;
     method: string = null;
     jar: Request.CookieJar = null;
+    followRedirect: boolean = true;
     queryData: { [id: string]: string } = null;
     formData: { [id: string]: string } = null;
+    tmpData: any = {};
     
     constructor (url: string, method: string, jar: Request.CookieJar) {
         this.url = url;
         this.method = method;
-        this.jar = jar || Request.jar();
+        this.jar = jar;
     }
     
     form (formData: { [id: string]: string }): void {
@@ -39,6 +42,7 @@ export class Procedure {
             Request({
                 uri: this.url,
                 method: this.method,
+                followRedirect: this.followRedirect,
                 qs: this.queryData,
                 form: this.formData,
                 jar: this.jar
@@ -47,7 +51,7 @@ export class Procedure {
                     observer.onError(error);
                 }
                 else {
-                    observer.onNext({ response: response, body: body });
+                    observer.onNext({ response: response, body: body , result: null});
                     observer.onCompleted();
                 }
             });
@@ -78,14 +82,23 @@ export class AppSearchCoursesProcedure extends Procedure {
 }
 
 export class UserEnsureLoginProcedure extends Procedure {
-    constructor (jar: Request.CookieJar) {
-        // Todo
-        super('', '', jar);
+    constructor (id: string, password: string, jar: Request.CookieJar) {
+        super('http://portal.uestc.edu.cn/login.portal', 'GET', jar);
+        this.tmpData.id = id;
+        this.tmpData.password = password;
+        this.followRedirect = false;
     }
     
-    run (): Observable<any> {
-        // Todo
-        return super.run();
+    run (): Observable<IUserLoginResult> {
+        return super.run().flatMap((x) => {
+            if(x.response.statusCode === 302) {
+                x.result = true;
+                return Observable.return(x);
+            } 
+            return new UserLoginProcedure(this.tmpData.id, this.tmpData.password, this.jar).run().map((x) => {
+                return x;
+            });
+        })
     }
 }
 
@@ -105,11 +118,8 @@ export class UserLoginProcedure extends Procedure {
     
     run (): Observable<IUserLoginResult> {
         return super.run().map((x) => {
-            return {
-                body: x.body,
-                response: x.response,
-                result: x.response.statusCode === 302
-            }
+            x.result = (x.response.statusCode === 302);
+            return x;
         });
     }
 }
