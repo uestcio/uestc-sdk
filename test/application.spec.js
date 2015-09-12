@@ -15,7 +15,7 @@ var User = require('../dist/models/user').User;
 var UserFactory = require('../dist/models/user').UserFactory;
 
 
-describe('for Application: ', function () {
+describe('Application module: ', function () {
     var originalConfirm = User.prototype.confirm;
     var originalSeekerSearchForPeople = Seeker.prototype.searchForPeople;
     var originalFetcherSearchForPeople = Fetcher.prototype.searchForPeople;

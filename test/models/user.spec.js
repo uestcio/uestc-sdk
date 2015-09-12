@@ -9,7 +9,7 @@ var Seeker = require('../../dist/helpers/seeker').Seeker;
 var userModule = require('../../dist/models/user');
 
 
-describe('User: ' , function () {
+describe('User module: ' , function () {
     var originalFetcherConfirmUser = Fetcher.prototype.comfirmUser;
     var originalFetcherGetUserDetail = Fetcher.prototype.getUserDetail;
     

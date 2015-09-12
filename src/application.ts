@@ -17,7 +17,18 @@ import { caller } from './helpers/caller';
 import { fetcher } from './helpers/fetcher';
 import { seeker } from './helpers/seeker';
 
-import { ISearchCoursesOption, ISearchPeopleOption } from './utils/interfaces';
+
+export interface ISearchCoursesOption { 
+    name?: string, 
+    department?: string, 
+    instructor?: string, 
+    grade?: string, 
+    type?: string 
+}
+
+export interface ISearchPeopleOption {
+    term?: string
+}
 
 
 /** 
