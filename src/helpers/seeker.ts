@@ -12,7 +12,7 @@ import { IGetUserCoursesOption, ISearchCoursesOption, ISearchPeopleOption } from
 
 export class Seeker {
     getUserCourses (option: IGetUserCoursesOption) : Observable<TakenCourse[]> {
-        return null;
+        return ;
     }
     
     getUserExams (option: IGetUserCoursesOption) : Observable<Exam[]> {
