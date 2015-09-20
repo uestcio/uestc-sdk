@@ -10,33 +10,36 @@ import { Course, TakenCourse } from '../models/course';
 import { Exam } from '../models/exam';
 import { Person } from '../models/person';
 
-import { IGetUserCoursesOption, ISearchCoursesOption, ISearchPeopleOption, IUserDetail } from 'utils/interfaces';
+import { IGetUserCoursesOption, ISearchCoursesOption, ISearchPeopleOption, IUserDetail, IUserLogin } from 'utils/interfaces';
 
 /**
  * @description The helper to deal with online request.
  */
 export class Fetcher {
-    confirmUser (id: string, password: string, jar: Request.CookieJar): Observable<boolean> {
+    /**
+     * @description The 
+     */
+    confirmUser (user: IUserLogin): Observable<boolean> {
         return null;
     }
     
-    getUserCourses (option: IGetUserCoursesOption, forever: boolean, jar: Request.CookieJar) : Observable<TakenCourse[]> {
+    getUserCourses (option: IGetUserCoursesOption, forever: boolean, user: IUserLogin) : Observable<TakenCourse[]> {
         return null;
     }
     
-    getUserDetail (jar: Request.CookieJar): Observable<IUserDetail> {
+    getUserDetail (user: IUserLogin): Observable<IUserDetail> {
         return null;
     }
     
-    getUserExams (option: IGetUserCoursesOption, forever: boolean, jar: Request.CookieJar) : Observable<Exam[]> {
+    getUserExams (option: IGetUserCoursesOption, forever: boolean, user: IUserLogin) : Observable<Exam[]> {
         return null;
     }
     
-    searchForCourses (option: ISearchCoursesOption, jar: Request.CookieJar): Observable<Course[]> {
+    searchForCourses (option: ISearchCoursesOption, user: IUserLogin): Observable<Course[]> {
         return null;
     }
     
-    searchForPeople (option: ISearchPeopleOption, jar: Request.CookieJar): Observable<Person[]> {
+    searchForPeople (option: ISearchPeopleOption, user: IUserLogin): Observable<Person[]> {
         return null;
     }
 }

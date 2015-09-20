@@ -15,7 +15,7 @@ import { Observable } from 'rx';
 import { Course, TakenCourse, courseFactory } from '../models/course';
 import { Duration, durationFactory } from '../models/duration';
 import { Exam } from '../models/exam';
-import { Person } from '../models/person';
+import { Person, personFactory } from '../models/person';
 
 import { IGetUserCoursesOption, ISearchCoursesOption, ISearchPeopleOption, IUserDetail } from 'utils/interfaces';
 
@@ -48,6 +48,20 @@ export class Parser {
                 return course;
             }));
         });
+    }
+    
+    /**
+     * @warining This interface is not available in resent tests.
+     * @description Get the people of json from app#searchForPeople.
+     * @param json The json string contains the people.
+     * @returns The Observable instance of the parse result.
+     */
+    getAppPeople (json: string) {
+        return Observable.return(_.map(JSON.parse(json).principals, (obj: any) => {
+            var person = personFactory.create(obj.id);
+            person.name = obj.name;
+            person.deptName = obj.name;
+        }));
     }
 
     /**
