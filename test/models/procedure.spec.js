@@ -3,7 +3,12 @@ var expect = require('expect.js');
 var request = require('request');
 var rx = require('rx');
 
+var parserModule = require('../../dist/helpers/parser');
 var procedureModule = require('../../dist/models/procedure');
+
+var noCallFun = function (err) {
+    throw err;
+}
 
 describe('Procedure module: ', function () {
     var correctUser = { id: '2012019050020', password: '811073' };
@@ -36,9 +41,7 @@ describe('Procedure module: ', function () {
             userLoginProcedure.run().subscribe(function (res) {
                 expect(res.result).to.be(true);
                 done();
-            }, function (err) {
-                expect(true).to.be(false);
-            });
+            }, noCallFun);
         });
         
         it('should return false with incorrect id and password.', function (done) {
@@ -46,19 +49,16 @@ describe('Procedure module: ', function () {
             userLoginProcedure.run().subscribe(function (res) {
                 expect(res.result).to.be(false);
                 done();
-            }, function (err) {
-                expect(true).to.be(false);
-            });
+            }, noCallFun);
         });
     });
     
     describe('instance of UserEnsureLoginProcedure: ', function () {
-        var jar;
         var UserEnsureLoginProcedure = procedureModule.UserEnsureLoginProcedure;
         var UserLoginProcedure = procedureModule.UserLoginProcedure;
         
         beforeEach(function () {
-            jar = request.jar();
+            correctUser.jar = incorrectUser.jar = request.jar();
         });
         
         it('should return true with user still in active.', function (done) {
@@ -69,12 +69,8 @@ describe('Procedure module: ', function () {
                 userEnsureLoginProcedure.run().subscribe(function (res) {
                     expect(res.result).to.be(true);
                     done();
-                }, function (err) {
-                    throw err;
-                });
-            }, function (err) {
-                throw err;
-            });
+                }, noCallFun);
+            }, noCallFun);
         });
         
         it('should return true with user not in active and auto login succeed.', function (done) {
@@ -82,10 +78,47 @@ describe('Procedure module: ', function () {
             userEnsureLoginProcedure.run().subscribe(function (outRes) {
                 expect(outRes.result).to.be(true);
                 done();
-            }, function (err) {
-                throw err;
-            });
+            }, noCallFun);
         });
     });
     
+    describe('instance of AppSearchCoursesProcedure: ', function () {
+        var courses = [];
+        var AppSearchCoursesPreProcudure = procedureModule.AppSearchCoursesPreProcedure;
+        var AppSearchCoursesProcedure = procedureModule.AppSearchCoursesProcedure;
+        var originalParserGetAppCourses = parserModule.Parser.prototype.getAppCourses;
+        
+        beforeEach(function () {
+            correctUser.jar = incorrectUser.jar = request.jar();
+            parserModule.Parser.prototype.getAppCourses = function () {
+                return rx.Observable.return(courses);
+            };
+        });
+        
+        after(function () {
+            parserModule.Parser.prototype.getAppCourses = originalParserGetAppCourses;
+        });
+        
+        it('should be able to call parser#getAppCourses with pre procedure.', function (done) {
+            var preProcedure = new AppSearchCoursesPreProcudure(correctUser);
+            var procedure = new AppSearchCoursesProcedure('test', correctUser);
+            preProcedure.run().subscribe(function (res) {
+                expect(res.result).to.be(true);
+                procedure.run().subscribe(function (res) {
+                    expect(res.result).to.be(courses);
+                    done();
+                }, noCallFun);
+            }, noCallFun);
+        });
+        
+        it('should not be able to call parser#getAppCourses without pre procedure.', function (done) {
+            var procedure = new AppSearchCoursesProcedure('test', correctUser);
+            
+            procedure.run().subscribe(function (res) {
+                console.log(res.body);
+                expect(res.response.statusCode).to.be(302);
+                done();
+            }, noCallFun);
+        });
+    });
 });

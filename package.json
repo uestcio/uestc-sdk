@@ -1,13 +1,13 @@
 {
   "name": "uestc",
-  "version": "0.7.4",
+  "version": "1.0.0-alpha1",
   "description": "A concise, reliable and powerful SDK platform for UESTC.",
   "main": "index.js",
   "engines": {
     "node": ">=0.12"
   },
   "scripts": {
-    "test": "mocha --bail test/ --timeout 300000 --recursive",
+    "test": "mocha --bail --full-trace test/ --timeout 300000 --recursive",
     "test-ci": ""
   },
   "repository": {

@@ -6,13 +6,14 @@
 ///<reference path="../../typings/lodash/lodash"/>
 
 
+import { readFileSync } from 'fs';
 import * as $ from 'jquery';
 import { jsdom } from 'jsdom';
 import * as _ from 'lodash';
 import { Observable } from 'rx';
 
 import { Course, TakenCourse, courseFactory } from '../models/course';
-import { durationFactory } from '../models/duration';
+import { Duration, durationFactory } from '../models/duration';
 import { Exam } from '../models/exam';
 import { Person } from '../models/person';
 
@@ -24,41 +25,44 @@ export class Parser {
 
     }
 
-    getAppCourses(html): Observable<Course[]> {
-        return this.getDom(html).flatMap((document) => {
-            var lines = $('table.gridtable > tbody > tr', document);
-            return Observable.from<Course[]>(_.map(lines, (line) => {
+    getAppCourses (html: string): Observable<Course[]> {
+        return this.getWindow(html).flatMap(($: any) => {
+            var lines = $('table.gridtable > tbody > tr');
+            return Observable.return<Course[]>(_.map(lines, (line: any) => {
                 var id = $(line.children[1]).text();
                 var course = courseFactory.create(id);
                 course.title = $(line.children[2]).text();
                 course.genre = $(line.children[3]).text();
                 course.department = $(line.children[4]).text();
-                course.instructors = _.trim($(line.children[5]).text()).split(' ');
-                course.durations = this.getDurationsFromLine($(line.children[8]).text(), $(line.children[9]).html());
+                var tmp = _.trim($(line.children[5]).text());
+                course.instructors = tmp.length > 0? tmp.split(' '): [];
+                course.durations = this.getDurationsFromLine(_.trim($(line.children[8]).text()), $(line.children[9]).html());
                 course.campus = $(line.children[11]).text();
                 return course;
             }));
         });
     }
 
-    private getDom(html: string): Observable<Document> {
-        return Observable.create<Document>((observer) => {
-            observer.onNext(jsdom(html));
+    private getWindow(html: string): Observable<JQuery> {
+        return Observable.create<JQuery>((observer) => {
+            var window = jsdom(html, {}).defaultView;
+            observer.onNext($(window));
             observer.onCompleted();
         });
     }
 
-    private getDurationsFromLine(times: string, places: string): any[] {
+    private getDurationsFromLine(times: string, places: string): Duration[] {
         var durationStrs = _.words(times, /[^\n\r\]]+/g);
         var placeStrs = _.words(places, /[^<br>]+/g);
         
-        return durationStrs.map(function(dStr, n) {
+        return durationStrs.map((dStr, n) => {
             var place = _.trim(placeStrs[n]) || '';
             var tmp = _.words(dStr, /[\S]+/g);
             var parity = _.startsWith(place, '单') ? 1 : (_.startsWith(place, '双') ? 2 : 4);
             if (parity !== 4) {
                 place = _.words(place, /\S+/g)[1];
-            }        
+            }
+            
             
             var duration = durationFactory.create();
             duration.day = this.parseDayofWeek(tmp[0]);
@@ -70,7 +74,7 @@ export class Parser {
         });
     }
 
-    parseDayofWeek(dayStr: string): number {
+    private parseDayofWeek(dayStr: string): number {
         var res: number = -1;
         switch (dayStr) {
             case '星期一':
@@ -116,7 +120,7 @@ export class Parser {
         return res;
     }
 
-    parseIndexes(indexesStr: string): string {
+    private parseIndexes(indexesStr: string): string {
         var raws: string[] = _.words(indexesStr, /\d+/g);
         var res: string = '';
         _.times(12, function(n) {
@@ -125,7 +129,7 @@ export class Parser {
         return res;
     }
 
-    parseWeeks(weeksStr: string, parity: number): string {
+    private parseWeeks(weeksStr: string, parity: number): string {
         var raws: string[] = _.words(weeksStr, /\d+/g);
         var res: string = '';
         _.times(24, function(n) {

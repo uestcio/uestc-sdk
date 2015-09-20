@@ -1,0 +1,558 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+
+<head>
+    <title></title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="content-style-type" content="text/css" />
+    <meta http-equiv="content-script-type" content="text/javascript" />
+    <script>
+        window.$BG_LANG='zh';
+    </script>
+    <script type="text/javascript" src="/eams/static/scripts/jquery/jquery,jquery.ui.core.js?bg=3.4.15"></script>
+    <script type="text/javascript" src="/eams/static/scripts/plugins/jquery-form,jquery-history,jquery-colorbox,jquery-chosen.js?bg=3.4.15"></script>
+    <script type="text/javascript" src="/eams/static/js/plugins/jquery.subscribe,/js/struts2/jquery.struts2,jquery.ui.struts2.js?bg=3.4.15"></script>
+    <script type="text/javascript" src="/eams/static/scripts/beangle/beangle,beangle-ui.js?bg=3.4.15"></script>
+    <script type="text/javascript">
+        var App = {contextPath:"/eams"};jQuery(document).ready(function () {jQuery.struts2_jquery.version="3.6.1";beangle.contextPath=App.contextPath;jQuery.scriptPath = App.contextPath+"/static/";jQuery.struts2_jquerySuffix = "";jQuery.ajaxSettings.traditional = true;jQuery.ajaxSetup ({cache: false});});
+    </script>
+    <script type="text/javascript" src="/eams/static/scripts/my97/WdatePicker-4.72.js?compress=no"></script>
+    <link id="jquery_theme_link" rel="stylesheet" href="/eams/static/themes/smoothness/jquery-ui.css?s2j=3.7.1" type="text/css"
+    />
+    <link id="beangle_theme_link" href="/eams/static/themes/default/beangle-ui,colorbox,chosen.css" rel="stylesheet" type="text/css"
+    />
+</head>
+
+<body>
+    <div class="grid">
+        <div id="grid18480474341_bar1" class="gridbar"></div>
+        <table id="grid18480474341" class="gridtable">
+            <thead class="gridhead">
+                <tr>
+                    <th width="25px" class="gridselect-top">
+                        <input type="checkbox" name="lesson.idbox" onclick="bg.ui.grid.toggleAll(event)" title="选择全部" />
+                    </th>
+                    <th width="11%" class="gridhead-sortable" id="lesson.no">课程序号</th>
+                    <th width="12%" class="gridhead-sortable" id="lesson.course.name">课程名称</th>
+                    <th width="10%" class="gridhead-sortable" id="lesson.courseType.name">课程类别</th>
+                    <th width="10%" class="gridhead-sortable" id="lesson.teachDepart.name">开课院系</th>
+                    <th width="11%" class="gridhead-sortable" id="lesson.teachers[0].name">教师</th>
+                    <th width="11%" class="gridhead-sortable" id="lesson.职称">职称</th>
+                    <th width="8%" class="gridhead-sortable" id="lesson.teachClass.grade">年级</th>
+                    <th width="20%">上课时间</th>
+                    <th width="8%">上课地点</th>
+                    <th width="10%">考试时间</th>
+                    <th width="10%" class="gridhead-sortable" id="lesson.campus.name">校区</th>
+                </tr>
+            </thead>
+            <tbody id="grid18480474341_data">
+                <tr>
+                    <td class="gridselect">
+                        <input class="box" name="lesson.id" value="237613" type="checkbox" />
+                    </td>
+                    <td>0490360.01</td>
+                    <td>高等微积分I</td>
+                    <td>学科基础课(必修)</td>
+                    <td>物理电子学院</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>未选择考试类型</td>
+                    <td>沙河校区</td>
+                </tr>
+                <tr>
+                    <td class="gridselect">
+                        <input class="box" name="lesson.id" value="237628" type="checkbox" />
+                    </td>
+                    <td>0490750.01</td>
+                    <td>高等微积分II</td>
+                    <td>学科基础课(必修)</td>
+                    <td>物理电子学院</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>未选择考试类型</td>
+                    <td>沙河校区</td>
+                </tr>
+                <tr>
+                    <td class="gridselect">
+                        <input class="box" name="lesson.id" value="237396" type="checkbox" />
+                    </td>
+                    <td>1003350.01</td>
+                    <td>微积分Ⅱ</td>
+                    <td>学科基础课(必修)</td>
+                    <td>数学科学学院</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>星期四 9-11 [5-17]
+                        <br>
+                    </td>
+                    <td> 沙河第二教学樓208
+                        <br>
+                    </td>
+                    <td>未选择考试类型</td>
+                    <td>沙河校区</td>
+                </tr>
+                <tr>
+                    <td class="gridselect">
+                        <input class="box" name="lesson.id" value="237397" type="checkbox" />
+                    </td>
+                    <td>1003350.02</td>
+                    <td>微积分Ⅱ</td>
+                    <td>学科基础课(必修)</td>
+                    <td>数学科学学院</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>星期二 9-11 [5-17]
+                        <br>
+                    </td>
+                    <td> 品学楼A308
+                        <br>
+                    </td>
+                    <td>未选择考试类型</td>
+                    <td>清水河校区</td>
+                </tr>
+                <tr>
+                    <td class="gridselect">
+                        <input class="box" name="lesson.id" value="237393" type="checkbox" />
+                    </td>
+                    <td>1006040.01</td>
+                    <td>微积分(文)Ⅰ</td>
+                    <td>学科基础课(必修)</td>
+                    <td>数学科学学院</td>
+                    <td> 刘艳
+                    </td>
+                    <td> 副教授
+                    </td>
+                    <td></td>
+                    <td>星期一 7-8 [3-18]
+                        <br>星期四 5-6 [3-18]
+                        <br>星期五 3-4 [3-17单]
+                        <br>
+                    </td>
+                    <td> 立人楼B203
+                        <br> 立人楼B203
+                        <br> 立人楼B203
+                        <br>
+                    </td>
+                    <td>未选择考试类型</td>
+                    <td>清水河校区</td>
+                </tr>
+                <tr>
+                    <td class="gridselect">
+                        <input class="box" name="lesson.id" value="237355" type="checkbox" />
+                    </td>
+                    <td>1006160.01</td>
+                    <td>微积分Ⅰ</td>
+                    <td>学科基础课(必修)</td>
+                    <td>数学科学学院</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>未选择考试类型</td>
+                    <td>沙河校区</td>
+                </tr>
+                <tr>
+                    <td class="gridselect">
+                        <input class="box" name="lesson.id" value="237356" type="checkbox" />
+                    </td>
+                    <td>1006160.02</td>
+                    <td>微积分Ⅰ</td>
+                    <td>学科基础课(必修)</td>
+                    <td>数学科学学院</td>
+                    <td> 余时伟
+                    </td>
+                    <td> 讲师
+                    </td>
+                    <td></td>
+                    <td>星期一 7-8 [3-18]
+                        <br>星期三 1-2 [3-18]
+                        <br>星期五 3-4 [3-18]
+                        <br>
+                    </td>
+                    <td> 品学楼A101
+                        <br> 品学楼A101
+                        <br> 品学楼A101
+                        <br>
+                    </td>
+                    <td>未选择考试类型</td>
+                    <td>清水河校区</td>
+                </tr>
+                <tr>
+                    <td class="gridselect">
+                        <input class="box" name="lesson.id" value="238326" type="checkbox" />
+                    </td>
+                    <td>1006160.03</td>
+                    <td>微积分Ⅰ</td>
+                    <td>学科基础课(必修)</td>
+                    <td>数学科学学院</td>
+                    <td> 朱培勇
+                    </td>
+                    <td> 教授
+                    </td>
+                    <td></td>
+                    <td>星期一 3-4 [3-18]
+                        <br>星期三 5-6 [3-18]
+                        <br>星期五 7-8 [3-18]
+                        <br>
+                    </td>
+                    <td> 品学楼B303
+                        <br> 品学楼A413
+                        <br> 品学楼A314
+                        <br>
+                    </td>
+                    <td>未选择考试类型</td>
+                    <td>清水河校区</td>
+                </tr>
+                <tr>
+                    <td class="gridselect">
+                        <input class="box" name="lesson.id" value="238259" type="checkbox" />
+                    </td>
+                    <td>D0600350.01</td>
+                    <td>微积分II</td>
+                    <td>学科通识课程</td>
+                    <td>计算机科学与工程学院</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>未选择考试类型</td>
+                    <td>清水河校区</td>
+                </tr>
+                <tr>
+                    <td class="gridselect">
+                        <input class="box" name="lesson.id" value="229462" type="checkbox" />
+                    </td>
+                    <td>D1000160.01</td>
+                    <td>微积分I</td>
+                    <td>学科通识课程</td>
+                    <td>数学科学学院</td>
+                    <td> 余时伟
+                    </td>
+                    <td> 讲师
+                    </td>
+                    <td>2015</td>
+                    <td>星期一 7-8 [3-18]
+                        <br>星期三 1-2 [3-18]
+                        <br>星期五 3-4 [3-18]
+                        <br>
+                    </td>
+                    <td> 品学楼A101
+                        <br> 品学楼A101
+                        <br> 品学楼A101
+                        <br>
+                    </td>
+                    <td>未选择考试类型</td>
+                    <td>清水河校区</td>
+                </tr>
+                <tr>
+                    <td class="gridselect">
+                        <input class="box" name="lesson.id" value="233661" type="checkbox" />
+                    </td>
+                    <td>D1000160.02</td>
+                    <td>微积分I</td>
+                    <td>学科通识课程</td>
+                    <td>数学科学学院</td>
+                    <td> 吴永科
+                    </td>
+                    <td></td>
+                    <td>2015</td>
+                    <td>星期一 7-8 [3-18]
+                        <br>星期三 1-2 [3-18]
+                        <br>星期五 3-4 [3-18]
+                        <br>
+                    </td>
+                    <td> 品学楼A202
+                        <br> 品学楼A202
+                        <br> 品学楼A202
+                        <br>
+                    </td>
+                    <td>未选择考试类型</td>
+                    <td>清水河校区</td>
+                </tr>
+                <tr>
+                    <td class="gridselect">
+                        <input class="box" name="lesson.id" value="237230" type="checkbox" />
+                    </td>
+                    <td>D1000160.03</td>
+                    <td>微积分I</td>
+                    <td>学科通识课程</td>
+                    <td>数学科学学院</td>
+                    <td> 余时伟
+                    </td>
+                    <td> 讲师
+                    </td>
+                    <td>2015</td>
+                    <td>星期一 3-4 [3-18]
+                        <br>星期三 7-8 [3-18]
+                        <br>星期五 5-6 [3-18]
+                        <br>
+                    </td>
+                    <td> 品学楼C-120
+                        <br> 品学楼C-120
+                        <br> 品学楼C-118
+                        <br>
+                    </td>
+                    <td>未选择考试类型</td>
+                    <td>清水河校区</td>
+                </tr>
+                <tr>
+                    <td class="gridselect">
+                        <input class="box" name="lesson.id" value="233663" type="checkbox" />
+                    </td>
+                    <td>D1000160.04</td>
+                    <td>微积分I</td>
+                    <td>学科通识课程</td>
+                    <td>数学科学学院</td>
+                    <td> 刘碧森
+                    </td>
+                    <td> 讲师
+                    </td>
+                    <td>2015</td>
+                    <td>星期一 7-8 [3-18]
+                        <br>星期三 1-2 [3-18]
+                        <br>星期五 3-4 [3-18]
+                        <br>
+                    </td>
+                    <td> 品学楼A301
+                        <br> 品学楼A301
+                        <br> 品学楼A301
+                        <br>
+                    </td>
+                    <td>未选择考试类型</td>
+                    <td>清水河校区</td>
+                </tr>
+                <tr>
+                    <td class="gridselect">
+                        <input class="box" name="lesson.id" value="237287" type="checkbox" />
+                    </td>
+                    <td>D1000160.05</td>
+                    <td>微积分I</td>
+                    <td>学科基础课(必修)</td>
+                    <td>数学科学学院</td>
+                    <td> 李明奇
+                    </td>
+                    <td> 副教授
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>未选择考试类型</td>
+                    <td>清水河校区</td>
+                </tr>
+                <tr>
+                    <td class="gridselect">
+                        <input class="box" name="lesson.id" value="229541" type="checkbox" />
+                    </td>
+                    <td>D1000160.06</td>
+                    <td>微积分I</td>
+                    <td>学科通识课程</td>
+                    <td>数学科学学院</td>
+                    <td> 朱培勇
+                    </td>
+                    <td> 教授
+                    </td>
+                    <td>2015</td>
+                    <td>星期一 3-4 [3-18]
+                        <br>星期三 5-6 [3-18]
+                        <br>星期五 7-8 [3-18]
+                        <br>
+                    </td>
+                    <td> 品学楼B303
+                        <br> 品学楼A413
+                        <br> 品学楼A314
+                        <br>
+                    </td>
+                    <td>未选择考试类型</td>
+                    <td>清水河校区</td>
+                </tr>
+                <tr>
+                    <td class="gridselect">
+                        <input class="box" name="lesson.id" value="237615" type="checkbox" />
+                    </td>
+                    <td>D1000160.07</td>
+                    <td>微积分I</td>
+                    <td>学科基础课(必修)</td>
+                    <td>数学科学学院</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>未选择考试类型</td>
+                    <td>沙河校区</td>
+                </tr>
+                <tr>
+                    <td class="gridselect">
+                        <input class="box" name="lesson.id" value="237616" type="checkbox" />
+                    </td>
+                    <td>D1000160.08</td>
+                    <td>微积分I</td>
+                    <td>学科基础课(必修)</td>
+                    <td>数学科学学院</td>
+                    <td> 张利琼
+                    </td>
+                    <td> 讲师
+                    </td>
+                    <td></td>
+                    <td>星期一 1-2 [3-18]
+                        <br>星期三 7-8 [3-18]
+                        <br>星期五 5-6 [3-18]
+                        <br>
+                    </td>
+                    <td> 品学楼A403
+                        <br> 品学楼A403
+                        <br> 品学楼A403
+                        <br>
+                    </td>
+                    <td>未选择考试类型</td>
+                    <td>清水河校区</td>
+                </tr>
+                <tr>
+                    <td class="gridselect">
+                        <input class="box" name="lesson.id" value="229571" type="checkbox" />
+                    </td>
+                    <td>D1000160.09</td>
+                    <td>微积分I</td>
+                    <td>学科通识课程</td>
+                    <td>数学科学学院</td>
+                    <td> 张利琼
+                    </td>
+                    <td> 讲师
+                    </td>
+                    <td>2015</td>
+                    <td>星期一 1-2 [3-18]
+                        <br>星期三 7-8 [3-18]
+                        <br>星期五 5-6 [3-18]
+                        <br>
+                    </td>
+                    <td> 品学楼A403
+                        <br> 品学楼A403
+                        <br> 品学楼A403
+                        <br>
+                    </td>
+                    <td>未选择考试类型</td>
+                    <td>清水河校区</td>
+                </tr>
+                <tr>
+                    <td class="gridselect">
+                        <input class="box" name="lesson.id" value="238309" type="checkbox" />
+                    </td>
+                    <td>D1000160.10</td>
+                    <td>微积分I</td>
+                    <td>学科基础课(必修)</td>
+                    <td>数学科学学院</td>
+                    <td> 米文
+                    </td>
+                    <td> 副教授
+                    </td>
+                    <td></td>
+                    <td>星期一 3-4 [3-18]
+                        <br>星期三 5-6 [3-18]
+                        <br>星期五 7-8 [3-18]
+                        <br>
+                    </td>
+                    <td> 品学楼A411
+                        <br> 品学楼A411
+                        <br> 品学楼A411
+                        <br>
+                    </td>
+                    <td>未选择考试类型</td>
+                    <td>清水河校区</td>
+                </tr>
+                <tr>
+                    <td class="gridselect">
+                        <input class="box" name="lesson.id" value="238310" type="checkbox" />
+                    </td>
+                    <td>D1000160.11</td>
+                    <td>微积分I</td>
+                    <td>学科基础课(必修)</td>
+                    <td>数学科学学院</td>
+                    <td> 喻伟
+                    </td>
+                    <td> 副教授
+                    </td>
+                    <td></td>
+                    <td>星期一 7-8 [3-18]
+                        <br>星期三 1-2 [3-18]
+                        <br>星期五 3-4 [3-18]
+                        <br>
+                    </td>
+                    <td> 品学楼A102
+                        <br> 品学楼A102
+                        <br> 品学楼A102
+                        <br>
+                    </td>
+                    <td>未选择考试类型</td>
+                    <td>清水河校区</td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="grid18480474341_bar2" class="gridbar"></div>
+    </div>
+    <script type="text/javascript">
+        var clearCheckbox_grid18480474341 = function() {
+    jQuery("#grid18480474341").find(".box:checkbox").removeProp("checked");
+    jQuery("#grid18480474341").find(".gridselect-top :checkbox").removeProp("checked");
+    return true;
+  }
+  page_grid18480474341 = bg.page("/eams/publicSearch!search.action","");
+  page_grid18480474341.target("",'grid18480474341').action("/eams/publicSearch!search.action").addParams('lesson.project.id=1&fake.teacher.null=...&lesson.teachDepart.id=...&limitGroup.depart.id=...&fake.time.weekday=...&lesson.campus.id=...&examType.id=...&lesson.courseType.id=...&lesson.semester.id=undefined&fake.weeks=&teacher.name=&fake.time.unit=&limitGroup.grade=&lesson.no=&lesson.course.name=微积分&endWeekSchedule=&startWeekSchedule=').orderBy("null");
+  bg.ui.grid.init('grid18480474341',page_grid18480474341);
+  bar=new bg.ui.gridbar(['grid18480474341_bar1','grid18480474341_bar2'],'');
+  bar.pageId('grid18480474341')
+  page_grid18480474341.pageInfo(1,20,63);
+  bar.addPage(page_grid18480474341,null,{first:'«首页',previous:'‹前页',next:'后页›',last:'末页»',no:'页码:',size:'每页',change:'点击改变每页数据量',pagesize:'每页数据量'});
+  
+  action=bar.addEntityAction('lesson',page_grid18480474341);
+          bar.addItem("课程大纲下载","dowmLoad()");
+        function exportSetting() {
+        	var form = document.publicSearchForm;
+			var ids = bg.input.getCheckBoxValues("lesson.id");
+			if(ids == "") {
+				if(!confirm("是否导出查询出的所有任务?")) {
+					return;
+				}
+			}
+			lessonIdsWrap(form, ids, function() {
+				bg.form.submit(form, "/eams/publicSearch!exportSetting.action");
+			});
+		}
+		
+		function lessonIdsWrap(form, ids, func) {
+			bg.form.addInput(form, "lessonIds", ids);
+			func();
+			jQuery(':hidden[name=lessonIds]', form).remove();
+		}
+
+    </script>
+    <form id="actionForm" name="actionForm" action="/eams/publicSearch!search.action" method="post" target="_blank"></form>
+    <script>
+        function dowmLoad(){
+		var form = document.actionForm;
+		var ids = bg.input.getCheckBoxValues("lesson.id");
+		if(ids == "") {
+			alert("你没有选择要操作的记录");
+			return;
+		}
+		bg.form.addInput(form, "lesson.ids", ids);
+		bg.form.submit(form, "courseOutlineDownload!downloadByLessonId.action", "_blank");
+	}
+
+    </script>
+</body>
+
+</html>

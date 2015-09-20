@@ -8,6 +8,9 @@ var Fetcher = require('../../dist/helpers/fetcher').Fetcher;
 var Seeker = require('../../dist/helpers/seeker').Seeker;
 var userModule = require('../../dist/models/user');
 
+var noCallFun = function (err) {
+    throw err;
+}
 
 describe('User module: ' , function () {
     var originalFetcherConfirmUser = Fetcher.prototype.comfirmUser;
@@ -180,7 +183,7 @@ describe('User module: ' , function () {
                     expect(confirmCount).to.be(1);
                     expect(detailCount).to.be(1);
                     done();
-                });
+                }, noCallFun);
             });
             
             it('should not get detail if confirm failed.', function (done) {
@@ -191,7 +194,7 @@ describe('User module: ' , function () {
                     expect(confirmCount).to.be(1);
                     expect(detailCount).to.be(0);
                     done();
-                });
+                }, noCallFun);
             })
         });
         
@@ -225,9 +228,7 @@ describe('User module: ' , function () {
                     user.getCourses().subscribe(function (x) {
                         expect(x).to.be(courses);
                         done();
-                    }, function (err) {
-                        expect(true).to.be(false);
-                    });
+                    }, noCallFun);
                 });
                 
                 it('should not be able to get courses if confirm failed.', function (done) {
@@ -265,9 +266,7 @@ describe('User module: ' , function () {
                     user.getCoursesForever().subscribe(function (x) {
                         expect(x).to.be(courseses[counter++]);
                         if(counter === courseses.length) { done() };
-                    }, function (err) {
-                        expect(true).to.be(false);
-                    });
+                    }, noCallFun);
                 });
                 
                 it('should not be able to get courses if confirm failed.', function (done) {
@@ -306,9 +305,7 @@ describe('User module: ' , function () {
                     user.getCoursesInCache().subscribe(function (x) {
                         expect(x).to.be(offlineCourses);
                         done();
-                    }, function (err) {
-                        expect(true).to.be(false);
-                    });
+                    }, noCallFun);
                 });
                 
                 it('should call seeker#getUserCourses if confirm failed.', function (done) {
@@ -321,9 +318,7 @@ describe('User module: ' , function () {
                     user.getCoursesInCache().subscribe(function (x) {
                         expect(x).to.be(offlineCourses);
                         done();
-                    }, function (err) {
-                        expect(true).to.be(false);
-                    });
+                    }, noCallFun);
                 });
                 
                 it('should call seeker#getUserCourses if confirm throws.', function (done) {
@@ -336,9 +331,7 @@ describe('User module: ' , function () {
                     user.getCoursesInCache().subscribe(function (x) {
                         expect(x).to.be(offlineCourses);
                         done();
-                    }, function (err) {
-                        expect(true).to.be(false);
-                    });
+                    }, noCallFun);
                 });
             });
 
@@ -353,9 +346,7 @@ describe('User module: ' , function () {
                     user.getCoursesWithCache().subscribe(function (x) {
                         expect(x).to.be(onlineCourses);
                         done();
-                    }, function (err) {
-                        expect(true).to.be(false);
-                    });
+                    }, noCallFun);
                 });
                 
                 it('should call seeker#getUserCourses if confirm failed.', function (done) {
@@ -368,9 +359,7 @@ describe('User module: ' , function () {
                     user.getCoursesWithCache().subscribe(function (x) {
                         expect(x).to.be(offlineCourses);
                         done();
-                    }, function (err) {
-                        expect(true).to.be(false);
-                    });
+                    }, noCallFun);
                 });
                 
                 it('should call seeker#getUserCourses if confirm throws.', function (done) {
@@ -383,9 +372,7 @@ describe('User module: ' , function () {
                     user.getCoursesWithCache().subscribe(function (x) {
                         expect(x).to.be(offlineCourses);
                         done();
-                    }, function (err) {
-                        expect(true).to.be(false);
-                    });
+                    }, noCallFun);
                 });
             });
         });
@@ -420,9 +407,7 @@ describe('User module: ' , function () {
                     user.getExams().subscribe(function (x) {
                         expect(x).to.be(exams);
                         done();
-                    }, function (err) {
-                        expect(true).to.be(false);
-                    });
+                    }, noCallFun);
                 });
                 
                 it('should not be able to get exams if confirm failed.', function (done) {
@@ -460,9 +445,7 @@ describe('User module: ' , function () {
                     user.getExamsForever().subscribe(function (x) {
                         expect(x).to.be(examses[counter++]);
                         if(counter === examses.length) { done() };
-                    }, function (err) {
-                        expect(true).to.be(false);
-                    });
+                    }, noCallFun);
                 });
                 
                 it('should not be able to get exams if confirm failed.', function (done) {
@@ -501,9 +484,7 @@ describe('User module: ' , function () {
                     user.getExamsInCache().subscribe(function (x) {
                         expect(x).to.be(offlineExams);
                         done();
-                    }, function (err) {
-                        expect(true).to.be(false);
-                    });
+                    }, noCallFun);
                 });
                 
                 it('should call seeker#getUserExams if confirm failed.', function (done) {
@@ -516,9 +497,7 @@ describe('User module: ' , function () {
                     user.getExamsInCache().subscribe(function (x) {
                         expect(x).to.be(offlineExams);
                         done();
-                    }, function (err) {
-                        expect(true).to.be(false);
-                    });
+                    }, noCallFun);
                 });
                 
                 it('should call seeker#getUserExams if confirm throws.', function (done) {
@@ -531,9 +510,7 @@ describe('User module: ' , function () {
                     user.getExamsInCache().subscribe(function (x) {
                         expect(x).to.be(offlineExams);
                         done();
-                    }, function (err) {
-                        expect(true).to.be(false);
-                    });
+                    }, noCallFun);
                 });
             });
 
@@ -548,9 +525,7 @@ describe('User module: ' , function () {
                     user.getExamsWithCache().subscribe(function (x) {
                         expect(x).to.be(onlineExams);
                         done();
-                    }, function (err) {
-                        expect(true).to.be(false);
-                    });
+                    }, noCallFun);
                 });
                 
                 it('should call seeker#getUserExams if confirm failed.', function (done) {
@@ -563,9 +538,7 @@ describe('User module: ' , function () {
                     user.getExamsWithCache().subscribe(function (x) {
                         expect(x).to.be(offlineExams);
                         done();
-                    }, function (err) {
-                        expect(true).to.be(false);
-                    });
+                    }, noCallFun);
                 });
                 
                 it('should call seeker#getUserExams if confirm throws.', function (done) {
@@ -578,9 +551,7 @@ describe('User module: ' , function () {
                     user.getExamsWithCache().subscribe(function (x) {
                         expect(x).to.be(offlineExams);
                         done();
-                    }, function (err) {
-                        expect(true).to.be(false);
-                    });
+                    }, noCallFun);
                 });
             });
         });

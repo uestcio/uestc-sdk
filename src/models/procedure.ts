@@ -54,7 +54,7 @@ export class Procedure {
                     observer.onCompleted();
                 }
             });
-        });
+        }).retry(3);
     }
 }
 
@@ -63,8 +63,11 @@ export class AppSearchCoursesPreProcedure extends Procedure {
         super('http://eams.uestc.edu.cn/eams/publicSearch.action', 'GET', user);
     }
     
-    run (): Observable<any> {
-        return super.run();
+    run (): Observable<IProcedureResult<boolean>> {
+        return super.run().map((res) => {
+            res.result = true;
+            return res;
+        });
     }
 }
 

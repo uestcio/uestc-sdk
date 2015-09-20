@@ -13,6 +13,9 @@ var Seeker = require('../dist/helpers/seeker').Seeker;
 var User = require('../dist/models/user').User;
 var UserFactory = require('../dist/models/user').UserFactory;
 
+var noCallFun = function (err) {
+    throw err;
+}
 
 describe('Application module: ', function () {
     var originalConfirm = User.prototype.confirm;
@@ -160,9 +163,7 @@ describe('Application module: ', function () {
                     app.searchForCourses().subscribe(function (courses) {
                         expect(courses).to.be(onlineCourses);
                         done();
-                    }, function (err) {
-                        expect(true).to.be(false);
-                    });
+                    }, noCallFun);
                 });
 
                 it('should not be able to search if no user is registered.', function (done) {
@@ -202,9 +203,7 @@ describe('Application module: ', function () {
                     app.searchForCoursesInCache().subscribe(function (courses) {
                         expect(courses).to.be(offlineCourses);
                         done();
-                    }, function (err) {
-                        expect(true).to.be(false);
-                    });
+                    }, noCallFun);
                 });
                 
                 it('should call Seeker#searchForCourses without a user.', function (done) {
@@ -213,9 +212,7 @@ describe('Application module: ', function () {
                     app.searchForCoursesInCache().subscribe(function (courses) {
                         expect(courses).to.be(offlineCourses);
                         done();
-                    }, function (err) {
-                        expect(true).to.be(false);
-                    });
+                    }, noCallFun);
                 });
                 
                 it('should be able to use callback with user.', function (done) {  
@@ -244,9 +241,7 @@ describe('Application module: ', function () {
                     app.searchForCoursesWithCache().subscribe(function (courses) {
                         expect(courses).to.be(onlineCourses);
                         done();
-                    }, function (err) {
-                        expect(true).to.be(false);
-                    });
+                    }, noCallFun);
                 });
                 
                 it('should call Seeker#searchForCourses without a user.', function (done) {
@@ -255,9 +250,7 @@ describe('Application module: ', function () {
                     app.searchForCoursesWithCache().subscribe(function (courses) {
                         expect(courses).to.be(offlineCourses);
                         done();
-                    }, function (err) {
-                        expect(true).to.be(false);
-                    });
+                    }, noCallFun);
                 });
                 
                 it('should be able to use callback with user.', function (done) {  
@@ -307,9 +300,7 @@ describe('Application module: ', function () {
                         expect(people.length).to.be(2);
                         expect(people[0].id).to.be('0');
                         done();
-                    }, function (err) {
-                        expect(true).to.be(false);
-                    });
+                    }, noCallFun);
                 });
                 
                 it('should not be able to search if no user is registered.', function (done) {
@@ -352,9 +343,7 @@ describe('Application module: ', function () {
                         expect(people.length).to.be(1);
                         expect(people[0].id).to.be('0');
                         done();
-                    }, function (err) {
-                        expect(true).to.be(false);
-                    });
+                    }, noCallFun);
                 });
                 
                 it('should call Seeker#searchForPeople without a user.', function (done) {
@@ -365,9 +354,7 @@ describe('Application module: ', function () {
                         expect(people.length).to.be(1);
                         expect(people[0].id).to.be('0');
                         done();
-                    }, function (err) {
-                        expect(true).to.be(false);
-                    });
+                    }, noCallFun);
                 });
                 
                 it('should be able to use callback with user.', function (done) {
@@ -398,9 +385,7 @@ describe('Application module: ', function () {
                         expect(people.length).to.be(2);
                         expect(people[0].id).to.be('0');
                         done();
-                    }, function (err) {
-                        expect(true).to.be(false);
-                    });
+                    }, noCallFun);
                 });
                 
                 it('should call Seeker#searchForPeople without a user.', function (done) {
@@ -411,9 +396,7 @@ describe('Application module: ', function () {
                         expect(people.length).to.be(1);
                         expect(people[0].id).to.be('0');
                         done();
-                    }, function (err) {
-                        expect(true).to.be(false);
-                    });
+                    }, noCallFun);
                 });
                 
                 it('should be able to use callback with user.', function (done) {

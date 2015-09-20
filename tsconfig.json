@@ -14,6 +14,7 @@
     "files": [
        	"src/application.ts",
         "src/models/course.ts",
+        "src/models/duration.ts",
         "src/models/exam.ts",
         "src/models/notice.ts",
         "src/models/person.ts",
@@ -22,6 +23,7 @@
         "src/helpers/cacher.ts",
         "src/helpers/caller.ts",
         "src/helpers/fetcher.ts",
+        "src/helpers/parser.ts",
         "src/helpers/seeker.ts",
         "src/utils/interfaces.ts"
     ]
