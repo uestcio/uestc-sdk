@@ -12,6 +12,7 @@ import * as _ from 'lodash';
 import { Observable } from 'rx';
 
 import { Course, TakenCourse, courseFactory } from '../models/course';
+import { durationFactory } from '../models/duration';
 import { Exam } from '../models/exam';
 import { Person } from '../models/person';
 
@@ -50,19 +51,23 @@ export class Parser {
     private getDurationsFromLine(times: string, places: string): any[] {
         var durationStrs = _.words(times, /[^\n\r\]]+/g);
         var placeStrs = _.words(places, /[^<br>]+/g);
+        
         return durationStrs.map(function(dStr, n) {
             var place = _.trim(placeStrs[n]) || '';
             var tmp = _.words(dStr, /[\S]+/g);
             var parity = _.startsWith(place, '单') ? 1 : (_.startsWith(place, '双') ? 2 : 4);
             if (parity !== 4) {
                 place = _.words(place, /\S+/g)[1];
-            }
-            var day = this.parseDayofWeek(tmp[0]);
-            var indexes = this.parseIndexes(tmp[1]);
-            var weeks = this.parseWeeks(tmp[2], parity);
-            return null;
-            // return new Duration(weeks, day, indexes, place);
-        })
+            }        
+            
+            var duration = durationFactory.create();
+            duration.day = this.parseDayofWeek(tmp[0]);
+            duration.indexes = this.parseIndexes(tmp[1]);
+            duration.weeks = this.parseWeeks(tmp[2], parity);
+            duration.place = place;
+            
+            return duration; 
+        });
     }
 
     parseDayofWeek(dayStr: string): number {
