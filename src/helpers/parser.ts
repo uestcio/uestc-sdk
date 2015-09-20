@@ -19,14 +19,21 @@ import { Person } from '../models/person';
 
 import { IGetUserCoursesOption, ISearchCoursesOption, ISearchPeopleOption, IUserDetail } from 'utils/interfaces';
 
-
+/**
+ * @description The helper of parsing html or json files to data.
+ */
 export class Parser {
     constructor() {
 
     }
 
+    /**
+     * @description Get the courses of html result from app#searchForCourses.
+     * @param html The html string contains the courses.
+     * @returns The Observable instance of the parse result.
+     */
     getAppCourses (html: string): Observable<Course[]> {
-        return this.getWindow(html).flatMap(($: any) => {
+        return this.getJq(html).flatMap(($: any) => {
             var lines = $('table.gridtable > tbody > tr');
             return Observable.return<Course[]>(_.map(lines, (line: any) => {
                 var id = $(line.children[1]).text();
@@ -43,7 +50,12 @@ export class Parser {
         });
     }
 
-    private getWindow(html: string): Observable<JQuery> {
+    /**
+     * @description Get the jQuery instance of the given html page.
+     * @param html The html string to generate a window with $.
+     * @returns The Observable instance of the jQuery instance.
+     */
+    private getJq(html: string): Observable<JQuery> {
         return Observable.create<JQuery>((observer) => {
             var window = jsdom(html, {}).defaultView;
             observer.onNext($(window));
@@ -51,6 +63,12 @@ export class Parser {
         });
     }
 
+    /**
+     * @description Get duration instances from the inline string.
+     * @param times The times representation string. eg. `星期一 7-8 [3-18]\n\r星期四 5-6 [3-18]\n\r星期五 3-4 [3-17单]`.
+     * @param places The places representation string. eg. `沙河第二教学樓208`.
+     * @returns The array represent durations. 
+     */
     private getDurationsFromLine(times: string, places: string): Duration[] {
         var durationStrs = _.words(times, /[^\n\r\]]+/g);
         var placeStrs = _.words(places, /[^<br>]+/g);
@@ -74,6 +92,11 @@ export class Parser {
         });
     }
 
+    /**
+     * @description Get day of week from the inline string.
+     * @param dayStr The day representation string. eg. `星期一`.
+     * @returns The number of day start from 1. 
+     */
     private parseDayofWeek(dayStr: string): number {
         var res: number = -1;
         switch (dayStr) {
@@ -120,6 +143,11 @@ export class Parser {
         return res;
     }
 
+    /**
+     * @description Get the indexes of some day from inline string.
+     * @param indexesStr The indexes representation string. eg. `9-11`.
+     * @returns The string representation of the indexes. eg. `00000000110`. 
+     */
     private parseIndexes(indexesStr: string): string {
         var raws: string[] = _.words(indexesStr, /\d+/g);
         var res: string = '';
@@ -128,7 +156,13 @@ export class Parser {
         });
         return res;
     }
-
+    
+    /**
+     * @description Get the weeks from the inline string.
+     * @param weeksStr The weeks representation string. eg. `[1-17]`.
+     * @param parity The parity representation number. 1 for odd weeks, 2 for even weeks, 4 for all weeks.
+     * @returns The string representation of weeks. eg. `111111111111111110000000`.
+     */
     private parseWeeks(weeksStr: string, parity: number): string {
         var raws: string[] = _.words(weeksStr, /\d+/g);
         var res: string = '';
