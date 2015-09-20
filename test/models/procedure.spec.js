@@ -6,6 +6,8 @@ var rx = require('rx');
 var procedureModule = require('../../dist/models/procedure');
 
 describe('Procedure module: ', function () {
+    var correctUser = { id: '2012019050020', password: '811073' };
+    var incorrectUser = { id: '2012019050020', password: '123456'}
     
     it('should have a `Procedure` class.', function () {
         expect(procedureModule).to.have.property('Procedure');
@@ -22,18 +24,48 @@ describe('Procedure module: ', function () {
         expect(procedureModule.UserEnsureLoginProcedure).to.be.a('function');
     });
     
+    describe('instance of UserLoginProcedure: ', function () {
+        var UserLoginProcedure = procedureModule.UserLoginProcedure;
+                
+        beforeEach(function () {
+            correctUser.jar = incorrectUser.jar = request.jar();
+        });
+        
+        it('should return true with correct id and password.', function (done) {
+            var userLoginProcedure = new UserLoginProcedure(correctUser);
+            userLoginProcedure.run().subscribe(function (res) {
+                expect(res.result).to.be(true);
+                done();
+            }, function (err) {
+                expect(true).to.be(false);
+            });
+        });
+        
+        it('should return false with incorrect id and password.', function (done) {
+            var userLoginProcedure = new UserLoginProcedure(incorrectUser);
+            userLoginProcedure.run().subscribe(function (res) {
+                expect(res.result).to.be(false);
+                done();
+            }, function (err) {
+                expect(true).to.be(false);
+            });
+        });
+    });
+    
     describe('instance of UserEnsureLoginProcedure: ', function () {
         var jar;
+        var UserEnsureLoginProcedure = procedureModule.UserEnsureLoginProcedure;
+        var UserLoginProcedure = procedureModule.UserLoginProcedure;
         
         beforeEach(function () {
             jar = request.jar();
         });
         
         it('should return true with user still in active.', function (done) {
-            var userLoginProcedure = new procedureModule.UserLoginProcedure('2012019050020', '811073', jar);
+            var userLoginProcedure = new UserLoginProcedure(correctUser);
             userLoginProcedure.run().subscribe(function (res) {
                 expect(res.result).to.be(true);
-                var userEnsureLoginProcedure = new procedureModule.UserEnsureLoginProcedure('2012019050020', '811073', jar);
+                var userEnsureLoginProcedure = new UserEnsureLoginProcedure(correctUser);
                 userEnsureLoginProcedure.run().subscribe(function (res) {
                     expect(res.result).to.be(true);
                     done();
@@ -46,7 +78,7 @@ describe('Procedure module: ', function () {
         });
         
         it('should return true with user not in active and auto login succeed.', function (done) {
-            var userEnsureLoginProcedure = new procedureModule.UserEnsureLoginProcedure('2012019050020', '811073', jar);
+            var userEnsureLoginProcedure = new UserEnsureLoginProcedure(correctUser);
             userEnsureLoginProcedure.run().subscribe(function (outRes) {
                 expect(outRes.result).to.be(true);
                 done();
@@ -56,31 +88,4 @@ describe('Procedure module: ', function () {
         });
     });
     
-    describe('instance of UserLoginProcedure: ', function () {
-        var jar;
-        
-        beforeEach(function () {
-            jar = request.jar();
-        });
-        
-        it('should return true with correct id and password.', function (done) {
-            var userLoginProcedure = new procedureModule.UserLoginProcedure('2012019050020', '811073', jar);
-            userLoginProcedure.run().subscribe(function (res) {
-                expect(res.result).to.be(true);
-                done();
-            }, function (err) {
-                expect(true).to.be(false);
-            });
-        });
-        
-        it('should return false with incorrect id and password.', function (done) {
-            var userLoginProcedure = new procedureModule.UserLoginProcedure('2012019050021', '811073', jar);
-            userLoginProcedure.run().subscribe(function (res) {
-                expect(res.result).to.be(false);
-                done();
-            }, function (err) {
-                expect(true).to.be(false);
-            });
-        });
-    });
 });
