@@ -1,7 +1,10 @@
 language: node_js
 node_js:
   - "0.12"
+  - "4.2"
+  - "5.0"
 sudo: false
 before_install: ""
+install: "gulp generate"
 script: "npm test"
 after_script: ""
