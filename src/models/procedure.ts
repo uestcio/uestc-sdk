@@ -8,7 +8,7 @@ import { Observable } from 'rx';
 
 import { parser } from '../helpers/parser';
 import { Course } from '../models/course';
-import { IUserLogin, ISearchCoursesOption } from '../utils/interfaces'
+import { IGetSemesterCoursesOption, IUserLogin, ISearchCoursesOption } from '../utils/interfaces'
 
 
 export interface IProcedureResult<TResult> {
@@ -129,6 +129,44 @@ export class UserLoginProcedure extends Procedure {
         return super.run().map((x) => {
             x.result = (x.response.statusCode === 302);
             return x;
+        });
+    }
+}
+
+export class UserGetSemesterCoursesPreProcedure extends Procedure {
+    constructor (user: IUserLogin) {
+        super('http://eams.uestc.edu.cn/eams/courseTableForStd.action', 'GET', user);
+    }
+    
+    run (): Observable<IProcedureResult<string>> {
+        return super.run().flatMap((res) => {
+            return parser.getUserIds(res.body).map((ids) => {
+                res.result = ids;
+                return res;
+            });
+        });
+    }
+}
+
+export class UserGetSemesterCoursesProcedure extends Procedure {
+    constructor (option: IGetSemesterCoursesOption, user: IUserLogin) {
+        super('http://eams.uestc.edu.cn/eams/courseTableForStd!courseTable.action', 'POST', user);
+        this.form({
+            'ignoreHead': '1',
+            'setting.kind': 'std',
+            'startWeek': '1',
+            'project.id': '1',
+            'semester.id': option.semester,
+            'ids': option.ids
+        }); 
+    }
+    
+    run (): Observable<IProcedureResult<Course[]>> {
+        return super.run().flatMap((res) => {
+            return parser.getUserCourses(res.body).map((courses) => {
+                res.result = courses;
+                return res;
+            });
         });
     }
 }

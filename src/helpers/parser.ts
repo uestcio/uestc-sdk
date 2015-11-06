@@ -20,6 +20,16 @@ import { Person } from '../models/person';
 import { IGetUserCoursesOption, ISearchCoursesOption, ISearchPeopleOption, IUserDetail } from '../utils/interfaces';
 
 
+interface ITimeTable { 
+    [id: string]: {
+        day: number, 
+        index: number, 
+        span: number, 
+        place: string, 
+        weeks: string
+    }[] 
+}
+
 export class Parser {
     constructor() {
 
@@ -42,8 +52,33 @@ export class Parser {
             }));
         });
     }
+    
+    getUserCourses (html: string): Observable<Course[]> {
+        return this.getWindow(html).flatMap(($: any) => {
+            var table = $('table.gridtable')[1];
+            var lines = $(table).find('tbody > tr');
+            var raws = html.match(/var table0[\S\s]*?table0\.marshalTable/)[0];
+            raws = raws.replace('table0.marshalTable', '');
+            return Observable.return<Course[]>(_.map(lines, function (line: any) {
+                var id = _.trim($(line.children[4]).text());
+                var course = new Course(id);
+                course.code = $(line.children[1]).text();
+                course.title = $(line.children[2]).text();
+                course.credit = +$(line.children[3]).text();
+                var tmp = $(line.children[5]).text();
+                course.instructors = tmp.length > 0? tmp.split(' '): [];
+                return course;
+            }));
+        });
+    }
+    
+    getUserIds (html: string): Observable<string> {
+        var tmp = html.match(/bg\.form\.addInput\(form,"ids","\d+"\);/)[0];
+        var ids = tmp.match(/\d+/)[0];
+        return Observable.return(ids);
+    }
 
-    private getWindow(html: string): Observable<JQuery> {
+    private getWindow (html: string): Observable<JQuery> {
         return Observable.create<JQuery>((observer) => {
             var window = jsdom(html, {}).defaultView;
             observer.onNext($(window));
@@ -51,7 +86,7 @@ export class Parser {
         });
     }
 
-    private getDurationsFromLine(times: string, places: string): Duration[] {
+    private getDurationsFromLine (times: string, places: string): Duration[] {
         var durationStrs = _.words(times, /[^\n\r\]]+/g);
         var placeStrs = _.words(places, /[^<br>]+/g);
         
@@ -73,8 +108,36 @@ export class Parser {
             return duration; 
         });
     }
+    
+    private getTable (table: any): ITimeTable {
+    var timeTable: ITimeTable = {};
+    for (var i in table.activities) {
+        for (var j in table.activities[i]) {
+            var course = table.activities[i][j];
+            var id = _.words(course.uk2, /[\w\d\.]+/g)[1];
+            var day = Math.floor(i / 12) + 1;
+            var index = Math.floor(i % 12);
+            var place = course.place;
+            var weeks = course.weeks.substr(1, 24);
+            if (!timeTable[id]) {
+                timeTable[id] = [];
+            }
+            var before = _.find(timeTable[id], function (time) {
+                return (time.day == day) && (time.place == place) &&
+                    (time.weeks == weeks) && (time.index + time.span == index);
+            });
+            if (before) {
+                before.span += 1;
+            }
+            else {
+                timeTable[id].push({day: day, index: index, span: 1, place: place, weeks: weeks});
+            }
+        }
+    }
+    return timeTable;
+};
 
-    private parseDayofWeek(dayStr: string): number {
+    private parseDayofWeek (dayStr: string): number {
         var res: number = -1;
         switch (dayStr) {
             case '星期一':
@@ -120,7 +183,7 @@ export class Parser {
         return res;
     }
 
-    private parseIndexes(indexesStr: string): string {
+    private parseIndexes (indexesStr: string): string {
         var raws: string[] = _.words(indexesStr, /\d+/g);
         var res: string = '';
         _.times(12, function(n) {
@@ -129,7 +192,7 @@ export class Parser {
         return res;
     }
 
-    private parseWeeks(weeksStr: string, parity: number): string {
+    private parseWeeks (weeksStr: string, parity: number): string {
         var raws: string[] = _.words(weeksStr, /\d+/g);
         var res: string = '';
         _.times(24, function(n) {
@@ -144,6 +207,7 @@ export class Parser {
         });
         return res;
     }
+    
 }
 
 export const parser = new Parser();

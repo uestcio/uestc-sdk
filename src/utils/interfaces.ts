@@ -6,6 +6,11 @@ import { CookieJar } from 'request';
 import { Observable } from 'rx';
 
 
+export interface IGetSemesterCoursesOption {
+    semester: string,
+    ids: string
+}
+
 export interface IGetUserCoursesOption {
     grade?: number,
     semester?: number

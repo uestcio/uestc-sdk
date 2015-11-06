@@ -1,6 +1,8 @@
 export class Course {
     id: string = null;
     campus: string = null;
+    code: string = null;
+    credit: number = null;
     department: string = null;
     durations: any[] = [];
     genre: string = null;
@@ -9,6 +11,7 @@ export class Course {
     
     constructor (id: string) {
         this.id = id;
+        this.code = id.indexOf('.') > 0? id.split('.')[0]: null;
     }
 }
 

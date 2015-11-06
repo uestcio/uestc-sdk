@@ -9,6 +9,7 @@ import { Observable } from 'rx';
 import { Course, TakenCourse } from '../models/course';
 import { Exam } from '../models/exam';
 import { Person } from '../models/person';
+import { UserEnsureLoginProcedure } from '../models/procedure'
 
 import { IGetUserCoursesOption, ISearchCoursesOption, ISearchPeopleOption, IUserDetail } from '../utils/interfaces';
 
@@ -17,7 +18,8 @@ import { IGetUserCoursesOption, ISearchCoursesOption, ISearchPeopleOption, IUser
  */
 export class Fetcher {
     confirmUser (id: string, password: string, jar: Request.CookieJar): Observable<boolean> {
-        return null;
+        var procedure = new UserEnsureLoginProcedure({id: id, password: password, jar: jar});
+        return procedure.run().map((x) => x.result);
     }
     
     getUserCourses (option: IGetUserCoursesOption, forever: boolean, jar: Request.CookieJar) : Observable<TakenCourse[]> {
