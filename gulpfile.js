@@ -1,10 +1,13 @@
 var gulp = require('gulp');
 var ts = require('gulp-typescript');
+var tsd = require('gulp-tsd');
 var typedoc = require("gulp-typedoc");
 var rename = require("gulp-rename");
 var tsProject = ts.createProject('tsconfig.json');
 
 gulp.task('default', ['tsc', 'typedoc']);
+
+gulp.task('generate', ['tsd', 'tsc']);
 
 gulp.task('tsc', function () {
     var tsResult = tsProject.src()
@@ -13,6 +16,13 @@ gulp.task('tsc', function () {
     return tsResult.js.pipe(rename(function (path) {
             path.dirname = path.dirname.replace('src', '.');
         })).pipe(gulp.dest('dist'));
+});
+
+gulp.task('tsd', function (callback) {
+    tsd({
+        command: 'reinstall',
+        config: './tsd.json'
+    }, callback);
 });
 
 gulp.task('typedoc', function () {

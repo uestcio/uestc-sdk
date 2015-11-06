@@ -17,7 +17,7 @@ import { Duration, durationFactory } from '../models/duration';
 import { Exam } from '../models/exam';
 import { Person } from '../models/person';
 
-import { IGetUserCoursesOption, ISearchCoursesOption, ISearchPeopleOption, IUserDetail } from 'utils/interfaces';
+import { IGetUserCoursesOption, ISearchCoursesOption, ISearchPeopleOption, IUserDetail } from '../utils/interfaces';
 
 
 export class Parser {

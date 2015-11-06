@@ -10,7 +10,7 @@ import { Course, TakenCourse } from '../models/course';
 import { Exam } from '../models/exam';
 import { Person } from '../models/person';
 
-import { IGetUserCoursesOption, ISearchCoursesOption, ISearchPeopleOption, IUserDetail } from 'utils/interfaces';
+import { IGetUserCoursesOption, ISearchCoursesOption, ISearchPeopleOption, IUserDetail } from '../utils/interfaces';
 
 /**
  * @description The helper to deal with online request.
