@@ -25,6 +25,11 @@
         "src/helpers/fetcher.ts",
         "src/helpers/parser.ts",
         "src/helpers/seeker.ts",
-        "src/utils/interfaces.ts"
+        "src/utils/interfaces.ts",
+        "src/fixtures/activity_cluster",
+        "src/fixtures/course_table.ts",
+        "src/fixtures/task_activity.ts",
+        "src/fixtures/week.ts",
+        "src/fixtures/year.ts"
     ]
 }
