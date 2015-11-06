@@ -7,8 +7,6 @@ var tsProject = ts.createProject('tsconfig.json');
 
 gulp.task('default', ['tsc', 'typedoc']);
 
-gulp.task('generate', ['tsd', 'tsc']);
-
 gulp.task('tsc', function () {
     var tsResult = tsProject.src()
         .pipe(ts(tsProject));
