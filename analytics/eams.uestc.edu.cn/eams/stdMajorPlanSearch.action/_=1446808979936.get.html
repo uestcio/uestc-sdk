@@ -1,0 +1,50 @@
+<div id="toolbar21061543671">
+</div>
+<script type="text/javascript">
+	bar = bg.ui.toolbar("toolbar21061543671",'专业计划查询');
+  	bar.addBack();
+
+  bar.addHr();
+
+</script>
+<div style="background: url('/eams/static/images/semesterBarBg.png') repeat-x scroll 50% 50% #DEEDF7;border: 1px solid #AED0EA;color: #222222;font-weight: bold;height:28px;">
+	<form id="semesterForm" name="semesterForm" action="/eams/stdMajorPlanSearch!search.action" method="post" target="contentDiv">
+
+		<div style="margin-left:4px;margin-top:2px;float:left;line-height:22px;height:22px;">
+			<label for="grade" class="title">年级:</label>
+			<select id="grade" name="program.grade" onChange="bg.form.submit(document.semesterForm)">
+				<option value="2015" selected>2015</option>
+				<option value="2014">2014</option>
+				<option value="2013">2013</option>
+				<option value="2012">2012</option>
+				<option value="2011">2011</option>
+				<option value="2010">2010</option>
+				<option value="2000">2000</option>
+			</select>
+			|
+			<label for="education" class="title">培养层次:</label>
+			<select id="education" name="program.education.id" onChange="bg.form.submit(document.semesterForm)">
+				<option value="6" selected>本科</option>
+				<option value="27">高中</option>
+				<option value="4">博士研究生</option>
+				<option value="5">硕士研究生</option>
+				<option value="47">大专</option>
+			</select>
+			|
+			<label for="departOrMajor" class="title">院系或专业:</label>
+			<input id="departOrMajor" name="departOrMajor" value="" style="width:100px" /> |
+			<input type="button" value="查找" onClick="bg.form.submit(document.semesterForm)" />
+		</div>
+
+	</form>
+</div>
+<table class="indexpanel">
+	<tr>
+		<td class="index_content">
+			<div id="contentDiv" class="ajax_container"></div>
+			<script>
+				bg.ready(function(){bg.Go('/eams/stdMajorPlanSearch!search.action?program.grade=2015&program.education.id=6','contentDiv')});
+			</script>
+		</td>
+	</tr>
+</table>
