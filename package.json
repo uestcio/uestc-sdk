@@ -8,8 +8,7 @@
   },
   "scripts": {
     "test": "mocha --bail --full-trace test/ --timeout 300000 --recursive",
-    "test-ci": "",
-    "install": "gulp generate"
+    "test-ci": ""
   },
   "repository": {
     "type": "git",
