@@ -9,7 +9,7 @@
   "scripts": {
     "test": "mocha --bail --full-trace test/ --timeout 300000 --recursive",
     "test-ci": "",
-    "install": "gulp tsd && gulp tsc"
+    "install": "gulp tsc"
   },
   "repository": {
     "type": "git",
