@@ -15,27 +15,36 @@ import { Observable } from 'rx';
 import { Course, TakenCourse, courseFactory } from '../models/course';
 import { Duration, durationFactory } from '../models/duration';
 import { Exam } from '../models/exam';
-import { Person } from '../models/person';
+import { Person, personFactory } from '../models/person';
 
 import { IGetUserCoursesOption, ISearchCoursesOption, ISearchPeopleOption, IUserDetail } from '../utils/interfaces';
 
 
-interface ITimeTable { 
+interface ITimeTable {
     [id: string]: {
-        day: number, 
-        index: number, 
-        span: number, 
-        place: string, 
+        day: number,
+        index: number,
+        span: number,
+        place: string,
         weeks: string
-    }[] 
+    }[]
 }
 
+
+/**
+ * @description The helper of parsing html or json files to data.
+ */
 export class Parser {
     constructor() {
 
     }
 
-    getAppCourses (html: string): Observable<Course[]> {
+    /**
+     * @description Get the courses of html result from app#searchForCourses.
+     * @param html The html string contains the courses.
+     * @returns The Observable instance of the parse result.
+     */
+    getAppCourses(html: string): Observable<Course[]> {
         return this.getWindow(html).flatMap(($: any) => {
             var lines = $('table.gridtable > tbody > tr');
             return Observable.return<Course[]>(_.map(lines, (line: any) => {
@@ -45,51 +54,76 @@ export class Parser {
                 course.genre = $(line.children[3]).text();
                 course.department = $(line.children[4]).text();
                 var tmp = _.trim($(line.children[5]).text());
-                course.instructors = tmp.length > 0? tmp.split(' '): [];
+                course.instructors = tmp.length > 0 ? tmp.split(' ') : [];
                 course.durations = this.getDurationsFromLine(_.trim($(line.children[8]).text()), $(line.children[9]).html());
                 course.campus = $(line.children[11]).text();
                 return course;
             }));
         });
     }
-    
-    getUserCourses (html: string): Observable<Course[]> {
+
+    getUserCourses(html: string): Observable<Course[]> {
         return this.getWindow(html).flatMap(($: any) => {
             var table = $('table.gridtable')[1];
             var lines = $(table).find('tbody > tr');
             var raws = html.match(/var table0[\S\s]*?table0\.marshalTable/)[0];
             raws = raws.replace('table0.marshalTable', '');
-            return Observable.return<Course[]>(_.map(lines, function (line: any) {
+            return Observable.return<Course[]>(_.map(lines, function(line: any) {
                 var id = _.trim($(line.children[4]).text());
                 var course = new Course(id);
                 course.code = $(line.children[1]).text();
                 course.title = $(line.children[2]).text();
                 course.credit = +$(line.children[3]).text();
                 var tmp = $(line.children[5]).text();
-                course.instructors = tmp.length > 0? tmp.split(' '): [];
+                course.instructors = tmp.length > 0 ? tmp.split(' ') : [];
                 return course;
             }));
         });
     }
-    
-    getUserIds (html: string): Observable<string> {
+
+    getUserIds(html: string): Observable<string> {
         var tmp = html.match(/bg\.form\.addInput\(form,"ids","\d+"\);/)[0];
         var ids = tmp.match(/\d+/)[0];
         return Observable.return(ids);
     }
 
-    private getWindow (html: string): Observable<JQuery> {
+    /**
+     * @warining This interface is not available in resent tests.
+     * @description Get the people of json from app#searchForPeople.
+     * @param json The json string contains the people.
+     * @returns The Observable instance of the parse result.
+     */
+    getAppPeople(json: string) {
+        return Observable.return(_.map(JSON.parse(json).principals, (obj: any) => {
+            var person = personFactory.create(obj.id);
+            person.name = obj.name;
+            person.deptName = obj.name;
+        }));
+    }
+    
+    /**
+     * @description Get the jQuery instance of the given html page.
+     * @param html The html string to generate a window with $.
+     * @returns The Observable instance of the jQuery instance.
+     */
+    private getWindow(html: string): Observable<JQuery> {
         return Observable.create<JQuery>((observer) => {
             var window = jsdom(html, {}).defaultView;
             observer.onNext($(window));
             observer.onCompleted();
         });
     }
-
-    private getDurationsFromLine (times: string, places: string): Duration[] {
+        
+    /**
+     * @description Get duration instances from the inline string.
+     * @param times The times representation string. eg. `星期一 7-8 [3-18]\n\r星期四 5-6 [3-18]\n\r星期五 3-4 [3-17单]`.
+     * @param places The places representation string. eg. `沙河第二教学樓208`.
+     * @returns The array represent durations. 
+     */
+    private getDurationsFromLine(times: string, places: string): Duration[] {
         var durationStrs = _.words(times, /[^\n\r\]]+/g);
         var placeStrs = _.words(places, /[^<br>]+/g);
-        
+
         return durationStrs.map((dStr, n) => {
             var place = _.trim(placeStrs[n]) || '';
             var tmp = _.words(dStr, /[\S]+/g);
@@ -97,47 +131,51 @@ export class Parser {
             if (parity !== 4) {
                 place = _.words(place, /\S+/g)[1];
             }
-            
-            
+
             var duration = durationFactory.create();
             duration.day = this.parseDayofWeek(tmp[0]);
             duration.indexes = this.parseIndexes(tmp[1]);
             duration.weeks = this.parseWeeks(tmp[2], parity);
             duration.place = place;
-            
-            return duration; 
+
+            return duration;
         });
     }
-    
-    private getTable (table: any): ITimeTable {
-    var timeTable: ITimeTable = {};
-    for (var i in table.activities) {
-        for (var j in table.activities[i]) {
-            var course = table.activities[i][j];
-            var id = _.words(course.uk2, /[\w\d\.]+/g)[1];
-            var day = Math.floor(i / 12) + 1;
-            var index = Math.floor(i % 12);
-            var place = course.place;
-            var weeks = course.weeks.substr(1, 24);
-            if (!timeTable[id]) {
-                timeTable[id] = [];
-            }
-            var before = _.find(timeTable[id], function (time) {
-                return (time.day == day) && (time.place == place) &&
-                    (time.weeks == weeks) && (time.index + time.span == index);
-            });
-            if (before) {
-                before.span += 1;
-            }
-            else {
-                timeTable[id].push({day: day, index: index, span: 1, place: place, weeks: weeks});
+
+    private getTable(table: any): ITimeTable {
+        var timeTable: ITimeTable = {};
+        for (var i in table.activities) {
+            for (var j in table.activities[i]) {
+                var course = table.activities[i][j];
+                var id = _.words(course.uk2, /[\w\d\.]+/g)[1];
+                var day = Math.floor(i / 12) + 1;
+                var index = Math.floor(i % 12);
+                var place = course.place;
+                var weeks = course.weeks.substr(1, 24);
+                if (!timeTable[id]) {
+                    timeTable[id] = [];
+                }
+                var before = _.find(timeTable[id], function(time) {
+                    return (time.day == day) && (time.place == place) &&
+                        (time.weeks == weeks) && (time.index + time.span == index);
+                });
+                if (before) {
+                    before.span += 1;
+                }
+                else {
+                    timeTable[id].push({ day: day, index: index, span: 1, place: place, weeks: weeks });
+                }
             }
         }
-    }
-    return timeTable;
-};
+        return timeTable;
+    };
 
-    private parseDayofWeek (dayStr: string): number {
+    /**
+     * @description Get day of week from the inline string.
+     * @param dayStr The day representation string. eg. `星期一`.
+     * @returns The number of day start from 1. 
+     */
+    private parseDayofWeek(dayStr: string): number {
         var res: number = -1;
         switch (dayStr) {
             case '星期一':
@@ -183,7 +221,12 @@ export class Parser {
         return res;
     }
 
-    private parseIndexes (indexesStr: string): string {
+    /**
+     * @description Get the indexes of some day from inline string.
+     * @param indexesStr The indexes representation string. eg. `9-11`.
+     * @returns The string representation of the indexes. eg. `00000000110`.
+     */
+    private parseIndexes(indexesStr: string): string {
         var raws: string[] = _.words(indexesStr, /\d+/g);
         var res: string = '';
         _.times(12, function(n) {
@@ -192,7 +235,13 @@ export class Parser {
         return res;
     }
 
-    private parseWeeks (weeksStr: string, parity: number): string {
+    /**
+     * @description Get the weeks from the inline string.
+     * @param weeksStr The weeks representation string. eg. `[1-17]`.
+     * @param parity The parity representation number. 1 for odd weeks, 2 for even weeks, 4 for all weeks.
+     * @returns The string representation of weeks. eg. `111111111111111110000000`.
+     */
+    private parseWeeks(weeksStr: string, parity: number): string {
         var raws: string[] = _.words(weeksStr, /\d+/g);
         var res: string = '';
         _.times(24, function(n) {
@@ -207,7 +256,7 @@ export class Parser {
         });
         return res;
     }
-    
+
 }
 
 export const parser = new Parser();

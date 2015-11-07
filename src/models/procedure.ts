@@ -8,7 +8,10 @@ import { Observable } from 'rx';
 
 import { parser } from '../helpers/parser';
 import { Course } from '../models/course';
+
 import { IGetSemesterCoursesOption, IUserLogin, ISearchCoursesOption } from '../utils/interfaces'
+
+import { Person } from '../models/person';
 
 
 export interface IProcedureResult<TResult> {
@@ -85,6 +88,39 @@ export class AppSearchCoursesProcedure extends Procedure {
         return super.run().flatMap((res) => {
             return parser.getAppCourses(res.body).map((courses) => {
                 res.result = courses;
+                return res;
+            });
+        });
+    }
+}
+
+export class AppSearchPeoplePreProcedure extends Procedure {
+    constructor (user: IUserLogin) {
+        super('http://portal.uestc.edu.cn/pnull.portal?action=globalGroupsTree&.ia=false&.pmn=view&.pen=personnelGroupmanager&groupId&identity=undefined&authorize=undefined', 'GET', user);
+    }
+    
+    run (): Observable<IProcedureResult<boolean>> {
+        return super.run().map((res) => {
+            res.result = true;
+            return res;
+        });
+    }
+}
+
+export class AppSearchPeopleProcedure extends Procedure {
+    constructor (term: string, user: IUserLogin) {
+        super('http://portal.uestc.edu.cn/pnull.portal?action=fetchUsers&.ia=false&.pmn=view&.pen=personnelGroupmanager', 'POST', user);
+        this.form({
+            'limit': '10',
+            'oper_type': 'normal_user',
+            'term': term
+        });
+    }
+    
+    run (): Observable<IProcedureResult<Person[]>> {
+        return super.run().flatMap((res) => {
+            return parser.getAppPeople(res.body).map((people) => {
+                res.result = people;
                 return res;
             });
         });

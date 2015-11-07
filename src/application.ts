@@ -81,7 +81,7 @@ export class Application {
     searchForCourses (option: ISearchCoursesOption, callback?: { (error: Error, courses: Course[]): void; }): Observable<Course[]> {       
         var observable: Observable<Course[]> = Observable.just<boolean>(this.isUserExist())
             .flatMap<Course[]>((x) => x? 
-                fetcher.searchForCourses(option, this.currentUser.jar):
+                fetcher.searchForCourses(option, this.currentUser):
                 Observable.throw<Course[]>(new Error('401: Application#searchForCourses must be called with a current user.')));
         caller.nodifyObservable(observable, callback);
         return observable;
@@ -121,7 +121,7 @@ export class Application {
     searchForPeople (option: ISearchPeopleOption, callback?: { (error: Error, people: Person[]): void; }): Observable<Person[]> {       
         var observable: Observable<Person[]> = Observable.just<boolean>(this.isUserExist())
             .flatMap<Person[]>((x) => x? 
-                fetcher.searchForPeople(option, this.currentUser.jar):
+                fetcher.searchForPeople(option, this.currentUser):
                 Observable.throw<Person[]>(new Error('401: Application#searchForCourses must be called with a current user.')));
         caller.nodifyObservable(observable, callback);
         return observable;

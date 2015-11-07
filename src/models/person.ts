@@ -1,5 +1,7 @@
 export class Person {
     id: string;
+    name: string;
+    deptName: string;
     
     constructor (id: string) {
         this.id = id;
@@ -7,7 +9,9 @@ export class Person {
 }
 
 export class PersonFactory {
-    $new (id: string) {
+    create (id: string) {
         return new Person(id);
     }
 }
+
+export const personFactory = new PersonFactory();

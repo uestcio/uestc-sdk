@@ -43,8 +43,8 @@ describe('Parser module: ', function () {
                 expect(parser).to.have.property('getAppCourses');
                 expect(parser.getAppCourses).to.be.a('function');
 
-                expect(parser).to.have.property('getWindow');
-                expect(parser.getWindow).to.be.a('function');
+                expect(parser).to.have.property('getJq');
+                expect(parser.getJq).to.be.a('function');
 
                 expect(parser).to.have.property('getDurationsFromLine');
                 expect(parser.getDurationsFromLine).to.be.a('function');
