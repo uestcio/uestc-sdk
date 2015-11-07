@@ -45,7 +45,7 @@ export class Parser {
      * @returns The Observable instance of the parse result.
      */
     getAppCourses(html: string): Observable<Course[]> {
-        return this.getWindow(html).flatMap(($: any) => {
+        return this.getJq(html).flatMap(($: any) => {
             var lines = $('table.gridtable > tbody > tr');
             return Observable.return<Course[]>(_.map(lines, (line: any) => {
                 var id = $(line.children[1]).text();
@@ -63,7 +63,7 @@ export class Parser {
     }
 
     getUserCourses(html: string): Observable<Course[]> {
-        return this.getWindow(html).flatMap(($: any) => {
+        return this.getJq(html).flatMap(($: any) => {
             var table = $('table.gridtable')[1];
             var lines = $(table).find('tbody > tr');
             var raws = html.match(/var table0[\S\s]*?table0\.marshalTable/)[0];
@@ -106,7 +106,7 @@ export class Parser {
      * @param html The html string to generate a window with $.
      * @returns The Observable instance of the jQuery instance.
      */
-    private getWindow(html: string): Observable<JQuery> {
+    private getJq(html: string): Observable<JQuery> {
         return Observable.create<JQuery>((observer) => {
             var window = jsdom(html, {}).defaultView;
             observer.onNext($(window));

@@ -12,7 +12,7 @@ import { Person } from '../models/person';
 
 import { UserLoginProcedure, UserEnsureLoginProcedure, AppSearchCoursesPreProcedure, AppSearchCoursesProcedure, AppSearchPeoplePreProcedure, AppSearchPeopleProcedure } from '../models/procedure';
 
-import { IGetUserCoursesOption, ISearchCoursesOption, ISearchPeopleOption, IUserDetail, IUserLogin } from 'utils/interfaces';
+import { IGetUserCoursesOption, ISearchCoursesOption, ISearchPeopleOption, IUserDetail, IUserLogin } from '../utils/interfaces';
 
 
 /**

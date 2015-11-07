@@ -7,7 +7,7 @@
     "node": ">=0.12"
   },
   "scripts": {
-    "test": "mocha --bail --full-trace test/ --timeout 300000 --recursive",
+    "test": "mocha --bail --full-trace --check-leaks test/ --timeout 300000 --recursive",
     "test-ci": "",
     "install": "gulp tsc"
   },

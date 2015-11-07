@@ -1,6 +1,5 @@
-///<reference path="../../typings/request/request"/>
-///<reference path="../../typings/rx/rx"/>
-///<reference path="../../typings/rx/rx-lite"/>
+/// <reference path="../../typings/request/request"/>
+/// <reference path="../../typings/rx/rx"/> 
 
 
 import * as Request from 'request';
@@ -57,7 +56,7 @@ export class Procedure {
                     observer.onCompleted();
                 }
             });
-        }).retry(3);
+        }).retry(100);
     }
 }
 

@@ -7,12 +7,12 @@ var parserModule = require('../../dist/helpers/parser');
 var procedureModule = require('../../dist/models/procedure');
 
 var noCallFun = function (err) {
-    throw err;
+    throw err || new Error('This function should not be called!');
 }
 
 describe('Procedure module: ', function () {
-    var correctUser = { id: '2012019050020', password: '811073' };
-    var incorrectUser = { id: '2012019050020', password: '123456'}
+    var correctUser = { id: '2012019050020', password: '811073', jar: request.jar() };
+    var incorrectUser = { id: '2012019050020', password: '123456', jar: request.jar() };
     
     it('should have a `Procedure` class.', function () {
         expect(procedureModule).to.have.property('Procedure');
@@ -46,7 +46,10 @@ describe('Procedure module: ', function () {
         
         it('should return false with incorrect id and password.', function (done) {
             var userLoginProcedure = new UserLoginProcedure(incorrectUser);
-            userLoginProcedure.run().subscribe(function (res) {
+            userLoginProcedure.run().catch(function (err) {
+                console.log(err);
+                throw err;
+            }).subscribe(function (res) {
                 expect(res.result).to.be(false);
                 done();
             }, noCallFun);
@@ -75,7 +78,10 @@ describe('Procedure module: ', function () {
         
         it('should return true with user not in active and auto login succeed.', function (done) {
             var userEnsureLoginProcedure = new UserEnsureLoginProcedure(correctUser);
-            userEnsureLoginProcedure.run().subscribe(function (outRes) {
+            userEnsureLoginProcedure.run().catch(function (err) {
+                console.log(err);
+                throw err;
+            }).subscribe(function (outRes) {
                 expect(outRes.result).to.be(true);
                 done();
             }, noCallFun);
