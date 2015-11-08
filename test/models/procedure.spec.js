@@ -104,14 +104,10 @@ describe('Procedure module: ', function () {
 
         it('should be able to call parser#getAppPeople with pre procedure.', function (done) {
             var loginProcedure = new UserLoginProcedure(correctUser);
-            var preProcedure = new AppSearchPeoplePreProcudure(correctUser);
             var procedure = new AppSearchPeopleProcedure('2012019050020', correctUser);
             
             loginProcedure.run().flatMapLatest(function (loginRes) {
                 expect(loginRes.result).to.be(true);
-                return preProcedure.run();
-            }).flatMapLatest(function (preRes) {
-                expect(preRes.result).to.be(true);
                 return procedure.run();
             }).subscribe(function (res) {
                 expect(res.result).to.be.an(Array);
@@ -123,14 +119,16 @@ describe('Procedure module: ', function () {
             }, noCallFun);
         });
 
-        xit('should not be able to call parser#getAppPeople without pre procedure.', function (done) {
-            var procedure = new AppSearchPeopleProcedure('test', correctUser);
+        it('should not be able to call parser#getAppPeople without login procedure', function (done) {
+            var preProcedure = new AppSearchPeoplePreProcudure(correctUser);
+            var procedure = new AppSearchPeopleProcedure('', correctUser);
 
-            procedure.run().subscribe(function (res) {
-                console.log(res.body);
-                expect(res.response.statusCode).to.be(302);
-                done();
-            }, noCallFun);
+            preProcedure.run().flatMap(function (preRes) {
+                return procedure.run();
+            }).subscribe(noCallFun, function (error) {
+               expect(error).not.to.be(null);
+               done(); 
+            });
         });
     });
 

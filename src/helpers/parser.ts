@@ -106,7 +106,13 @@ export class Parser {
      * @returns The Observable instance of the parse result.
      */
     getAppPeople(json: string) {
-        return Observable.return(_.map(JSON.parse(json).principals, (rawPerson: IRawPerson) => {
+        var rawPeople: IRawPerson[] = null;
+        try {
+            rawPeople = JSON.parse(json).principals;
+        } catch (error) {
+            throw new Error('500: The input is not valid json.');
+        }
+        return Observable.return(_.map(rawPeople, (rawPerson: IRawPerson) => {
             var person = personFactory.create(rawPerson.id);
             person.name = rawPerson.name;
             person.metier = rawPerson.metier;

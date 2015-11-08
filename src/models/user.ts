@@ -112,7 +112,7 @@ export class User implements IUserLogin {
     
     /**
     * @description The chinese name. (姓名)
-    * @example '秋桐宇'
+    * @example '秋彤宇'
     */
     name: string = null;
     
