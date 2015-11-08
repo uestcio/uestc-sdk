@@ -30,6 +30,18 @@ interface ITimeTable {
     }[]
 }
 
+interface IRawPerson {
+     metier: string, 
+     authorized: any, 
+     deptName: string, 
+     workplace: string, 
+     description: string, 
+     workphone: string, 
+     idName: string, 
+     name: string, 
+     id: string 
+}
+
 
 /**
  * @description The helper of parsing html or json files to data.
@@ -94,10 +106,16 @@ export class Parser {
      * @returns The Observable instance of the parse result.
      */
     getAppPeople(json: string) {
-        return Observable.return(_.map(JSON.parse(json).principals, (obj: any) => {
-            var person = personFactory.create(obj.id);
-            person.name = obj.name;
-            person.deptName = obj.name;
+        return Observable.return(_.map(JSON.parse(json).principals, (rawPerson: IRawPerson) => {
+            var person = personFactory.create(rawPerson.id);
+            person.name = rawPerson.name;
+            person.metier = rawPerson.metier;
+            person.authorized = rawPerson.authorized;
+            person.deptName = rawPerson.name;
+            person.workplace = rawPerson.workplace;
+            person.description = rawPerson.description;
+            person.workphone = rawPerson.workphone;
+            return person;
         }));
     }
     

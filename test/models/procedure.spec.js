@@ -46,64 +46,84 @@ describe('Procedure module: ', function () {
             var loginProcedure = new UserLoginProcedure(correctUser);
             var preProcedure = new AppSearchCoursesPreProcudure(correctUser);
             var procedure = new AppSearchCoursesProcedure({ instructor: '蒲和平' }, correctUser);
-            loginProcedure.run().subscribe(function (res) {
-                expect(res.result).to.be(true);
-                preProcedure.run().subscribe(function (res) {
-                    expect(res.result).to.be(true);
-                    procedure.run().subscribe(function (res) {
-                        expect(res.result).to.be.an(Array);
-                        expect(res.result.length).not.to.be(0);
-                        expect(res.result[0]).to.have.property('instructors');
-                        expect(res.result[0].instructors).to.be.a(Array);
-                        expect(res.result[0].instructors.length).not.to.be(0);
-                        expect(res.result[0].instructors[0]).to.be('蒲和平');
-                        done();
-                    }, noCallFun);
-                }, noCallFun);
+
+            loginProcedure.run().flatMapLatest(function (loginRes) {
+                expect(loginRes.result).to.be(true);
+                return preProcedure.run();
+            }).flatMapLatest(function (preRes) {
+                expect(preRes.result).to.be(true);
+                return procedure.run();
+            }).subscribe(function (res) {
+                expect(res.result).to.be.an(Array);
+                expect(res.result.length).not.to.be(0);
+                expect(res.result[0]).to.have.property('instructors');
+                expect(res.result[0].instructors).to.be.a(Array);
+                expect(res.result[0].instructors.length).not.to.be(0);
+                expect(res.result[0].instructors[0]).to.be('蒲和平');
+                done();
             }, noCallFun);
         });
 
-        it('should not be able to call parser#getAppCourses without pre procedure.', function (done) {
-            var procedure = new AppSearchCoursesProcedure('test', correctUser);
+        it('should not be able to call parser#getAppCourses without login procedure', function (done) {
+            var preProcedure = new AppSearchCoursesPreProcudure(correctUser);
+            var procedure = new AppSearchCoursesProcedure({}, correctUser);
 
-            procedure.run().subscribe(function (res) {
-                console.log(res.body);
+            preProcedure.run().flatMap(function (preRes) {
+                return procedure.run();
+            }).subscribe(function (res) {
                 expect(res.response.statusCode).to.be(302);
+                done();
+            }, noCallFun);;
+        });
+
+        it('should not be able to call parser#getAppCourses without pre procedure.', function (done) {
+            var loginProcedure = new UserLoginProcedure(correctUser);
+            var procedure = new AppSearchCoursesProcedure({}, correctUser);
+
+            loginProcedure.run().flatMap(function (loginRes) {
+                return procedure.run();
+            }).subscribe(function (res) {
+                expect(res.response.statusCode).to.be(500);
                 done();
             }, noCallFun);
         });
     });
 
-    xdescribe('instance of AppSearchPeopleProcedure', function () {
-        var people = [];
+    describe('instance of AppSearchPeopleProcedure', function () {
+        var UserLoginProcedure = procedureModule.UserLoginProcedure;
         var AppSearchPeoplePreProcudure = procedureModule.AppSearchPeoplePreProcedure;
         var AppSearchPeopleProcedure = procedureModule.AppSearchPeopleProcedure;
-        var originalParserGetAppPeople = parserModule.Parser.prototype.getAppPeople;
 
         beforeEach(function () {
-            correctUser.jar = incorrectUser.jar = request.jar();
-            parserModule.Parser.prototype.getAppPeople = function () {
-                return rx.Observable.return(people);
-            };
+            correctUser.jar = request.jar();
+            incorrectUser.jar = request.jar();
         });
 
         after(function () {
-            parserModule.Parser.prototype.getAppPeople = originalParserGetAppPeople;
         });
 
         it('should be able to call parser#getAppPeople with pre procedure.', function (done) {
+            var loginProcedure = new UserLoginProcedure(correctUser);
             var preProcedure = new AppSearchPeoplePreProcudure(correctUser);
-            var procedure = new AppSearchPeopleProcedure('test', correctUser);
-            preProcedure.run().subscribe(function (res) {
-                expect(res.result).to.be(true);
-                procedure.run().subscribe(function (res) {
-                    expect(res.result).to.be(people);
-                    done();
-                }, noCallFun);
+            var procedure = new AppSearchPeopleProcedure('2012019050020', correctUser);
+            
+            loginProcedure.run().flatMapLatest(function (loginRes) {
+                expect(loginRes.result).to.be(true);
+                return preProcedure.run();
+            }).flatMapLatest(function (preRes) {
+                expect(preRes.result).to.be(true);
+                return procedure.run();
+            }).subscribe(function (res) {
+                expect(res.result).to.be.an(Array);
+                expect(res.result.length).not.to.be(0);
+                expect(res.result[0]).to.be.an(Object);
+                expect(res.result[0]).to.have.property('id');
+                expect(res.result[0].id).to.be('2012019050020');
+                done();
             }, noCallFun);
         });
 
-        it('should not be able to call parser#getAppPeople without pre procedure.', function (done) {
+        xit('should not be able to call parser#getAppPeople without pre procedure.', function (done) {
             var procedure = new AppSearchPeopleProcedure('test', correctUser);
 
             procedure.run().subscribe(function (res) {
