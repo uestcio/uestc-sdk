@@ -1,11 +1,20 @@
 import { User } from '../models/user';
 
+
+export interface IUserCache {
+    [id: string]: User;
+}
+
 export class Cacher {
-    users: { [id: string]: User; };
+    private _users: IUserCache = {};
     
-    constructor () {
+    get users(): IUserCache {
+        return this._users;
+    }
+
+    constructor() {
         this.users = {};
     }
 }
 
-export const cacher: Cacher = new Cacher();
+export const defaultCacher: Cacher = new Cacher();

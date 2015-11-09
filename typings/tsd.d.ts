@@ -7,3 +7,4 @@
 /// <reference path="rx/rx.d.ts" />
 /// <reference path="jquery/jquery.d.ts" />
 /// <reference path="jsdom/jsdom.d.ts" />
+/// <reference path="expect.js/expect.js.d.ts" />

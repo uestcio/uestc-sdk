@@ -5,10 +5,12 @@
 import * as Request from 'request';
 import { Observable } from 'rx';
 
-import { parser } from '../helpers/parser';
+import { Parser, defaultParser } from '../helpers/parser';
 import { Course } from '../models/course';
 
-import { IGetSemesterCoursesOption, IUserLogin, ISearchCoursesOption } from '../utils/interfaces'
+import { ISearchCoursesOption, IGetSemesterCoursesOption } from '../utils/course_util';
+import {  } from '../utils/person_util';
+import { IUserLogin } from '../utils/user_util';
 
 import { Person } from '../models/person';
 
@@ -32,21 +34,26 @@ export class Procedure {
     formData: IQuery = null;
     tmpData: any = {};
 
-    constructor (url: string, method: string, user: IUserLogin) {
+    constructor() {
+    }
+
+    init(url: string, method: string, user: IUserLogin): Procedure {
         this.url = url;
         this.method = method;
         this.user = user;
+
+        return this;
     }
-    
-    query (queryData: IQuery): void {
+
+    query(queryData: IQuery): void {
         this.queryData = queryData;
     }
 
-    form (formData: IQuery): void {
+    form(formData: IQuery): void {
         this.formData = formData;
     }
 
-    run (): Observable<IProcedureResult<any>> {
+    run(): Observable<IProcedureResult<any>> {
         return Observable.create<IProcedureResult<any>>((observer) => {
             Request({
                 uri: this.url,
@@ -64,13 +71,21 @@ export class Procedure {
                     observer.onCompleted();
                 }
             });
-        }).retry(100);
+        }).retry(100).catch((error) => {
+            return Observable.throwError<IProcedureResult<any>>(new Error('000: Network is not available.'));
+        });
     }
 }
 
 export class AppSearchCoursesPreProcedure extends Procedure {
-    constructor(user: IUserLogin) {
-        super('http://eams.uestc.edu.cn/eams/publicSearch.action', 'GET', user);
+    constructor() {
+        super();
+    }
+
+    config(user: IUserLogin): AppSearchCoursesPreProcedure {
+        this.init('http://eams.uestc.edu.cn/eams/publicSearch.action', 'GET', user);
+
+        return this;
     }
 
     run(): Observable<IProcedureResult<boolean>> {
@@ -82,8 +97,13 @@ export class AppSearchCoursesPreProcedure extends Procedure {
 }
 
 export class AppSearchCoursesProcedure extends Procedure {
-    constructor(option: ISearchCoursesOption, user: IUserLogin) {
-        super('http://eams.uestc.edu.cn/eams/publicSearch!search.action', 'POST', user);
+    constructor(private parser: Parser) {
+        super();
+    }
+
+    config(option: ISearchCoursesOption, user: IUserLogin): AppSearchCoursesProcedure {
+        this.init('http://eams.uestc.edu.cn/eams/publicSearch!search.action', 'POST', user);
+
         this.form({
             'lesson.project.id': '1',
             'lesson.no': '',
@@ -103,11 +123,13 @@ export class AppSearchCoursesProcedure extends Procedure {
             'examType.id': '...',
             'lesson.semester.id': 'undefined'
         });
+
+        return this;
     }
 
     run(): Observable<IProcedureResult<Course[]>> {
-        return super.run().flatMap((res) => {
-            return parser.getAppCourses(res.body).map((courses) => {
+        return super.run().flatMapLatest((res) => {
+            return this.parser.getAppCourses(res.body).map((courses) => {
                 res.result = courses;
                 return res;
             });
@@ -116,8 +138,13 @@ export class AppSearchCoursesProcedure extends Procedure {
 }
 
 export class AppSearchPeoplePreProcedure extends Procedure {
-    constructor(user: IUserLogin) {
-        super('http://portal.uestc.edu.cn/pnull.portal', 'GET', user);
+    constructor() {
+        super();
+    }
+
+    config(user: IUserLogin): AppSearchPeoplePreProcedure {
+        this.init('http://portal.uestc.edu.cn/pnull.portal', 'GET', user);
+
         this.query({
             'action': 'globalGroupsTree',
             '.ia': 'false',
@@ -127,6 +154,8 @@ export class AppSearchPeoplePreProcedure extends Procedure {
             'identity': 'undefined',
             'authorize': 'undefined'
         });
+
+        return this;
     }
 
     run(): Observable<IProcedureResult<boolean>> {
@@ -138,24 +167,32 @@ export class AppSearchPeoplePreProcedure extends Procedure {
 }
 
 export class AppSearchPeopleProcedure extends Procedure {
-    constructor(term: string, user: IUserLogin) {
-        super('http://portal.uestc.edu.cn/pnull.portal', 'POST', user);
+    constructor(private parser: Parser) {
+        super();
+    }
+
+    config(term: string, user: IUserLogin): AppSearchPeopleProcedure {
+        this.init('http://portal.uestc.edu.cn/pnull.portal', 'POST', user);
+
         this.query({
             'action': 'fetchUsers',
             '.ia': 'false',
             '.pmn': 'view',
             '.pen': 'personnelGroupmanager'
         });
+
         this.form({
             'limit': '10',
             'oper_type': 'normal_user',
             'term': term
         });
+
+        return this;
     }
 
     run(): Observable<IProcedureResult<Person[]>> {
-        return super.run().flatMap((res) => {
-            return parser.getAppPeople(res.body).map((people) => {
+        return super.run().flatMapLatest((res) => {
+            return this.parser.getAppPeople(res.body).map((people) => {
                 res.result = people;
                 return res;
             });
@@ -164,19 +201,30 @@ export class AppSearchPeopleProcedure extends Procedure {
 }
 
 export class UserEnsureLoginProcedure extends Procedure {
-    constructor(user: IUserLogin) {
-        super('http://portal.uestc.edu.cn/login.portal', 'GET', user);
+    constructor() {
+        super();
+    }
+
+    config(user: IUserLogin): UserEnsureLoginProcedure {
+        this.init('http://portal.uestc.edu.cn/login.portal', 'GET', user);
+
         this.tmpData.user = user;
         this.followRedirect = false;
+
+        return this;
     }
 
     run(): Observable<IProcedureResult<boolean>> {
-        return super.run().flatMap((x) => {
+        return super.run().flatMapLatest((x) => {
             if (x.response.statusCode === 302) {
                 x.result = true;
                 return Observable.return(x);
             }
-            return new UserLoginProcedure(this.tmpData.user).run().map((x) => {
+
+            var loginProcedure = new UserLoginProcedure();
+            loginProcedure.config(this.tmpData.user);
+
+            return loginProcedure.run().map((x) => {
                 return x;
             });
         })
@@ -184,8 +232,13 @@ export class UserEnsureLoginProcedure extends Procedure {
 }
 
 export class UserLoginProcedure extends Procedure {
-    constructor(user: IUserLogin) {
-        super('https://uis.uestc.edu.cn/amserver/UI/Login', 'POST', user);
+    constructor() {
+        super();
+    }
+
+    config(user: IUserLogin): UserLoginProcedure {
+        this.init('https://uis.uestc.edu.cn/amserver/UI/Login', 'POST', user);
+
         this.form({
             'IDToken0': '',
             'IDToken1': user.id,
@@ -195,6 +248,8 @@ export class UserLoginProcedure extends Procedure {
             'encoded': 'true',
             'gx_charset': 'UTF-8'
         });
+
+        return this;
     }
 
     run(): Observable<IProcedureResult<boolean>> {
@@ -206,13 +261,19 @@ export class UserLoginProcedure extends Procedure {
 }
 
 export class UserGetSemesterCoursesPreProcedure extends Procedure {
-    constructor(user: IUserLogin) {
-        super('http://eams.uestc.edu.cn/eams/courseTableForStd.action', 'GET', user);
+    constructor(private parser: Parser) {
+        super();
+    }
+
+    config(user: IUserLogin): UserGetSemesterCoursesPreProcedure {
+        this.init('http://eams.uestc.edu.cn/eams/courseTableForStd.action', 'GET', user);
+
+        return this;
     }
 
     run(): Observable<IProcedureResult<string>> {
-        return super.run().flatMap((res) => {
-            return parser.getUserIds(res.body).map((ids) => {
+        return super.run().flatMapLatest((res) => {
+            return this.parser.getUserIds(res.body).map((ids) => {
                 res.result = ids;
                 return res;
             });
@@ -221,8 +282,13 @@ export class UserGetSemesterCoursesPreProcedure extends Procedure {
 }
 
 export class UserGetSemesterCoursesProcedure extends Procedure {
-    constructor(option: IGetSemesterCoursesOption, user: IUserLogin) {
-        super('http://eams.uestc.edu.cn/eams/courseTableForStd!courseTable.action', 'POST', user);
+    constructor(private parser: Parser) {
+        super();
+    }
+
+    config(option: IGetSemesterCoursesOption, user: IUserLogin): UserGetSemesterCoursesProcedure {
+        this.init('http://eams.uestc.edu.cn/eams/courseTableForStd!courseTable.action', 'POST', user);
+
         this.form({
             'ignoreHead': '1',
             'setting.kind': 'std',
@@ -231,14 +297,88 @@ export class UserGetSemesterCoursesProcedure extends Procedure {
             'semester.id': option.semester,
             'ids': option.ids
         });
+
+        return this;
     }
 
     run(): Observable<IProcedureResult<Course[]>> {
-        return super.run().flatMap((res) => {
-            return parser.getUserCourses(res.body).map((courses) => {
+        return super.run().flatMapLatest((res) => {
+            return this.parser.getUserCourses(res.body).map((courses) => {
                 res.result = courses;
                 return res;
             });
         });
     }
 }
+
+
+export class UserLoginProcedureFactory {
+    constructor() {
+    }
+
+    create(): UserLoginProcedure {
+        return new UserLoginProcedure();
+    }
+}
+
+export const defaultUserLoginProcedureFactory = new UserLoginProcedureFactory();
+
+
+export class UserEnsureLoginProcedureFactory {
+    constructor() {
+    }
+
+    create(): UserEnsureLoginProcedure {
+        return new UserEnsureLoginProcedure();
+    }
+}
+
+export const defaultUserEnsureLoginProcedureFactory = new UserEnsureLoginProcedureFactory();
+
+
+export class AppSearchCoursesPreProcedureFactory {
+    constructor() {
+    }
+
+    create(): AppSearchCoursesPreProcedure {
+        return new AppSearchCoursesPreProcedure();
+    }
+}
+
+export const defaultAppSearchCoursesPreProcedureFactory = new AppSearchCoursesPreProcedureFactory();
+
+
+export class AppSearchCoursesProcedureFactory {
+    constructor(private parser: Parser) {
+    }
+
+    create(): AppSearchCoursesProcedure {
+        return new AppSearchCoursesProcedure(this.parser);
+    }
+}
+
+export const defaultAppSearchCoursesProcedureFactory = new AppSearchCoursesProcedureFactory(defaultParser);
+
+
+export class AppSearchPeoplePreProcedureFactory {
+    constructor() {
+    }
+
+    create(): AppSearchPeoplePreProcedure {
+        return new AppSearchPeoplePreProcedure();
+    }
+}
+
+export const defaultAppSearchPeoplePreProcedureFactory = new AppSearchPeoplePreProcedureFactory();
+
+
+export class AppSearchPeopleProcedureFactory {
+    constructor(private parser: Parser) {
+    }
+
+    create(): AppSearchPeopleProcedure {
+        return new AppSearchPeopleProcedure(this.parser);
+    }
+}
+
+export const defaultAppSearchPeopleProcedureFactory = new AppSearchPeopleProcedureFactory(defaultParser);

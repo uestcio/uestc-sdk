@@ -7,9 +7,9 @@
     "node": ">=0.12"
   },
   "scripts": {
-    "test": "mocha --bail --full-trace --check-leaks test/ --timeout 300000 --recursive",
+    "test": "mocha --bail --full-trace --check-leaks test_dist --timeout 300000 --recursive",
     "test-ci": "",
-    "install": "gulp tsc"
+    "install": "tsc -p test"
   },
   "repository": {
     "type": "git",

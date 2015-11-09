@@ -1,9 +1,9 @@
 export class Notice {
-    
+
 }
 
 export class NoticeFactory {
-    $new () {
+    create() {
         return new Notice();
     }
 }

@@ -5,12 +5,12 @@
 import * as _ from 'lodash';
 import { Observable } from 'rx';
 
-export class Caller {    
-    nodifyObservable (observable: Observable<any>, callback?: { (error: any, res: any): void; }): void {
+export class Caller {
+    nodifyObservable(observable: Observable<any>, callback?: { (error: any, res: any): void; }): void {
         if (!_.isFunction(callback)) {
             return;
         }
-        
+
         observable.subscribe((item) => {
             callback(null, item);
         }, (error) => {
@@ -19,4 +19,4 @@ export class Caller {
     }
 }
 
-export const caller: Caller = new Caller();
+export const defaultCaller: Caller = new Caller();

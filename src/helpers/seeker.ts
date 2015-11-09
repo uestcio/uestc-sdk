@@ -7,25 +7,26 @@ import { Course, TakenCourse } from '../models/course';
 import { Exam } from '../models/exam';
 import { Person } from '../models/person';
 
-import { IGetUserCoursesOption, ISearchCoursesOption, ISearchPeopleOption } from '../utils/interfaces';
+import { IGetUserCoursesOption, ISearchCoursesOption } from '../utils/course_util';
+import { ISearchPeopleOption } from '../utils/person_util';
 
 
 export class Seeker {
-    getUserCourses (option: IGetUserCoursesOption) : Observable<TakenCourse[]> {
-        return ;
+    getUserCourses(option: IGetUserCoursesOption): Observable<TakenCourse[]> {
+        return;
     }
-    
-    getUserExams (option: IGetUserCoursesOption) : Observable<Exam[]> {
+
+    getUserExams(option: IGetUserCoursesOption): Observable<Exam[]> {
         return null;
     }
-    
-    searchForCourses (option: ISearchCoursesOption): Observable<Course[]> {
+
+    searchForCourses(option: ISearchCoursesOption): Observable<Course[]> {
         return null;
     }
-    
-    searchForPeople (option: ISearchPeopleOption): Observable<Person[]> {
+
+    searchForPeople(option: ISearchPeopleOption): Observable<Person[]> {
         return null;
     }
 }
 
-export const seeker: Seeker = new Seeker();
+export const defaultSeeker: Seeker = new Seeker();

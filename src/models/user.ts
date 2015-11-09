@@ -8,10 +8,10 @@ import { Observable } from 'rx';
 
 import { TakenCourse } from '../models/course';
 import { Exam } from '../models/exam';
-import { caller } from '../helpers/caller';
-import { fetcher } from '../helpers/fetcher';
-import { seeker } from '../helpers/seeker';
-import { IUserLogin } from '../utils/interfaces';
+import { Caller, defaultCaller } from '../helpers/caller';
+import { Fetcher, defaultFetcher } from '../helpers/fetcher';
+import { Seeker, defaultSeeker } from '../helpers/seeker';
+import { IUserLogin } from '../utils/user_util';
 
 
 /** 
@@ -173,11 +173,16 @@ export class User implements IUserLogin {
      * @param id The student/staff id.
      * @param password The password.
      */
-    constructor (id: string, password: string) {
+    constructor(protected caller: Caller, protected fetcher: Fetcher, protected seeker: Seeker) {
+    }
+
+    init(id: string, password: string): User {
         this.id = id;
         this.password = password;
         this.isConfirmed = false;
         this.jar = Request.jar();
+
+        return this;
     }
     
     /**
@@ -186,10 +191,10 @@ export class User implements IUserLogin {
      * @param callback The callback function to be called with an error or the result of verify for users unfamiliar with Rx. It's deprecated.
      * @returns The Observable instance of the confirm result.
      */
-    confirm (callback?: { (error: Error, res: boolean): void; }): Observable<boolean> {
-        var observable = fetcher.confirmUser(this)
+    confirm(callback?: { (error: Error, res: boolean): void; }): Observable<boolean> {
+        var observable = this.fetcher.confirmUser(this)
             .do((res) => res && this.getDetail());
-        caller.nodifyObservable(observable, callback);
+        this.caller.nodifyObservable(observable, callback);
         return observable;
     }
     
@@ -199,9 +204,9 @@ export class User implements IUserLogin {
      * @param semester The semester of courses, such as 1, use 0 to mean all semesters.
      * @param callback The callback function to be called with an error or the result of courses for users unfamiliar with Rx. It's deprecated.
      */
-    getCourses (grade: number, semester: number, callback?: any): Observable<TakenCourse[]> {
+    getCourses(grade: number, semester: number, callback?: any): Observable<TakenCourse[]> {
         var observable = this.getCoursesCallByParam(grade, semester, false);
-        caller.nodifyObservable(observable, callback);
+        this.caller.nodifyObservable(observable, callback);
         return observable;
     }
     
@@ -211,9 +216,9 @@ export class User implements IUserLogin {
      * @param semester The semester of courses, such as 1, use 0 to mean all semesters.
      * @param callback The callback function to be called with an error or the result of courses for users unfamiliar with Rx. It's deprecated.
      */
-    getCoursesForever (grade: number, semester: number, callback?: any): Observable<TakenCourse[]> {
+    getCoursesForever(grade: number, semester: number, callback?: any): Observable<TakenCourse[]> {
         var observable = this.getCoursesCallByParam(grade, semester, true);
-        caller.nodifyObservable(observable, callback);
+        this.caller.nodifyObservable(observable, callback);
         return observable;
     }
     
@@ -223,9 +228,9 @@ export class User implements IUserLogin {
      * @param semester The semester of courses, such as 1, use 0 to mean all semesters.
      * @param callback The callback function to be called with an error or the result of courses for users unfamiliar with Rx. It's deprecated.
      */
-    getCoursesInCache (grade: number, semester: number, callback?: any): Observable<TakenCourse[]> {
-        var observable = seeker.getUserCourses({ grade: grade, semester: semester });
-        caller.nodifyObservable(observable, callback);
+    getCoursesInCache(grade: number, semester: number, callback?: any): Observable<TakenCourse[]> {
+        var observable = this.seeker.getUserCourses({ grade: grade, semester: semester });
+        this.caller.nodifyObservable(observable, callback);
         return observable;
     }
     
@@ -235,10 +240,10 @@ export class User implements IUserLogin {
      * @param semester The semester of courses, such as 1, use 0 to mean all semesters.
      * @param callback The callback function to be called with an error or the result of courses for users unfamiliar with Rx. It's deprecated.
      */
-    getCoursesWithCache (grade: number, semester: number, callback?: any): Observable<TakenCourse[]> {
+    getCoursesWithCache(grade: number, semester: number, callback?: any): Observable<TakenCourse[]> {
         var observable = this.getCourses(grade, semester)
             .catch(this.getCoursesInCache(grade, semester));
-        caller.nodifyObservable(observable, callback);
+        this.caller.nodifyObservable(observable, callback);
         return observable;
     }
     
@@ -248,9 +253,9 @@ export class User implements IUserLogin {
      * @param semester The semester of exams, such as 1, use 0 to mean all semesters.
      * @param callback The callback function to be called with an error or the result of exams for users unfamiliar with Rx. It's deprecated.
      */
-    getExams (grade: number, semester: number, callback?: any): Observable<Exam[]> {
+    getExams(grade: number, semester: number, callback?: any): Observable<Exam[]> {
         var observable = this.getExamsCallByParam(grade, semester, false);
-        caller.nodifyObservable(observable, callback);
+        this.caller.nodifyObservable(observable, callback);
         return observable;
     }
     
@@ -260,9 +265,9 @@ export class User implements IUserLogin {
      * @param semester The semester of exams, such as 1, use 0 to mean all semesters.
      * @param callback The callback function to be called with an error or the result of exams for users unfamiliar with Rx. It's deprecated.
      */
-    getExamsForever (grade: number, semester: number, callback?: any): Observable<Exam[]> {
+    getExamsForever(grade: number, semester: number, callback?: any): Observable<Exam[]> {
         var observable = this.getExamsCallByParam(grade, semester, true);
-        caller.nodifyObservable(observable, callback);
+        this.caller.nodifyObservable(observable, callback);
         return observable;
     }
     
@@ -272,9 +277,9 @@ export class User implements IUserLogin {
      * @param semester The semester of exams, such as 1, use 0 to mean all semesters.
      * @param callback The callback function to be called with an error or the result of exams for users unfamiliar with Rx. It's deprecated.
      */
-    getExamsInCache (grade: number, semester: number, callback?: any): Observable<Exam[]> {
-        var observable = seeker.getUserExams({ grade: grade, semester: semester });
-        caller.nodifyObservable(observable, callback);
+    getExamsInCache(grade: number, semester: number, callback?: any): Observable<Exam[]> {
+        var observable = this.seeker.getUserExams({ grade: grade, semester: semester });
+        this.caller.nodifyObservable(observable, callback);
         return observable;
     }
     
@@ -284,28 +289,28 @@ export class User implements IUserLogin {
      * @param semester The semester of exams, such as 1, use 0 to mean all semesters.
      * @param callback The callback function to be called with an error or the result of exams for users unfamiliar with Rx. It's deprecated.
      */
-    getExamsWithCache (grade: number, semester: number, callback?: any): Observable<Exam[]> {
+    getExamsWithCache(grade: number, semester: number, callback?: any): Observable<Exam[]> {
         var observable = this.getExams(grade, semester)
             .catch(this.getExamsInCache(grade, semester));
-        caller.nodifyObservable(observable, callback);
+        this.caller.nodifyObservable(observable, callback);
         return observable;
     }
      
     /**
      * @description The internal method for DRY reason.
      */
-    private getCoursesCallByParam (grade: number, semester: number, forever: boolean): Observable<TakenCourse[]> {
+    private getCoursesCallByParam(grade: number, semester: number, forever: boolean): Observable<TakenCourse[]> {
         return this.confirm()
-            .flatMap((res) => res? 
-                fetcher.getUserCourses({ grade: grade, semester: semester }, forever, this): 
+            .flatMapLatest((res) => res ?
+                this.fetcher.getUserCourses({ grade: grade, semester: semester }, forever, this) :
                 Observable.throw<TakenCourse[]>(new Error('401: The user validation failed.')));
     }
     
     /**
      * @description The internal method to get the user details.
      */
-    private getDetail (): void {
-        fetcher.getUserDetail(this).subscribe((detail) => {
+    private getDetail(): void {
+        this.fetcher.getUserDetail(this).subscribe((detail) => {
             if (this.id !== detail.id) {
                 throw new Error('The user id is different of the detail one.')
             }
@@ -335,9 +340,9 @@ export class User implements IUserLogin {
     /**
      * @description The internal method for DRY reason.
      */
-    private getExamsCallByParam (grade: number, semester: number, forever: boolean): Observable<Exam[]> {
-        return this.confirm().flatMap((res) => res? 
-            fetcher.getUserExams({ grade: grade, semester: semester }, forever, this): 
+    private getExamsCallByParam(grade: number, semester: number, forever: boolean): Observable<Exam[]> {
+        return this.confirm().flatMapLatest((res) => res ?
+            this.fetcher.getUserExams({ grade: grade, semester: semester }, forever, this) :
             Observable.throw<Exam[]>(new Error('401: The user validation failed.')));
     }
 }
@@ -345,19 +350,21 @@ export class User implements IUserLogin {
 /**
  * @description The factory of User class.
  */
-export class UserFactory {  
+export class UserFactory {
+    constructor(private caller: Caller, private fetcher: Fetcher, private seeker: Seeker) {
+    }
     /**
      * @description The method to create new user instance.
      * @param id The student/staff id.
      * @param password The password.
      * @returns The user instance of given id and password. (not confirmed)
-     */  
-    $new (id: string, password: string) {
-        return new User(id, password);
+     */
+    create(id: string, password: string) {
+        return new User(this.caller, this.fetcher, this.seeker).init(id, password);
     }
 }
 
 /**
  * @description The UserFactory instance for access.
  */
-export const userFactory: UserFactory = new UserFactory();
+export const defaultUserFactory: UserFactory = new UserFactory(defaultCaller, defaultFetcher, defaultSeeker);

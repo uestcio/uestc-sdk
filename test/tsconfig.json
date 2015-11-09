@@ -1,0 +1,18 @@
+{
+	"compilerOptions": {
+        "module": "commonjs",
+		"declaration": true,
+		"diagnostics": true,
+		"emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "noImplicitAny": true,
+        "removeComments": false,
+        "preserveConstEnums": true,
+        "outDir": "../test_dist",
+        "sourceMap": true,
+        "target": "es5"
+    },
+    "files": [
+       	"application.spec.ts"
+    ]
+}

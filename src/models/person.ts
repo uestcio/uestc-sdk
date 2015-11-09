@@ -58,4 +58,4 @@ export class PersonFactory {
     }
 }
 
-export const personFactory = new PersonFactory();
+export const defaultPersonFactory = new PersonFactory();

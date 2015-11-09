@@ -10,9 +10,11 @@ import { Course, TakenCourse } from '../models/course';
 import { Exam } from '../models/exam';
 import { Person } from '../models/person';
 
-import { UserLoginProcedure, UserEnsureLoginProcedure, AppSearchCoursesPreProcedure, AppSearchCoursesProcedure, AppSearchPeoplePreProcedure, AppSearchPeopleProcedure } from '../models/procedure';
+import { defaultUserLoginProcedureFactory, defaultUserEnsureLoginProcedureFactory, defaultAppSearchCoursesPreProcedureFactory, defaultAppSearchCoursesProcedureFactory, defaultAppSearchPeopleProcedureFactory } from '../models/procedure';
 
-import { IGetUserCoursesOption, ISearchCoursesOption, ISearchPeopleOption, IUserDetail, IUserLogin } from '../utils/interfaces';
+import { IGetUserCoursesOption, ISearchCoursesOption } from '../utils/course_util';
+import { ISearchPeopleOption } from '../utils/person_util';
+import { IUserDetail, IUserLogin } from '../utils/user_util';
 
 
 /**
@@ -25,9 +27,9 @@ export class Fetcher {
      * @param user The user login interface.
      * @returns The Observable instance of fetch result.
      */
-    confirmUser (user: IUserLogin): Observable<boolean> {
-        return new UserEnsureLoginProcedure(user).run().flatMap((x) => {
-            return new UserLoginProcedure(user).run().map((res) => res.result);
+    confirmUser(user: IUserLogin): Observable<boolean> {
+        return defaultUserEnsureLoginProcedureFactory.create().config(user).run().flatMapLatest((x) => {
+            return defaultUserLoginProcedureFactory.create().config(user).run().map((res) => res.result);
         });
     }
     
@@ -38,7 +40,7 @@ export class Fetcher {
      * @param user The user login interface.
      * @returns The Observable instance of fetch result.
      */
-    getUserCourses (option: IGetUserCoursesOption, forever: boolean, user: IUserLogin) : Observable<TakenCourse[]> {
+    getUserCourses(option: IGetUserCoursesOption, forever: boolean, user: IUserLogin): Observable<TakenCourse[]> {
         return null;
     }
     
@@ -47,7 +49,7 @@ export class Fetcher {
      * @param user The user login interface.
      * @returns The Observable instance of fetch result.
      */
-    getUserDetail (user: IUserLogin): Observable<IUserDetail> {
+    getUserDetail(user: IUserLogin): Observable<IUserDetail> {
         return null;
     }
     
@@ -58,7 +60,7 @@ export class Fetcher {
      * @param user The user login interface.
      * @returns The Observable instance of fetch result.
      */
-    getUserExams (option: IGetUserCoursesOption, forever: boolean, user: IUserLogin) : Observable<Exam[]> {
+    getUserExams(option: IGetUserCoursesOption, forever: boolean, user: IUserLogin): Observable<Exam[]> {
         return null;
     }
     
@@ -69,11 +71,11 @@ export class Fetcher {
      * @param user The user login interface.
      * @returns The Observable instance of fetch result.
      */
-    searchForCourses (option: ISearchCoursesOption, user: IUserLogin): Observable<Course[]> {
-        return new UserEnsureLoginProcedure(user).run().flatMap((x) => {
-            return new AppSearchCoursesPreProcedure(user).run().map((res) => res.result);
-        }).flatMap((x) => {
-            return new AppSearchCoursesProcedure(option, user).run().map((res) => res.result);
+    searchForCourses(option: ISearchCoursesOption, user: IUserLogin): Observable<Course[]> {
+        return defaultUserEnsureLoginProcedureFactory.create().config(user).run().flatMapLatest((x) => {
+            return defaultAppSearchCoursesPreProcedureFactory.create().config(user).run().map((res) => res.result);
+        }).flatMapLatest((x) => {
+            return defaultAppSearchCoursesProcedureFactory.create().config(option, user).run().map((res) => res.result);
         });
     }
     
@@ -84,13 +86,11 @@ export class Fetcher {
      * @param user The user login interface.
      * @returns The Observable instance of fetch result.
      */
-    searchForPeople (option: ISearchPeopleOption, user: IUserLogin): Observable<Person[]> {
-        return new UserEnsureLoginProcedure(user).run().flatMap((x) => {
-            return new AppSearchPeoplePreProcedure(user).run().map((res) => res.result);
-        }).flatMap((x) => {
-            return new AppSearchPeopleProcedure(option.term, user).run().map((res) => res.result);
+    searchForPeople(option: ISearchPeopleOption, user: IUserLogin): Observable<Person[]> {
+        return defaultUserEnsureLoginProcedureFactory.create().config(user).run().flatMapLatest((x) => {
+            return defaultAppSearchPeopleProcedureFactory.create().config(option.term, user).run().map((res) => res.result);
         });
     }
 }
 
-export const fetcher: Fetcher = new Fetcher();
+export const defaultFetcher: Fetcher = new Fetcher();

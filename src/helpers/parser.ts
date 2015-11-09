@@ -12,12 +12,10 @@ import { jsdom } from 'jsdom';
 import * as _ from 'lodash';
 import { Observable } from 'rx';
 
-import { Course, TakenCourse, courseFactory } from '../models/course';
-import { Duration, durationFactory } from '../models/duration';
+import { Course, TakenCourse, defaultCourseFactory } from '../models/course';
+import { Duration, defaultDurationFactory } from '../models/duration';
 import { Exam } from '../models/exam';
-import { Person, personFactory } from '../models/person';
-
-import { IGetUserCoursesOption, ISearchCoursesOption, ISearchPeopleOption, IUserDetail } from '../utils/interfaces';
+import { Person, defaultPersonFactory } from '../models/person';
 
 
 interface ITimeTable {
@@ -31,15 +29,15 @@ interface ITimeTable {
 }
 
 interface IRawPerson {
-     metier: string, 
-     authorized: any, 
-     deptName: string, 
-     workplace: string, 
-     description: string, 
-     workphone: string, 
-     idName: string, 
-     name: string, 
-     id: string 
+    metier: string,
+    authorized: any,
+    deptName: string,
+    workplace: string,
+    description: string,
+    workphone: string,
+    idName: string,
+    name: string,
+    id: string
 }
 
 
@@ -57,11 +55,11 @@ export class Parser {
      * @returns The Observable instance of the parse result.
      */
     getAppCourses(html: string): Observable<Course[]> {
-        return this.getJq(html).flatMap(($: any) => {
+        return this.getJq(html).flatMapLatest(($: any) => {
             var lines = $('table.gridtable > tbody > tr');
             return Observable.return<Course[]>(_.map(lines, (line: any) => {
                 var id = $(line.children[1]).text();
-                var course = courseFactory.create(id);
+                var course = defaultCourseFactory.create(id);
                 course.title = $(line.children[2]).text();
                 course.genre = $(line.children[3]).text();
                 course.department = $(line.children[4]).text();
@@ -75,7 +73,7 @@ export class Parser {
     }
 
     getUserCourses(html: string): Observable<Course[]> {
-        return this.getJq(html).flatMap(($: any) => {
+        return this.getJq(html).flatMapLatest(($: any) => {
             var table = $('table.gridtable')[1];
             var lines = $(table).find('tbody > tr');
             var raws = html.match(/var table0[\S\s]*?table0\.marshalTable/)[0];
@@ -113,7 +111,7 @@ export class Parser {
             throw new Error('500: The input is not valid json.');
         }
         return Observable.return(_.map(rawPeople, (rawPerson: IRawPerson) => {
-            var person = personFactory.create(rawPerson.id);
+            var person = defaultPersonFactory.create(rawPerson.id);
             person.name = rawPerson.name;
             person.metier = rawPerson.metier;
             person.authorized = rawPerson.authorized;
@@ -156,7 +154,7 @@ export class Parser {
                 place = _.words(place, /\S+/g)[1];
             }
 
-            var duration = durationFactory.create();
+            var duration = defaultDurationFactory.create();
             duration.day = this.parseDayofWeek(tmp[0]);
             duration.indexes = this.parseIndexes(tmp[1]);
             duration.weeks = this.parseWeeks(tmp[2], parity);
@@ -283,4 +281,4 @@ export class Parser {
 
 }
 
-export const parser = new Parser();
+export const defaultParser = new Parser();

@@ -3,16 +3,16 @@ export class Duration {
     indexes: string = null;
     day: number = null;
     place: string = null;
-    
-    constructor () {
-        
+
+    constructor() {
+
     }
 }
 
 export class DurationFactory {
-    create () {
+    create() {
         return new Duration();
     }
 }
 
-export const durationFactory: DurationFactory = new DurationFactory();
+export const defaultDurationFactory: DurationFactory = new DurationFactory();
