@@ -13,15 +13,8 @@ defaultUserEnsureLoginProcedureFactory, defaultUserLoginProcedureFactory } from 
 import { User } from '../../src/models/user';
 
 import { defaultMockUserFactory } from '../mocks/models/mock_user';
+import { noCallNextFn, noCallErrorFn } from '../mocks/utils/function_util';
 
-var noCallFun = (err?: any) => {
-    if (err instanceof Error) {
-        throw err;
-    }
-    else {
-        throw new Error('This function should not be called!');
-    }
-}
 
 describe('Procedure module: ', () => {
     var correctUser: User;
@@ -78,7 +71,7 @@ describe('Procedure module: ', () => {
                 expect(res.result[0].instructors.length).not.to.be(0);
                 expect(res.result[0].instructors[0]).to.be('蒲和平');
                 done();
-            }, noCallFun);
+            }, noCallErrorFn);
         });
 
         it('should not be able to get result with correct login procedure, correct pre procedure and incorrect procedure.', (done) => {
@@ -91,7 +84,7 @@ describe('Procedure module: ', () => {
             }).subscribe((res) => {
                 expect(res.response.statusCode).to.be(302);
                 done();
-            }, noCallFun);
+            }, noCallErrorFn);
         });
 
         it('should not be able to get result with correct login procedure, incorrect pre procedure and correct procedure.', (done) => {
@@ -104,7 +97,7 @@ describe('Procedure module: ', () => {
             }).subscribe((res) => {
                 expect(res.response.statusCode).to.be(500);
                 done();
-            }, noCallFun);
+            }, noCallErrorFn);
         });
 
         it('should not be able to get result with correct login procedure, incorrect pre procedure and incorrect procedure.', (done) => {
@@ -117,7 +110,7 @@ describe('Procedure module: ', () => {
             }).subscribe((res) => {
                 expect(res.response.statusCode).to.be(302);
                 done();
-            }, noCallFun);
+            }, noCallErrorFn);
         });
 
         it('should be able to get result with incorrect login procedure, correct pre procedure and correct procedure.', (done) => {
@@ -127,7 +120,7 @@ describe('Procedure module: ', () => {
             }).flatMapLatest((preRes) => {
                 expect(preRes.result).to.be(true);
                 return correctProcedure.run();
-            }).subscribe(noCallFun, (error) => {
+            }).subscribe(noCallNextFn, (error) => {
                 expect(error).to.be.an(Error);
                 done();
             });
@@ -140,7 +133,7 @@ describe('Procedure module: ', () => {
             }).flatMapLatest((preRes) => {
                 expect(preRes.result).to.be(true);
                 return incorrectProcedure.run();
-            }).subscribe(noCallFun, (error) => {
+            }).subscribe(noCallNextFn, (error) => {
                 expect(error).to.be.an(Error);
                 done();
             });
@@ -153,7 +146,7 @@ describe('Procedure module: ', () => {
             }).flatMapLatest((preRes) => {
                 expect(preRes.result).to.be(true);
                 return correctProcedure.run();
-            }).subscribe(noCallFun, (error) => {
+            }).subscribe(noCallNextFn, (error) => {
                 expect(error).to.be.an(Error);
                 done();
             });
@@ -166,7 +159,7 @@ describe('Procedure module: ', () => {
             }).flatMapLatest((preRes) => {
                 expect(preRes.result).to.be(true);
                 return incorrectProcedure.run();
-            }).subscribe(noCallFun, (error) => {
+            }).subscribe(noCallNextFn, (error) => {
                 expect(error).to.be.an(Error);
                 done();
             });
@@ -180,7 +173,7 @@ describe('Procedure module: ', () => {
             }).subscribe((res) => {
                 expect(res.response.statusCode).to.be(302);
                 done();
-            }, noCallFun);
+            }, noCallErrorFn);
         });
 
         it('should not be able to get result without pre procedure.', (done) => {
@@ -190,7 +183,7 @@ describe('Procedure module: ', () => {
             }).subscribe((res) => {
                 expect(res.response.statusCode).to.be(500);
                 done();
-            }, noCallFun);
+            }, noCallErrorFn);
         });
     });
 
@@ -214,18 +207,14 @@ describe('Procedure module: ', () => {
                 expect(res.result[0]).to.have.property('id');
                 expect(res.result[0].id).to.be('2012019050020');
                 done();
-            }, noCallFun);
+            }, noCallErrorFn);
         });
 
         it('should not be able to get result with correct login procedure and incorrect procedure.', (done) => {
             correctLoginProcedure.run().flatMapLatest((loginRes) => {
                 expect(loginRes.result).to.be(true);
                 return incorrectProcedure.run();
-            }).subscribe((res) => {
-                console.log(res);
-                throw new Error('998: Debug Error.');
-                done();
-            }, (error) => {
+            }).subscribe(noCallNextFn, (error) => {
                 expect(error).to.be.an(Error);
                 done();
             });
@@ -235,11 +224,7 @@ describe('Procedure module: ', () => {
             incorrectLoginProcedure.run().flatMapLatest((loginRes) => {
                 expect(loginRes.result).to.be(true);
                 return correctProcedure.run();
-            }).subscribe((res) => {
-                console.log(res);
-                throw new Error('998: Debug Error.');
-                done();
-            }, (error) => {
+            }).subscribe(noCallNextFn, (error) => {
                 expect(error).to.be.an(Error);
                 done();
             });
@@ -249,18 +234,14 @@ describe('Procedure module: ', () => {
             incorrectLoginProcedure.run().flatMapLatest((loginRes) => {
                 expect(loginRes.result).to.be(true);
                 return incorrectProcedure.run();
-            }).subscribe((res) => {
-                console.log(res);
-                throw new Error('998: Debug Error.');
-                done();
-            }, (error) => {
+            }).subscribe(noCallNextFn, (error) => {
                 expect(error).to.be.an(Error);
                 done();
             });
         });
 
         it('should not be able to call parser#getAppPeople without login procedure', (done) => {
-            correctProcedure.run().subscribe(noCallFun, function(error) {
+            correctProcedure.run().subscribe(noCallNextFn, function(error) {
                 expect(error).to.be.an(Error);
                 done();
             });
@@ -273,14 +254,14 @@ describe('Procedure module: ', () => {
             correctLoginProcedure.run().subscribe((res) => {
                 expect(res.result).to.be(true);
                 done();
-            }, noCallFun);
+            }, noCallErrorFn);
         });
 
         it('should return false with incorrect id and password.', (done) => {
             incorrectLoginProcedure.run().subscribe((res) => {
                 expect(res.result).to.be(false);
                 done();
-            }, noCallFun);
+            }, noCallErrorFn);
         });
     });
 
@@ -294,20 +275,20 @@ describe('Procedure module: ', () => {
         });
 
         it('should return true with user still in active.', (done) => {
-            correctLoginProcedure.run().subscribe((res) => {
+            correctLoginProcedure.run().flatMapLatest((res) => {
                 expect(res.result).to.be(true);
-                correctEnsureLoginProcedure.run().subscribe((res) => {
-                    expect(res.result).to.be(true);
-                    done();
-                }, noCallFun);
-            }, noCallFun);
+                return correctEnsureLoginProcedure.run();
+            }).subscribe((res) => {
+                expect(res.result).to.be(true);
+                done();
+            }, noCallErrorFn);
         });
 
         it('should return true with user not in active and auto login succeed.', (done) => {
             correctEnsureLoginProcedure.run().subscribe(function(outRes) {
                 expect(outRes.result).to.be(true);
                 done();
-            }, noCallFun);
+            }, noCallErrorFn);
         });
     });
 

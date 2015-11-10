@@ -20,10 +20,8 @@ import { MockSeeker } from './mocks/helpers/mock_seeker';
 import { MockCourseFactory } from './mocks/models/mock_course';
 import { MockPersonFactory } from './mocks/models/mock_person';
 import { MockUser, MockUserFactory } from './mocks/models/mock_user';
+import { noCallNextFn, noCallErrorFn } from './mocks/utils/function_util';
 
-var noCallFun = (error?: any) => {
-    throw error;
-}
 
 describe('Application module: ', () => {
 
@@ -41,7 +39,7 @@ describe('Application module: ', () => {
         var seeker: MockSeeker;
         var courseFactory: MockCourseFactory;
         var personFactory: MockPersonFactory;
-        
+
         before(() => {
             fetcher = new MockFetcher();
             seeker = new MockSeeker();
@@ -102,11 +100,11 @@ describe('Application module: ', () => {
                 expect(user.password).to.be('******');
                 expect(user.confirmCount).to.be(1);
                 expect(application.currentUser).to.be(user);
-                
+
                 application.register('2012019050032', '******');
                 var anotherUser = <MockUser>application.one('2012019050032');
                 anotherUser.confirmResult = true;
-                
+
                 expect(anotherUser.confirmCount).to.be(1);
                 expect(anotherUser).to.be.a(User);
                 expect(anotherUser.id).to.be('2012019050032');
@@ -114,6 +112,13 @@ describe('Application module: ', () => {
         });
 
         describe('should be able to search courses: ', () => {
+            var expectCourses = (courses: Course[], count: number) => {
+                expect(courses).to.be.an(Array);
+                expect(courses.length).to.be(count);
+                expect(courses[0]).to.be.a(Course);
+                expect(courses[0].id).to.be('0');
+            };
+
             beforeEach(() => {
                 fetcher.courses = [courseFactory.create('0'), courseFactory.create('1')];
                 seeker.courses = [courseFactory.create('0')];
@@ -132,13 +137,13 @@ describe('Application module: ', () => {
                         expect(courses[0]).to.be.a(Course);
                         expect(courses[0].id).to.be('0');
                         done();
-                    }, noCallFun);
+                    }, noCallErrorFn);
                 });
 
                 it('should not be able to search if no user is registered.', (done) => {
                     expect(application.currentUser).to.be(null);
 
-                    application.searchForCourses({}).subscribe(noCallFun, (error) => {
+                    application.searchForCourses({}).subscribe(noCallNextFn, (error) => {
                         expect(error).to.be.an(Error);
                         done();
                     });
@@ -157,10 +162,7 @@ describe('Application module: ', () => {
 
                     application.searchForCourses({}, (err, courses) => {
                         expect(err).to.be(null);
-                        expect(courses).to.be.an(Array);
-                        expect(courses.length).to.be(2);
-                        expect(courses[0]).to.be.a(Course);
-                        expect(courses[0].id).to.be('0');
+                        expectCourses(courses, 2);
                         done();
                     });
                 });
@@ -173,24 +175,18 @@ describe('Application module: ', () => {
                     expect(application.currentUser).to.be.an(User);
 
                     application.searchForCoursesInCache({}).subscribe((courses) => {
-                        expect(courses).to.be.an(Array);
-                        expect(courses.length).to.be(1);
-                        expect(courses[0]).to.be.a(Course);
-                        expect(courses[0].id).to.be('0');
+                        expectCourses(courses, 1);
                         done();
-                    }, noCallFun);
+                    }, noCallNextFn);
                 });
 
                 it('should call Seeker#searchForCourses without a user.', (done) => {
                     expect(application.currentUser).to.be(null);
 
                     application.searchForCoursesInCache({}).subscribe((courses) => {
-                        expect(courses).to.be.an(Array);
-                        expect(courses.length).to.be(1);
-                        expect(courses[0]).to.be.a(Course);
-                        expect(courses[0].id).to.be('0');
+                        expectCourses(courses, 1);
                         done();
-                    }, noCallFun);
+                    }, noCallErrorFn);
                 });
 
                 it('should be able to use callback with user.', (done) => {
@@ -198,10 +194,7 @@ describe('Application module: ', () => {
 
                     application.searchForCoursesInCache({}, (err, courses) => {
                         expect(err).to.be(null);
-                        expect(courses).to.be.an(Array);
-                        expect(courses.length).to.be(1);
-                        expect(courses[0]).to.be.a(Course);
-                        expect(courses[0].id).to.be('0');
+                        expectCourses(courses, 1);
                         done();
                     });
                 });
@@ -209,10 +202,7 @@ describe('Application module: ', () => {
                 it('should be able to use callback without user.', (done) => {
                     application.searchForCoursesInCache({}, (err, courses) => {
                         expect(err).to.be(null);
-                        expect(courses).to.be.an(Array);
-                        expect(courses.length).to.be(1);
-                        expect(courses[0]).to.be.a(Course);
-                        expect(courses[0].id).to.be('0');
+                        expectCourses(courses, 1);
                         done();
                     });
                 });
@@ -225,24 +215,18 @@ describe('Application module: ', () => {
                     expect(application.currentUser).not.to.be(null);
 
                     application.searchForCoursesWithCache({}).subscribe((courses) => {
-                        expect(courses).to.be.an(Array);
-                        expect(courses.length).to.be(2);
-                        expect(courses[0]).to.be.a(Course);
-                        expect(courses[0].id).to.be('0');
+                        expectCourses(courses, 2);
                         done();
-                    }, noCallFun);
+                    }, noCallErrorFn);
                 });
 
                 it('should call Seeker#searchForCourses without a user.', (done) => {
                     expect(application.currentUser).to.be(null);
 
                     application.searchForCoursesWithCache({}).subscribe((courses) => {
-                        expect(courses).to.be.an(Array);
-                        expect(courses.length).to.be(1);
-                        expect(courses[0]).to.be.a(Course);
-                        expect(courses[0].id).to.be('0');
+                        expectCourses(courses, 1);
                         done();
-                    }, noCallFun);
+                    }, noCallErrorFn);
                 });
 
                 it('should be able to use callback with user.', (done) => {
@@ -250,10 +234,7 @@ describe('Application module: ', () => {
 
                     application.searchForCoursesWithCache({}, (err, courses) => {
                         expect(err).to.be(null);
-                        expect(courses).to.be.an(Array);
-                        expect(courses.length).to.be(2);
-                        expect(courses[0]).to.be.a(Course);
-                        expect(courses[0].id).to.be('0');
+                        expectCourses(courses, 2);
                         done();
                     });
                 });
@@ -261,10 +242,7 @@ describe('Application module: ', () => {
                 it('should be able to use callback without user.', (done) => {
                     application.searchForCoursesWithCache({}, (err, courses) => {
                         expect(err).to.be(null);
-                        expect(courses).to.be.an(Array);
-                        expect(courses.length).to.be(1);
-                        expect(courses[0]).to.be.a(Course);
-                        expect(courses[0].id).to.be('0');
+                        expectCourses(courses, 1);
                         done();
                     });
                 });
@@ -272,6 +250,13 @@ describe('Application module: ', () => {
         });
 
         describe('should be able to search people: ', () => {
+            var expectPeople = (people: Person[], count: number) => {
+                expect(people).to.be.an(Array);
+                expect(people.length).to.be(count);
+                expect(people[0]).to.be.a(Person);
+                expect(people[0].id).to.be('0');
+            };
+            
             beforeEach(() => {
                 fetcher.people = [personFactory.create('0'), personFactory.create('1')];
                 seeker.people = [personFactory.create('0')];
@@ -280,22 +265,19 @@ describe('Application module: ', () => {
             describe('for app#searchForPeople: ', () => {
                 it('should call Fetcher#searchForPeople if user exists.', (done) => {
                     application.register('2012019050031', '******');
-                    
+
                     expect(application.currentUser).not.to.be(null);
 
                     application.searchForPeople({}).subscribe((people) => {
-                        expect(people).to.be.an(Array);
-                        expect(people.length).to.be(2);
-                        expect(people[0]).to.be.a(Person);
-                        expect(people[0].id).to.be('0');
+                        expectPeople(people, 2);
                         done();
-                    }, noCallFun);
+                    }, noCallErrorFn);
                 });
 
                 it('should not be able to search if no user is registered.', (done) => {
                     expect(application.currentUser).to.be(null);
 
-                    application.searchForPeople({}).subscribe(noCallFun, (error) => {
+                    application.searchForPeople({}).subscribe(noCallNextFn, (error) => {
                         expect(error).to.be.an(Error);
                         done();
                     });
@@ -303,13 +285,10 @@ describe('Application module: ', () => {
 
                 it('should be able to use callback with user.', (done) => {
                     application.register('2012019050031', '******');
-                    
+
                     application.searchForPeople({}, (err, people) => {
                         expect(err).to.be(null);
-                        expect(people).to.be.an(Array);
-                        expect(people.length).to.be(2);
-                        expect(people[0]).to.be.a(Person);
-                        expect(people[0].id).to.be('0');
+                        expectPeople(people, 2);
                         done();
                     });
                 });
@@ -326,39 +305,30 @@ describe('Application module: ', () => {
             describe('for app#searchForPeopleInCache: ', () => {
                 it('should call Seeker#searchForPeople with a user.', (done) => {
                     application.register('2012019050031', '******');
-                    
+
                     expect(application.currentUser).not.to.be(null);
 
                     application.searchForPeopleInCache({}).subscribe((people) => {
-                        expect(people).to.be.an(Array);
-                        expect(people.length).to.be(1);
-                        expect(people[0]).to.be.a(Person);
-                        expect(people[0].id).to.be('0');
+                        expectPeople(people, 1);
                         done();
-                    }, noCallFun);
+                    }, noCallErrorFn);
                 });
 
                 it('should call Seeker#searchForPeople without a user.', (done) => {
                     expect(application.currentUser).to.be(null);
 
                     application.searchForPeopleInCache({}).subscribe((people) => {
-                        expect(people).to.be.an(Array);
-                        expect(people.length).to.be(1);
-                        expect(people[0]).to.be.a(Person);
-                        expect(people[0].id).to.be('0');
+                        expectPeople(people, 1);
                         done();
-                    }, noCallFun);
+                    }, noCallErrorFn);
                 });
 
                 it('should be able to use callback with user.', (done) => {
                     application.register('2012019050031', '******');
-                    
+
                     application.searchForPeopleInCache({}, (err, people) => {
                         expect(err).to.be(null);
-                        expect(people).to.be.an(Array);
-                        expect(people.length).to.be(1);
-                        expect(people[0]).to.be.a(Person);
-                        expect(people[0].id).to.be('0');
+                        expectPeople(people, 1);
                         done();
                     });
                 });
@@ -366,10 +336,7 @@ describe('Application module: ', () => {
                 it('should be able to use callback without user.', (done) => {
                     application.searchForPeopleInCache({}, (err, people) => {
                         expect(err).to.be(null);
-                        expect(people).to.be.an(Array);
-                        expect(people.length).to.be(1);
-                        expect(people[0]).to.be.a(Person);
-                        expect(people[0].id).to.be('0');
+                        expectPeople(people, 1);
                         done();
                     });
                 });
@@ -378,39 +345,30 @@ describe('Application module: ', () => {
             describe('for app#searchForPeopleWithCache: ', () => {
                 it('should call Fetcher#searchForPeople with a user.', (done) => {
                     application.register('2012019050031', '******');
-                    
+
                     expect(application.currentUser).to.be.an(User);
 
                     application.searchForPeopleWithCache({}).subscribe((people) => {
-                        expect(people).to.be.an(Array);
-                        expect(people.length).to.be(2);
-                        expect(people[0]).to.be.a(Person);
-                        expect(people[0].id).to.be('0');
+                        expectPeople(people, 2);
                         done();
-                    }, noCallFun);
+                    }, noCallErrorFn);
                 });
 
                 it('should call Seeker#searchForPeople without a user.', (done) => {
                     expect(application.currentUser).to.be(null);
 
                     application.searchForPeopleWithCache({}).subscribe((people) => {
-                        expect(people).to.be.an(Array);
-                        expect(people.length).to.be(1);
-                        expect(people[0]).to.be.a(Person);
-                        expect(people[0].id).to.be('0');
+                        expectPeople(people, 1);
                         done();
-                    }, noCallFun);
+                    }, noCallErrorFn);
                 });
 
                 it('should be able to use callback with user.', (done) => {
                     application.register('2012019050031', '******');
-                    
+
                     application.searchForPeopleWithCache({}, (err, people) => {
                         expect(err).to.be(null);
-                        expect(people).to.be.an(Array);
-                        expect(people.length).to.be(2);
-                        expect(people[0]).to.be.a(Person);
-                        expect(people[0].id).to.be('0');
+                        expectPeople(people, 2);
                         done();
                     });
                 });
@@ -418,18 +376,15 @@ describe('Application module: ', () => {
                 it('should be able to use callback without user.', (done) => {
                     application.searchForPeopleWithCache({}, (err, people) => {
                         expect(err).to.be(null);
-                        expect(people).to.be.an(Array);
-                        expect(people.length).to.be(1);
-                        expect(people[0]).to.be.a(Person);
-                        expect(people[0].id).to.be('0');
+                        expectPeople(people, 1);
                         done();
                     });
                 });
             });
         });
     });
-    
+
     xdescribe('real tests for instance of Application: ', () => {
-        
+
     });
 });

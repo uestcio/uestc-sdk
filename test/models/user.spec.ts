@@ -14,10 +14,8 @@ import { MockCaller } from '../mocks/helpers/mock_caller';
 import { MockFetcher } from '../mocks/helpers/mock_fetcher';
 import { MockSeeker } from '../mocks/helpers/mock_seeker';
 import { defaultMockTakenCourseFactory } from '../mocks/models/mock_course';
+import { noCallNextFn, noCallErrorFn } from '../mocks/utils/function_util';
 
-var noCallFun = (error?: any) => {
-    throw error || new Error('This function should not be called!');
-}
 
 describe('User module: ', () => {
 
@@ -168,7 +166,7 @@ describe('User module: ', () => {
                     expect(fetcher.confirmCount).to.be(1);
                     expect(fetcher.infoCount).to.be(1);
                     done();
-                }, noCallFun);
+                }, noCallErrorFn);
             });
 
             it('should not get info if confirm failed.', (done) => {
@@ -179,11 +177,17 @@ describe('User module: ', () => {
                     expect(fetcher.confirmCount).to.be(1);
                     expect(fetcher.infoCount).to.be(0);
                     done();
-                }, noCallFun);
+                }, noCallErrorFn);
             })
         });
 
         describe('should be able to get taken courses: ', () => {
+            var expectTakenCourses = (takenCourses: TakenCourse[], count: number) => {
+                expect(takenCourses).to.be.an(Array);
+                expect(takenCourses.length).to.be(count);
+                expect(takenCourses[0]).to.be.a(TakenCourse);
+                expect(takenCourses[0].id).to.be('0');
+            };
 
             beforeEach(() => {
                 fetcher.courses = [defaultMockTakenCourseFactory.create('0'), defaultMockTakenCourseFactory.create('1')];
@@ -197,18 +201,15 @@ describe('User module: ', () => {
                     fetcher.confirmResult = true;
 
                     user.getCourses(2012, 1).subscribe((courses) => {
-                        expect(courses).to.be.an(Array);
-                        expect(courses.length).to.be(2);
-                        expect(courses[0]).to.be.a(TakenCourse);
-                        expect(courses[0].id).to.be('0');
+                        expectTakenCourses(courses, 2);
                         done();
-                    }, noCallFun);
+                    }, noCallErrorFn);
                 });
 
                 it('should not be able to get courses if confirm failed.', (done) => {
                     fetcher.confirmResult = false;
 
-                    user.getCourses(2012, 1).subscribe(noCallFun, (error) => {
+                    user.getCourses(2012, 1).subscribe(noCallNextFn, (error) => {
                         expect(error).to.be.an(Error);
                         done();
                     });
@@ -217,7 +218,7 @@ describe('User module: ', () => {
                 it('should not be able to get courses if confirm throws.', (done) => {
                     fetcher.confirmWillThrow = true;
 
-                    user.getCourses(2012, 1).subscribe(noCallFun, (error) => {
+                    user.getCourses(2012, 1).subscribe(noCallNextFn, (error) => {
                         expect(error).to.be.an(Error);
                         done();
                     });
@@ -237,13 +238,13 @@ describe('User module: ', () => {
                         expect(courses[counter - 1]).to.be.a(TakenCourse);
                         expect(courses[counter - 1].id).to.be((counter - 1).toString());
                         if (counter === fetcher.courses.length) { done(); };
-                    }, noCallFun);
+                    }, noCallErrorFn);
                 });
 
                 it('should not be able to get courses if confirm failed.', (done) => {
                     fetcher.confirmResult = false;
 
-                    user.getCoursesForever(2012, 1).subscribe(noCallFun, (error) => {
+                    user.getCoursesForever(2012, 1).subscribe(noCallNextFn, (error) => {
                         expect(error).to.be.an(Error);
                         done();
                     });
@@ -252,7 +253,7 @@ describe('User module: ', () => {
                 it('should not be able to get courses if confirm throws.', (done) => {
                     fetcher.confirmWillThrow = true;
 
-                    user.getCoursesForever(2012, 1).subscribe(noCallFun, (error) => {
+                    user.getCoursesForever(2012, 1).subscribe(noCallNextFn, (error) => {
                         expect(error).to.be.an(Error);
                         done();
                     });
@@ -264,36 +265,27 @@ describe('User module: ', () => {
                     fetcher.confirmResult = true;
 
                     user.getCoursesInCache(2012, 1).subscribe((courses) => {
-                        expect(courses).to.be.an(Array);
-                        expect(courses.length).to.be(1);
-                        expect(courses[0]).to.be.a(TakenCourse);
-                        expect(courses[0].id).to.be('0');
+                        expectTakenCourses(courses, 1);
                         done();
-                    }, noCallFun);
+                    }, noCallErrorFn);
                 });
 
                 it('should call seeker#getUserCourses if confirm failed.', (done) => {
                     fetcher.confirmResult = false;
 
                     user.getCoursesInCache(2012, 1).subscribe((courses) => {
-                        expect(courses).to.be.an(Array);
-                        expect(courses.length).to.be(1);
-                        expect(courses[0]).to.be.a(TakenCourse);
-                        expect(courses[0].id).to.be('0');
+                        expectTakenCourses(courses, 1);
                         done();
-                    }, noCallFun);
+                    }, noCallErrorFn);
                 });
 
                 it('should call seeker#getUserCourses if confirm throws.', (done) => {
                     fetcher.confirmWillThrow = true;
 
                     user.getCoursesInCache(2012, 1).subscribe((courses) => {
-                        expect(courses).to.be.an(Array);
-                        expect(courses.length).to.be(1);
-                        expect(courses[0]).to.be.a(TakenCourse);
-                        expect(courses[0].id).to.be('0');
+                        expectTakenCourses(courses, 1);
                         done();
-                    }, noCallFun);
+                    }, noCallErrorFn);
                 });
             });
 
@@ -302,36 +294,27 @@ describe('User module: ', () => {
                     fetcher.confirmResult = true;
 
                     user.getCoursesWithCache(2012, 1).subscribe((courses) => {
-                        expect(courses).to.be.an(Array);
-                        expect(courses.length).to.be(2);
-                        expect(courses[0]).to.be.a(TakenCourse);
-                        expect(courses[0].id).to.be('0');
+                        expectTakenCourses(courses, 2);
                         done();
-                    }, noCallFun);
+                    }, noCallErrorFn);
                 });
 
                 it('should call seeker#getUserCourses if confirm failed.', (done) => {
                     fetcher.confirmResult = false;
 
                     user.getCoursesWithCache(2012, 1).subscribe((courses) => {
-                        expect(courses).to.be.an(Array);
-                        expect(courses.length).to.be(1);
-                        expect(courses[0]).to.be.a(TakenCourse);
-                        expect(courses[0].id).to.be('0');
+                        expectTakenCourses(courses, 1);
                         done();
-                    }, noCallFun);
+                    }, noCallErrorFn);
                 });
 
                 it('should call seeker#getUserCourses if confirm throws.', (done) => {
                     fetcher.confirmWillThrow = true;
 
                     user.getCoursesWithCache(2012, 1).subscribe((courses) => {
-                        expect(courses).to.be.an(Array);
-                        expect(courses.length).to.be(1);
-                        expect(courses[0]).to.be.a(TakenCourse);
-                        expect(courses[0].id).to.be('0');
+                        expectTakenCourses(courses, 1);
                         done();
-                    }, noCallFun);
+                    }, noCallErrorFn);
                 });
             });
         });
