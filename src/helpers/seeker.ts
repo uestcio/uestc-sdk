@@ -13,7 +13,7 @@ import { ISearchPeopleOption } from '../utils/person_util';
 
 export class Seeker {
     getUserCourses(option: IGetUserCoursesOption): Observable<TakenCourse[]> {
-        return;
+        return null;
     }
 
     getUserExams(option: IGetUserCoursesOption): Observable<Exam[]> {

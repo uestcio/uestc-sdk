@@ -13,6 +13,7 @@
         "target": "es5"
     },
     "files": [
-       	"application.spec.ts"
+       	"application.spec.ts",
+        "models/user.spec.ts"
     ]
 }

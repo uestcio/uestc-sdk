@@ -10,9 +10,9 @@ import rx = require('rx');
 import { Application, defaultApplication } from '../src/application';
 import {  } from '../src/helpers/cacher';
 import {  } from '../src/helpers/caller';
-import {  } from '../src/models/course';
+import { Course } from '../src/models/course';
 import {  } from '../src/helpers/fetcher';
-import {  } from '../src/models/person';
+import { Person } from '../src/models/person';
 import {  } from '../src/helpers/seeker';
 import { User } from '../src/models/user';
 
@@ -132,6 +132,7 @@ describe('Application module: ', () => {
                     application.searchForCourses({}).subscribe((courses) => {
                         expect(courses).to.be.an(Array);
                         expect(courses.length).to.be(2);
+                        expect(courses[0]).to.be.a(Course);
                         expect(courses[0].id).to.be('0');
                         done();
                     }, noCallFun);
@@ -161,6 +162,7 @@ describe('Application module: ', () => {
                         expect(err).to.be(null);
                         expect(courses).to.be.an(Array);
                         expect(courses.length).to.be(2);
+                        expect(courses[0]).to.be.a(Course);
                         expect(courses[0].id).to.be('0');
                         done();
                     });
@@ -176,6 +178,7 @@ describe('Application module: ', () => {
                     application.searchForCoursesInCache({}).subscribe((courses) => {
                         expect(courses).to.be.an(Array);
                         expect(courses.length).to.be(1);
+                        expect(courses[0]).to.be.a(Course);
                         expect(courses[0].id).to.be('0');
                         done();
                     }, noCallFun);
@@ -187,6 +190,7 @@ describe('Application module: ', () => {
                     application.searchForCoursesInCache({}).subscribe((courses) => {
                         expect(courses).to.be.an(Array);
                         expect(courses.length).to.be(1);
+                        expect(courses[0]).to.be.a(Course);
                         expect(courses[0].id).to.be('0');
                         done();
                     }, noCallFun);
@@ -199,6 +203,7 @@ describe('Application module: ', () => {
                         expect(err).to.be(null);
                         expect(courses).to.be.an(Array);
                         expect(courses.length).to.be(1);
+                        expect(courses[0]).to.be.a(Course);
                         expect(courses[0].id).to.be('0');
                         done();
                     });
@@ -209,6 +214,7 @@ describe('Application module: ', () => {
                         expect(err).to.be(null);
                         expect(courses).to.be.an(Array);
                         expect(courses.length).to.be(1);
+                        expect(courses[0]).to.be.a(Course);
                         expect(courses[0].id).to.be('0');
                         done();
                     });
@@ -224,6 +230,7 @@ describe('Application module: ', () => {
                     application.searchForCoursesWithCache({}).subscribe((courses) => {
                         expect(courses).to.be.an(Array);
                         expect(courses.length).to.be(2);
+                        expect(courses[0]).to.be.a(Course);
                         expect(courses[0].id).to.be('0');
                         done();
                     }, noCallFun);
@@ -235,6 +242,7 @@ describe('Application module: ', () => {
                     application.searchForCoursesWithCache({}).subscribe((courses) => {
                         expect(courses).to.be.an(Array);
                         expect(courses.length).to.be(1);
+                        expect(courses[0]).to.be.a(Course);
                         expect(courses[0].id).to.be('0');
                         done();
                     }, noCallFun);
@@ -247,6 +255,7 @@ describe('Application module: ', () => {
                         expect(err).to.be(null);
                         expect(courses).to.be.an(Array);
                         expect(courses.length).to.be(2);
+                        expect(courses[0]).to.be.a(Course);
                         expect(courses[0].id).to.be('0');
                         done();
                     });
@@ -257,6 +266,7 @@ describe('Application module: ', () => {
                         expect(err).to.be(null);
                         expect(courses).to.be.an(Array);
                         expect(courses.length).to.be(1);
+                        expect(courses[0]).to.be.a(Course);
                         expect(courses[0].id).to.be('0');
                         done();
                     });
@@ -279,6 +289,7 @@ describe('Application module: ', () => {
                     application.searchForPeople({}).subscribe((people) => {
                         expect(people).to.be.an(Array);
                         expect(people.length).to.be(2);
+                        expect(people[0]).to.be.a(Person);
                         expect(people[0].id).to.be('0');
                         done();
                     }, noCallFun);
@@ -300,6 +311,7 @@ describe('Application module: ', () => {
                         expect(err).to.be(null);
                         expect(people).to.be.an(Array);
                         expect(people.length).to.be(2);
+                        expect(people[0]).to.be.a(Person);
                         expect(people[0].id).to.be('0');
                         done();
                     });
@@ -323,6 +335,7 @@ describe('Application module: ', () => {
                     application.searchForPeopleInCache({}).subscribe((people) => {
                         expect(people).to.be.an(Array);
                         expect(people.length).to.be(1);
+                        expect(people[0]).to.be.a(Person);
                         expect(people[0].id).to.be('0');
                         done();
                     }, noCallFun);
@@ -334,6 +347,7 @@ describe('Application module: ', () => {
                     application.searchForPeopleInCache({}).subscribe((people) => {
                         expect(people).to.be.an(Array);
                         expect(people.length).to.be(1);
+                        expect(people[0]).to.be.a(Person);
                         expect(people[0].id).to.be('0');
                         done();
                     }, noCallFun);
@@ -346,6 +360,7 @@ describe('Application module: ', () => {
                         expect(err).to.be(null);
                         expect(people).to.be.an(Array);
                         expect(people.length).to.be(1);
+                        expect(people[0]).to.be.a(Person);
                         expect(people[0].id).to.be('0');
                         done();
                     });
@@ -356,6 +371,7 @@ describe('Application module: ', () => {
                         expect(err).to.be(null);
                         expect(people).to.be.an(Array);
                         expect(people.length).to.be(1);
+                        expect(people[0]).to.be.a(Person);
                         expect(people[0].id).to.be('0');
                         done();
                     });
@@ -371,6 +387,7 @@ describe('Application module: ', () => {
                     application.searchForPeopleWithCache({}).subscribe((people) => {
                         expect(people).to.be.an(Array);
                         expect(people.length).to.be(2);
+                        expect(people[0]).to.be.a(Person);
                         expect(people[0].id).to.be('0');
                         done();
                     }, noCallFun);
@@ -382,6 +399,7 @@ describe('Application module: ', () => {
                     application.searchForPeopleWithCache({}).subscribe((people) => {
                         expect(people).to.be.an(Array);
                         expect(people.length).to.be(1);
+                        expect(people[0]).to.be.a(Person);
                         expect(people[0].id).to.be('0');
                         done();
                     }, noCallFun);
@@ -394,6 +412,7 @@ describe('Application module: ', () => {
                         expect(err).to.be(null);
                         expect(people).to.be.an(Array);
                         expect(people.length).to.be(2);
+                        expect(people[0]).to.be.a(Person);
                         expect(people[0].id).to.be('0');
                         done();
                     });
@@ -404,6 +423,7 @@ describe('Application module: ', () => {
                         expect(err).to.be(null);
                         expect(people).to.be.an(Array);
                         expect(people.length).to.be(1);
+                        expect(people[0]).to.be.a(Person);
                         expect(people[0].id).to.be('0');
                         done();
                     });

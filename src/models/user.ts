@@ -193,7 +193,7 @@ export class User implements IUserLogin {
      */
     confirm(callback?: { (error: Error, res: boolean): void; }): Observable<boolean> {
         var observable = this.fetcher.confirmUser(this)
-            .do((res) => res && this.getDetail());
+            .do((res) => res && this.getInfo());
         this.caller.nodifyObservable(observable, callback);
         return observable;
     }
@@ -309,8 +309,8 @@ export class User implements IUserLogin {
     /**
      * @description The internal method to get the user details.
      */
-    private getDetail(): void {
-        this.fetcher.getUserDetail(this).subscribe((detail) => {
+    private getInfo(): void {
+        this.fetcher.getUserInfo(this).subscribe((detail) => {
             if (this.id !== detail.id) {
                 throw new Error('The user id is different of the detail one.')
             }

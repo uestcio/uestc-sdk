@@ -49,7 +49,7 @@ export class Fetcher {
      * @param user The user login interface.
      * @returns The Observable instance of fetch result.
      */
-    getUserDetail(user: IUserLogin): Observable<IUserDetail> {
+    getUserInfo(user: IUserLogin): Observable<IUserDetail> {
         return null;
     }
     
