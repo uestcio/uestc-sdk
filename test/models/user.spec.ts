@@ -1,12 +1,8 @@
-/// <reference path="../../typings/node/node"/>
 /// <reference path="../../typings/expect.js/expect.js.d.ts"/>
-/// <reference path="../../typings/rx/rx"/>
 /// <reference path="../../typings/mocha/mocha"/>
 
 
-import assert = require('assert');
 import expect = require('expect.js');
-import rx = require('rx');
 
 import { TakenCourse } from '../../src/models/course';
 import {} from '../../src/models/exam';
@@ -20,7 +16,7 @@ import { MockSeeker } from '../mocks/helpers/mock_seeker';
 import { defaultMockTakenCourseFactory } from '../mocks/models/mock_course';
 
 var noCallFun = (error?: any) => {
-    throw error;
+    throw error || new Error('This function should not be called!');
 }
 
 describe('User module: ', () => {

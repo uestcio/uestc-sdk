@@ -1,11 +1,8 @@
-/// <reference path="../typings/node/node"/>
 /// <reference path="../typings/expect.js/expect.js.d.ts"/>
-/// <reference path="../typings/rx/rx"/>
 /// <reference path="../typings/mocha/mocha"/>
 
-import assert = require('assert');
+
 import expect = require('expect.js');
-import rx = require('rx');
 
 import { Application, defaultApplication } from '../src/application';
 import {  } from '../src/helpers/cacher';

@@ -9,7 +9,7 @@ import { Parser, defaultParser } from '../helpers/parser';
 import { Course } from '../models/course';
 
 import { ISearchCoursesOption, IGetSemesterCoursesOption } from '../utils/course_util';
-import {  } from '../utils/person_util';
+import { ISearchPeopleOption } from '../utils/person_util';
 import { IUserLogin } from '../utils/user_util';
 
 import { Person } from '../models/person';
@@ -137,41 +137,41 @@ export class AppSearchCoursesProcedure extends Procedure {
     }
 }
 
-export class AppSearchPeoplePreProcedure extends Procedure {
-    constructor() {
-        super();
-    }
+// export class AppSearchPeoplePreProcedure extends Procedure {
+//     constructor() {
+//         super();
+//     }
 
-    config(user: IUserLogin): AppSearchPeoplePreProcedure {
-        this.init('http://portal.uestc.edu.cn/pnull.portal', 'GET', user);
+//     config(user: IUserLogin): AppSearchPeoplePreProcedure {
+//         this.init('http://portal.uestc.edu.cn/pnull.portal', 'GET', user);
 
-        this.query({
-            'action': 'globalGroupsTree',
-            '.ia': 'false',
-            '.pmn': 'view',
-            '.pen': 'personnelGroupmanager',
-            'groupId': '',
-            'identity': 'undefined',
-            'authorize': 'undefined'
-        });
+//         this.query({
+//             'action': 'globalGroupsTree',
+//             '.ia': 'false',
+//             '.pmn': 'view',
+//             '.pen': 'personnelGroupmanager',
+//             'groupId': '',
+//             'identity': 'undefined',
+//             'authorize': 'undefined'
+//         });
 
-        return this;
-    }
+//         return this;
+//     }
 
-    run(): Observable<IProcedureResult<boolean>> {
-        return super.run().map((res) => {
-            res.result = true;
-            return res;
-        });
-    }
-}
+//     run(): Observable<IProcedureResult<boolean>> {
+//         return super.run().map((res) => {
+//             res.result = true;
+//             return res;
+//         });
+//     }
+// }
 
 export class AppSearchPeopleProcedure extends Procedure {
     constructor(private parser: Parser) {
         super();
     }
 
-    config(term: string, user: IUserLogin): AppSearchPeopleProcedure {
+    config(option: ISearchPeopleOption, user: IUserLogin): AppSearchPeopleProcedure {
         this.init('http://portal.uestc.edu.cn/pnull.portal', 'POST', user);
 
         this.query({
@@ -184,7 +184,7 @@ export class AppSearchPeopleProcedure extends Procedure {
         this.form({
             'limit': '10',
             'oper_type': 'normal_user',
-            'term': term
+            'term': option.term
         });
 
         return this;
@@ -360,16 +360,16 @@ export class AppSearchCoursesProcedureFactory {
 export const defaultAppSearchCoursesProcedureFactory = new AppSearchCoursesProcedureFactory(defaultParser);
 
 
-export class AppSearchPeoplePreProcedureFactory {
-    constructor() {
-    }
+// export class AppSearchPeoplePreProcedureFactory {
+//     constructor() {
+//     }
 
-    create(): AppSearchPeoplePreProcedure {
-        return new AppSearchPeoplePreProcedure();
-    }
-}
+//     create(): AppSearchPeoplePreProcedure {
+//         return new AppSearchPeoplePreProcedure();
+//     }
+// }
 
-export const defaultAppSearchPeoplePreProcedureFactory = new AppSearchPeoplePreProcedureFactory();
+// export const defaultAppSearchPeoplePreProcedureFactory = new AppSearchPeoplePreProcedureFactory();
 
 
 export class AppSearchPeopleProcedureFactory {

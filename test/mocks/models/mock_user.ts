@@ -21,6 +21,7 @@ export class MockUser extends User {
 
     constructor(public id: string, public password: string) {
         super(defaultMockCaller, defaultMockFetcher, defaultMockSeeker);
+        this.init(id, password);
     }
 
     confirm(callback?: { (error: Error, res: boolean): void; }): Observable<boolean> {
