@@ -1,3 +1,6 @@
+import { Exam } from './exam';
+import { Score } from './score';
+
 export class Course {
     id: string = null;
     campus: string = null;
@@ -16,7 +19,8 @@ export class Course {
 }
 
 export class TakenCourse extends Course {
-
+    exam: Exam = null;
+    score: Score = null;
 }
 
 export class CourseFactory {
@@ -26,3 +30,12 @@ export class CourseFactory {
 }
 
 export const defaultCourseFactory: CourseFactory = new CourseFactory();
+
+
+export class TakenCourseFactory {
+    create(id: string) {
+        return new TakenCourse(id);
+    }
+}
+
+export const defaultTakenCourseFactory: TakenCourseFactory = new TakenCourseFactory();

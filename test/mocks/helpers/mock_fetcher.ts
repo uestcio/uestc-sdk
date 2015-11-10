@@ -13,7 +13,7 @@ import { IUserDetail, IUserLogin } from '../../../src/utils/user_util';
 
 
 export class MockFetcher extends Fetcher {
-    courses: TakenCourse[];
+    courses: Course[];
     people: Person[];
     
     confirmCount: number = 0;
@@ -39,10 +39,10 @@ export class MockFetcher extends Fetcher {
 
     getUserCourses(option: IGetUserCoursesOption, forever: boolean, user: IUserLogin): Observable<TakenCourse[]> {
         if (!forever) {
-            return Observable.return(this.courses);
+            return Observable.return(<TakenCourse[]>this.courses);
         }
         else {
-            return Observable.from([this.courses.slice(0, 1), this.courses.slice(0, 2), this.courses.slice(0, 3)]);
+            return Observable.from<TakenCourse[]>([this.courses.slice(0, 1), this.courses.slice(0, 2), this.courses.slice(0, 3)]);
         }
     }
 

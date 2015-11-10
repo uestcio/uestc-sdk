@@ -16,7 +16,7 @@ export class MockSeeker extends Seeker {
     }
     
     getUserCourses(option: IGetUserCoursesOption): Observable<TakenCourse[]> {
-        return Observable.return(this.courses);
+        return Observable.return(<TakenCourse[]>this.courses);
     }
     
     searchForCourses(option: ISearchCoursesOption): Observable<Course[]> {

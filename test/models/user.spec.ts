@@ -8,7 +8,7 @@ import assert = require('assert');
 import expect = require('expect.js');
 import rx = require('rx');
 
-import { Course } from '../../src/models/course';
+import { TakenCourse } from '../../src/models/course';
 import {} from '../../src/models/exam';
 import {} from '../../src/helpers/fetcher';
 import {} from '../../src/helpers/seeker';
@@ -17,7 +17,7 @@ import { User, UserFactory, defaultUserFactory } from '../../src/models/user';
 import { MockCaller } from '../mocks/helpers/mock_caller';
 import { MockFetcher } from '../mocks/helpers/mock_fetcher';
 import { MockSeeker } from '../mocks/helpers/mock_seeker';
-import { defaultMockCourseFactory } from '../mocks/models/mock_course';
+import { defaultMockTakenCourseFactory } from '../mocks/models/mock_course';
 
 var noCallFun = (error?: any) => {
     throw error;
@@ -190,9 +190,9 @@ describe('User module: ', () => {
         describe('should be able to get taken courses: ', () => {
 
             beforeEach(() => {
-                fetcher.courses = [defaultMockCourseFactory.create('0'), defaultMockCourseFactory.create('1')];
+                fetcher.courses = [defaultMockTakenCourseFactory.create('0'), defaultMockTakenCourseFactory.create('1')];
                 fetcher.infoResult = { id: '2012019050031', name: '秋彤宇' };
-                seeker.courses = [defaultMockCourseFactory.create('0')];
+                seeker.courses = [defaultMockTakenCourseFactory.create('0')];
             });
 
             describe('for user#getCourses: ', () => {
@@ -203,7 +203,7 @@ describe('User module: ', () => {
                     user.getCourses(2012, 1).subscribe((courses) => {
                         expect(courses).to.be.an(Array);
                         expect(courses.length).to.be(2);
-                        expect(courses[0]).to.be.a(Course);
+                        expect(courses[0]).to.be.a(TakenCourse);
                         expect(courses[0].id).to.be('0');
                         done();
                     }, noCallFun);
@@ -232,13 +232,13 @@ describe('User module: ', () => {
 
                 it('should call fetcher#getUserCourses if confirmed.', (done) => {
                     fetcher.confirmResult = true;
-                    fetcher.courses = [defaultMockCourseFactory.create('0'), defaultMockCourseFactory.create('1'), defaultMockCourseFactory.create('2')];
+                    fetcher.courses = [defaultMockTakenCourseFactory.create('0'), defaultMockTakenCourseFactory.create('1'), defaultMockTakenCourseFactory.create('2')];
                     var counter = 0;
 
                     user.getCoursesForever(2012, 1).subscribe((courses) => {
                         expect(courses).to.be.an(Array);
                         expect(courses.length).to.be(++counter);
-                        expect(courses[counter - 1]).to.be.a(Course);
+                        expect(courses[counter - 1]).to.be.a(TakenCourse);
                         expect(courses[counter - 1].id).to.be((counter - 1).toString());
                         if (counter === fetcher.courses.length) { done(); };
                     }, noCallFun);
@@ -270,7 +270,7 @@ describe('User module: ', () => {
                     user.getCoursesInCache(2012, 1).subscribe((courses) => {
                         expect(courses).to.be.an(Array);
                         expect(courses.length).to.be(1);
-                        expect(courses[0]).to.be.a(Course);
+                        expect(courses[0]).to.be.a(TakenCourse);
                         expect(courses[0].id).to.be('0');
                         done();
                     }, noCallFun);
@@ -282,7 +282,7 @@ describe('User module: ', () => {
                     user.getCoursesInCache(2012, 1).subscribe((courses) => {
                         expect(courses).to.be.an(Array);
                         expect(courses.length).to.be(1);
-                        expect(courses[0]).to.be.a(Course);
+                        expect(courses[0]).to.be.a(TakenCourse);
                         expect(courses[0].id).to.be('0');
                         done();
                     }, noCallFun);
@@ -294,7 +294,7 @@ describe('User module: ', () => {
                     user.getCoursesInCache(2012, 1).subscribe((courses) => {
                         expect(courses).to.be.an(Array);
                         expect(courses.length).to.be(1);
-                        expect(courses[0]).to.be.a(Course);
+                        expect(courses[0]).to.be.a(TakenCourse);
                         expect(courses[0].id).to.be('0');
                         done();
                     }, noCallFun);
@@ -308,7 +308,7 @@ describe('User module: ', () => {
                     user.getCoursesWithCache(2012, 1).subscribe((courses) => {
                         expect(courses).to.be.an(Array);
                         expect(courses.length).to.be(2);
-                        expect(courses[0]).to.be.a(Course);
+                        expect(courses[0]).to.be.a(TakenCourse);
                         expect(courses[0].id).to.be('0');
                         done();
                     }, noCallFun);
@@ -320,7 +320,7 @@ describe('User module: ', () => {
                     user.getCoursesWithCache(2012, 1).subscribe((courses) => {
                         expect(courses).to.be.an(Array);
                         expect(courses.length).to.be(1);
-                        expect(courses[0]).to.be.a(Course);
+                        expect(courses[0]).to.be.a(TakenCourse);
                         expect(courses[0].id).to.be('0');
                         done();
                     }, noCallFun);
@@ -332,7 +332,7 @@ describe('User module: ', () => {
                     user.getCoursesWithCache(2012, 1).subscribe((courses) => {
                         expect(courses).to.be.an(Array);
                         expect(courses.length).to.be(1);
-                        expect(courses[0]).to.be.a(Course);
+                        expect(courses[0]).to.be.a(TakenCourse);
                         expect(courses[0].id).to.be('0');
                         done();
                     }, noCallFun);
