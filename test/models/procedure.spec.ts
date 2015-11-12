@@ -26,8 +26,8 @@ describe('Procedure module: ', () => {
         correctUser = defaultMockUserFactory.create('2012019050020', '811073');
         incorrectUser = defaultMockUserFactory.create('2012019050021', '123456');
 
-        correctLoginProcedure = defaultUserLoginProcedureFactory.create().config(correctUser);
-        incorrectLoginProcedure = defaultUserLoginProcedureFactory.create().config(incorrectUser);
+        correctLoginProcedure = defaultUserLoginProcedureFactory.create(correctUser);
+        incorrectLoginProcedure = defaultUserLoginProcedureFactory.create(incorrectUser);
     });
 
     it('should have a `Procedure` class.', () => {
@@ -69,10 +69,10 @@ describe('Procedure module: ', () => {
         var incorrectProcedure: AppSearchCoursesProcedure;
 
         beforeEach(() => {
-            correctPreProcedure = defaultAppSearchCoursesPreProcedureFactory.create().config(correctUser);
-            incorrectPreProcedure = defaultAppSearchCoursesPreProcedureFactory.create().config(incorrectUser);
-            correctProcedure = defaultAppSearchCoursesProcedureFactory.create().config({ instructor: '蒲和平' }, correctUser);
-            incorrectProcedure = defaultAppSearchCoursesProcedureFactory.create().config({ instructor: '蒲和平' }, incorrectUser);
+            correctPreProcedure = defaultAppSearchCoursesPreProcedureFactory.create(correctUser);
+            incorrectPreProcedure = defaultAppSearchCoursesPreProcedureFactory.create(incorrectUser);
+            correctProcedure = defaultAppSearchCoursesProcedureFactory.create({ instructor: '蒲和平' }, correctUser);
+            incorrectProcedure = defaultAppSearchCoursesProcedureFactory.create({ instructor: '蒲和平' }, incorrectUser);
         });
 
         it('should be able to get result with correct login procedure, correct pre procedure and correct procedure.', (done) => {
@@ -211,8 +211,8 @@ describe('Procedure module: ', () => {
         var incorrectProcedure: AppSearchPeopleProcedure;
 
         beforeEach(() => {
-            correctProcedure = defaultAppSearchPeopleProcedureFactory.create().config({ term: '2012019050020' }, correctUser);
-            incorrectProcedure = defaultAppSearchPeopleProcedureFactory.create().config({ term: '2012019050020' }, incorrectUser);
+            correctProcedure = defaultAppSearchPeopleProcedureFactory.create({ term: '2012019050020' }, correctUser);
+            incorrectProcedure = defaultAppSearchPeopleProcedureFactory.create({ term: '2012019050020' }, incorrectUser);
         });
 
         it('should be able to get result with correct login procedure and correct procedure.', (done) => {
@@ -272,8 +272,8 @@ describe('Procedure module: ', () => {
         var incorrectEnsureLoginProcedure: UserEnsureLoginProcedure;
 
         beforeEach(() => {
-            correctEnsureLoginProcedure = defaultUserLoginProcedureFactory.create().config(correctUser);
-            incorrectEnsureLoginProcedure = defaultUserLoginProcedureFactory.create().config(incorrectUser);
+            correctEnsureLoginProcedure = defaultUserLoginProcedureFactory.create(correctUser);
+            incorrectEnsureLoginProcedure = defaultUserLoginProcedureFactory.create(incorrectUser);
         });
 
         it('should return true with user still in active.', (done) => {
@@ -303,9 +303,9 @@ describe('Procedure module: ', () => {
             correctUser.ids = '97837';
             incorrectUser.ids = '12345';
             
-            idsProcedure = defaultUserGetIdsProcedureFactory.create().config(correctUser);
-            correctProcedure = defaultUserGetSemesterCoursesProcedureFactory.create().config({ semester: '43' }, correctUser);
-            incorrectProcedure = defaultUserGetSemesterCoursesProcedureFactory.create().config({ semester: '43' }, incorrectUser);
+            idsProcedure = defaultUserGetIdsProcedureFactory.create(correctUser);
+            correctProcedure = defaultUserGetSemesterCoursesProcedureFactory.create({ semester: '43' }, correctUser);
+            incorrectProcedure = defaultUserGetSemesterCoursesProcedureFactory.create({ semester: '43' }, incorrectUser);
         });
 
         it('should be able to get result with correct login procedure and correct procedure.', (done) => {

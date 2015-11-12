@@ -100,8 +100,8 @@ export class AppSearchCoursesPreProcedureFactory {
     constructor() {
     }
 
-    create(): AppSearchCoursesPreProcedure {
-        return new AppSearchCoursesPreProcedure();
+    create(user: IUserLogin): AppSearchCoursesPreProcedure {
+        return new AppSearchCoursesPreProcedure().config(user);
     }
 }
 
@@ -153,8 +153,8 @@ export class AppSearchCoursesProcedureFactory {
     constructor(private parser: Parser) {
     }
 
-    create(): AppSearchCoursesProcedure {
-        return new AppSearchCoursesProcedure(this.parser);
+    create(option: ISearchCoursesOption, user: IUserLogin): AppSearchCoursesProcedure {
+        return new AppSearchCoursesProcedure(this.parser).config(option, user);
     }
 }
 
@@ -228,8 +228,8 @@ export class AppSearchPeopleProcedureFactory {
     constructor(private parser: Parser) {
     }
 
-    create(): AppSearchPeopleProcedure {
-        return new AppSearchPeopleProcedure(this.parser);
+    create(option: ISearchPeopleOption, user: IUserLogin): AppSearchPeopleProcedure {
+        return new AppSearchPeopleProcedure(this.parser).config(option, user);
     }
 }
 
@@ -270,8 +270,8 @@ export class UserEnsureLoginProcedureFactory {
     constructor() {
     }
 
-    create(): UserEnsureLoginProcedure {
-        return new UserEnsureLoginProcedure();
+    create(user: IUserLogin): UserEnsureLoginProcedure {
+        return new UserEnsureLoginProcedure().config(user);
     }
 }
 
@@ -304,8 +304,8 @@ export class UserGetIdsProcedureFactory {
         
     }
     
-    create(): UserGetIdsProcedure {
-        return new UserGetIdsProcedure(this.parser);
+    create(user: IUserLogin): UserGetIdsProcedure {
+        return new UserGetIdsProcedure(this.parser).config(user);
     }
 }
 
@@ -347,8 +347,8 @@ export class UserGetSemesterCoursesProcedureFactory {
         
     }
     
-    create(): UserGetSemesterCoursesProcedure {
-        return new UserGetSemesterCoursesProcedure(this.parser);
+    create(option: IGetSemesterCoursesOption, user: IUserLogin): UserGetSemesterCoursesProcedure {
+        return new UserGetSemesterCoursesProcedure(this.parser).config(option, user);
     }
 }
 
@@ -388,8 +388,8 @@ export class UserLoginProcedureFactory {
     constructor() {
     }
 
-    create(): UserLoginProcedure {
-        return new UserLoginProcedure();
+    create(user: IUserLogin): UserLoginProcedure {
+        return new UserLoginProcedure().config(user);
     }
 }
 

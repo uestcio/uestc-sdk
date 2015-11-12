@@ -28,8 +28,8 @@ export class Fetcher {
      * @returns The Observable instance of fetch result.
      */
     confirmUser(user: IUserLogin): Observable<boolean> {
-        return defaultUserEnsureLoginProcedureFactory.create().config(user).run().flatMapLatest((x) => {
-            return defaultUserLoginProcedureFactory.create().config(user).run().map((res) => res.result);
+        return defaultUserEnsureLoginProcedureFactory.create(user).run().flatMapLatest((x) => {
+            return defaultUserLoginProcedureFactory.create(user).run().map((res) => res.result);
         });
     }
     
@@ -45,7 +45,7 @@ export class Fetcher {
     }
     
     getUserIds(user: IUserLogin): Observable<string> {
-        return defaultUserGetIdsProcedureFactory.create().config(user).run().map((res) => res.result);
+        return defaultUserGetIdsProcedureFactory.create(user).run().map((res) => res.result);
     }
     
     /**
@@ -76,10 +76,10 @@ export class Fetcher {
      * @returns The Observable instance of fetch result.
      */
     searchForCourses(option: ISearchCoursesOption, user: IUserLogin): Observable<Course[]> {
-        return defaultUserEnsureLoginProcedureFactory.create().config(user).run().flatMapLatest((x) => {
-            return defaultAppSearchCoursesPreProcedureFactory.create().config(user).run().map((res) => res.result);
+        return defaultUserEnsureLoginProcedureFactory.create(user).run().flatMapLatest((x) => {
+            return defaultAppSearchCoursesPreProcedureFactory.create(user).run().map((res) => res.result);
         }).flatMapLatest((x) => {
-            return defaultAppSearchCoursesProcedureFactory.create().config(option, user).run().map((res) => res.result);
+            return defaultAppSearchCoursesProcedureFactory.create(option, user).run().map((res) => res.result);
         });
     }
     
@@ -91,8 +91,8 @@ export class Fetcher {
      * @returns The Observable instance of fetch result.
      */
     searchForPeople(option: ISearchPeopleOption, user: IUserLogin): Observable<Person[]> {
-        return defaultUserEnsureLoginProcedureFactory.create().config(user).run().flatMapLatest((x) => {
-            return defaultAppSearchPeopleProcedureFactory.create().config(option.term, user).run().map((res) => res.result);
+        return defaultUserEnsureLoginProcedureFactory.create(user).run().flatMapLatest((x) => {
+            return defaultAppSearchPeopleProcedureFactory.create(option.term, user).run().map((res) => res.result);
         });
     }
 }
