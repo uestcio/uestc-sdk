@@ -32,5 +32,6 @@ export interface IUserDetail {
 export interface IUserLogin {
     id: string,
     password: string,
-    jar: CookieJar
+    jar: CookieJar,
+    ids?: string
 }

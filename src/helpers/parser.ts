@@ -76,8 +76,8 @@ export class Parser {
         return this.getJq(html).flatMapLatest(($: any) => {
             var table = $('table.gridtable')[1];
             var lines = $(table).find('tbody > tr');
-            var raws = html.match(/var table0[\S\s]*?table0\.marshalTable/)[0];
-            raws = raws.replace('table0.marshalTable', '');
+            // var raws = html.match(/var table0[\S\s]*?table0\.marshalTable/)[0];
+            // raws = raws.replace('table0.marshalTable', '');
             return Observable.return<Course[]>(_.map(lines, function(line: any) {
                 var id = _.trim($(line.children[4]).text());
                 var course = new Course(id);

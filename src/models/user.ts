@@ -167,6 +167,8 @@ export class User implements IUserLogin {
     * @description The jar to save the cookies.
     */
     jar: Request.CookieJar = null;
+
+    ids: string = null;
     
     /**
      * @description The constructor of the class.
@@ -193,7 +195,11 @@ export class User implements IUserLogin {
      */
     confirm(callback?: { (error: Error, res: boolean): void; }): Observable<boolean> {
         var observable = this.fetcher.confirmUser(this)
-            .do((res) => res && this.getInfo());
+            .do((res) => {
+                if (!res) { return; }
+                this.getInfo();
+                if (!this.ids) { this.getIds(); }
+            });
         this.caller.nodifyObservable(observable, callback);
         return observable;
     }
@@ -305,15 +311,18 @@ export class User implements IUserLogin {
                 this.fetcher.getUserCourses({ grade: grade, semester: semester }, forever, this) :
                 Observable.throw<TakenCourse[]>(new Error('401: The user validation failed.')));
     }
+
+    private getIds(): void {
+        this.fetcher.getUserIds(this).subscribe((ids) => {
+            this.ids = ids;
+        })
+    }
     
     /**
      * @description The internal method to get the user details.
      */
     private getInfo(): void {
         this.fetcher.getUserInfo(this).subscribe((detail) => {
-            if (this.id !== detail.id) {
-                throw new Error('The user id is different of the detail one.')
-            }
             this.administrationClass = detail.administrationClass;
             this.administrationCollege = detail.administrationCollege;
             this.campus = detail.campus;

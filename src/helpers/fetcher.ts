@@ -10,7 +10,7 @@ import { Course, TakenCourse } from '../models/course';
 import { Exam } from '../models/exam';
 import { Person } from '../models/person';
 
-import { defaultUserLoginProcedureFactory, defaultUserEnsureLoginProcedureFactory, defaultAppSearchCoursesPreProcedureFactory, defaultAppSearchCoursesProcedureFactory, defaultAppSearchPeopleProcedureFactory } from '../models/procedure';
+import { defaultUserLoginProcedureFactory, defaultUserEnsureLoginProcedureFactory, defaultUserGetIdsProcedureFactory, defaultAppSearchCoursesPreProcedureFactory, defaultAppSearchCoursesProcedureFactory, defaultAppSearchPeopleProcedureFactory } from '../models/procedure';
 
 import { IGetUserCoursesOption, ISearchCoursesOption } from '../utils/course_util';
 import { ISearchPeopleOption } from '../utils/person_util';
@@ -42,6 +42,10 @@ export class Fetcher {
      */
     getUserCourses(option: IGetUserCoursesOption, forever: boolean, user: IUserLogin): Observable<TakenCourse[]> {
         return null;
+    }
+    
+    getUserIds(user: IUserLogin): Observable<string> {
+        return defaultUserGetIdsProcedureFactory.create().config(user).run().map((res) => res.result);
     }
     
     /**

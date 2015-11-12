@@ -7,7 +7,7 @@
     "node": ">=0.12"
   },
   "scripts": {
-    "test": "mocha --bail --full-trace --check-leaks test_dist --timeout 300000 --recursive",
+    "test": "mocha --bail --check-leaks test_dist --timeout 300000 --recursive",
     "test-ci": "",
     "install": "tsc -p test"
   },

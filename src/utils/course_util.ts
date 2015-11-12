@@ -14,8 +14,7 @@ export interface ISearchCoursesOption {
 }
 
 export interface IGetSemesterCoursesOption {
-    semester: string,
-    ids: string
+    semester: string
 }
 
 export interface IGetUserCoursesOption {
