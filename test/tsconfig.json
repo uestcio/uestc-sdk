@@ -14,7 +14,6 @@
     },
     "files": [
        	"application.spec.ts",
-        "models/user.spec.ts",
-        "models/procedure.spec.ts"
+        "models/user.spec.ts"
     ]
 }

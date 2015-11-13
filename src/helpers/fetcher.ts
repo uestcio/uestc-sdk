@@ -6,10 +6,10 @@
 import * as Request from 'request';
 import { Observable } from 'rx';
 
+import { defaultParser } from '../helpers/parser';
 import { Course, TakenCourse } from '../models/course';
 import { Exam } from '../models/exam';
 import { Person } from '../models/person';
-
 import { defaultUserLoginProcedureFactory, defaultUserEnsureLoginProcedureFactory, defaultUserGetIdsProcedureFactory, defaultAppSearchCoursesPreProcedureFactory, defaultAppSearchCoursesProcedureFactory, defaultAppSearchPeopleProcedureFactory } from '../models/procedure';
 
 import { IGetUserCoursesOption, ISearchCoursesOption } from '../utils/course_util';
@@ -28,9 +28,16 @@ export class Fetcher {
      * @returns The Observable instance of fetch result.
      */
     confirmUser(user: IUserLogin): Observable<boolean> {
-        return defaultUserEnsureLoginProcedureFactory.create(user).run().flatMapLatest((x) => {
-            return defaultUserLoginProcedureFactory.create(user).run().map((res) => res.result);
-        });
+        return defaultUserEnsureLoginProcedureFactory.create(user).run()
+        .flatMapLatest((x) => {
+            if (x.response.statusCode === 302) {
+                return Observable.return(true);
+            }
+            else {
+                return defaultUserLoginProcedureFactory.create(user).run()
+                .flatMap((x) => Observable.return(x.response.statusCode === 302? true: false));
+            }
+        })
     }
     
     /**
@@ -45,7 +52,7 @@ export class Fetcher {
     }
     
     getUserIds(user: IUserLogin): Observable<string> {
-        return defaultUserGetIdsProcedureFactory.create(user).run().map((res) => res.result);
+        return defaultUserGetIdsProcedureFactory.create(user).run().flatMapLatest((x) => defaultParser.getUserIds(x.body));
     }
     
     /**
@@ -76,11 +83,9 @@ export class Fetcher {
      * @returns The Observable instance of fetch result.
      */
     searchForCourses(option: ISearchCoursesOption, user: IUserLogin): Observable<Course[]> {
-        return defaultUserEnsureLoginProcedureFactory.create(user).run().flatMapLatest((x) => {
-            return defaultAppSearchCoursesPreProcedureFactory.create(user).run().map((res) => res.result);
-        }).flatMapLatest((x) => {
-            return defaultAppSearchCoursesProcedureFactory.create(option, user).run().map((res) => res.result);
-        });
+        return defaultAppSearchCoursesPreProcedureFactory.create(user).run()
+        .flatMapLatest((x) => defaultAppSearchCoursesProcedureFactory.create(option, user).run())
+        .flatMapLatest((x) => defaultParser.getAppCourses(x.body));
     }
     
     /**
@@ -91,9 +96,8 @@ export class Fetcher {
      * @returns The Observable instance of fetch result.
      */
     searchForPeople(option: ISearchPeopleOption, user: IUserLogin): Observable<Person[]> {
-        return defaultUserEnsureLoginProcedureFactory.create(user).run().flatMapLatest((x) => {
-            return defaultAppSearchPeopleProcedureFactory.create(option.term, user).run().map((res) => res.result);
-        });
+        return defaultAppSearchPeopleProcedureFactory.create(option.term, user).run()
+        .flatMapLatest((x) => defaultParser.getAppPeople(x.body));
     }
 }
 

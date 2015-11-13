@@ -15,10 +15,9 @@ import { IUserLogin } from '../utils/user_util';
 import { Person } from '../models/person';
 
 
-export interface IProcedureResult<TResult> {
+export interface IProcedureResult {
     response: any,
-    body: string,
-    result: TResult
+    body: string
 }
 
 export interface IQuery {
@@ -53,8 +52,8 @@ export class Procedure {
         this.formData = formData;
     }
 
-    run(): Observable<IProcedureResult<any>> {
-        return Observable.create<IProcedureResult<any>>((observer) => {
+    run(): Observable<IProcedureResult> {
+        return Observable.create<IProcedureResult>((observer) => {
             Request({
                 uri: this.url,
                 method: this.method,
@@ -67,12 +66,12 @@ export class Procedure {
                     observer.onError(error);
                 }
                 else {
-                    observer.onNext({ response: response, body: body, result: null });
+                    observer.onNext({ response: response, body: body });
                     observer.onCompleted();
                 }
             });
         }).retry(100).catch((error) => {
-            return Observable.throw<IProcedureResult<any>>(new Error('000: Network is not available.'));
+            return Observable.throw<IProcedureResult>(new Error('000: Network is not available.'));
         });
     }
 }
@@ -86,13 +85,6 @@ export class AppSearchCoursesPreProcedure extends Procedure {
         this.init('http://eams.uestc.edu.cn/eams/publicSearch.action', 'GET', user);
 
         return this;
-    }
-
-    run(): Observable<IProcedureResult<boolean>> {
-        return super.run().map((res) => {
-            res.result = true;
-            return res;
-        });
     }
 }
 
@@ -138,15 +130,6 @@ export class AppSearchCoursesProcedure extends Procedure {
 
         return this;
     }
-
-    run(): Observable<IProcedureResult<Course[]>> {
-        return super.run().flatMapLatest((res) => {
-            return this.parser.getAppCourses(res.body).map((courses) => {
-                res.result = courses;
-                return res;
-            });
-        });
-    }
 }
 
 export class AppSearchCoursesProcedureFactory {
@@ -160,35 +143,6 @@ export class AppSearchCoursesProcedureFactory {
 
 export const defaultAppSearchCoursesProcedureFactory = new AppSearchCoursesProcedureFactory(defaultParser);
 
-
-// export class AppSearchPeoplePreProcedure extends Procedure {
-//     constructor() {
-//         super();
-//     }
-
-//     config(user: IUserLogin): AppSearchPeoplePreProcedure {
-//         this.init('http://portal.uestc.edu.cn/pnull.portal', 'GET', user);
-
-//         this.query({
-//             'action': 'globalGroupsTree',
-//             '.ia': 'false',
-//             '.pmn': 'view',
-//             '.pen': 'personnelGroupmanager',
-//             'groupId': '',
-//             'identity': 'undefined',
-//             'authorize': 'undefined'
-//         });
-
-//         return this;
-//     }
-
-//     run(): Observable<IProcedureResult<boolean>> {
-//         return super.run().map((res) => {
-//             res.result = true;
-//             return res;
-//         });
-//     }
-// }
 
 export class AppSearchPeopleProcedure extends Procedure {
     constructor(private parser: Parser) {
@@ -212,15 +166,6 @@ export class AppSearchPeopleProcedure extends Procedure {
         });
 
         return this;
-    }
-
-    run(): Observable<IProcedureResult<Person[]>> {
-        return super.run().flatMapLatest((res) => {
-            return this.parser.getAppPeople(res.body).map((people) => {
-                res.result = people;
-                return res;
-            });
-        });
     }
 }
 
@@ -249,21 +194,6 @@ export class UserEnsureLoginProcedure extends Procedure {
 
         return this;
     }
-
-    run(): Observable<IProcedureResult<boolean>> {
-        return super.run().flatMapLatest((x) => {
-            if (x.response.statusCode === 302) {
-                console.log(true);
-                x.result = true;
-                return Observable.return(x);
-            }
-            console.log(false);
-            var loginProcedure = new UserLoginProcedure();
-            loginProcedure.config(this.tmpData.user);
-
-            return loginProcedure.run();
-        })
-    }
 }
 
 export class UserEnsureLoginProcedureFactory {
@@ -287,15 +217,6 @@ export class UserGetIdsProcedure extends Procedure {
         this.init('http://eams.uestc.edu.cn/eams/courseTableForStd.action', 'GET', user);
 
         return this;
-    }
-
-    run(): Observable<IProcedureResult<string>> {
-        return super.run().flatMapLatest((res) => {
-            return this.parser.getUserIds(res.body).map((ids) => {
-                res.result = ids;
-                return res;
-            });
-        });
     }
 }
 
@@ -330,15 +251,6 @@ export class UserGetSemesterCoursesProcedure extends Procedure {
         });
 
         return this;
-    }
-
-    run(): Observable<IProcedureResult<Course[]>> {
-        return super.run().flatMapLatest((res) => {
-            return this.parser.getUserCourses(res.body).map((courses) => {
-                res.result = courses;
-                return res;
-            });
-        });
     }
 }
 
@@ -375,13 +287,6 @@ export class UserLoginProcedure extends Procedure {
 
         return this;
     }
-
-    run(): Observable<IProcedureResult<boolean>> {
-        return super.run().map((x) => {
-            x.result = (x.response.statusCode === 302);
-            return x;
-        });
-    }
 }
 
 export class UserLoginProcedureFactory {
@@ -394,16 +299,3 @@ export class UserLoginProcedureFactory {
 }
 
 export const defaultUserLoginProcedureFactory = new UserLoginProcedureFactory();
-
-
-// export class AppSearchPeoplePreProcedureFactory {
-//     constructor() {
-//     }
-
-//     create(): AppSearchPeoplePreProcedure {
-//         return new AppSearchPeoplePreProcedure();
-//     }
-// }
-
-// export const defaultAppSearchPeoplePreProcedureFactory = new AppSearchPeoplePreProcedureFactory();
-
