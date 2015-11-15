@@ -123,6 +123,55 @@ describe('Parser module: ', () => {
             });
         });
         
+        xdescribe('getAppPeople: ', () => {
+            it('should be able to get people from json.', () => {
+                //Todo: The web interface is currently not available.
+            });
+        });
+        
+        describe('getJq: ', () => {
+            var template = `
+            <html>
+                <head></head>
+                <body>
+                    <p id="byid">This is a paragraph.</p>
+                    <ul>
+                        <li class="byclass">Line 1.</li>
+                        <li class="byclass">Line 2.</li>
+                        <li class="byclass">Line 3.</li>
+                    </ul>
+                </body>
+            </html>`;
+            
+            it('should be able to get jQuery instance with jsdom.', (done) => {
+                parser.getJq(template).subscribe(($: any) => {
+                    var idRes: any = $('#byid');
+                    expect(idRes.text()).to.be('This is a paragraph.');
+                    
+                    var classRes: any = $('.byclass');
+                    expect(classRes).to.have.property('length');
+                    expect(classRes.length).to.be(3);
+                    expect(classRes[0].innerHTML).to.be('Line 1.');
+                    
+                    var elementRes: any = $('p');
+                    expect(elementRes).to.have.property('length');
+                    expect(elementRes.length).to.be(1);
+                    expect(elementRes[0].innerHTML).to.be('This is a paragraph.');
+                    done();
+                });
+            });
+        });
+        
+        describe('getUserCourses: ', () => {
+            
+        });
+        
+        describe('getUserIds: ', () => {
+            
+        });
+        
+        
+        
         xdescribe('should be able to parse durations: ', () => {
             it('should get empty array with no duration.', () => {
                 var res = parser.getDurationsFromLine('', '');

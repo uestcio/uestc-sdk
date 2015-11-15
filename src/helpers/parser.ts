@@ -97,6 +97,19 @@ export class Parser {
             return person;
         }));
     }
+    
+    /**
+     * @description Get the jQuery instance of the given html page.
+     * @param html The html string to generate a window with $.
+     * @returns The Observable instance of the jQuery instance.
+     */
+    getJq(html: string): Observable<JQuery> {
+        return Observable.create<JQuery>((observer) => {
+            var window = jsdom(html, {}).defaultView;
+            observer.onNext($(window));
+            observer.onCompleted();
+        });
+    }
 
     getUserCourses(html: string): Observable<Course[]> {
         return this.getJq(html).flatMapLatest(($: any) => {
@@ -123,19 +136,6 @@ export class Parser {
         return Observable.return(ids);
     }
     
-    /**
-     * @description Get the jQuery instance of the given html page.
-     * @param html The html string to generate a window with $.
-     * @returns The Observable instance of the jQuery instance.
-     */
-    getJq(html: string): Observable<JQuery> {
-        return Observable.create<JQuery>((observer) => {
-            var window = jsdom(html, {}).defaultView;
-            observer.onNext($(window));
-            observer.onCompleted();
-        });
-    }
-        
     /**
      * @description Get duration instances from the inline string.
      * @param times The times representation string. eg. `星期一 7-8 [3-18]\n\r星期四 5-6 [3-18]\n\r星期五 3-4 [3-17单]`.
