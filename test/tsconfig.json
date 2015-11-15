@@ -14,6 +14,7 @@
     },
     "files": [
        	"application.spec.ts",
+        "helpers/parser.spec.ts",
         "models/user.spec.ts"
     ]
 }

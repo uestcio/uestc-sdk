@@ -18,7 +18,7 @@ import { Exam } from '../models/exam';
 import { Person, defaultPersonFactory } from '../models/person';
 
 
-interface ITimeTable {
+export interface ITimeTable {
     [id: string]: {
         day: number,
         index: number,
@@ -28,7 +28,7 @@ interface ITimeTable {
     }[]
 }
 
-interface IRawPerson {
+export interface IRawPerson {
     metier: string,
     authorized: any,
     deptName: string,
@@ -71,32 +71,7 @@ export class Parser {
             }));
         });
     }
-
-    getUserCourses(html: string): Observable<Course[]> {
-        return this.getJq(html).flatMapLatest(($: any) => {
-            var table = $('table.gridtable')[1];
-            var lines = $(table).find('tbody > tr');
-            // var raws = html.match(/var table0[\S\s]*?table0\.marshalTable/)[0];
-            // raws = raws.replace('table0.marshalTable', '');
-            return Observable.return<Course[]>(_.map(lines, function(line: any) {
-                var id = _.trim($(line.children[4]).text());
-                var course = new Course(id);
-                course.code = $(line.children[1]).text();
-                course.title = $(line.children[2]).text();
-                course.credit = +$(line.children[3]).text();
-                var tmp = $(line.children[5]).text();
-                course.instructors = tmp.length > 0 ? tmp.split(' ') : [];
-                return course;
-            }));
-        });
-    }
-
-    getUserIds(html: string): Observable<string> {
-        var tmp = html.match(/bg\.form\.addInput\(form,"ids","\d+"\);/)[0];
-        var ids = tmp.match(/\d+/)[0];
-        return Observable.return(ids);
-    }
-
+      
     /**
      * @warining This interface is not available in resent tests.
      * @description Get the people of json from app#searchForPeople.
@@ -122,13 +97,38 @@ export class Parser {
             return person;
         }));
     }
+
+    getUserCourses(html: string): Observable<Course[]> {
+        return this.getJq(html).flatMapLatest(($: any) => {
+            var table = $('table.gridtable')[1];
+            var lines = $(table).find('tbody > tr');
+            // var raws = html.match(/var table0[\S\s]*?table0\.marshalTable/)[0];
+            // raws = raws.replace('table0.marshalTable', '');
+            return Observable.return<Course[]>(_.map(lines, function(line: any) {
+                var id = _.trim($(line.children[4]).text());
+                var course = new Course(id);
+                course.code = $(line.children[1]).text();
+                course.title = $(line.children[2]).text();
+                course.credit = +$(line.children[3]).text();
+                var tmp = $(line.children[5]).text();
+                course.instructors = tmp.length > 0 ? tmp.split(' ') : [];
+                return course;
+            }));
+        });
+    }
+
+    getUserIds(html: string): Observable<string> {
+        var tmp = html.match(/bg\.form\.addInput\(form,"ids","\d+"\);/)[0];
+        var ids = tmp.match(/\d+/)[0];
+        return Observable.return(ids);
+    }
     
     /**
      * @description Get the jQuery instance of the given html page.
      * @param html The html string to generate a window with $.
      * @returns The Observable instance of the jQuery instance.
      */
-    private getJq(html: string): Observable<JQuery> {
+    getJq(html: string): Observable<JQuery> {
         return Observable.create<JQuery>((observer) => {
             var window = jsdom(html, {}).defaultView;
             observer.onNext($(window));
@@ -142,7 +142,7 @@ export class Parser {
      * @param places The places representation string. eg. `沙河第二教学樓208`.
      * @returns The array represent durations. 
      */
-    private getDurationsFromLine(times: string, places: string): Duration[] {
+    getDurationsFromLine(times: string, places: string): Duration[] {
         var durationStrs = _.words(times, /[^\n\r\]]+/g);
         var placeStrs = _.words(places, /[^<br>]+/g);
 
@@ -164,7 +164,7 @@ export class Parser {
         });
     }
 
-    private getTable(table: any): ITimeTable {
+    getTable(table: any): ITimeTable {
         var timeTable: ITimeTable = {};
         for (var i in table.activities) {
             for (var j in table.activities[i]) {
@@ -197,7 +197,7 @@ export class Parser {
      * @param dayStr The day representation string. eg. `星期一`.
      * @returns The number of day start from 1. 
      */
-    private parseDayofWeek(dayStr: string): number {
+    parseDayofWeek(dayStr: string): number {
         var res: number = -1;
         switch (dayStr) {
             case '星期一':
@@ -248,7 +248,7 @@ export class Parser {
      * @param indexesStr The indexes representation string. eg. `9-11`.
      * @returns The string representation of the indexes. eg. `00000000110`.
      */
-    private parseIndexes(indexesStr: string): string {
+    parseIndexes(indexesStr: string): string {
         var raws: string[] = _.words(indexesStr, /\d+/g);
         var res: string = '';
         _.times(12, function(n) {
@@ -263,7 +263,7 @@ export class Parser {
      * @param parity The parity representation number. 1 for odd weeks, 2 for even weeks, 4 for all weeks.
      * @returns The string representation of weeks. eg. `111111111111111110000000`.
      */
-    private parseWeeks(weeksStr: string, parity: number): string {
+    parseWeeks(weeksStr: string, parity: number): string {
         var raws: string[] = _.words(weeksStr, /\d+/g);
         var res: string = '';
         _.times(24, function(n) {
