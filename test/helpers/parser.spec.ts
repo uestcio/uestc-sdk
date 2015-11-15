@@ -167,7 +167,14 @@ describe('Parser module: ', () => {
         });
         
         describe('getUserIds: ', () => {
+            var mockHtml = fs.readFileSync('./test/htmls/userGetCoursesPreResult.html', 'utf-8');
             
+            it('should be able to get ids.', (done) => {
+                parser.getUserIds(mockHtml).subscribe((ids) => {
+                    expect(ids).to.be('97837');
+                    done();
+                });
+            });
         });
         
         
