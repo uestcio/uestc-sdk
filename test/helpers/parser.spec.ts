@@ -177,6 +177,27 @@ describe('Parser module: ', () => {
             });
         });
         
+        describe('getDurationsFromLine', () => {
+            var time1 = `星期二 3-4 [3-18]<br>星期四 5-6 [3-18]<br>星期五 7-8 [3-18]<br>`;
+            var place1 = `  品学楼C-104 <br>  品学楼C-104 <br>  品学楼C-104 <br>`;
+            
+            var time2 = `星期日 5-7 [5-16]`;
+            var place2 = `   <br>`;
+            
+            var time3 = `星期一 5-6 [1-17]<br>星期三 3-4 [1-17单]<br>`;
+            var place3 = `  品学楼C-225 <br>  品学楼C-225 <br>`;
+            
+            it('should be able to get durations from line of 1 duration.', () => {
+                var res = parser.getDurationsFromLine(time2, place2);
+                expect(res).to.be.an(Array);
+                expect(res.length).to.be(1);
+                expect(res[0].weeks).to.be('000011111111111100000000');
+                expect(res[0].indexes).to.be('000011100000');
+                expect(res[0].day).to.be(7);
+                expect(res[0].place).to.be('');
+            });
+        });
+        
         
         
         xdescribe('should be able to parse durations: ', () => {
