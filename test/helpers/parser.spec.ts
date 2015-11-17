@@ -177,7 +177,7 @@ describe('Parser module: ', () => {
             });
         });
         
-        describe('getDurationsFromLine', () => {
+        xdescribe('getDurationsFromLine', () => {
             var time1 = `星期二 3-4 [3-18]<br>星期四 5-6 [3-18]<br>星期五 7-8 [3-18]<br>`;
             var place1 = `  品学楼C-104 <br>  品学楼C-104 <br>  品学楼C-104 <br>`;
             
@@ -191,35 +191,35 @@ describe('Parser module: ', () => {
                 var res = parser.getDurationsFromLine(time2, place2);
                 expect(res).to.be.an(Array);
                 expect(res.length).to.be(1);
+                
                 expect(res[0].weeks).to.be('000011111111111100000000');
                 expect(res[0].indexes).to.be('000011100000');
                 expect(res[0].day).to.be(7);
                 expect(res[0].place).to.be('');
             });
-        });
-        
-        
-        
-        xdescribe('should be able to parse durations: ', () => {
-            it('should get empty array with no duration.', () => {
-                var res = parser.getDurationsFromLine('', '');
-                expect(res).to.be.an('array');
-            });
             
-            it('should get an array of a duration with one duration.', () => {
-                var res = parser.getDurationsFromLine('星期四 9-11 [5-17]\n\r', '');
-                expect(res).to.be.an('array');
-                expect(res.length).to.be(1);
-            });
-            
-            it('should get an array of multi durations with multi durations.', () => {
-                var res = parser.getDurationsFromLine('星期一 7-8 [3-18]\n\r星期四 5-6 [3-18]\n\r星期五 3-4 [3-17单]\n\r', '');
-                expect(res).to.be.an('array');
-                expect(res.length).to.be(3);
+            it('should be able to get durations from line of 2 durations.', () => {
+                var res = parser.getDurationsFromLine(time3, place3);
+                expect(res).to.be.an(Array);
+                expect(res.length).to.be(2);
+                
+                expect(res[0].weeks).to.be('111111111111111110000000');
+                expect(res[0].indexes).to.be('000011000000');
+                expect(res[0].day).to.be(1);
+                expect(res[0].place).to.be('品学楼C-225');
+                
+                expect(res[1].weeks).to.be('111111111111111110000000');
+                expect(res[1].indexes).to.be('000011000000');
+                expect(res[1].day).to.be(1);
+                expect(res[1].place).to.be('品学楼C-225');
             });
         });
         
-        xdescribe('should be able to parse indexes: ', () => {
+        describe('getTable: ', () => {
+            
+        });
+        
+        describe('parserDayOfWeek: ', () => {
             it('should get result with long string.', () => {
                 var res = parser.parseDayofWeek('星期一');
                 expect(res).to.be(1);
@@ -235,25 +235,8 @@ describe('Parser module: ', () => {
                 expect(res).to.be(1);
             });
         });
-          
-        xdescribe('should be able to parse day of week: ', () => {
-            it('should get result with 9-11.', () => {
-                var res = parser.parseIndexes('9-11');
-                expect(res).to.be('000000001110');
-            });
-            
-            it('should get result with 5-8.', () => {
-                var res = parser.parseIndexes('5-8');
-                expect(res).to.be('000011110000');
-            });
-            
-            it('should get result with 3-4.', () => {
-                var res = parser.parseIndexes('3-4');
-                expect(res).to.be('001100000000');
-            });
-        });
         
-        xdescribe('should be able to parse weeks: ', () => {
+        describe('parseIndexes: ', () => {
             it('should get result with [1-17].', () => {
                 var res = parser.parseWeeks('[1-17]', 0);
                 expect(res).to.be('111111111111111110000000');
@@ -267,6 +250,23 @@ describe('Parser module: ', () => {
             it('should get result with [2-18].', () => {
                 var res = parser.parseWeeks('[2-18]', 0);
                 expect(res).to.be('011111111111111111000000');
+            });
+        });
+        
+        describe('parseWeeks: ', () => {
+            it('should get result with 9-11.', () => {
+                var res = parser.parseIndexes('9-11');
+                expect(res).to.be('000000001110');
+            });
+            
+            it('should get result with 5-8.', () => {
+                var res = parser.parseIndexes('5-8');
+                expect(res).to.be('000011110000');
+            });
+            
+            it('should get result with 3-4.', () => {
+                var res = parser.parseIndexes('3-4');
+                expect(res).to.be('001100000000');
             });
         });
     });
