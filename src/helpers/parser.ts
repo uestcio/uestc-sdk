@@ -88,9 +88,9 @@ export class Parser {
         return Observable.return(_.map(rawPeople, (rawPerson: IRawPerson) => {
             var person = defaultPersonFactory.create(rawPerson.id);
             person.name = rawPerson.name;
-            person.metier = rawPerson.metier;
+            person.metier = rawPerson.metier.trim();
             person.authorized = rawPerson.authorized;
-            person.deptName = rawPerson.name;
+            person.deptName = rawPerson.deptName;
             person.workplace = rawPerson.workplace;
             person.description = rawPerson.description;
             person.workphone = rawPerson.workphone;

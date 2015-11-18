@@ -8,6 +8,7 @@ import { Observable } from 'rx';
 
 import { Parser, defaultParser } from '../../src/helpers/parser';
 import { Course } from '../../src/models/course';
+import { Person } from '../../src/models/person';
 
 import { noCallNextFn, noCallErrorFn } from '../mocks/utils/function_util';
 
@@ -23,17 +24,17 @@ describe('Parser module: ', () => {
 
     describe('instance of Parser: ', () => {
         var parser: Parser;
-        
+
         before(() => {
             parser = new Parser();
         });
 
         describe('should have proper properties and methods: ', () => {
-            
+
             it('should have exact methods.', () => {
                 expect(parser).to.have.property('getAppCourses');
                 expect(parser.getAppCourses).to.be.a(Function);
-                
+
                 expect(parser).to.have.property('getAppPeople');
                 expect(parser.getAppPeople).to.be.a(Function);
 
@@ -62,11 +63,11 @@ describe('Parser module: ', () => {
                 expect(parser.parseWeeks).to.be.a(Function);
             });
         });
-        
+
         describe('getAppCourses', () => {
             var mockHtml = fs.readFileSync('./test/htmls/appSearchCoursesResult.html', 'utf-8');
-            
-            it('should be able to get the courses.', (done) => { 
+
+            it('should be able to get the courses.', (done) => {
                 parser.getAppCourses(mockHtml).subscribe((courses: Course[]) => {
                     expect(courses.length).to.be(20);
                     done();
@@ -84,7 +85,7 @@ describe('Parser module: ', () => {
                     done();
                 }, noCallErrorFn);
             });
-            
+
             it('should be able to get the course with one duration.', (done) => {
                 parser.getAppCourses(mockHtml).subscribe((courses: Course[]) => {
                     expect(courses[2]).not.to.be(null);
@@ -102,7 +103,7 @@ describe('Parser module: ', () => {
                     done();
                 }, noCallErrorFn);
             });
-            
+
             it('should be able to get the course with multi duration.', (done) => {
                 parser.getAppCourses(mockHtml).subscribe((courses: Course[]) => {
                     expect(courses[4]).not.to.be(null);
@@ -122,13 +123,23 @@ describe('Parser module: ', () => {
                 }, noCallErrorFn);
             });
         });
-        
-        xdescribe('getAppPeople: ', () => {
+
+        describe('getAppPeople: ', () => {
+            var mockJson = fs.readFileSync('./test/htmls/appSearchPeopleResult.json', 'utf-8');
+
             it('should be able to get people from json.', () => {
-                //Todo: The web interface is currently not available.
+                parser.getAppPeople(mockJson).subscribe((people) => {
+                    expect(people).to.be.an(Array);
+                    expect(people.length).to.be(10);
+                    expect(people[0]).to.be.a(Person);
+                    expect(people[0].id).to.be('2012019010024');
+                    expect(people[0].name).to.be('丁晓宇');
+                    expect(people[0].metier).to.be('本专科生');
+                    expect(people[0].deptName).to.be('通信与信息工程学院');
+                });
             });
         });
-        
+
         describe('getJq: ', () => {
             var template = `
             <html>
@@ -142,17 +153,17 @@ describe('Parser module: ', () => {
                     </ul>
                 </body>
             </html>`;
-            
+
             it('should be able to get jQuery instance with jsdom.', (done) => {
                 parser.getJq(template).subscribe(($: any) => {
                     var idRes: any = $('#byid');
                     expect(idRes.text()).to.be('This is a paragraph.');
-                    
+
                     var classRes: any = $('.byclass');
                     expect(classRes).to.have.property('length');
                     expect(classRes.length).to.be(3);
                     expect(classRes[0].innerHTML).to.be('Line 1.');
-                    
+
                     var elementRes: any = $('p');
                     expect(elementRes).to.have.property('length');
                     expect(elementRes.length).to.be(1);
@@ -161,14 +172,14 @@ describe('Parser module: ', () => {
                 });
             });
         });
-        
+
         describe('getUserCourses: ', () => {
-            
+
         });
-        
+
         describe('getUserIds: ', () => {
             var mockHtml = fs.readFileSync('./test/htmls/userGetCoursesPreResult.html', 'utf-8');
-            
+
             it('should be able to get ids.', (done) => {
                 parser.getUserIds(mockHtml).subscribe((ids) => {
                     expect(ids).to.be('97837');
@@ -176,94 +187,94 @@ describe('Parser module: ', () => {
                 });
             });
         });
-        
+
         xdescribe('getDurationsFromLine', () => {
             var time1 = `星期二 3-4 [3-18]<br>星期四 5-6 [3-18]<br>星期五 7-8 [3-18]<br>`;
             var place1 = `  品学楼C-104 <br>  品学楼C-104 <br>  品学楼C-104 <br>`;
-            
+
             var time2 = `星期日 5-7 [5-16]`;
             var place2 = `   <br>`;
-            
+
             var time3 = `星期一 5-6 [1-17]<br>星期三 3-4 [1-17单]<br>`;
             var place3 = `  品学楼C-225 <br>  品学楼C-225 <br>`;
-            
+
             it('should be able to get durations from line of 1 duration.', () => {
                 var res = parser.getDurationsFromLine(time2, place2);
                 expect(res).to.be.an(Array);
                 expect(res.length).to.be(1);
-                
+
                 expect(res[0].weeks).to.be('000011111111111100000000');
                 expect(res[0].indexes).to.be('000011100000');
                 expect(res[0].day).to.be(7);
                 expect(res[0].place).to.be('');
             });
-            
+
             it('should be able to get durations from line of 2 durations.', () => {
                 var res = parser.getDurationsFromLine(time3, place3);
                 expect(res).to.be.an(Array);
                 expect(res.length).to.be(2);
-                
+
                 expect(res[0].weeks).to.be('111111111111111110000000');
                 expect(res[0].indexes).to.be('000011000000');
                 expect(res[0].day).to.be(1);
                 expect(res[0].place).to.be('品学楼C-225');
-                
+
                 expect(res[1].weeks).to.be('111111111111111110000000');
                 expect(res[1].indexes).to.be('000011000000');
                 expect(res[1].day).to.be(1);
                 expect(res[1].place).to.be('品学楼C-225');
             });
         });
-        
+
         describe('getTable: ', () => {
-            
+
         });
-        
+
         describe('parserDayOfWeek: ', () => {
             it('should get result with long string.', () => {
                 var res = parser.parseDayofWeek('星期一');
                 expect(res).to.be(1);
             });
-            
+
             it('should get result with short string.', () => {
                 var res = parser.parseDayofWeek('周一');
                 expect(res).to.be(1);
             });
-            
+
             it('should get result with ultra short string.', () => {
                 var res = parser.parseDayofWeek('一');
                 expect(res).to.be(1);
             });
         });
-        
+
         describe('parseIndexes: ', () => {
             it('should get result with [1-17].', () => {
                 var res = parser.parseWeeks('[1-17]', 0);
                 expect(res).to.be('111111111111111110000000');
             });
-            
+
             it('should get result with [3-18].', () => {
                 var res = parser.parseWeeks('[3-18]', 0);
                 expect(res).to.be('001111111111111111000000');
             });
-            
+
             it('should get result with [2-18].', () => {
                 var res = parser.parseWeeks('[2-18]', 0);
                 expect(res).to.be('011111111111111111000000');
             });
         });
-        
+
         describe('parseWeeks: ', () => {
             it('should get result with 9-11.', () => {
                 var res = parser.parseIndexes('9-11');
                 expect(res).to.be('000000001110');
             });
-            
+
             it('should get result with 5-8.', () => {
                 var res = parser.parseIndexes('5-8');
                 expect(res).to.be('000011110000');
             });
-            
+
             it('should get result with 3-4.', () => {
                 var res = parser.parseIndexes('3-4');
                 expect(res).to.be('001100000000');
